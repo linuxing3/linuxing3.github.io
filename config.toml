@@ -1,3 +1,6 @@
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# 通用配置
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 baseURL = "https://linuxing3.github.io/"
 languageCode = "zh-cn"
 copyright = "© 2018 Linuxing3 blog powered by Hugo"
