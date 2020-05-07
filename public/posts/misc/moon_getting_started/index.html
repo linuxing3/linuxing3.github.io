@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>moon_getting_started.md</title>
+<meta name="description" content=" Linuxing3&#39;s个人博客 ">
+<meta name="generator" content="Hugo 0.31.1" />
+<meta property="og:title" content="moon_getting_started.md" />
+<meta property="og:description" content="title: Creating a Lapis Application with MoonScript  Creating a Lapis Application with MoonScript Creating a Basic Application You can start a new MoonScript project in the current directory by running the following command:
+$ lapis new  This provides us with a default Nginx configuration, nginx.conf, and a skeleton application, app.moon. The skeleton application looks like this:
+-- app.moon lapis = require &quot;lapis&quot; class extends lapis.Application &quot;/&quot;: =&gt; &quot;Welcome to Lapis #{require &quot;lapis." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://linuxing3.github.io/posts/misc/moon_getting_started/" />
+
+
+
+<meta property="article:published_time" content="2018-02-16T14:05:34-04:00"/>
+
+<meta property="article:modified_time" content="2018-02-16T14:05:34-04:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="//fonts.googleapis.com" />
+<link rel="dns-prefetch" href="//fonts.gstatic.com" />
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700" type="text/css" media="all" />
+<link rel="stylesheet" href="/css/style.css" type="text/css" media="all" />
+<script type="text/javascript" src="/js/scripts.js"></script>
+<link rel="shortcut icon" href="/favicon.ico">
+
+</head>
+<body class="body body-right-sidebar mobile" itemscope="itemscope" itemtype="http://schema.org/WebPage">
+	<div class="container container-outer">
+		<header class="header" itemscope="itemscope" itemtype="http://schema.org/WPHeader">
+			<div class="container container-inner clearfix">
+				<div class="logo" role="banner" itemscope="itemscope" itemtype="http://schema.org/Brand">
+					<a class="logo__link" href="/" title="天生我材必有用，千金散尽还复来" rel="home">
+						<h1 class="logo__title">天生我材必有用，千金散尽还复来</h1>
+						<h2 class="logo__tagline">在编程世界中学习生活</h2>
+					</a>
+				</div>
+			</div>
+			
+<nav class="menu" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+	<ul class="menu__list">
+		<li class="menu__item"><a class="menu__link" href="/posts/">博客</a></li>
+		<li class="menu__item"><a class="menu__link" href="/news/">新闻</a></li>
+		<li class="menu__item"><a class="menu__link" href="/hexo/">老店</a></li>
+	</ul>
+</nav>
+
+		</header>
+		<div class="wrapper clearfix">
+
+<main class="main-content content" role="main" itemprop="mainContentOfPage">
+	<article class="post">
+		<header class="post__header clearfix">
+			<h1 class="post__title">moon_getting_started.md</h1>
+			<p class="post__meta meta">
+				<svg class="icon icon-time" height="14" viewBox="0 0 16 16" width="14" xmlns="http://www.w3.org/2000/svg"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
+				<time class="post__meta-date" datetime="2018-02-16T14:05:34">February 16, 2018</time>
+			</p>
+		</header>
+		<div class="post__content clearfix">
+			
+
+<h2 id="title-creating-a-lapis-application-with-moonscript">title: Creating a Lapis Application with MoonScript</h2>
+
+<div class="override_lang"></div>
+
+<h1 id="creating-a-lapis-application-with-moonscript">Creating a Lapis Application with MoonScript</h1>
+
+<h2 id="creating-a-basic-application">Creating a Basic Application</h2>
+
+<p>You can start a new MoonScript project in the current directory by running the
+following command:</p>
+
+<pre><code class="language-bash">$ lapis new
+</code></pre>
+
+<p>This provides us with a default Nginx configuration, <code>nginx.conf</code>, and a
+skeleton application, <code>app.moon</code>. The skeleton application looks like this:</p>
+
+<pre><code class="language-moon">-- app.moon
+lapis = require &quot;lapis&quot;
+
+class extends lapis.Application
+  &quot;/&quot;: =&gt;
+    &quot;Welcome to Lapis #{require &quot;lapis.version&quot;}!&quot;
+]]
+</code></pre>
+
+<p>This defines a regular Lua module that returns out application class. (Implicit
+return in MoonScript states that the last statement in a block of code is the
+return value.)</p>
+
+<blockquote>
+<p>Don&rsquo;t forget to compile the <code>.moon</code> files when changing and creating them.
+You can watch the current directory and compile automatically with <code>moonc
+-w</code>.</p>
+</blockquote>
+
+<p>Try it out by starting the server:</p>
+
+<pre><code class="language-bash">lapis server
+</code></pre>
+
+<p>If you&rsquo;ve compiled the <code>.moon</code> file then <a href="http://localhost:8080">http://localhost:8080</a> will display
+the page.</p>
+
+<p>The members of the application class make up the patterns that can be matched
+by incoming requests. This is referred to as the route and the action, where
+the route is the pattern and the action is the function that handles the
+matching route.  In this example, the route <code>&quot;/&quot;</code> is matched to a function that
+returns <code>&quot;Hello World!&quot;</code></p>
+
+<p>The return value of an action determines what is written as the response. In
+the simplest form we can return a string in order to write a string.</p>
+
+<blockquote>
+<p>Learn more about routes and actions and the return value in the <a href="$root/reference/actions.html">Routes and
+Actions</a> guide.</p>
+</blockquote>
+
+<h2 id="lapis-applications">Lapis Applications</h2>
+
+<p>When we refer to a Lapis application we are talking about a class that extends
+from <code>lapis.Application</code>. The properties of the application make up the routes
+the application can serve and the actions it will perform.</p>
+
+<p>If a property name is a string and begins with a <code>&quot;/&quot;</code> or the property is a
+table then it defines a route. All other properties are methods of the
+application.</p>
+
+<h3 id="request-parameters">Request Parameters</h3>
+
+<p>Routes can contain special patterns that match parts of the URL and put them
+into a request parameter.</p>
+
+<p>Named parameters are a <code>:</code> followed by a name. They match all characters
+excluding <code>/</code>.</p>
+
+<pre><code class="language-moon">class extends lapis.Application
+  &quot;/user/:name&quot;: =&gt; &quot;Hello #{@params.name}&quot;
+</code></pre>
+
+<p>If we were to go to the path <code>&quot;/user/leaf&quot;</code>, <code>@params.name</code> would be set to
+<code>&quot;leaf&quot;</code>.</p>
+
+<p><code>@params</code> holds all the parameters to the action. This is a concatenation of
+the URL parameters, the GET parameters and the POST parameters.</p>
+
+<p>A splat will match all characters and is represented with a <code>*</code>. Splats are not
+named. The value of the splat is placed into <code>@params.splat</code></p>
+
+<pre><code class="language-moon">&quot;/things/*&quot;: =&gt; &quot;Rest of the url: #{@params.splat}&quot;
+</code></pre>
+
+<blockquote>
+<p>Learn more about where parameters come from in the <a href="$root/reference/actions.html#request-object">Request Object guide</a>.</p>
+</blockquote>
+
+<h3 id="the-action">The Action</h3>
+
+<p>The action is the function called in response to a route matching the path of a
+request. Actions are written with the fat arrow, <code>=&gt;</code>, so you might think that
+<code>self</code> is an instance of application. It&rsquo;s actually an instance of <code>Request</code>, a
+class that&rsquo;s used to represent the current request.</p>
+
+<p>As we&rsquo;ve already seen, the request holds all the parameters in <code>@params</code>.</p>
+
+<p>We can the get the distinct parameters types using <code>@GET</code>, <code>@POST</code>, and
+<code>@url_params</code>.</p>
+
+<p>We can also access the instance of the application with <code>@app</code>, and the raw
+request and response with <code>@req</code> and <code>@res</code>.</p>
+
+<p>You should treat <code>@app</code> as read only because the instance is shared among many
+requests.</p>
+
+<blockquote>
+<p>Learn more about the request object in the <a href="$root/reference/actions.html#request-object">Request Object guide</a>.</p>
+</blockquote>
+
+<h3 id="named-routes">Named Routes</h3>
+
+<p>It&rsquo;s useful to give names to your routes so links to other pages can be
+generated just by knowing the name of the page instead of hard-coding the
+structure of the URL</p>
+
+<p>If the route of the action is a table with a single pair, then the key of that
+table is the name and the value is the pattern. MoonScript gives us convenient
+syntax for representing this:</p>
+
+<pre><code class="language-moon">class extends lapis.Application
+  [index: &quot;/&quot;]: =&gt;
+    @url_for &quot;user_profile&quot;, name: &quot;leaf&quot;
+
+  [user_profile: &quot;/user/:name&quot;]: =&gt;
+    &quot;Hello #{@params.name}, go home: #{@url_for &quot;index&quot;}&quot;
+</code></pre>
+
+<p>We can generate the paths to various actions using <code>@url_for</code>. The first
+argument is the name of the route, and the second optional argument is a table
+of values to fill a parameterized route with.</p>
+
+<h3 id="before-filters">Before Filters</h3>
+
+<p>Sometimes you want a piece of code to run before every action. A good example
+of this is setting up the user session. We can declare a before filter, or a
+function that runs before every action, like so:</p>
+
+<pre><code class="language-moon">lapis = require &quot;lapis&quot;
+
+class App extends lapis.Application
+  @before_filter =&gt;
+    if @session.user
+      @current_user = load_user @session.user
+
+  &quot;/&quot;: =&gt;
+    &quot;current user is: #{@current_user}&quot;
+</code></pre>
+
+<p>You are free to add as many as you like by calling <code>@before_filter</code> multiple
+times. They will be run in the order they are registered.</p>
+
+<p>If a before filter calls the <code>@write</code> method then the action will be canceled.
+For example we can cancel the action and redirect to another page if some
+condition is not met:</p>
+
+<pre><code class="language-moon">lapis = require &quot;lapis&quot;
+
+class App extends lapis.Application
+  @before_filter =&gt;
+    unless user_meets_requirements!
+      @write redirect_to: @url_for &quot;login&quot;
+
+  &quot;/&quot;: =&gt;
+    &quot;Welcome to the page&quot;
+</code></pre>
+
+<blockquote>
+<p><code>@write</code> is what handles the return value of an action, so the same things
+you can return in an action can be passed to <code>@write</code></p>
+</blockquote>
+
+<h3 id="handling-http-verbs">Handling HTTP verbs</h3>
+
+<p>It&rsquo;s common to have a single action do different things depending on the HTTP
+verb. Lapis comes with some helpers to make writing these actions simple.
+<code>respond_to</code> takes a table indexed by HTTP verb with a value of the function to
+perform when the action receives that verb.</p>
+
+<pre><code class="language-moon">lapis = require &quot;lapis&quot;
+import respond_to from require &quot;lapis.application&quot;
+
+class App extends lapis.Application
+  [create_account: &quot;/create_account&quot;]: respond_to {
+    GET: =&gt; render: true
+
+    POST: =&gt;
+      create_user @params
+      redirect_to: @url_for &quot;index&quot;
+  }
+</code></pre>
+
+<p><code>respond_to</code> can also take a before filter of its own that will run before the
+corresponding HTTP verb action. We do this by specifying a <code>before</code> function.
+The same semantics of <a href="#lapis-applications-before-filters">before filters</a>
+apply, so if you call <code>@write</code> then the rest of the action will not get run.</p>
+
+<pre><code class="language-moon">lapis = require &quot;lapis&quot;
+
+class App extends lapis.Application
+  &quot;/edit_user/:id&quot;: respond_to {
+    before: =&gt;
+      @user = Users\find @params.id
+      @write status: 404, &quot;Not Found&quot; unless @user
+
+    GET: =&gt;
+      &quot;Welcome &quot; .. @user.name
+
+    POST: =&gt;
+      @user\update @params.user
+      redirect_to: @url_for &quot;index&quot;
+  }
+
+</code></pre>
+
+<h3 id="sub-applications">Sub-Applications</h3>
+
+<p>As your web application becomes more complex it helps to break it apart into
+multiple sub-applications. Lapis doesn&rsquo;t place any rules on how you divide your
+application, instead it facilities the combination of applications.</p>
+
+<h4 id="include-other-application-opts"><code>@include(other_application, [opts])</code></h4>
+
+<p>Let&rsquo;s say we&rsquo;ve got a separate application for handling users:</p>
+
+<pre><code class="language-moon">-- applications/users.moon
+lapis = require &quot;lapis&quot;
+
+class UsersApplication extends lapis.Application
+  [login: &quot;/login&quot;]: do_login!
+  [logout: &quot;/logout&quot;]: do_logout!
+</code></pre>
+
+<p>We can include this application into our main one:</p>
+
+<pre><code class="language-moon">-- app.moon
+lapis = require &quot;lapis&quot;
+
+class extends lapis.Application
+  @include &quot;applications.users&quot;
+
+  [index: &quot;/&quot;]: =&gt;
+    @html -&gt;
+      a href: @url_for(&quot;login&quot;), &quot;Log in&quot;
+</code></pre>
+
+<p>In this example <code>applications/user.moon</code> is a module that returns the
+sub-application. The <code>include</code> class method is used to load this application
+into our root one. <code>include</code> copies all the routes of the other application,
+leaving the original untouched.</p>
+
+<p>Sub-applications are allowed to have before filters, and the before filters
+will only apply to all actions enclosed by the application.</p>
+
+<p>A sub-application supports special <code>path</code> and <code>name</code> class values:</p>
+
+<ul>
+<li><code>path</code> &ndash; The patterns of the routes copied are prefixed with <code>path</code></li>
+<li><code>name</code> &ndash; The names of all the routes copied are prefixed with <code>name</code></li>
+</ul>
+
+<pre><code class="language-moon">class UsersApplication extends lapis.Application
+  @path: &quot;/users&quot;
+  @name: &quot;user_&quot;
+
+  -- etc...
+</code></pre>
+
+<p><code>include</code> takes an optional second argument, a table of options. The options
+can be used to provide or override the <code>path</code> and <code>name</code> values that might have
+been set in the application.</p>
+
+<p>For example, we might prefix <code>UsersApplication</code> like so:</p>
+
+<pre><code class="language-moon">class extends lapis.Application
+  @include &quot;applications.users&quot;, path: &quot;/users&quot;, name: &quot;user_&quot;
+
+  &quot;/&quot;: =&gt;
+    @url_for(&quot;user_login&quot;) -- returns &quot;/users/login&quot;
+</code></pre>
+
+<h3 id="class-methods">Class Methods</h3>
+
+<h4 id="find-action-action-name"><code>@find_action(action_name)</code></h4>
+
+<p>Returns the function of the action that has the name specified by
+<code>action_name</code>.</p>
+
+		</div>
+		
+
+	</article>
+	
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="linuxing3 avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About linuxing3</span>
+	</div>
+	<div class="authorbox__description">
+		Emacser and Vimer
+	</div>
+</div>
+	
+<nav class="post-nav row clearfix" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+	<div class="post-nav__item post-nav__item--prev col-1-2">
+		<a class="post-nav__link" href="/posts/misc/moonscript/" rel="prev"><span class="post-nav__caption">«Previous</span><p class="post-nav__post-title">moonscript.md</p></a>
+	</div>
+	<div class="post-nav__item post-nav__item--next col-1-2">
+		<a class="post-nav__link" href="/posts/misc/moon_creating_configurations/" rel="next"><span class="post-nav__caption">Next»</span><p class="post-nav__post-title">moon_creating_configurations.md</p></a>
+	</div>
+</nav>
+
+	
+</main>
+
+<aside class="sidebar" itemscope="itemscope" itemtype="http://schema.org/WPSideBar">
+	
+<div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="//google.com/search">
+		<label>
+			<span class="screen-reader-text">Search for:</span>
+			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="https://linuxing3.github.io/" />
+	</form>
+</div>
+	
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/news/20180609/">20180609</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180608/">20180608</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180607/">20180607</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180606/">20180606</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180605/">20180605</a></li>
+		</ul>
+	</div>
+</div>
+
+	
+	
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Facebook" rel="noopener noreferrer" href="https://facebook.com/xingwenju0928" target="_blank">
+				<svg class="widget-social__link-icon icon-facebook" viewBox="0 0 352 352" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m0 32v288c0 17.5 14.5 32 32 32h288c17.5 0 32-14.5 32-32v-288c0-17.5-14.5-32-32-32h-288c-17.5 0-32 14.5-32 32zm320 0v288h-83v-108h41.5l6-48h-47.5v-31c0-14 3.5-23.5 23.5-23.5h26v-43.5c-4.4-.6-19.8-1.5-37.5-1.5-36.9 0-62 22.2-62 63.5v36h-42v48h42v108h-155v-288z"/></svg>
+				<span>Facebook</span>
+			</a>
+		</div>
+		
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Twitter" rel="noopener noreferrer" href="https://twitter.com/@linuxing3" target="_blank">
+				<svg class="widget-social__link-icon icon-twitter" viewBox="0 0 384 312" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m384 36.9c-14.1 6.3-29.3 10.5-45.2 12.4 16.3-9.7 28.8-25.2 34.6-43.6-15.2 9-32.1 15.6-50 19.1-14.4-15.2-34.9-24.8-57.5-24.8-43.5 0-78.8 35.3-78.8 78.8 0 6.2.7 12.2 2 17.9-65.5-3.3-123.5-34.6-162.4-82.3-6.7 11.6-10.6 25.2-10.6 39.6 0 27.3 13.9 51.4 35 65.6-12.9-.4-25.1-4-35.7-9.9v1c0 38.2 27.2 70 63.2 77.2-6.6 1.8-13.6 2.8-20.8 2.8-5.1 0-10-.5-14.8-1.4 10 31.3 39.1 54.1 73.6 54.7-27 21.1-60.9 33.7-97.8 33.7-6.4 0-12.6-.4-18.8-1.1 34.9 22.4 76.3 35.4 120.8 35.4 144.9 0 224.1-120 224.1-224.1 0-3.4-.1-6.8-.2-10.2 15.4-11.1 28.7-25 39.3-40.8z"/></svg>
+				<span>Twitter</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="GitHub" rel="noopener noreferrer" href="https://github.com/linuxing3" target="_blank">
+				<svg class="widget-social__link-icon icon-github" viewBox="0 0 384 374" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m192 0c-106.1 0-192 85.8-192 191.7 0 84.7 55 156.6 131.3 181.9 9.6 1.8 13.1-4.2 13.1-9.2 0-4.6-.2-16.6-.3-32.6-53.4 11.6-64.7-25.7-64.7-25.7-8.7-22.1-21.3-28-21.3-28-17.4-11.9 1.3-11.6 1.3-11.6 19.3 1.4 29.4 19.8 29.4 19.8 17.1 29.3 44.9 20.8 55.9 15.9 1.7-12.4 6.7-20.8 12.2-25.6-42.6-4.8-87.5-21.3-87.5-94.8 0-20.9 7.5-38 19.8-51.4-2-4.9-8.6-24.3 1.9-50.7 0 0 16.1-5.2 52.8 19.7 15.3-4.2 31.7-6.4 48.1-6.5 16.3.1 32.7 2.2 48.1 6.5 36.7-24.8 52.8-19.7 52.8-19.7 10.5 26.4 3.9 45.9 1.9 50.7 12.3 13.4 19.7 30.5 19.7 51.4 0 73.7-44.9 89.9-87.7 94.6 6.9 5.9 13 17.6 13 35.5 0 25.6-.2 46.3-.2 52.6 0 5.1 3.5 11.1 13.2 9.2 76.2-25.5 131.2-97.3 131.2-182 0-105.9-86-191.7-192-191.7z"/></svg>
+				<span>GitHub</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Email" href="mailto:xingwenju@gmail.com">
+				<svg class="widget-social__link-icon icon-mail" viewBox="0 0 416 288" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<span>xingwenju@gmail.com</span>
+			</a>
+		</div>
+	</div>
+</div>
+
+	
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget__link widget__link--taglist" href="/tags/tag1" title="tag1">tag1</a>
+	</div>
+</div>
+</aside>
+
+	</div>
+		<footer class="footer" itemscope="itemscope" itemtype="http://schema.org/WPFooter">
+			<div class="container container-inner">
+				<p class="footer__copyright">&copy; 2018 天生我材必有用，千金散尽还复来. <span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad theme</a>.</span></p>
+			</div>
+		</footer>
+	</div>
+
+<script>
+	var navigation = responsiveNav(".menu", {
+		navClass: "menu--collapse",
+	});
+</script>
+</body>
+</html>

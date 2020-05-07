@@ -1,0 +1,14 @@
+[submodule "themes/ananke"]
+	path = themes/ananke
+	url = https://github.com/budparr/gohugo-theme-ananke.git
+
+[submodule "themes/after-dark"]
+	path = themes/after-dark
+	url = https://github.com/comfusion/after-dark.git
+
+[submodule "themes/mainroad"]
+	path = themes/mainroad
+	url = https://github.com/vimux/mainroad.git
+[submodule "themes/heather-hugo"]
+	path = themes/heather-hugo
+	url = https://github.com/hbpasti/heather-hugo

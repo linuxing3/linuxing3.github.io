@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>redux-devtools.md</title>
+<meta name="description" content=" Linuxing3&#39;s个人博客 ">
+<meta name="generator" content="Hugo 0.31.1" />
+<meta property="og:title" content="redux-devtools.md" />
+<meta property="og:description" content="Redux DevTools Features  Lets you inspect every state and action payload Lets you go back in time by “cancelling” actions If you change the reducer code, each “staged” action will be re-evaluated If the reducers throw, you will see during which action this happened, and what the error was With persistState() store enhancer, you can persist debug sessions across page reloads  Overview Redux DevTools is a development time package that provides power-ups for your Redux development workflow." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://linuxing3.github.io/posts/nodejs/redux-devtools/" />
+
+
+
+<meta property="article:published_time" content="2018-02-16T14:05:34-04:00"/>
+
+<meta property="article:modified_time" content="2018-02-16T14:05:34-04:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="//fonts.googleapis.com" />
+<link rel="dns-prefetch" href="//fonts.gstatic.com" />
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700" type="text/css" media="all" />
+<link rel="stylesheet" href="/css/style.css" type="text/css" media="all" />
+<script type="text/javascript" src="/js/scripts.js"></script>
+<link rel="shortcut icon" href="/favicon.ico">
+
+</head>
+<body class="body body-right-sidebar mobile" itemscope="itemscope" itemtype="http://schema.org/WebPage">
+	<div class="container container-outer">
+		<header class="header" itemscope="itemscope" itemtype="http://schema.org/WPHeader">
+			<div class="container container-inner clearfix">
+				<div class="logo" role="banner" itemscope="itemscope" itemtype="http://schema.org/Brand">
+					<a class="logo__link" href="/" title="天生我材必有用，千金散尽还复来" rel="home">
+						<h1 class="logo__title">天生我材必有用，千金散尽还复来</h1>
+						<h2 class="logo__tagline">在编程世界中学习生活</h2>
+					</a>
+				</div>
+			</div>
+			
+<nav class="menu" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+	<ul class="menu__list">
+		<li class="menu__item"><a class="menu__link" href="/posts/">博客</a></li>
+		<li class="menu__item"><a class="menu__link" href="/news/">新闻</a></li>
+		<li class="menu__item"><a class="menu__link" href="/hexo/">老店</a></li>
+	</ul>
+</nav>
+
+		</header>
+		<div class="wrapper clearfix">
+
+<main class="main-content content" role="main" itemprop="mainContentOfPage">
+	<article class="post">
+		<header class="post__header clearfix">
+			<h1 class="post__title">redux-devtools.md</h1>
+			<p class="post__meta meta">
+				<svg class="icon icon-time" height="14" viewBox="0 0 16 16" width="14" xmlns="http://www.w3.org/2000/svg"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
+				<time class="post__meta-date" datetime="2018-02-16T14:05:34">February 16, 2018</time>
+			</p>
+		</header>
+		<div class="post__content clearfix">
+			
+
+<h1 id="redux-devtools">Redux DevTools</h1>
+
+<h3 id="features">Features</h3>
+
+<ul>
+<li>Lets you inspect every state and action payload</li>
+<li>Lets you go back in time by “cancelling” actions</li>
+<li>If you change the reducer code, each “staged” action will be re-evaluated</li>
+<li>If the reducers throw, you will see during which action this happened, and what the error was</li>
+<li>With <code>persistState()</code> store enhancer, you can persist debug sessions across page reloads</li>
+</ul>
+
+<h3 id="overview">Overview</h3>
+
+<p>Redux DevTools is a development time package that provides power-ups for your Redux development workflow. Be careful to strip its code in production! To use Redux DevTools, you need to choose a “monitor”—a React component that will serve as a UI for the DevTools. Different tasks and workflows require different UIs, so Redux DevTools is built to be flexible in this regard. We recommend using <a href="https://github.com/gaearon/redux-devtools-log-monitor"><code>LogMonitor</code></a> for inspecting the state and time travel, and wrap it in a <a href="https://github.com/gaearon/redux-devtools-dock-monitor"><code>DockMonitor</code></a> to quickly move it across the screen. That said, when you’re comfortable rolling up your own setup, feel free to do this, and share it with us.</p>
+
+<h3 id="installation">Installation</h3>
+
+<pre><code>npm install --save-dev redux-devtools
+</code></pre>
+
+<p>You’ll also likely want to install some monitors:</p>
+
+<pre><code>npm install --save-dev redux-devtools-log-monitor
+npm install --save-dev redux-devtools-dock-monitor
+</code></pre>
+
+<h3 id="usage">Usage</h3>
+
+<h4 id="create-a-devtools-component">Create a <code>DevTools</code> Component</h4>
+
+<p>Somewhere in your project, create a <code>DevTools</code> component by passing a <code>monitor</code> element to <code>createDevTools</code>. In the following example our <code>monitor</code> consists of <a href="https://github.com/gaearon/redux-devtools-log-monitor"><code>LogMonitor</code></a> docked within <a href="https://github.com/gaearon/redux-devtools-dock-monitor"><code>DockMonitor</code></a>:</p>
+
+<h5 id="containers-devtools-js"><code>containers/DevTools.js</code></h5>
+
+<pre><code class="language-js">import React from 'react';
+
+// Exported from redux-devtools
+import { createDevTools } from 'redux-devtools';
+
+// Monitors are separate packages, and you can make a custom one
+import LogMonitor from 'redux-devtools-log-monitor';
+import DockMonitor from 'redux-devtools-dock-monitor';
+
+// createDevTools takes a monitor and produces a DevTools component
+const DevTools = createDevTools(
+  // Monitors are individually adjustable with props.
+  // Consult their repositories to learn about those props.
+  // Here, we put LogMonitor inside a DockMonitor.
+  &lt;DockMonitor toggleVisibilityKey='ctrl-h'
+               changePositionKey='ctrl-q'&gt;
+    &lt;LogMonitor theme='tomorrow' /&gt;
+  &lt;/DockMonitor&gt;
+);
+
+export default DevTools;
+</code></pre>
+
+<p>Note that you can use <code>LogMonitor</code> directly without wrapping it in <code>DockMonitor</code> if you’d like to display the DevTools UI somewhere right inside your application:</p>
+
+<pre><code class="language-js">// If you'd rather not use docking UI, use &lt;LogMonitor&gt; directly
+const DevTools = createDevTools(
+  &lt;LogMonitor theme='solarized' /&gt;
+);
+</code></pre>
+
+<h4 id="use-devtools-instrument-store-enhancer">Use <code>DevTools.instrument()</code> Store Enhancer</h4>
+
+<p>The <code>DevTools</code> component you created with <code>createDevTools()</code> has a special static method called <code>instrument()</code>. It returns a <a href="http://rackt.github.io/redux/docs/Glossary.html#store-enhancer">store enhancer</a> that you need to use in development.</p>
+
+<p>A store enhancer is a function that takes <code>createStore</code> and returns an enhanced version of it that you will use instead. You probably already used another store enhancer—<a href="http://redux.js.org/docs/api/applyMiddleware.html"><code>applyMiddleware()</code></a>. Unlike <code>applyMiddleware()</code>, you will need to be careful to only use <code>DevTools.instrument()</code> in development environment, and never in production.</p>
+
+<p>The easiest way to apply several store enhancers in a row is to use the <a href="http://redux.js.org/docs/api/compose.html"><code>compose()</code></a> utility function that ships with Redux. It is the same <code>compose()</code> that you can find in Underscore and Lodash. In our case, we would use it to compose several store enhancers into one: <code>compose(applyMiddleware(m1, m2, m3), DevTools.instrument())</code>.</p>
+
+<p>It’s important that you should add <code>DevTools.instrument()</code> <em>after</em> <code>applyMiddleware</code> in your <code>compose()</code> function arguments. This is because <code>applyMiddleware</code> is potentially asynchronous, but <code>DevTools.instrument()</code> expects all actions to be plain objects rather than actions interpreted by asynchronous middleware such as <a href="https://github.com/acdlite/redux-promise">redux-promise</a> or <a href="https://github.com/gaearon/redux-thunk">redux-thunk</a>. So make sure <code>applyMiddleware()</code> goes first in the <code>compose()</code> call, and <code>DevTools.instrument()</code> goes after it.</p>
+
+<h5 id="store-configurestore-js"><code>store/configureStore.js</code></h5>
+
+<pre><code class="language-js">import { createStore, applyMiddleware, compose } from 'redux';
+import rootReducer from '../reducers';
+import DevTools from '../containers/DevTools';
+
+const finalCreateStore = compose(
+  // Middleware you want to use in development:
+  applyMiddleware(d1, d2, d3),
+  // Required! Enable Redux DevTools with the monitors you chose
+  DevTools.instrument()
+)(createStore);
+
+export default function configureStore(initialState) {
+  const store = finalCreateStore(rootReducer, initialState);
+
+  // Hot reload reducers (requires Webpack or Browserify HMR to be enabled)
+  if (module.hot) {
+    module.hot.accept('../reducers', () =&gt;
+      store.replaceReducer(require('../reducers')/*.default if you use Babel 6+ */)
+    );
+  }
+
+  return store;
+}
+</code></pre>
+
+<p>If you’d like, you may add another store enhancer called <code>persistState()</code>. It ships with this package, and it lets you serialize whole sessions (including all dispatched actions and the state of the monitors) by a URL key. So if you visit <code>http://localhost:3000/?debug_session=reproducing_weird_bug</code>, do something in the app, then open <code>http://localhost:3000/?debug_session=some_other_feature</code>, and then go back to <code>http://localhost:3000/?debug_session=reproducing_weird_bug</code>, the state will be restored. The implementation of <code>persistState()</code> is fairly naïve but you can take it as an inspiration and build a proper UI for it if you feel like it!</p>
+
+<pre><code class="language-js">// ...
+import { persistState } from 'redux-devtools';
+
+const finalCreateStore = compose(
+  // Middleware you want to use in development:
+  applyMiddleware(d1, d2, d3),
+  // Required! Enable Redux DevTools with the monitors you chose
+  DevTools.instrument(),
+  // Optional. Lets you write ?debug_session=&lt;key&gt; in address bar to persist debug sessions
+  persistState(getDebugSessionKey())
+)(createStore);
+
+function getDebugSessionKey() {
+  // You can write custom logic here!
+  // By default we try to read the key from ?debug_session=&lt;key&gt; in the address bar
+  const matches = window.location.href.match(/[?&amp;]debug_session=([^&amp;]+)\b/);
+  return (matches &amp;&amp; matches.length &gt; 0)? matches[1] : null;
+}
+
+export default function configureStore(initialState) {
+  // ...
+}
+</code></pre>
+
+<h4 id="exclude-devtools-from-production-builds">Exclude DevTools from Production Builds</h4>
+
+<p>Finally, to make sure we’re not pulling any DevTools-related code in the production builds, we will envify our code. With Webpack, you can use <code>DefinePlugin</code> (Browserify equivalent is called <a href="https://github.com/zertosh/loose-envify"><code>envify</code></a>) to turn magic constants like <code>process.env.NODE_ENV</code> into <code>'production'</code> or <code>'development'</code> strings depending on the environment, and import and render <code>redux-devtools</code> conditionally when <code>process.env.NODE_ENV</code> is not <code>'production'</code>. Then, if you have an Uglify step before production, Uglify will eliminate dead <code>if (false)</code> branches with <code>redux-devtools</code> imports.</p>
+
+<p>If you are using ES6 modules with Webpack 1.x and Babel, you might try putting your <code>import</code> statement inside an <code>if (process.env.NODE_ENV !== 'production)</code> to exclude the DevTools package from your production bundle. However this ES6 specification forbids it, so this won’t compile. Instead, you can use a conditional CommonJS <code>require</code>. Babel will let it compile, and Uglify will eliminate the dead branches before Webpack creates a bundle. This is why we recommend creating a <code>configureStore.js</code> file that either directs you to <code>configureStore.dev.js</code> or <code>configureStore.prod.js</code> depending on the configuration. While it is a little bit more maintenance, the upside is that you can be sure you won’t pull any development dependencies into the production builds, and that you can easily enable different middleware (e.g. crash reporting, logging) in the production environment.</p>
+
+<h5 id="store-configurestore-js-1"><code>store/configureStore.js</code></h5>
+
+<pre><code class="language-js">// Use ProvidePlugin (Webpack) or loose-envify (Browserify)
+// together with Uglify to strip the dev branch in prod build.
+if (process.env.NODE_ENV === 'production') {
+  module.exports = require('./configureStore.prod');
+} else {
+  module.exports = require('./configureStore.dev');
+}
+</code></pre>
+
+<h5 id="store-configurestore-prod-js"><code>store/configureStore.prod.js</code></h5>
+
+<pre><code class="language-js">import { createStore, applyMiddleware, compose } from 'redux';
+import rootReducer from '../reducers';
+
+const finalCreateStore = compose(
+  // Middleware you want to use in production:
+  applyMiddleware(p1, p2, p3),
+  // Other store enhancers if you use any
+)(createStore);
+
+export default function configureStore(initialState) {
+  return finalCreateStore(rootReducer, initialState);
+};
+</code></pre>
+
+<h5 id="store-configurestore-dev-js"><code>store/configureStore.dev.js</code></h5>
+
+<pre><code class="language-js">import { createStore, applyMiddleware, compose } from 'redux';
+import { persistState } from 'redux-devtools';
+import rootReducer from '../reducers';
+import DevTools from '../containers/DevTools';
+
+const finalCreateStore = compose(
+  // Middleware you want to use in development:
+  applyMiddleware(d1, d2, d3),
+  // Required! Enable Redux DevTools with the monitors you chose
+  DevTools.instrument(),
+  // Optional. Lets you write ?debug_session=&lt;key&gt; in address bar to persist debug sessions
+  persistState(getDebugSessionKey())
+)(createStore);
+
+function getDebugSessionKey() {
+  // You can write custom logic here!
+  // By default we try to read the key from ?debug_session=&lt;key&gt; in the address bar
+  const matches = window.location.href.match(/[?&amp;]debug_session=([^&amp;]+)\b/);
+  return (matches &amp;&amp; matches.length &gt; 0)? matches[1] : null;
+}
+
+export default function configureStore(initialState) {
+  const store = finalCreateStore(rootReducer, initialState);
+
+  // Hot reload reducers (requires Webpack or Browserify HMR to be enabled)
+  if (module.hot) {
+    module.hot.accept('../reducers', () =&gt;
+      store.replaceReducer(require('../reducers')/*.default if you use Babel 6+ */)
+    );
+  }
+
+  return store;
+}
+</code></pre>
+
+<h4 id="render-devtools-in-your-app">Render <code>&lt;DevTools&gt;</code> in Your App&hellip;</h4>
+
+<p>Finally, include the <code>DevTools</code> component in your page.
+A naïve way to do this would be to render it right in your <code>index.js</code>:</p>
+
+<h5 id="index-js"><code>index.js</code></h5>
+
+<pre><code class="language-js">import React from 'react';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import configureStore from './store/configureStore';
+import TodoApp from './containers/TodoApp';
+
+// Don't do this! You’re bringing DevTools into the production bundle.
+import DevTools from './containers/DevTools';
+
+const store = configureStore();
+
+render(
+  &lt;Provider store={store}&gt;
+    &lt;div&gt;
+      &lt;TodoApp /&gt;
+      &lt;DevTools /&gt;
+    &lt;/div&gt;
+  &lt;/Provider&gt;
+  document.getElementById('app')
+);
+</code></pre>
+
+<p>We recommend a different approach. Create a <code>Root.js</code> component that renders the root of your application (usually some component surrounded by a <code>&lt;Provider&gt;</code>). Then use the same trick with conditional <code>require</code> statements to have two versions of it, one for development, and one for production:</p>
+
+<h5 id="containers-root-js"><code>containers/Root.js</code></h5>
+
+<pre><code class="language-js">if (process.env.NODE_ENV === 'production') {
+  module.exports = require('./Root.prod');
+} else {
+  module.exports = require('./Root.dev');
+}
+</code></pre>
+
+<h5 id="containers-root-dev-js"><code>containers/Root.dev.js</code></h5>
+
+<pre><code class="language-js">import React, { Component } from 'react';
+import { Provider } from 'react-redux';
+import TodoApp from './TodoApp';
+import DevTools from './DevTools';
+
+export default class Root extends Component {
+  render() {
+    const { store } = this.props;
+    return (
+      &lt;Provider store={store}&gt;
+        &lt;div&gt;
+          &lt;TodoApp /&gt;
+          &lt;DevTools /&gt;
+        &lt;/div&gt;
+      &lt;/Provider&gt;
+    );
+  }
+}
+</code></pre>
+
+<h5 id="containers-root-prod-js"><code>containers/Root.prod.js</code></h5>
+
+<pre><code class="language-js">import React, { Component } from 'react';
+import { Provider } from 'react-redux';
+import TodoApp from './TodoApp';
+
+export default class Root extends Component {
+  render() {
+    const { store } = this.props;
+    return (
+      &lt;Provider store={store}&gt;
+        &lt;TodoApp /&gt;
+      &lt;/Provider&gt;
+    );
+  }
+}
+</code></pre>
+
+<h4 id="or-open-them-in-a-new-window">&hellip;Or Open Them in a New Window</h4>
+
+<p>When you use <a href="https://github.com/gaearon/redux-devtools-dock-monitor"><code>DockMonitor</code></a>, you usually want to render <code>&lt;DevTools&gt;</code> at the root of your app. It will appear in a docked container above it. However, you can also render it anywhere else in your React component tree. To do this, you can remove <code>DockMonitor</code> and instead render <code>&lt;DevTools&gt;</code> inside some component of your app. Don’t forget to create two versions of this component to exclude <code>DevTools</code> in production!</p>
+
+<p>However you don’t even have to render <code>&lt;DevTools&gt;</code> in the same window. For example, you may prefer to display it in a popup. In this case, you can remove <code>DockMonitor</code> from <code>DevTools.js</code> and just use the <code>LogMonitor</code>, and have some code like this:</p>
+
+<h5 id="index-js-1"><code>index.js</code></h5>
+
+<pre><code class="language-js">import React from 'react';
+import { Provider } from 'react-redux';
+import { render } from 'react-dom';
+import configureStore from './store/configureStore';
+import App from './containers/App';
+
+const store = configureStore();
+
+render(
+  &lt;Provider store={store}&gt;
+    &lt;App /&gt;
+  &lt;/Provider&gt;,
+  document.getElementById('root')
+);
+
+if (process.env.NODE_ENV !== 'production') {
+  const showDevTools = require('./showDevTools');
+  showDevTools(store);
+}
+</code></pre>
+
+<h5 id="showdevtools-js"><code>showDevTools.js</code></h5>
+
+<pre><code class="language-js">import React from 'react';
+import { render } from 'react-dom';
+import DevTools from './containers/DevTools';
+
+export default function showDevTools(store) {
+  const popup = window.open(null, 'Redux DevTools', 'menubar=no,location=no,resizable=yes,scrollbars=no,status=no');
+  // Reload in case it already exists
+  popup.location.reload();
+
+  setTimeout(() =&gt; {
+    popup.document.write('&lt;div id=&quot;react-devtools-root&quot;&gt;&lt;/div&gt;');
+    render(
+      &lt;DevTools store={store} /&gt;,
+      popup.document.getElementById('react-devtools-root')
+    );
+  }, 10);
+}
+</code></pre>
+
+<p>Personal preferences vary, and whether to put the DevTools in a separate window, in a dock, or right inside you app’s user interface, is up to you. Make sure to check the documentation for the monitors you use and learn about the different props they support for customizing the appearance and the behavior.</p>
+
+<p>Note that there are no useful props you can pass to the <code>DevTools</code> component other than the <code>store</code>. The <code>store</code> prop is needed if you don’t wrap <code>&lt;DevTools&gt;</code> in a <code>&lt;Provider&gt;</code>—just like with any connected component. To adjust the monitors, you need to pass props to them inside <code>DevTools.js</code> itself inside the <code>createDevTools()</code> call when they are used.</p>
+
+<h3 id="gotchas">Gotchas</h3>
+
+<ul>
+<li><p><strong>Your reducers have to be pure and free of side effects to work correctly with DevTools.</strong> For example, even generating a random ID in reducer makes it impure and non-deterministic. Instead, do this in action creators.</p></li>
+
+<li><p><strong>Make sure to only apply <code>DevTools.instrument()</code> and render <code>&lt;DevTools&gt;</code> in development!</strong> In production, this will be terribly slow because actions just accumulate forever. As described above, you need to use conditional <code>require</code>s and use <code>ProvidePlugin</code> (Webpack) or <code>loose-envify</code> (Browserify) together with Uglify to remove the dead code. Here is <a href="https://github.com/erikras/react-redux-universal-hot-example/">an example</a> that adds Redux DevTools handling the production case correctly.</p></li>
+
+<li><p><strong>It is important that <code>DevTools.instrument()</code> store enhancer should be added to your middleware stack <em>after</em> <code>applyMiddleware</code> in the <code>compose</code>d functions, as <code>applyMiddleware</code> is potentially asynchronous.</strong> Otherwise, DevTools won’t see the raw actions emitted by asynchronous middleware such as <a href="https://github.com/acdlite/redux-promise">redux-promise</a> or <a href="https://github.com/gaearon/redux-thunk">redux-thunk</a>.</p></li>
+</ul>
+
+<h3 id="running-examples">Running Examples</h3>
+
+<p>Clone the project:</p>
+
+<pre><code>git clone https://github.com/gaearon/redux-devtools.git
+cd redux-devtools
+</code></pre>
+
+<p>Run <code>npm install</code> in the root folder:</p>
+
+<pre><code>npm install
+</code></pre>
+
+<p>Now you can open an example folder and run <code>npm install</code> there:</p>
+
+<pre><code>cd examples/counter # or examples/todomvc
+npm install
+</code></pre>
+
+<p>Finally, run the development server and open the page:</p>
+
+<pre><code>npm start
+open http://localhost:3000
+</code></pre>
+
+<p>Try clicking on actions in the log, or changing some code inside the reducers. You should see the action log re-evaluate the state on every code change.</p>
+
+<p>Also try opening <code>http://localhost:3000/?debug_session=123</code>, click around, and then refresh. You should see that all actions have been restored from the local storage.</p>
+
+<h3 id="custom-monitors">Custom Monitors</h3>
+
+<p><strong>DevTools accepts monitor components so you can build a completely custom UI.</strong> <a href="https://github.com/gaearon/redux-devtools-log-monitor"><code>LogMonitor</code></a> and <a href="https://github.com/gaearon/redux-devtools-dock-monitor"><code>DockMonitor</code></a> are just examples of what is possible.</p>
+
+<p><strong><a href="https://github.com/gaearon/redux-devtools/issues/3">I challenge you to build a custom monitor for Redux DevTools!</a></strong></p>
+
+<p>Some crazy ideas for custom monitors:</p>
+
+<ul>
+<li>A slider that lets you jump between computed states just by dragging it</li>
+<li>An in-app layer that shows the last N states right in the app (e.g. for animation)</li>
+<li>A time machine like interface where the last N states of your app reside on different Z layers</li>
+<li>Feel free to come up with and implement your own! Check <a href="https://github.com/gaearon/redux-devtools-log-monitor"><code>LogMonitor</code></a> <code>propTypes</code> to see what you can do.</li>
+</ul>
+
+<p>In fact some of these are implemented already:</p>
+
+<h4 id="redux-slider-monitor-https-github-com-calesce-redux-slider-monitor"><a href="https://github.com/calesce/redux-slider-monitor">redux-slider-monitor</a></h4>
+
+<p><img src="https://camo.githubusercontent.com/d61984306d27d5e0739efc2d57c56ba7aed7996c/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f662e636c2e6c792f6974656d732f3269314c3147316e3161316833793161324f31772f53637265656e2532305265636f7264696e67253230323031352d30382d3034253230617425323030372e3435253230504d2e676966" alt="" /></p>
+
+<h4 id="redux-devtools-filterable-log-monitor-https-github-com-bvaughn-redux-devtools-filterable-log-monitor"><a href="https://github.com/bvaughn/redux-devtools-filterable-log-monitor/">redux-devtools-filterable-log-monitor</a></h4>
+
+<p><img src="https://cloud.githubusercontent.com/assets/29597/11937666/a438d56c-a7ca-11e5-848a-0d535d6c3e25.gif" alt="reduxfilterablelogmonitor" /></p>
+
+<h4 id="keep-them-coming">Keep them coming!</h4>
+
+<p>Create a PR to add your custom monitor.</p>
+
+<h3 id="license">License</h3>
+
+<p>MIT</p>
+
+		</div>
+		
+
+	</article>
+	
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="linuxing3 avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About linuxing3</span>
+	</div>
+	<div class="authorbox__description">
+		Emacser and Vimer
+	</div>
+</div>
+	
+<nav class="post-nav row clearfix" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+	<div class="post-nav__item post-nav__item--prev col-1-2">
+		<a class="post-nav__link" href="/posts/nodejs/redux/" rel="prev"><span class="post-nav__caption">«Previous</span><p class="post-nav__post-title">redux.md</p></a>
+	</div>
+	<div class="post-nav__item post-nav__item--next col-1-2">
+		<a class="post-nav__link" href="/posts/nodejs/reactjs/" rel="next"><span class="post-nav__caption">Next»</span><p class="post-nav__post-title">reactjs.md</p></a>
+	</div>
+</nav>
+
+	
+</main>
+
+<aside class="sidebar" itemscope="itemscope" itemtype="http://schema.org/WPSideBar">
+	
+<div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="//google.com/search">
+		<label>
+			<span class="screen-reader-text">Search for:</span>
+			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="https://linuxing3.github.io/" />
+	</form>
+</div>
+	
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/news/20180609/">20180609</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180608/">20180608</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180607/">20180607</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180606/">20180606</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180605/">20180605</a></li>
+		</ul>
+	</div>
+</div>
+
+	
+	
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Facebook" rel="noopener noreferrer" href="https://facebook.com/xingwenju0928" target="_blank">
+				<svg class="widget-social__link-icon icon-facebook" viewBox="0 0 352 352" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m0 32v288c0 17.5 14.5 32 32 32h288c17.5 0 32-14.5 32-32v-288c0-17.5-14.5-32-32-32h-288c-17.5 0-32 14.5-32 32zm320 0v288h-83v-108h41.5l6-48h-47.5v-31c0-14 3.5-23.5 23.5-23.5h26v-43.5c-4.4-.6-19.8-1.5-37.5-1.5-36.9 0-62 22.2-62 63.5v36h-42v48h42v108h-155v-288z"/></svg>
+				<span>Facebook</span>
+			</a>
+		</div>
+		
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Twitter" rel="noopener noreferrer" href="https://twitter.com/@linuxing3" target="_blank">
+				<svg class="widget-social__link-icon icon-twitter" viewBox="0 0 384 312" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m384 36.9c-14.1 6.3-29.3 10.5-45.2 12.4 16.3-9.7 28.8-25.2 34.6-43.6-15.2 9-32.1 15.6-50 19.1-14.4-15.2-34.9-24.8-57.5-24.8-43.5 0-78.8 35.3-78.8 78.8 0 6.2.7 12.2 2 17.9-65.5-3.3-123.5-34.6-162.4-82.3-6.7 11.6-10.6 25.2-10.6 39.6 0 27.3 13.9 51.4 35 65.6-12.9-.4-25.1-4-35.7-9.9v1c0 38.2 27.2 70 63.2 77.2-6.6 1.8-13.6 2.8-20.8 2.8-5.1 0-10-.5-14.8-1.4 10 31.3 39.1 54.1 73.6 54.7-27 21.1-60.9 33.7-97.8 33.7-6.4 0-12.6-.4-18.8-1.1 34.9 22.4 76.3 35.4 120.8 35.4 144.9 0 224.1-120 224.1-224.1 0-3.4-.1-6.8-.2-10.2 15.4-11.1 28.7-25 39.3-40.8z"/></svg>
+				<span>Twitter</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="GitHub" rel="noopener noreferrer" href="https://github.com/linuxing3" target="_blank">
+				<svg class="widget-social__link-icon icon-github" viewBox="0 0 384 374" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m192 0c-106.1 0-192 85.8-192 191.7 0 84.7 55 156.6 131.3 181.9 9.6 1.8 13.1-4.2 13.1-9.2 0-4.6-.2-16.6-.3-32.6-53.4 11.6-64.7-25.7-64.7-25.7-8.7-22.1-21.3-28-21.3-28-17.4-11.9 1.3-11.6 1.3-11.6 19.3 1.4 29.4 19.8 29.4 19.8 17.1 29.3 44.9 20.8 55.9 15.9 1.7-12.4 6.7-20.8 12.2-25.6-42.6-4.8-87.5-21.3-87.5-94.8 0-20.9 7.5-38 19.8-51.4-2-4.9-8.6-24.3 1.9-50.7 0 0 16.1-5.2 52.8 19.7 15.3-4.2 31.7-6.4 48.1-6.5 16.3.1 32.7 2.2 48.1 6.5 36.7-24.8 52.8-19.7 52.8-19.7 10.5 26.4 3.9 45.9 1.9 50.7 12.3 13.4 19.7 30.5 19.7 51.4 0 73.7-44.9 89.9-87.7 94.6 6.9 5.9 13 17.6 13 35.5 0 25.6-.2 46.3-.2 52.6 0 5.1 3.5 11.1 13.2 9.2 76.2-25.5 131.2-97.3 131.2-182 0-105.9-86-191.7-192-191.7z"/></svg>
+				<span>GitHub</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Email" href="mailto:xingwenju@gmail.com">
+				<svg class="widget-social__link-icon icon-mail" viewBox="0 0 416 288" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<span>xingwenju@gmail.com</span>
+			</a>
+		</div>
+	</div>
+</div>
+
+	
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget__link widget__link--taglist" href="/tags/tag1" title="tag1">tag1</a>
+	</div>
+</div>
+</aside>
+
+	</div>
+		<footer class="footer" itemscope="itemscope" itemtype="http://schema.org/WPFooter">
+			<div class="container container-inner">
+				<p class="footer__copyright">&copy; 2018 天生我材必有用，千金散尽还复来. <span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad theme</a>.</span></p>
+			</div>
+		</footer>
+	</div>
+
+<script>
+	var navigation = responsiveNav(".menu", {
+		navClass: "menu--collapse",
+	});
+</script>
+</body>
+</html>

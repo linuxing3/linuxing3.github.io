@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vim is a life style</title>
+<meta name="description" content=" Linuxing3&#39;s个人博客 ">
+<meta name="generator" content="Hugo 0.31.1" />
+<meta property="og:title" content="Vim is a life style" />
+<meta property="og:description" content="vim outstanding configuration file &quot; From cowboy configuration &quot; Use the Solarized Dark theme set background=dark colorscheme solarized &quot;colorscheme desert &quot; Make Vim more useful set nocompatible &quot; Use the OS clipboard by default (on versions compiled with `&#43;clipboard`) set clipboard=unnamed &quot; Enhance command-line completion set wildmenu &quot; Allow cursor keys in insert mode set esckeys &quot; Allow backspace in insert mode set backspace=indent,eol,start &quot; Optimize for fast terminal connections set ttyfast &quot; Add the g flag to search/replace by default set gdefault &quot; Use UTF-8 without BOM set encoding=utf-8 nobomb &quot; Change mapleader let mapleader=&quot;,&quot; &quot; Don’t add empty newlines at the end of files set binary set noeol &quot; Centralize backups, swapfiles and undo history set backupdir=~/dotfiles/." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://linuxing3.github.io/posts/vim/vimer/" />
+
+
+
+<meta property="article:published_time" content="2018-02-16T14:06:05-04:00"/>
+
+<meta property="article:modified_time" content="2018-02-16T14:06:05-04:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="//fonts.googleapis.com" />
+<link rel="dns-prefetch" href="//fonts.gstatic.com" />
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700" type="text/css" media="all" />
+<link rel="stylesheet" href="/css/style.css" type="text/css" media="all" />
+<script type="text/javascript" src="/js/scripts.js"></script>
+<link rel="shortcut icon" href="/favicon.ico">
+
+</head>
+<body class="body body-right-sidebar mobile" itemscope="itemscope" itemtype="http://schema.org/WebPage">
+	<div class="container container-outer">
+		<header class="header" itemscope="itemscope" itemtype="http://schema.org/WPHeader">
+			<div class="container container-inner clearfix">
+				<div class="logo" role="banner" itemscope="itemscope" itemtype="http://schema.org/Brand">
+					<a class="logo__link" href="/" title="天生我材必有用，千金散尽还复来" rel="home">
+						<h1 class="logo__title">天生我材必有用，千金散尽还复来</h1>
+						<h2 class="logo__tagline">在编程世界中学习生活</h2>
+					</a>
+				</div>
+			</div>
+			
+<nav class="menu" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+	<ul class="menu__list">
+		<li class="menu__item"><a class="menu__link" href="/posts/">博客</a></li>
+		<li class="menu__item"><a class="menu__link" href="/news/">新闻</a></li>
+		<li class="menu__item"><a class="menu__link" href="/hexo/">老店</a></li>
+	</ul>
+</nav>
+
+		</header>
+		<div class="wrapper clearfix">
+
+<main class="main-content content" role="main" itemprop="mainContentOfPage">
+	<article class="post">
+		<header class="post__header clearfix">
+			<h1 class="post__title">Vim is a life style</h1>
+			<p class="post__meta meta">
+				<svg class="icon icon-time" height="14" viewBox="0 0 16 16" width="14" xmlns="http://www.w3.org/2000/svg"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
+				<time class="post__meta-date" datetime="2018-02-16T14:06:05">February 16, 2018</time>
+			</p>
+		</header>
+		<div class="post__content clearfix">
+			
+
+<h1 id="vim-outstanding-configuration-file">vim outstanding configuration file</h1>
+
+<pre><code>&quot; From cowboy configuration
+
+&quot; Use the Solarized Dark theme
+set background=dark
+colorscheme solarized
+&quot;colorscheme desert
+
+&quot; Make Vim more useful
+set nocompatible
+&quot; Use the OS clipboard by default (on versions compiled with `+clipboard`)
+set clipboard=unnamed
+&quot; Enhance command-line completion
+set wildmenu
+&quot; Allow cursor keys in insert mode
+set esckeys
+&quot; Allow backspace in insert mode
+set backspace=indent,eol,start
+&quot; Optimize for fast terminal connections
+set ttyfast
+&quot; Add the g flag to search/replace by default
+set gdefault
+&quot; Use UTF-8 without BOM
+set encoding=utf-8 nobomb
+&quot; Change mapleader
+let mapleader=&quot;,&quot;
+&quot; Don’t add empty newlines at the end of files
+set binary
+set noeol
+&quot; Centralize backups, swapfiles and undo history
+set backupdir=~/dotfiles/.vim/backups
+set directory=~/dotfiles/.vim/swaps
+if exists(&quot;&amp;undodir&quot;)
+	set undodir=~/dotfiles/.vim/undo
+endif
+
+set tags+=~/dotfiles/data/systags
+&quot; Don’t create backups when editing files in certain directories
+set backupskip=/tmp/*,/private/tmp/*
+
+&quot; Respect modeline in files
+set modeline
+set modelines=4
+&quot; Enable per-directory .vimrc files and disable unsafe commands in them
+set exrc
+set secure
+&quot; Enable line numbers
+set number
+&quot; Enable syntax highlighting
+syntax on
+&quot; Highlight current line
+set cursorline
+&quot; Make tabs as wide as two spaces
+set tabstop=2
+&quot; Show “invisible” characters
+set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
+set list
+&quot; Highlight searches
+set hlsearch
+&quot; Ignore case of searches
+set ignorecase
+&quot; Highlight dynamically as pattern is typed
+set incsearch
+&quot; Always show status line
+set laststatus=2
+&quot; Enable mouse in all modes
+set mouse=a
+&quot; Disable error bells
+set noerrorbells
+&quot; Don’t reset cursor to start of line when moving around.
+set nostartofline
+&quot; Show the cursor position
+set ruler
+&quot; Don’t show the intro message when starting Vim
+set shortmess=atI
+&quot; Show the current mode
+set showmode
+&quot; Show the filename in the window titlebar
+set title
+&quot; Show the (partial) command as it’s being typed
+set showcmd
+&quot; Use relative line numbers
+if exists(&quot;&amp;relativenumber&quot;)
+	set relativenumber
+	au BufReadPost * set relativenumber
+endif
+&quot; Start scrolling three lines before the horizontal window border
+set scrolloff=3
+
+&quot; ----------------------------------------
+&quot;vundle and pathogen for installing plugins
+&quot; ----------------------------------------
+&quot;source ~/.vim/vundle.vim
+filetype off
+execute pathogen#infect()
+filetype plugin indent on
+syntax on
+&quot; ----------------------------------------
+&quot; function key binding
+&quot; ----------------------------------------
+&quot; &lt;F1&gt; for help
+nnoremap &lt;f2&gt; :edit .&lt;cr&gt;
+set pastetoggle=&lt;f3&gt;
+nnoremap &lt;F4&gt; :!deploy&lt;CR&gt;
+
+nnoremap &lt;F5&gt; :call CompileCode()&lt;CR&gt;
+imap &lt;F5&gt; &lt;ESC&gt;:call CompileCode()&lt;CR&gt;
+vmap &lt;F5&gt; &lt;ESC&gt;:call CompileCode()&lt;CR&gt;
+
+nnoremap &lt;F6&gt; :call RunResult()&lt;CR&gt;
+
+nnoremap &lt;F7&gt; :FufFile&lt;CR&gt;
+
+&quot;nmap &lt;F11&gt; :so $VIM\basic.vim&lt;CR&gt;
+&quot;nmap &lt;F12&gt; :mks! $VIM\basic.vim&lt;CR&gt;
+
+&quot;run current file as command
+nnoremap &lt;F11&gt; :! %
+&quot;compile and run automatically
+nnoremap &lt;F12&gt; :.w !bash
+
+&quot; ----------------------------------------
+&quot;basic settings
+&quot; ----------------------------------------
+set noerrorbells
+set novisualbell
+&quot;col murphy
+set guioptions-=T
+&quot;behavior
+set hls
+set cul
+set ic
+&quot;show match
+set sm
+set mps=(:),{:},[:]
+&quot;text
+set list
+set listchars=tab:\|\
+set wrap
+set ai
+set si
+set cin
+set is
+&quot;folding
+set fen
+set fdm=syntax
+set scr=6
+set cmdheight=2
+set nobk
+set aw
+set ar
+&quot;encoding
+set enc=utf-8
+set fenc=utf-8
+set tenc=utf-8
+&quot;guifont	list of font names to be used in the GUI
+set gfn=DejaVu\ Sans\ Mono\ 16
+set ts=4
+set sw=4
+set com=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:&gt;,fb:-
+&quot;filetype
+&quot;filetype plugin indent on
+
+&quot; ----------------------------------------
+&quot; More key bindings
+&quot; ----------------------------------------
+&quot;quick edit dotvimrc file
+if has(&quot;win32&quot;)
+	map &lt;silent&gt; &lt;leader&gt;ee :e $VIM\_vimrc&lt;cr&gt;
+	map &lt;silent&gt; &lt;leader&gt;rc :source $VIM\_vimrc&lt;cr&gt; &quot; 快速载入 vimrc 文件
+else
+	map &lt;silent&gt; &lt;leader&gt;ef :e /usr/share/vim/vimfiles&lt;cr&gt;
+	map &lt;silent&gt; &lt;leader&gt;ee :e ~/.vimrc&lt;cr&gt;
+	map &lt;silent&gt; &lt;leader&gt;rc :source ~/.vimrc&lt;cr&gt; &quot; 快速载入 vimrc 文件
+	let helptags=&quot;~/.vim/doc&quot;
+	set helplang=cn
+endif
+&quot;manipulating tabs
+nmap &lt;C-t&gt; :tabnew&lt;cr&gt;
+nmap &lt;C-n&gt; :tabnext&lt;cr&gt;
+nmap &lt;C-k&gt; :tabclose&lt;cr&gt;
+nmap &lt;C-Tab&gt; :tabnext&lt;cr&gt;
+&quot;using buffers
+nmap &lt;C-b&gt; :buffers&lt;cr&gt;
+nmap &lt;C-d&gt; :bnext&lt;cr&gt;
+nmap &lt;C-e&gt; :bprevious&lt;cr&gt;
+&quot;tab to indent in normal mode
+nmap &lt;tab&gt; v&gt;&lt;cr&gt;
+nmap &lt;S-tab&gt; v&lt;&lt;cr&gt;
+&quot;sessions enabled
+set sessionoptions=buffers,sesdir,help,tabpages,winsize
+au VimLeave * mks! $VIM\basic.vim
+&quot;windows operation
+nmap &lt;silent&gt; gk :wincmd k&lt;CR&gt;
+nmap &lt;silent&gt; gh :wincmd h&lt;CR&gt;
+nmap &lt;silent&gt; gl :wincmd l&lt;CR&gt;
+nmap &lt;silent&gt; g1 :wincmd t&lt;CR&gt;
+nmap &lt;silent&gt; g2 :wincmd b&lt;Bar&gt;:wincmd k&lt;CR&gt;
+nmap &lt;silent&gt; g3 :wincmd t&lt;Bar&gt;:wincmd j&lt;CR&gt;
+nmap &lt;silent&gt; g4 :wincmd b&lt;CR&gt;
+
+nmap &lt;silent&gt; gt g2&lt;Bar&gt;:wincmd h&lt;CR&gt;
+nmap &lt;silent&gt; gb g3&lt;Bar&gt;:wincmd l&lt;CR&gt;
+
+nmap &lt;silent&gt; gp :wincmd p&lt;CR&gt;
+nmap &lt;silent&gt; g= :wincmd =&lt;CR&gt;
+nmap &lt;silent&gt; gx :wincmd x&lt;CR&gt;
+
+nmap &lt;silent&gt; hs :split&lt;Bar&gt;:wincmd j&lt;CR&gt;
+nmap &lt;silent&gt; vs :vsplit&lt;Bar&gt;:wincmd l&lt;CR&gt;
+nmap &lt;silent&gt; &quot;cs :close&lt;CR&gt;
+&quot;quick comments,leader is c
+&quot;normal comment
+map cl &lt;plug&gt;NERDCommenterComment
+&quot;toggle comment stats
+map ci &lt;leader&gt;ci
+
+&quot;sorroud words and lines,leader is s
+&quot;in visual mode, use `s&quot;` to soround
+map ss i&quot;&lt;esc&gt;eli&quot;
+map sl 0i&quot;&lt;esc&gt;Ai&quot;
+&quot;deleting whitespaces
+nmap dh :%s/^ *//g
+nmap dt :%s/ *$//g
+nmap db :%s/^\n//g
+&quot;macros
+nmap ma qaYp&lt;C-a&gt;q
+&quot;Close pair symbles
+inoremap ( ()&lt;esc&gt;i
+&quot;inoremap ) =ClosePair(')')
+inoremap { {}&lt;esc&gt;i
+&quot;inoremap } =ClosePair('}')
+inoremap [ []&lt;esc&gt;i
+&quot;inoremap ] =ClosePair(']')
+inoremap &lt; &lt;&gt;&lt;esc&gt;i
+&quot;inoremap &gt; =ClosePair('&gt;')
+
+&quot; ----------------------------------------
+&quot;plugins configurations
+&quot; ----------------------------------------
+&quot;indent guides
+let g:indent_guides_enable_on_vim_startup = 1
+hi IndentGuidesOdd  ctermbg=lightgrey
+hi IndentGuidesEven ctermbg=darkgray
+
+&quot;UltiSnips
+let g:UltiSnipsExpandTrigger=&quot;&lt;tab&gt;&quot;
+let g:UltiSnipsJumpForwardTrigger=&quot;&lt;c-b&gt;&quot;
+let g:UltiSnipsJumpBackwardTrigger=&quot;&lt;c-z&gt;&quot;
+&quot; If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit=&quot;vertical&quot;
+
+&quot;fuzzy finder
+let g:fuf_modesDisable = []
+let g:fuf_mrufile_maxItem = 400
+let g:fuf_mrucmd_maxItem = 400
+nnoremap &lt;leader&gt;cc     :FufFile&lt;CR&gt;
+nnoremap &lt;leader&gt;cd     :FufDir&lt;CR&gt;
+&quot; ----------------&lt;&gt;------------------------
+&quot; Functions
+&quot; ----------------------------------------
+func! GotoCurrentDir()
+	exec &quot;cd %:h&quot;
+endfunc
+
+&quot;autocompile
+
+func! CompileCode()
+        exec &quot;w&quot;
+        if &amp;filetype == &quot;cpp&quot;
+                exec &quot;call CompileGpp()&quot;
+        elseif &amp;filetype == &quot;c&quot;
+                exec &quot;call CompileGcc()&quot;
+        elseif &amp;filetype == &quot;java&quot;
+                exec &quot;call CompileJava()&quot;
+        elseif &amp;filetype == &quot;lua&quot;
+                exec &quot;call RunLua()&quot;
+        elseif &amp;filetype == &quot;moon&quot;
+                exec &quot;call CompileMoon()&quot;
+        elseif &amp;filetype == &quot;py&quot;
+                exec &quot;call RunPython()&quot;
+        endif
+endfunc
+
+func! RunResult()
+        exec &quot;w&quot;
+        if search(&quot;mpi\.h&quot;) != 0
+            exec &quot;!mpirun -np 4 ./%&lt;&quot;
+        elseif &amp;filetype == &quot;cpp&quot;
+            exec &quot;! ./%&lt;&quot;
+        elseif &amp;filetype == &quot;c&quot;
+            exec &quot;! ./%&lt;&quot;
+        elseif &amp;filetype == &quot;python&quot;
+            exec &quot;call RunPython()&quot;
+        elseif &amp;filetype == &quot;lua&quot;
+            exec &quot;call RunLua()&quot;
+        elseif &amp;filetype == &quot;java&quot;
+            exec &quot;!java %&lt;&quot;
+        endif
+endfunc
+
+func! RunPython()
+	exec &quot;w&quot;
+    exec &quot;!python %&quot;
+endfunc
+
+func! CompileJava()
+    exec &quot;!javac %&quot;
+endfunc
+
+func! RunLua()
+	exec &quot;w&quot;
+    exec &quot;!luajit %&quot;
+endfunc
+
+func! CompileMoon()
+	exec &quot;w&quot;
+	exec &quot;!moon %&quot;
+	exec &quot;!moonc %&quot;
+	let target =  &quot;%:r&quot;.&quot;.lua&quot;
+	exec &quot;!luajit &quot;.target
+endfunc
+
+func! CompileGcc()
+    exec &quot;w&quot;
+    let compilecmd=&quot;!gcc &quot;
+    let compileflag=&quot;-o %&lt; &quot;
+    if search(&quot;mpi\.h&quot;) != 0
+        let compilecmd = &quot;!mpicc &quot;
+    endif
+    if search(&quot;glut\.h&quot;) != 0
+        let compileflag .= &quot; -lglut -lGLU -lGL &quot;
+    endif
+    if search(&quot;cv\.h&quot;) != 0
+        let compileflag .= &quot; -lcv -lhighgui -lcvaux &quot;
+    endif
+    if search(&quot;omp\.h&quot;) != 0
+        let compileflag .= &quot; -fopenmp &quot;
+    endif
+    if search(&quot;math\.h&quot;) != 0
+        let compileflag .= &quot; -lm &quot;
+    endif
+    exec compilecmd.&quot; % &quot;.compileflag
+endfunc
+
+func! CompileGpp()
+    exec &quot;w&quot;
+    let compilecmd=&quot;!g++ &quot;
+    let compileflag=&quot;-o %&lt; &quot;
+    if search(&quot;mpi\.h&quot;) != 0
+        let compilecmd = &quot;!mpic++ &quot;
+    endif
+    if search(&quot;glut\.h&quot;) != 0
+        let compileflag .= &quot; -lglut -lGLU -lGL &quot;
+    endif
+    if search(&quot;cv\.h&quot;) != 0
+        let compileflag .= &quot; -lcv -lhighgui -lcvaux &quot;
+    endif
+    if search(&quot;omp\.h&quot;) != 0
+        let compileflag .= &quot; -fopenmp &quot;
+    endif
+    if search(&quot;math\.h&quot;) != 0
+        let compileflag .= &quot; -lm &quot;
+    endif
+    exec compilecmd.&quot; % &quot;.compileflag
+endfunc
+
+&quot; Strip trailing whitespace (,ss)
+function! StripWhitespace()
+	let save_cursor = getpos(&quot;.&quot;)
+	let old_query = getreg('/')
+	:%s/\s\+$//e
+	call setpos('.', save_cursor)
+	call setreg('/', old_query)
+endfunction
+noremap &lt;leader&gt;ss :call StripWhitespace()&lt;CR&gt;
+&quot; Save a file as root (,W)
+noremap &lt;leader&gt;W :w !sudo tee % &gt; /dev/null&lt;CR&gt;
+
+&quot; Automatic commands
+if has(&quot;autocmd&quot;)
+	&quot; Enable file type detection
+	filetype on
+	&quot; Treat .json files as .js
+	autocmd BufNewFile,BufRead *.json setfiletype json syntax=javascript
+	&quot; Treat .md files as Markdown
+	autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
+endif
+</code></pre>
+
+		</div>
+		
+
+	</article>
+	
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="linuxing3 avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About linuxing3</span>
+	</div>
+	<div class="authorbox__description">
+		Emacser and Vimer
+	</div>
+</div>
+	
+<nav class="post-nav row clearfix" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+	<div class="post-nav__item post-nav__item--prev col-1-2">
+		<a class="post-nav__link" href="/posts/nodejs/2013-05-13-rake-in-coffee1/" rel="prev"><span class="post-nav__caption">«Previous</span><p class="post-nav__post-title">2013-05-13-rake-in-coffee1.md</p></a>
+	</div>
+	<div class="post-nav__item post-nav__item--next col-1-2">
+		<a class="post-nav__link" href="/posts/emacs/using-spacemacs-base-in-emacs/" rel="next"><span class="post-nav__caption">Next»</span><p class="post-nav__post-title">using-spacemacs-base-in-emacs.org</p></a>
+	</div>
+</nav>
+
+	
+</main>
+
+<aside class="sidebar" itemscope="itemscope" itemtype="http://schema.org/WPSideBar">
+	
+<div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="//google.com/search">
+		<label>
+			<span class="screen-reader-text">Search for:</span>
+			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="https://linuxing3.github.io/" />
+	</form>
+</div>
+	
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/news/20180609/">20180609</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180608/">20180608</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180607/">20180607</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180606/">20180606</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180605/">20180605</a></li>
+		</ul>
+	</div>
+</div>
+
+	
+	
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Facebook" rel="noopener noreferrer" href="https://facebook.com/xingwenju0928" target="_blank">
+				<svg class="widget-social__link-icon icon-facebook" viewBox="0 0 352 352" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m0 32v288c0 17.5 14.5 32 32 32h288c17.5 0 32-14.5 32-32v-288c0-17.5-14.5-32-32-32h-288c-17.5 0-32 14.5-32 32zm320 0v288h-83v-108h41.5l6-48h-47.5v-31c0-14 3.5-23.5 23.5-23.5h26v-43.5c-4.4-.6-19.8-1.5-37.5-1.5-36.9 0-62 22.2-62 63.5v36h-42v48h42v108h-155v-288z"/></svg>
+				<span>Facebook</span>
+			</a>
+		</div>
+		
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Twitter" rel="noopener noreferrer" href="https://twitter.com/@linuxing3" target="_blank">
+				<svg class="widget-social__link-icon icon-twitter" viewBox="0 0 384 312" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m384 36.9c-14.1 6.3-29.3 10.5-45.2 12.4 16.3-9.7 28.8-25.2 34.6-43.6-15.2 9-32.1 15.6-50 19.1-14.4-15.2-34.9-24.8-57.5-24.8-43.5 0-78.8 35.3-78.8 78.8 0 6.2.7 12.2 2 17.9-65.5-3.3-123.5-34.6-162.4-82.3-6.7 11.6-10.6 25.2-10.6 39.6 0 27.3 13.9 51.4 35 65.6-12.9-.4-25.1-4-35.7-9.9v1c0 38.2 27.2 70 63.2 77.2-6.6 1.8-13.6 2.8-20.8 2.8-5.1 0-10-.5-14.8-1.4 10 31.3 39.1 54.1 73.6 54.7-27 21.1-60.9 33.7-97.8 33.7-6.4 0-12.6-.4-18.8-1.1 34.9 22.4 76.3 35.4 120.8 35.4 144.9 0 224.1-120 224.1-224.1 0-3.4-.1-6.8-.2-10.2 15.4-11.1 28.7-25 39.3-40.8z"/></svg>
+				<span>Twitter</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="GitHub" rel="noopener noreferrer" href="https://github.com/linuxing3" target="_blank">
+				<svg class="widget-social__link-icon icon-github" viewBox="0 0 384 374" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m192 0c-106.1 0-192 85.8-192 191.7 0 84.7 55 156.6 131.3 181.9 9.6 1.8 13.1-4.2 13.1-9.2 0-4.6-.2-16.6-.3-32.6-53.4 11.6-64.7-25.7-64.7-25.7-8.7-22.1-21.3-28-21.3-28-17.4-11.9 1.3-11.6 1.3-11.6 19.3 1.4 29.4 19.8 29.4 19.8 17.1 29.3 44.9 20.8 55.9 15.9 1.7-12.4 6.7-20.8 12.2-25.6-42.6-4.8-87.5-21.3-87.5-94.8 0-20.9 7.5-38 19.8-51.4-2-4.9-8.6-24.3 1.9-50.7 0 0 16.1-5.2 52.8 19.7 15.3-4.2 31.7-6.4 48.1-6.5 16.3.1 32.7 2.2 48.1 6.5 36.7-24.8 52.8-19.7 52.8-19.7 10.5 26.4 3.9 45.9 1.9 50.7 12.3 13.4 19.7 30.5 19.7 51.4 0 73.7-44.9 89.9-87.7 94.6 6.9 5.9 13 17.6 13 35.5 0 25.6-.2 46.3-.2 52.6 0 5.1 3.5 11.1 13.2 9.2 76.2-25.5 131.2-97.3 131.2-182 0-105.9-86-191.7-192-191.7z"/></svg>
+				<span>GitHub</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Email" href="mailto:xingwenju@gmail.com">
+				<svg class="widget-social__link-icon icon-mail" viewBox="0 0 416 288" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<span>xingwenju@gmail.com</span>
+			</a>
+		</div>
+	</div>
+</div>
+
+	
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget__link widget__link--taglist" href="/tags/tag1" title="tag1">tag1</a>
+	</div>
+</div>
+</aside>
+
+	</div>
+		<footer class="footer" itemscope="itemscope" itemtype="http://schema.org/WPFooter">
+			<div class="container container-inner">
+				<p class="footer__copyright">&copy; 2018 天生我材必有用，千金散尽还复来. <span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad theme</a>.</span></p>
+			</div>
+		</footer>
+	</div>
+
+<script>
+	var navigation = responsiveNav(".menu", {
+		navClass: "menu--collapse",
+	});
+</script>
+</body>
+</html>

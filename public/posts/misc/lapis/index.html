@@ -1,0 +1,1984 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>lapis.md</title>
+<meta name="description" content=" Linuxing3&#39;s个人博客 ">
+<meta name="generator" content="Hugo 0.31.1" />
+<meta property="og:title" content="lapis.md" />
+<meta property="og:description" content="title: Database Access Database Access Lapis comes with a set of classes and functions for working with PostgreSQL. In the future other databases will be directly supported. In the meantime you&rsquo;re free to use other OpenResty database drivers, you just won&rsquo;t have access to Lapis&rsquo; query API.
+Every query is performed asynchronously through the OpenResty cosocket API. A request will yield and resume automatically so there&rsquo;s no need to code with callbacks, queries can be written sequentially as if they were in a synchronous environment." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://linuxing3.github.io/posts/misc/lapis/" />
+
+
+
+<meta property="article:published_time" content="2018-02-16T14:05:34-04:00"/>
+
+<meta property="article:modified_time" content="2018-02-16T14:05:34-04:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="//fonts.googleapis.com" />
+<link rel="dns-prefetch" href="//fonts.gstatic.com" />
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700" type="text/css" media="all" />
+<link rel="stylesheet" href="/css/style.css" type="text/css" media="all" />
+<script type="text/javascript" src="/js/scripts.js"></script>
+<link rel="shortcut icon" href="/favicon.ico">
+
+</head>
+<body class="body body-right-sidebar mobile" itemscope="itemscope" itemtype="http://schema.org/WebPage">
+	<div class="container container-outer">
+		<header class="header" itemscope="itemscope" itemtype="http://schema.org/WPHeader">
+			<div class="container container-inner clearfix">
+				<div class="logo" role="banner" itemscope="itemscope" itemtype="http://schema.org/Brand">
+					<a class="logo__link" href="/" title="天生我材必有用，千金散尽还复来" rel="home">
+						<h1 class="logo__title">天生我材必有用，千金散尽还复来</h1>
+						<h2 class="logo__tagline">在编程世界中学习生活</h2>
+					</a>
+				</div>
+			</div>
+			
+<nav class="menu" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+	<ul class="menu__list">
+		<li class="menu__item"><a class="menu__link" href="/posts/">博客</a></li>
+		<li class="menu__item"><a class="menu__link" href="/news/">新闻</a></li>
+		<li class="menu__item"><a class="menu__link" href="/hexo/">老店</a></li>
+	</ul>
+</nav>
+
+		</header>
+		<div class="wrapper clearfix">
+
+<main class="main-content content" role="main" itemprop="mainContentOfPage">
+	<article class="post">
+		<header class="post__header clearfix">
+			<h1 class="post__title">lapis.md</h1>
+			<p class="post__meta meta">
+				<svg class="icon icon-time" height="14" viewBox="0 0 16 16" width="14" xmlns="http://www.w3.org/2000/svg"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
+				<time class="post__meta-date" datetime="2018-02-16T14:05:34">February 16, 2018</time>
+			</p>
+		</header>
+		<div class="post__content clearfix">
+			
+
+<h2 id="title-database-access">title: Database Access</h2>
+
+<h1 id="database-access">Database Access</h1>
+
+<p>Lapis comes with a set of classes and functions for working with
+<a href="http://www.postgresql.org/">PostgreSQL</a>. In the future other databases will be
+directly supported. In the meantime you&rsquo;re free to use other OpenResty database
+drivers, you just won&rsquo;t have access to Lapis&rsquo; query API.</p>
+
+<p>Every query is performed asynchronously through the <a href="http://wiki.nginx.org/HttpLuaModule#ngx.socket.tcp">OpenResty cosocket
+API</a>. A request will yield
+and resume automatically so there&rsquo;s no need to code with callbacks, queries can
+be written sequentially as if they were in a synchronous environment. Additionally
+connections to the server are automatically pooled for optimal performance.</p>
+
+<p><a href="https://github.com/leafo/pgmoon"><em>pgmoon</em></a> is the driver used in Lapis for
+communicating with PostgreSQL. It has the advantage of being able to be used
+within OpenResty&rsquo;s cosocket API in addition to on the command line using
+LuaSocket&rsquo;s synchronous API.</p>
+
+<h2 id="establishing-a-connection">Establishing A Connection</h2>
+
+<p>The first step is to define the configuration for our server in the <code>postgres</code>
+block in our <span class="for_moon"><code>config.moon</code></span><span
+class="for_lua"><code>config.lua</code></span> file.</p>
+
+<pre><code class="language-lua">-- config.lua
+config(&quot;development&quot;, {
+  postgres = {
+    backend = &quot;pgmoon&quot;,
+    host = &quot;127.0.0.1&quot;,
+    user = &quot;pg_user&quot;,
+    password = &quot;the_password&quot;,
+    database = &quot;my_database&quot;
+  }
+})
+</code></pre>
+
+<pre><code class="language-moon">-- config.moon
+config &quot;development&quot;, -&gt;
+  postgres -&gt;
+    backend &quot;pgmoon&quot;
+    host &quot;127.0.0.1&quot;
+    user &quot;pg_user&quot;
+    password &quot;the_password&quot;
+    database &quot;my_database&quot;
+</code></pre>
+
+<p><code>host</code> defaults to <code>127.0.0.1</code> and <code>user</code> defaults to <code>postgres</code>, so you can
+leave those fields out if they aren&rsquo;t different from the defaults. If a
+non-default port is required it can be appended to the <code>host</code> with colon
+syntax: <code>my_host:1234</code> (Otherwise <code>5432</code>, the PostgreSQL default, is used).</p>
+
+<p>You&rsquo;re now ready to start making queries.</p>
+
+<h2 id="making-a-query">Making a Query</h2>
+
+<p>There are two ways to make queries:</p>
+
+<ol>
+<li>The raw query interface is a collection of functions to help you write SQL.</li>
+<li>The <a href="#models"><code>Model</code> class</a> is a wrapper around a Lua table that helps you synchronize it with a row in a database table.</li>
+</ol>
+
+<p>The <code>Model</code> class is the preferred way to interact with the database. The raw
+query interface is for achieving things the <code>Model</code> class in unable to do
+easily.</p>
+
+<p>Here&rsquo;s an example of the raw query interface:</p>
+
+<pre><code class="language-lua">local lapis = require(&quot;lapis&quot;)
+local db = require(&quot;lapis.db&quot;)
+
+local app = lapis.Application()
+
+app:match(&quot;/&quot;, function()
+  local res = db.query(&quot;select * from my_table where id = ?&quot;, 10)
+  return &quot;ok!&quot;
+end)
+</code></pre>
+
+<pre><code class="language-moon">lapis = require &quot;lapis&quot;
+db = require &quot;lapis.db&quot;
+
+class extends lapis.Application
+  &quot;/&quot;: =&gt;
+    res = db.query &quot;select * from my_table where id = ?&quot;, 10
+    &quot;ok!&quot;
+</code></pre>
+
+<p>And the same query represented with the <code>Model</code> class:</p>
+
+<pre><code class="language-lua">local lapis = require(&quot;lapis&quot;)
+local Model = require(&quot;lapis.db.model&quot;).Model
+
+local app = lapis.Application()
+
+local MyTable = Model:extend(&quot;my_table&quot;)
+
+app:match(&quot;/&quot;, function()
+  local row = MyTable:find(10)
+  return &quot;ok!&quot;
+end)
+</code></pre>
+
+<pre><code class="language-moon">lapis = require &quot;lapis&quot;
+import Model from require &quot;lapis.db.model&quot;
+
+class MyTable extends Model
+
+class extends lapis.Application
+  &quot;/&quot;: =&gt;
+    &lt;!r
+    --row = MyTable\find 10--&gt;
+    &quot;ok!&quot;
+</code></pre>
+
+<p>By default all queries will log to the Nginx notice log. You&rsquo;ll be able to see
+each query as it happens.</p>
+
+<h2 id="query-interface">Query Interface</h2>
+
+<pre><code class="language-lua">local db = require(&quot;lapis.db&quot;)
+</code></pre>
+
+<pre><code class="language-moon">db = require &quot;lapis.db&quot;
+</code></pre>
+
+<p>The <code>db</code> module provides the following functions:</p>
+
+<h3 id="query-query-params"><code>query(query, params...)</code></h3>
+
+<p>Performs a raw query. Returns the result set if successful, returns <code>nil</code> if
+failed.</p>
+
+<p>The first argument is the query to perform. If the query contains any <code>?</code>s then
+they are replaced in the order they appear with the remaining arguments. The
+remaining arguments are escaped with <code>escape_literal</code> before being
+interpolated, making SQL injection impossible.</p>
+
+<pre><code class="language-lua">local res
+
+res = db.query(&quot;SELECT * FROM hello&quot;)
+res = db.query(&quot;UPDATE things SET color = ?&quot;, &quot;blue&quot;)
+res = db.query(&quot;INSERT INTO cats (age, name, alive) VALUES (?, ?, ?)&quot;, 25, &quot;dogman&quot;, true)
+</code></pre>
+
+<pre><code class="language-moon">res = db.query &quot;SELECT * FROM hello&quot;
+res = db.query &quot;UPDATE things SET color = ?&quot;, &quot;blue&quot;
+res = db.query &quot;INSERT INTO cats (age, name, alive) VALUES (?, ?, ?)&quot;, 25, &quot;dogman&quot;, true
+</code></pre>
+
+<pre><code class="language-sql">SELECT * FROM hello
+UPDATE things SET color = 'blue'
+INSERT INTO cats (age, name, alive) VALUES (25, 'dogman', TRUE)
+</code></pre>
+
+<p>A query that fails to execute will raise a Lua error. The error will contain
+the message from PostgreSQL along with the query.</p>
+
+<h3 id="select-query-params"><code>select(query, params...)</code></h3>
+
+<p>The same as <code>query</code> except it appends <code>&quot;SELECT&quot;</code> to the front of the query.</p>
+
+<pre><code class="language-lua">local res = db.select(&quot;* from hello where active = ?&quot;, db.FALSE)
+</code></pre>
+
+<pre><code class="language-moon">res = db.select &quot;* from hello where active = ?&quot;, db.FALSE
+</code></pre>
+
+<pre><code class="language-sql">SELECT * from hello where active = FALSE
+</code></pre>
+
+<h3 id="insert-table-values-returning"><code>insert(table, values, returning...)</code></h3>
+
+<p>Inserts a row into <code>table</code>. <code>values</code> is a Lua table of column names and values.</p>
+
+<pre><code class="language-lua">db.insert(&quot;my_table&quot;, {
+  age = 10,
+  name = &quot;Hello World&quot;
+})
+</code></pre>
+
+<pre><code class="language-moon">db.insert &quot;my_table&quot;, {
+  age: 10
+  name: &quot;Hello World&quot;
+}
+</code></pre>
+
+<pre><code class="language-sql">INSERT INTO &quot;my_table&quot; (&quot;age&quot;, &quot;name&quot;) VALUES (10, 'Hello World')
+</code></pre>
+
+<p>A list of column names to be returned can be given after the value table:</p>
+
+<pre><code class="language-lua">local res = db.insert(&quot;some_other_table&quot;, {
+  name = &quot;Hello World&quot;
+}, &quot;id&quot;)
+</code></pre>
+
+<pre><code class="language-moon">res = db.insert &quot;some_other_table&quot;, {
+  name: &quot;Hello World&quot;
+}, &quot;id&quot;
+</code></pre>
+
+<pre><code class="language-sql">INSERT INTO &quot;some_other_table&quot; (&quot;name&quot;) VALUES ('Hello World') RETURNING &quot;id&quot;
+</code></pre>
+
+<h3 id="update-table-values-conditions-params"><code>update(table, values, conditions, params...)</code></h3>
+
+<p>Updates <code>table</code> with <code>values</code> on all rows that match <code>conditions</code>.</p>
+
+<pre><code class="language-lua">db.update(&quot;the_table&quot;, {
+  name = &quot;Dogbert 2.0&quot;,
+  active = true
+}, {
+  id = 100
+})
+
+</code></pre>
+
+<pre><code class="language-moon">db.update &quot;the_table&quot;, {
+  name: &quot;Dogbert 2.0&quot;
+  active: true
+}, {
+  id: 100
+}
+</code></pre>
+
+<pre><code class="language-sql">UPDATE &quot;the_table&quot; SET &quot;name&quot; = 'Dogbert 2.0', &quot;active&quot; = TRUE WHERE &quot;id&quot; = 100
+</code></pre>
+
+<p><code>conditions</code> can also be a string, and <code>params</code> will be interpolated into it:</p>
+
+<pre><code class="language-lua">db.update(&quot;the_table&quot;, {
+  count = db.raw(&quot;count + 1&quot;)
+}, &quot;count &lt; ?&quot;, 10)
+</code></pre>
+
+<pre><code class="language-moon">db.update &quot;the_table&quot;, {
+  count: db.raw&quot;count + 1&quot;
+}, &quot;count &lt; ?&quot;, 10
+</code></pre>
+
+<pre><code class="language-sql">UPDATE &quot;the_table&quot; SET &quot;count&quot; = count + 1 WHERE count &lt; 10
+</code></pre>
+
+<h3 id="delete-table-conditions-params"><code>delete(table, conditions, params...)</code></h3>
+
+<p>Deletes rows from <code>table</code> that match <code>conditions</code>.</p>
+
+<pre><code class="language-lua">db.delete(&quot;cats&quot;, { name: &quot;Roo&quot;})
+</code></pre>
+
+<pre><code class="language-moon">db.delete &quot;cats&quot;, name: &quot;Roo&quot;
+</code></pre>
+
+<pre><code class="language-sql">DELETE FROM &quot;cats&quot; WHERE &quot;name&quot; = 'Roo'
+</code></pre>
+
+<p><code>conditions</code> can also be a string</p>
+
+<pre><code class="language-moon">db.delete(&quot;cats&quot;, &quot;name = ?&quot;, &quot;Gato&quot;)
+</code></pre>
+
+<pre><code class="language-moon">db.delete &quot;cats&quot;, &quot;name = ?&quot;, &quot;Gato&quot;
+</code></pre>
+
+<pre><code class="language-sql">DELETE FROM &quot;cats&quot; WHERE name = 'Gato'
+</code></pre>
+
+<h3 id="raw-str"><code>raw(str)</code></h3>
+
+<p>Returns a special value that will be inserted verbatim into the query without being
+escaped:</p>
+
+<pre><code class="language-lua">db.update(&quot;the_table&quot;, {
+  count = db.raw(&quot;count + 1&quot;)
+})
+
+db.select(&quot;* from another_table where x = ?&quot;, db.raw(&quot;now()&quot;))
+</code></pre>
+
+<pre><code class="language-moon">db.update &quot;the_table&quot;, {
+  count: db.raw&quot;count + 1&quot;
+}
+
+db.select &quot;* from another_table where x = ?&quot;, db.raw&quot;now()&quot;
+</code></pre>
+
+<pre><code class="language-sql">UPDATE &quot;the_table&quot; SET &quot;count&quot; = count + 1
+SELECT * from another_table where x = now()
+</code></pre>
+
+<h3 id="escape-literal-value"><code>escape_literal(value)</code></h3>
+
+<p>Escapes a value for use in a query. A value is any type that can be stored in a
+column. Numbers, strings, and booleans will be escaped accordingly.</p>
+
+<pre><code class="language-lua">local escaped = db.escape_literal(value)
+local res = db.query(&quot;select * from hello where id = &quot; .. escaped&quot;)
+</code></pre>
+
+<pre><code class="language-moon">escaped = db.escape_literal value
+res = db.query &quot;select * from hello where id = #{escaped}&quot;
+</code></pre>
+
+<p><code>escape_literal</code> is not appropriate for escaping column or table names. See
+<code>escape_identifier</code>.</p>
+
+<h3 id="escape-identifier-str"><code>escape_identifier(str)</code></h3>
+
+<p>Escapes a string for use in a query as an identifier. An identifier is a column
+or table name.</p>
+
+<pre><code class="language-lua">local table_name = db.escape_identifier(&quot;table&quot;)
+local res = db.query(&quot;select * from &quot; .. table_name)
+</code></pre>
+
+<pre><code class="language-moon">table_name = db.escape_identifier &quot;table&quot;
+res = db.query &quot;select * from #{table_name}&quot;
+</code></pre>
+
+<p><code>escape_identifier</code> is not appropriate for escaping values. See
+<code>escape_literal</code> for escaping values.</p>
+
+<h3 id="constants">Constants</h3>
+
+<p>The following constants are also available:</p>
+
+<ul>
+<li><code>NULL</code> &ndash; represents <code>NULL</code> in SQL</li>
+<li><code>TRUE</code> &ndash; represents <code>TRUE</code> in SQL</li>
+<li><code>FALSE</code> &ndash; represents <code>FALSE</code> in SQL</li>
+</ul>
+
+<pre><code class="language-lua">db.update(&quot;the_table&quot;, {
+  name = db.NULL
+})
+</code></pre>
+
+<pre><code class="language-moon">db.update &quot;the_table&quot;, {
+  name: db.NULL
+}
+</code></pre>
+
+<h2 id="models">Models</h2>
+
+<p>Lapis provides a <code>Model</code> base class for making Lua tables that can be
+synchronized with a database row. The class is used to represent a single
+database table, an instance of the class is used to represent a single row of
+that table.</p>
+
+<p>The most primitive model is a blank model:</p>
+
+<pre><code class="language-lua">local Model = require(&quot;lapis.db.model&quot;).Model
+
+local Users = Model:extend(&quot;users&quot;)
+</code></pre>
+
+<pre><code class="language-moon">import Model from require &quot;lapis.db.model&quot;
+
+class Users extends Model
+</code></pre>
+
+<p class="for_lua">
+The first argument to <code>extend</code> is the name of the table to associate
+the model to.
+</p>
+
+<p class="for_moon">
+The name of the class is used to determine the name of the table. In this case
+the class name <code>Users</code> represents the table <code>users</code>. A
+class name of <code>HelloWorlds</code> would result in the table name
+<code>hello_worlds</code>. It is customary to make the class name plural.
+</p>
+
+<p class="for_moon">
+If you want to use a different table name you can overwrite the
+<code>@table_name</code> class method:
+</p>
+
+<pre><code class="language-moon">class Users extends Model
+  @table_name: =&gt; &quot;active_users&quot;
+</code></pre>
+
+<h3 id="primary-keys">Primary Keys</h3>
+
+<p>By default all models have the primary key &ldquo;id&rdquo;. This can be changed by setting
+the <span class="for_moon"><code>@primary_key</code></span><span
+class="for_lua"><code>self.primary_key</code></span> class variable.</p>
+
+<pre><code class="language-lua">local Users = Model:extend(&quot;users&quot;, {
+  primary_key = &quot;login&quot;
+})
+</code></pre>
+
+<pre><code class="language-moon">class Users extends Model
+  @primary_key: &quot;login&quot;
+</code></pre>
+
+<p>If there are multiple primary keys then an array table can be used:</p>
+
+<pre><code class="language-lua">local Followings = Model:extend(&quot;followings&quot;, {
+  primary_key = { &quot;user_id&quot;, &quot;followed_user_id&quot; }
+})
+</code></pre>
+
+<pre><code class="language-moon">class Followings extends Model
+  @primary_key: { &quot;user_id&quot;, &quot;followed_user_id&quot; }
+</code></pre>
+
+<h3 id="finding-a-row">Finding a Row</h3>
+
+<p>For the following examples assume we have the following models:</p>
+
+<pre><code class="language-lua">local Model = require(&quot;lapis.db.model&quot;).Model
+
+local Users = Model:extend(&quot;users&quot;)
+
+local Tags = Model:extend(&quot;tags&quot;, {
+  primary_key = {&quot;user_id&quot;, &quot;tag&quot;}
+})
+
+</code></pre>
+
+<pre><code class="language-moon">import Model from require &quot;lapis.db.model&quot;
+
+class Users extends Model
+
+class Tags extends Model
+  @primary_key: {&quot;user_id&quot;, &quot;tag&quot;}
+</code></pre>
+
+<p>When you want to find a single row the <code>find</code> class method is used. In the
+first form it takes a variable number of values, one for each primary key in
+the order the primary keys are specified:</p>
+
+<pre><code class="language-lua">local user = Users:find(23232)
+local tag = Tags:find(1234, &quot;programmer&quot;)
+</code></pre>
+
+<pre><code class="language-moon">user = Users\find 23232
+tag = Tags\find 1234, &quot;programmer&quot;
+</code></pre>
+
+<pre><code class="language-sql">SELECT * from &quot;users&quot; where &quot;id&quot; = 23232 limit 1
+SELECT * from &quot;tags&quot; where &quot;user_id&quot; = 1234 and &quot;tag&quot; = 'programmer' limit 1
+</code></pre>
+
+<p><code>find</code> returns an instance of the model. In the case of the user, if there was a
+<code>name</code> column, then we could access the users name with <code>user.name</code>.</p>
+
+<p>We can also pass a table as an argument to <code>find</code>. The table will be converted
+to a <code>WHERE</code> clause in the query:</p>
+
+<pre><code class="language-lua">local user = Users:find({ email = &quot;person@example.com&quot; })
+</code></pre>
+
+<pre><code class="language-moon">user = Users\find email: &quot;person@example.com&quot;
+</code></pre>
+
+<pre><code class="language-sql">SELECT * from &quot;users&quot; where &quot;email&quot; = 'person@example.com' limit 1
+</code></pre>
+
+<h3 id="finding-many-rows">Finding Many Rows</h3>
+
+<p>When searching for multiple rows the <code>select</code> class method is used. It works
+similarly to the <code>select</code> function from the raw query interface except you
+specify the part of the query after the list of columns to select.</p>
+
+<pre><code class="language-lua">local tags = Tags:select(&quot;where tag = ?&quot;, &quot;merchant&quot;)
+</code></pre>
+
+<pre><code class="language-moon">tags = Tags\select &quot;where tag = ?&quot;, &quot;merchant&quot;
+</code></pre>
+
+<pre><code class="language-sql">SELECT * from &quot;tags&quot; where tag = 'merchant'
+</code></pre>
+
+<p>Instead of a single instance, an array table of instances is returned.</p>
+
+<p>If you want to restrict which columns are selected you can pass in a table as
+the last argument with the <code>fields</code> key set:</p>
+
+<pre><code class="language-lua">local tags = Tags:select(&quot;where tag = ?&quot;, &quot;merchant&quot;, { fields = &quot;created_at as c&quot; })
+</code></pre>
+
+<pre><code class="language-moon">tags = Tags\select &quot;where tag = ?&quot;, &quot;merchant&quot;, fields: &quot;created_at as c&quot;
+</code></pre>
+
+<pre><code class="language-sql">SELECT created_at as c from &quot;tags&quot; where tag = 'merchant'
+</code></pre>
+
+<p>Alternatively if you want to find many rows by their primary key you can use
+the <code>find_all</code> method. It takes an array table of primary keys. This method
+only works on tables that have singular primary keys.</p>
+
+<pre><code class="language-lua">local users = Users:find_all({ 1,2,3,4,5 })
+</code></pre>
+
+<pre><code class="language-moon">users = Users\find_all { 1,2,3,4,5 }
+</code></pre>
+
+<pre><code class="language-sql">SELECT * from &quot;users&quot; where &quot;id&quot; in (1, 2, 3, 4, 5)
+</code></pre>
+
+<p>If you need to find many rows for another column other than the primary key you
+can pass in the optional second argument:</p>
+
+<pre><code class="language-lua">local users = UserProfile:find_all({ 1,2,3,4,5 }, &quot;user_id&quot;)
+</code></pre>
+
+<pre><code class="language-moon">users = UserProfile\find_all { 1,2,3,4,5 }, &quot;user_id&quot;
+</code></pre>
+
+<pre><code class="language-sql">SELECT * from &quot;UserProfile&quot; where &quot;user_id&quot; in (1, 2, 3, 4, 5)
+</code></pre>
+
+<p>The second argument can also be a table of options. The following properties
+are supported:</p>
+
+<ul>
+<li><code>key</code> &ndash; Specify the column name to find by, same effect as passing in a string as the second argument</li>
+<li><code>fields</code> &ndash; Comma separated list of column names to fetch instead of the default <code>*</code></li>
+<li><code>where</code> &ndash; A table of additional <code>where</code> clauses for the query</li>
+</ul>
+
+<p>For example:</p>
+
+<pre><code class="language-lua">local users = UserProfile:find_all({1,2,3,4}, {
+  key = &quot;user_id&quot;,
+  fields = &quot;user_id, twitter_account&quot;,
+  where = {
+    public = true
+  }
+})
+</code></pre>
+
+<pre><code class="language-moon">users = UserProfile\find_all {1,2,3,4}, {
+  key: &quot;user_id&quot;
+  fields: &quot;user_id, twitter_account&quot;
+  where: {
+    public: true
+  }
+}
+</code></pre>
+
+<pre><code class="language-sql">SELECT user_id, twitter_account from &quot;things&quot; where &quot;user_id&quot; in (1, 2, 3, 4) and &quot;public&quot; = TRUE
+</code></pre>
+
+<h3 id="inserting-rows">Inserting Rows</h3>
+
+<p>The <code>create</code> class method is used to create new rows. It takes a table of
+column values to create the row with. It returns an instance of the model. The
+create query fetches the values of the primary keys and sets them on the
+instance using the PostgreSQL <code>RETURN</code> statement. This is useful for getting
+the value of an auto-incrementing key from the insert statement.</p>
+
+<pre><code class="language-lua">local user = Users:create({
+  login = &quot;superuser&quot;,
+  password = &quot;1234&quot;
+})
+</code></pre>
+
+<pre><code class="language-moon">user = Users\create {
+  login: &quot;superuser&quot;
+  password: &quot;1234&quot;
+}
+</code></pre>
+
+<pre><code class="language-sql">INSERT INTO &quot;users&quot; (&quot;password&quot;, &quot;login&quot;) VALUES ('1234', 'superuser') RETURNING &quot;id&quot;
+</code></pre>
+
+<h3 id="updating-a-row">Updating a Row</h3>
+
+<p>Instances of models have the <code>update</code> method for updating the row. The values
+of the primary keys are used to uniquely identify the row for updating.</p>
+
+<p>The first form of update takes variable arguments. A list of strings that
+represent column names to be updated. The values of the columns are taken from
+the current values in the instance.</p>
+
+<pre><code class="language-lua">local user = Users:find(1)
+user.login = &quot;uberuser&quot;
+user.email = &quot;admin@example.com&quot;
+user:update(&quot;login&quot;, &quot;email&quot;)
+</code></pre>
+
+<pre><code class="language-moon">user = Users\find 1
+user.login = &quot;uberuser&quot;
+user.email = &quot;admin@example.com&quot;
+
+user\update &quot;login&quot;, &quot;email&quot;
+</code></pre>
+
+<pre><code class="language-sql">UPDATE &quot;users&quot; SET &quot;login&quot; = 'uberuser', &quot;email&quot; = 'admin@example.com' WHERE &quot;id&quot; = 1
+</code></pre>
+
+<p>Alternatively we can pass a table as the first argument of <code>update</code>. The keys
+of the table are the column names, and the values are the values to update the
+columns with. The instance is also updated. We can rewrite the above example as:</p>
+
+<pre><code class="language-lua">local user = Users:find(1)
+user:update({
+  login = &quot;uberuser&quot;,
+  email = &quot;admin@example.com&quot;,
+})
+</code></pre>
+
+<pre><code class="language-moon">user = Users\find 1
+user\update {
+  login: &quot;uberuser&quot;
+  email: &quot;admin@example.com&quot;
+}
+</code></pre>
+
+<pre><code class="language-sql">UPDATE &quot;users&quot; SET &quot;login&quot; = 'uberuser', &quot;email&quot; = 'admin@example.com' WHERE &quot;id&quot; = 1
+</code></pre>
+
+<blockquote>
+<p>The table argument can also take positional values, which are treated the
+same as the variable argument form.</p>
+</blockquote>
+
+<h3 id="deleting-a-row">Deleting a Row</h3>
+
+<p>Just call <code>delete</code> on the instance:</p>
+
+<pre><code class="language-lua">local user = Users:find(1)
+user:delete()
+</code></pre>
+
+<pre><code class="language-moon">user = Users\find 1
+user\delete!
+</code></pre>
+
+<pre><code class="language-sql">DELETE FROM &quot;users&quot; WHERE &quot;id&quot; = 1
+</code></pre>
+
+<h3 id="timestamps">Timestamps</h3>
+
+<p>Because it&rsquo;s common to store creation and update times, models have
+support for managing these columns automatically.</p>
+
+<p>When creating your table make sure your table has the following columns:</p>
+
+<pre><code class="language-sql">CREATE TABLE ... (
+  ...
+  &quot;created_at&quot; timestamp without time zone NOT NULL,
+  &quot;updated_at&quot; timestamp without time zone NOT NULL
+)
+</code></pre>
+
+<p>Then define your model with the <span class="for_moon"><code>@timestamp</code> class
+variable</span><span class="for_lua"><code>timestamp</code> property</span> set to
+true:</p>
+
+<pre><code class="language-lua">local Users = Model:extend(&quot;users&quot;, {
+  timestamp = true
+})
+</code></pre>
+
+<pre><code class="language-moon">class Users extends Model
+  @timestamp: true
+</code></pre>
+
+<p>Whenever <code>create</code> and <code>update</code> are called the appropriate timestamp column will
+also be set.</p>
+
+<p>You can disable the timestamp from being updated on an <code>update</code> by passing a
+final table argument setting <span class="for_moon"><code>timestamp:
+false</code></span><span class="for_lua"><code>timestamp = false</code></span>:</p>
+
+<pre><code class="language-lua">local Users = Model:extend(&quot;users&quot;, {
+  timestamp = true
+})
+
+local user = Users:find(1)
+
+-- first form
+user:update({ name = &quot;hello world&quot; }, { timestamp = false })
+
+
+-- second form
+user.name = &quot;hello world&quot;
+user.age = 123
+user:update(&quot;name&quot;, &quot;age&quot;, { timestamp = false})
+</code></pre>
+
+<pre><code class="language-moon">class Users extends Model
+  @timestamp: true
+
+user = Users\find 1
+
+-- first form
+user\update { name: &quot;hello world&quot; }, { timestamp: false }
+
+-- second form
+user.name = &quot;hello world&quot;
+user.age = 123
+user\update &quot;name&quot;, &quot;age&quot;, timestamp: false
+</code></pre>
+
+<h3 id="preloading-associations">Preloading Associations</h3>
+
+<p>A common pitfall when using active record type systems is triggering many
+queries inside of a loop. In order to avoid situations like this you should
+load data for as many objects as possible in a single query before looping over
+the data.</p>
+
+<p>We&rsquo;ll need some models to demonstrate: (The columns are annotated in a comment
+above the model).</p>
+
+<pre><code class="language-lua">local Model = require(&quot;lapis.db.model&quot;).Model
+
+-- table with columns: id, name
+local Users = Model:extend(&quot;users&quot;)
+local Posts = Model:extend(&quot;posts&quot;)
+</code></pre>
+
+<pre><code class="language-moon">import Model from require &quot;lapis.db.model&quot;
+
+-- table with columns: id, name
+class Users extends Model
+
+-- table with columns: id, user_id, text_content
+class Posts extends Model
+</code></pre>
+
+<p>Given all the posts, we want to find the user for each post. We use the
+<code>include_in</code> class method to include instances of that model in the array of
+model instances passed to it.</p>
+
+<pre><code class="language-lua">local posts = Posts:select() -- this gets all the posts
+Users:include_in(posts, &quot;user_id&quot;)
+
+print(posts[1].user.name) -- print the fetched data
+</code></pre>
+
+<pre><code class="language-moon">posts = Posts\select! -- this gets all the posts
+
+Users\include_in posts, &quot;user_id&quot;
+
+print posts[1].user.name -- print the fetched data
+</code></pre>
+
+<pre><code class="language-sql">SELECT * from &quot;posts&quot;
+SELECT * from &quot;users&quot; where &quot;id&quot; in (1,2,3,4,5,6)
+</code></pre>
+
+<p>Each post instance is mutated to have a <code>user</code> property assigned to it with an
+instance of the <code>Users</code> model. The first argument of <code>include_in</code> is the array
+table of model instances. The second argument is the column name of the foreign
+key found in the array of model instances that maps to the primary key of the
+class calling the <code>include_in</code>.</p>
+
+<p>The name of the inserted property is derived from the name of the foreign key.
+In this case, <code>user</code> was derived from the foreign key <code>user_id</code>. If we want to
+manually specify the name we can do something like this:</p>
+
+<pre><code class="language-lua">Users:include_in(posts, &quot;user_id&quot;, { as: &quot;author&quot; })
+</code></pre>
+
+<pre><code class="language-moon">Users\include_in posts, &quot;user_id&quot;, as: &quot;author&quot;
+</code></pre>
+
+<p>Now all the posts will contain a property named <code>author</code> with an instance of
+the <code>Users</code> model.</p>
+
+<p>Sometimes the relationship is flipped. Instead of the list of model instances
+having the foreign key column, the model we want to include might have it. This
+is common in one-to-one relationships.</p>
+
+<p>Here&rsquo;s another set of example models:</p>
+
+<pre><code class="language-lua">local Model = require(&quot;lapis.db.model&quot;).Model
+
+-- table with columns: id, name
+local Users = Model:extend(&quot;users&quot;)
+
+-- table with columns: user_id, twitter_account, facebook_username
+local UserData = Model:extend(&quot;user_data&quot;)
+
+</code></pre>
+
+<pre><code class="language-moon">import Model from require &quot;lapis.db.model&quot;
+
+-- columns: id, name
+class Users extends Model
+
+-- columns: user_id, twitter_account, facebook_username
+class UserData extends Model
+</code></pre>
+
+<p>Now let&rsquo;s say we have a collection of users and we want to fetch the associated
+user data:</p>
+
+<pre><code class="language-lua">local users = Users:select()
+UserData:include_in(users, &quot;user_id&quot;, { flip: true })
+
+print(users[1].user_data.twitter_account)
+</code></pre>
+
+<pre><code class="language-moon">users = Users\select!
+UserData\include_in users, &quot;user_id&quot;, flip: true
+
+print users[1].user_data.twitter_account
+</code></pre>
+
+<pre><code class="language-sql">SELECT * from &quot;user_data&quot; where &quot;user_id&quot; in (1,2,3,4,5,6)
+</code></pre>
+
+<p>In this example we set the <code>flip</code> option to true in the <code>include_in</code> method.
+This causes the search to happen against our foreign key, and the ids to be
+pulled from the <code>id</code> of the array of model instances.</p>
+
+<p>Additionally, the derived property name that is injected into the model
+instances is created from the name of the included table. In the example above
+the <code>user_data</code> property contains the included model instances. (Had it been
+plural the table name would have been made singular)</p>
+
+<h3 id="constraints">Constraints</h3>
+
+<p>Often before we insert or update a row we want to check that some conditions
+are met. In Lapis these are called constraints. For example let&rsquo;s say we have a
+user model and users are not allowed to have the name &ldquo;admin&rdquo;.</p>
+
+<p>We might define it like this:</p>
+
+<pre><code class="language-lua">local Model = require(&quot;lapis.db.model&quot;).Model
+
+local Users = Model:extend(&quot;users&quot;, {
+  constraints = {
+    name = function(self, value)
+      if value:lower() == &quot;admin&quot;
+        return &quot;User can not be named admin&quot;
+      end
+    end
+  }
+})
+
+assert(Users:create({
+  name = &quot;Admin&quot;
+}))
+
+</code></pre>
+
+<pre><code class="language-moon">import Model from require &quot;lapis.db.models&quot;
+
+class Users extends Model
+  @constraints: {
+    name: (value) =&gt;
+      if value\lower! == &quot;admin&quot;
+        &quot;User can not be named admin&quot;
+  }
+
+
+assert Users\create {
+  name: &quot;Admin&quot;
+}
+</code></pre>
+
+<p>The <span class="for_moon"><code>@constraints</code> class variable</span><span class="for_lua"><code>constraints</code> property</span> is a table that maps column name to a
+function that should check if the constraint is broken. If anything truthy is
+returned from the function then the update/insert fails, and that is returned
+as the error message.</p>
+
+<p>In the example above, the call to <code>assert</code> will fail with the error <code>&quot;User can
+not be named admin&quot;</code>.</p>
+
+<p>The constraint check function is passed 4 arguments. The model class, the value
+of the column being checked, the name of the column being checked, and lastly
+the object being checked. On insertion the object is the table passed to the
+create method. On update the object is the instance of the model.</p>
+
+<h3 id="pagination">Pagination</h3>
+
+<p>Using the <code>paginated</code> method on models we can easily paginate through a query
+that might otherwise return many results. The arguments are the same as the
+<code>select</code> method but instead of the result it returns a special <code>Paginator</code>
+object.</p>
+
+<p>For example, say we have the following table and model: (For documentation on
+creating tables see the <a href="#database-schemas-creating-and-dropping-tables">next section</a>)</p>
+
+<pre><code class="language-lua">create_table(&quot;users&quot;, {
+  { &quot;id&quot;, types.serial },
+  { &quot;name&quot;, types.varchar },
+  { &quot;group_id&quot;, types.foreign_key },
+
+  &quot;PRIMARY KEY(id)&quot;
+})
+
+local Users = Model:extend(&quot;users&quot;)
+</code></pre>
+
+<pre><code class="language-moon">create_table &quot;users&quot;, {
+  { &quot;id&quot;, types.serial }
+  { &quot;name&quot;, types.varchar }
+  { &quot;group_id&quot;, types.foreign_key }
+
+  &quot;PRIMARY KEY(id)&quot;
+}
+
+class Users extends Model
+
+</code></pre>
+
+<p>We can create a paginator like so:</p>
+
+<pre><code class="language-lua">local paginated = Users:paginated(&quot;where group_id = ? order by name asc&quot;, 123)
+</code></pre>
+
+<pre><code class="language-moon">paginated = Users\paginated [[where group_id = ? order by name asc]], 123
+</code></pre>
+
+<p>A paginator can be configured by passing a table as the last argument.
+The following options are supported:</p>
+
+<p><code>per_page</code>: sets the number of items per page</p>
+
+<pre><code class="language-moon">local paginated_alt = Users:paginated(&quot;where group_id = ?&quot;, 4, { per_page = 100 })
+</code></pre>
+
+<pre><code class="language-moon">paginated_alt = Users\paginated [[where group_id = ?]], 4, per_page: 100
+</code></pre>
+
+<p><code>prepare_results</code>: a function that is passed the results of <code>get_page</code> and
+<code>get_all</code> for processing before they are returned. This is useful for bundling
+preloading information into the paginator. The prepare function takes 1
+argument, the results, and it must return the results after they have been
+processed:</p>
+
+<pre><code class="language-lua">local preloaded = Posts:paginated(&quot;where category = ?&quot;, &quot;cats&quot;, {
+  per_page = 10,
+  prepare_results = function(posts)
+    Users:include_in(posts, &quot;user_id&quot;)
+    return posts
+  end
+})
+</code></pre>
+
+<pre><code class="language-moon">preloaded = Posts\paginated [[where category = ?]], &quot;cats&quot;, {
+  per_page: 10
+  prepare_results: (posts) -&gt;
+    Users\include_in posts, &quot;user_id&quot;
+    posts
+}
+</code></pre>
+
+<p>Any additional options sent to <code>paginated</code> are passed directly to the
+underlying <code>select</code> method call when a page is loaded. For example you can
+provide a <code>fields</code> option in order to limit the fields returned by a page.</p>
+
+<p>The paginator has the following methods:</p>
+
+<h4 id="get-all"><code>get_all()</code></h4>
+
+<p>Gets all the items that the query can return, is the same as calling the
+<code>select</code> method directly. Returns an array table of model instances.</p>
+
+<pre><code class="language-lua">local users = paginated:get_all()
+</code></pre>
+
+<pre><code class="language-moon">users = paginated\get_all!
+</code></pre>
+
+<pre><code class="language-sql">SELECT * from &quot;users&quot; where group_id = 123 order by name asc
+</code></pre>
+
+<h4 id="get-page-page-num"><code>get_page(page_num)</code></h4>
+
+<p>Gets <code>page_num</code>th page, where pages are 1 indexed. The number of items per page
+is controlled by the <code>per_page</code> option, and defaults to 10. Returns an array
+table of model instances.</p>
+
+<pre><code class="language-lua">local page1 = paginated:get_page(1)
+local page6 = paginated:get_page(6)
+</code></pre>
+
+<pre><code class="language-moon">page1 = paginated\get_page 1
+page6 = paginated\get_page 6
+</code></pre>
+
+<pre><code class="language-sql">SELECT * from &quot;users&quot; where group_id = 123 order by name asc limit 10 offset 0
+SELECT * from &quot;users&quot; where group_id = 123 order by name asc limit 10 offset 50
+</code></pre>
+
+<h4 id="num-pages"><code>num_pages()</code></h4>
+
+<p>Returns the total number of pages.</p>
+
+<h4 id="total-items"><code>total_items()</code></h4>
+
+<p>Gets the total number of items that can be returned. The paginator will parse
+the query and remove all clauses except for the <code>WHERE</code> when issuing a <code>COUNT</code>.</p>
+
+<pre><code class="language-lua">local users = paginated:total_items()
+</code></pre>
+
+<pre><code class="language-moon">users = paginated\total_items!
+</code></pre>
+
+<pre><code class="language-sql">SELECT COUNT(*) as c from &quot;users&quot; where group_id = 123
+</code></pre>
+
+<h4 id="each-page-starting-page-1"><code>each_page(starting_page=1)</code></h4>
+
+<p>Returns an iterator function that can be used to iterate through each page of
+the results. Useful for processing a large query without having the entire
+result set loaded in memory at once.</p>
+
+<pre><code class="language-lua">for page_results, page_num in paginated:each_page() do
+  print(page_results, page_num)
+end
+</code></pre>
+
+<pre><code class="language-moon">for page_results, page_num in paginated\each_page!
+  print(page_results, page_num)
+</code></pre>
+
+<h3 id="finding-columns">Finding Columns</h3>
+
+<p>You can get the column names and column types of a table using the <code>columns</code>
+method on the model class:</p>
+
+<pre><code class="language-lua">local Posts = Model:extend(&quot;posts&quot;)
+for _, col in ipairs(Posts:columns) do
+  print(col.column_name, col.data_type)
+end
+</code></pre>
+
+<pre><code class="language-moon">class Posts extends Model
+
+for {column_name, data_type} in Posts\columns!
+  print column_name, data_type
+</code></pre>
+
+<pre><code class="language-sql">SELECT column_name, data_type
+  FROM information_schema.columns WHERE table_name = 'posts'
+</code></pre>
+
+<h3 id="refreshing-a-model-instance">Refreshing a Model Instance</h3>
+
+<p>If your model instance becomes out of date from an external change, it can tell
+it to re-fetch and re-populate it&rsquo;s data using the <code>refresh</code> method.</p>
+
+<pre><code class="language-moon">class Posts extends Model
+post = Posts\find 1
+post\refresh!
+</code></pre>
+
+<pre><code class="language-lua">local Posts = Model:extend(&quot;posts&quot;)
+local post = Posts:find(1)
+post:refresh()
+</code></pre>
+
+<pre><code class="language-sql">SELECT * from &quot;posts&quot; where id = 1
+</code></pre>
+
+<p>By default all fields are refreshed. If you only want to refresh specific fields
+then pass them in as arguments:</p>
+
+<pre><code class="language-moon">class Posts extends Model
+post = Posts\find 1
+post\refresh &quot;color&quot;, &quot;height&quot;
+</code></pre>
+
+<pre><code class="language-lua">local Posts = Model:extend(&quot;posts&quot;)
+local post = Posts:find(1)
+post:refresh(&quot;color&quot;, &quot;height&quot;)
+</code></pre>
+
+<pre><code class="language-sql">SELECT &quot;color&quot;, &quot;height&quot; from &quot;posts&quot; where id = 1
+</code></pre>
+
+<h2 id="database-schemas">Database Schemas</h2>
+
+<p>Lapis comes with a collection of tools for creating your database schema inside
+of the <code>lapis.db.schema</code> module.</p>
+
+<h3 id="creating-and-dropping-tables">Creating and Dropping Tables</h3>
+
+<h4 id="create-table-table-name-table-declarations"><code>create_table(table_name, { table_declarations... })</code></h4>
+
+<p>The first argument to <code>create_table</code> is the name of the table and the second
+argument is an array table that describes the table.</p>
+
+<pre><code class="language-lua">local schema = require(&quot;lapis.db.schema&quot;)
+
+local types = schema.types
+
+schema.create_table(&quot;users&quot;, {
+  {&quot;id&quot;, types.serial},
+  {&quot;username&quot;, types.varchar},
+
+  &quot;PRIMARY KEY (id)&quot;
+})
+</code></pre>
+
+<pre><code class="language-moon">schema = require &quot;lapis.db.schema&quot;
+
+import create_table, types from schema
+
+create_table &quot;users&quot;, {
+  {&quot;id&quot;, types.serial}
+  {&quot;username&quot;, types.varchar}
+
+  &quot;PRIMARY KEY (id)&quot;
+}
+</code></pre>
+
+<p>This will generate the following SQL:</p>
+
+<pre><code class="language-sql">CREATE TABLE IF NOT EXISTS &quot;users&quot; (
+  &quot;id&quot; serial NOT NULL,
+  &quot;username&quot; character varying(255) NOT NULL,
+  PRIMARY KEY (id)
+);
+</code></pre>
+
+<p>The items in the second argument to <code>create_table</code> can either be a table, or a
+string. When the value is a table it is treated as a column/type tuple:</p>
+
+<pre><code>{ column_name, column_type }
+</code></pre>
+
+<p>They are both plain strings. The column name will be escaped automatically.
+The column type will be inserted verbatim after it is passed through
+<code>tostring</code>. <code>schema.types</code> has a collection of common types that can be used.
+For example, <code>schema.types.varchar</code> evaluates to <code>character varying(255) NOT
+NULL</code>. See more about types below.</p>
+
+<p>If the value to the second argument is a string then it is inserted directly
+into the <code>CREATE TABLE</code> statement, that&rsquo;s how we create the primary key above.</p>
+
+<h4 id="drop-table-table-name"><code>drop_table(table_name)</code></h4>
+
+<p>Drops a table.</p>
+
+<pre><code class="language-lua">schema.drop_table(&quot;users&quot;)
+</code></pre>
+
+<pre><code class="language-moon">import drop_table from schema
+
+drop_table &quot;users&quot;
+</code></pre>
+
+<pre><code class="language-sql">DROP TABLE IF EXISTS &quot;users&quot;;
+</code></pre>
+
+<h3 id="indexes">Indexes</h3>
+
+<h4 id="create-index-table-name-col1-col2-options"><code>create_index(table_name, col1, col2..., [options])</code></h4>
+
+<p><code>create_index</code> is used to add new indexes to a table. The first argument is a
+table, the rest of the arguments are the ordered columns that make up the
+index. Optionally the last argument can be a Lua table of options.</p>
+
+<p>There are two options <code>unique: BOOL</code>, <code>where: clause_string</code>.</p>
+
+<p><code>create_index</code> will also check if the index exists before attempting to create
+it. If the index exists then nothing will happen.</p>
+
+<p>Here are some example indexes:</p>
+
+<pre><code class="language-lua">local create_index = schema.create_index
+
+create_index(&quot;users&quot;, &quot;created_at&quot;)
+create_index(&quot;users&quot;, &quot;username&quot;, { unique = true })
+
+create_index(&quot;posts&quot;, &quot;category&quot;, &quot;title&quot;)
+create_index(&quot;uploads&quot;, &quot;name&quot;, { where = &quot;not deleted&quot; })
+</code></pre>
+
+<pre><code class="language-moon">import create_index from schema
+
+create_index &quot;users&quot;, &quot;created_at&quot;
+create_index &quot;users&quot;, &quot;username&quot;, unique: true
+
+create_index &quot;posts&quot;, &quot;category&quot;, &quot;title&quot;
+create_index &quot;uploads&quot;, &quot;name&quot;, where: &quot;not deleted&quot;
+</code></pre>
+
+<p>This will generate the following SQL:</p>
+
+<pre><code class="language-sql">CREATE INDEX ON &quot;users&quot; (created_at);
+CREATE UNIQUE INDEX ON &quot;users&quot; (username);
+CREATE INDEX ON &quot;posts&quot; (category, title);
+CREATE INDEX ON &quot;uploads&quot; (name) WHERE not deleted;
+</code></pre>
+
+<h4 id="drop-index-table-name-col1-col2"><code>drop_index(table_name, col1, col2...)</code></h4>
+
+<p>Drops an index from a table. It calculates the name of the index from the table
+name and columns. This is the same as the default index name generated by PostgreSQL.</p>
+
+<pre><code class="language-lua">local drop_index = schema.drop_index
+
+drop_index(&quot;users&quot;, &quot;created_at&quot;)
+drop_index(&quot;posts&quot;, &quot;title&quot;, &quot;published&quot;)
+</code></pre>
+
+<pre><code class="language-moon">import drop_index from schema
+
+drop_index &quot;users&quot;, &quot;created_at&quot;
+drop_index &quot;posts&quot;, &quot;title&quot;, &quot;published&quot;
+</code></pre>
+
+<p>This will generate the following SQL:</p>
+
+<pre><code class="language-sql">DROP INDEX IF EXISTS &quot;users_created_at_idx&quot;
+DROP INDEX IF EXISTS &quot;posts_title_published_idx&quot;
+</code></pre>
+
+<h3 id="altering-tables">Altering Tables</h3>
+
+<h4 id="add-column-table-name-column-name-column-type"><code>add_column(table_name, column_name, column_type)</code></h4>
+
+<p>Adds a column to a table.</p>
+
+<pre><code class="language-lua">schema.add_column(&quot;users&quot;, &quot;age&quot;, types.integer)
+</code></pre>
+
+<pre><code class="language-moon">import add_column, types from schema
+
+add_column &quot;users&quot;, &quot;age&quot;, types.integer
+</code></pre>
+
+<p>Generates the SQL:</p>
+
+<pre><code class="language-sql">ALTER TABLE &quot;users&quot; ADD COLUMN &quot;age&quot; integer NOT NULL DEFAULT 0
+</code></pre>
+
+<h4 id="drop-column-table-name-column-name"><code>drop_column(table_name, column_name)</code></h4>
+
+<p>Removes a column from a table.</p>
+
+<pre><code class="language-lua">schema.drop_column(&quot;users&quot;, &quot;age&quot;)
+</code></pre>
+
+<pre><code class="language-moon">import drop_column from schema
+
+drop_column &quot;users&quot;, &quot;age&quot;
+</code></pre>
+
+<p>Generates the SQL:</p>
+
+<pre><code class="language-sql">ALTER TABLE &quot;users&quot; DROP COLUMN &quot;age&quot;
+</code></pre>
+
+<h4 id="rename-column-table-name-old-name-new-name"><code>rename_column(table_name, old_name, new_name)</code></h4>
+
+<p>Changes the name of a column.</p>
+
+<pre><code class="language-lua">schema.rename_column(&quot;users&quot;, &quot;age&quot;, &quot;lifespan&quot;)
+</code></pre>
+
+<pre><code class="language-moon">import rename_column from schema
+
+rename_column &quot;users&quot;, &quot;age&quot;, &quot;lifespan&quot;
+</code></pre>
+
+<p>Generates the SQL:</p>
+
+<pre><code class="language-sql">ALTER TABLE &quot;users&quot; RENAME COLUMN &quot;age&quot; TO &quot;lifespan&quot;
+</code></pre>
+
+<h4 id="rename-table-old-name-new-name"><code>rename_table(old_name, new_name)</code></h4>
+
+<p>Changes the name of a table.</p>
+
+<pre><code class="language-lua">schema.rename_table(&quot;users&quot;, &quot;members&quot;)
+</code></pre>
+
+<pre><code class="language-moon">import rename_table from schema
+
+rename_table &quot;users&quot;, &quot;members&quot;
+</code></pre>
+
+<p>Generates the SQL:</p>
+
+<pre><code class="language-sql">ALTER TABLE &quot;users&quot; RENAME TO &quot;members&quot;
+</code></pre>
+
+<h3 id="column-types">Column Types</h3>
+
+<p>All of the column type generators are stored in <code>schema.types</code>. All the types
+are special objects that can either be turned into a type declaration string
+with <code>tostring</code>, or called like a function to be customized.</p>
+
+<p>Here are all the default values:</p>
+
+<pre><code class="language-lua">local types = require(&quot;lapis.db.schema&quot;).types
+
+types.boolean       --&gt; boolean NOT NULL DEFAULT FALSE
+types.date          --&gt; date NOT NULL
+types.double        --&gt; double precision NOT NULL DEFAULT 0
+types.foreign_key   --&gt; integer NOT NULL
+types.integer       --&gt; integer NOT NULL DEFAULT 0
+types.numeric       --&gt; numeric NOT NULL DEFAULT 0
+types.real          --&gt; real NOT NULL DEFAULT 0
+types.serial        --&gt; serial NOT NULL
+types.text          --&gt; text NOT NULL
+types.time          --&gt; timestamp without time zone NOT NULL
+types.varchar       --&gt; character varying(255) NOT NULL
+</code></pre>
+
+<pre><code class="language-moon">import types from require &quot;lapis.db.schema&quot;
+
+types.boolean       --&gt; boolean NOT NULL DEFAULT FALSE
+types.date          --&gt; date NOT NULL
+types.double        --&gt; double precision NOT NULL DEFAULT 0
+types.foreign_key   --&gt; integer NOT NULL
+types.integer       --&gt; integer NOT NULL DEFAULT 0
+types.numeric       --&gt; numeric NOT NULL DEFAULT 0
+types.real          --&gt; real NOT NULL DEFAULT 0
+types.serial        --&gt; serial NOT NULL
+types.text          --&gt; text NOT NULL
+types.time          --&gt; timestamp without time zone NOT NULL
+types.varchar       --&gt; character varying(255) NOT NULL
+</code></pre>
+
+<p>You&rsquo;ll notice everything is <code>NOT NULL</code> by default, and the numeric types have
+defaults of 0 and boolean false.</p>
+
+<p>When a type is called like a function it takes one argument, a table of
+options. The options include:</p>
+
+<ul>
+<li><code>default: value</code> &ndash; sets default value</li>
+<li><code>null: boolean</code> &ndash; determines if the column is <code>NOT NULL</code></li>
+<li><code>unique: boolean</code> &ndash; determines if the column has a unique index</li>
+<li><code>primary_key: boolean</code> &ndash; determines if the column is the primary key</li>
+</ul>
+
+<p>Here are some examples:</p>
+
+<pre><code class="language-lua">types.integer({ default = 1, null = true })  --&gt; integer DEFAULT 1
+types.integer({ primary_key = true })        --&gt; integer NOT NULL DEFAULT 0 PRIMARY KEY
+types.text({ null = true })                  --&gt; text
+types.varchar({ primary_key = true })        --&gt; character varying(255) NOT NULL PRIMARY KEY
+</code></pre>
+
+<pre><code class="language-moon">types.integer default: 1, null: true  --&gt; integer DEFAULT 1
+types.integer primary_key: true       --&gt; integer NOT NULL DEFAULT 0 PRIMARY KEY
+types.text null: true                 --&gt; text
+types.varchar primary_key: true       --&gt; character varying(255) NOT NULL PRIMARY KEY
+</code></pre>
+
+<h2 id="database-migrations">Database Migrations</h2>
+
+<p>Because requirements typically change over the lifespan of a web application
+it&rsquo;s useful to have a system to make incremental schema changes to the
+database.</p>
+
+<p>We define migrations in our code as a table of functions where the key of each
+function in the table is the name of the migration. You are free to name the
+migrations anything but it&rsquo;s suggested to give them Unix timestamps as names:</p>
+
+<pre><code class="language-lua">local schema = require(&quot;lapis.db.schema&quot;)
+
+return {
+  [1368686109] = function()
+    schema.add_column(&quot;my_table&quot;, &quot;hello&quot;, schema.types.integer)
+  end,
+
+  [1368686843] = function()
+    schema.create_index(&quot;my_table&quot;, &quot;hello&quot;)
+  end
+}
+</code></pre>
+
+<pre><code class="language-moon">import add_column, create_index, types from require &quot;lapis.db.schema&quot;
+
+{
+  [1368686109]: =&gt;
+    add_column &quot;my_table&quot;, &quot;hello&quot;, types.integer
+
+  [1368686843]: =&gt;
+    create_index &quot;my_table&quot;, &quot;hello&quot;
+}
+</code></pre>
+
+<p>A migration function is a plain function. Generally they will call the
+schema functions described above, but they don&rsquo;t have to.</p>
+
+<p>Only the functions that haven&rsquo;t already been executed will be called when we
+tell our migrations to run. The migrations that have already been run are
+stored in the migrations table, a database table that holds the names of the
+migrations that have already been run. Migrations are run in the order of their
+keys sorted ascending.</p>
+
+<h3 id="running-migrations">Running Migrations</h3>
+
+<p>The Lapis command line tool has a special command for running migrations. It&rsquo;s
+called <code>lapis migrate</code>.</p>
+
+<p>This command expects a module called <code>migrations</code> that returns a table of
+migrations in the format described above.</p>
+
+<p>Let&rsquo;s create this file with a single migration as an example.</p>
+
+<pre><code class="language-lua">-- migrations.lua
+
+local schema = require(&quot;lapis.db.schema&quot;)
+local types = schema.types
+
+return {
+  [1] = function()
+    schema.create_table(&quot;articles&quot;, {
+      { &quot;id&quot;, types.serial },
+      { &quot;title&quot;, types.text },
+      { &quot;content&quot;, types.text },
+
+      &quot;PRIMARY KEY (id)&quot;
+    })
+  end
+}
+</code></pre>
+
+<pre><code class="language-moon">-- migrations.moon
+
+import create_table, types from require &quot;lapis.db.schema&quot;
+
+{
+  [1]: =&gt;
+    create_table &quot;articles&quot;, {
+      { &quot;id&quot;, types.serial }
+      { &quot;title&quot;, types.text }
+      { &quot;content&quot;, types.text }
+
+      &quot;PRIMARY KEY (id)&quot;
+    }
+}
+</code></pre>
+
+<p>After creating the file, ensure that it is compiled to Lua and run <code>lapis
+migrate</code>. The command will first create the migrations table if it doesn&rsquo;t
+exist yet then it will run every migration that hasn&rsquo;t been executed yet.</p>
+
+<p>Read more about <a href="#command-line-interface-lapis-migrate">the migrate command</a>.</p>
+
+<h3 id="manually-running-migrations">Manually Running Migrations</h3>
+
+<p>We can manually create the migrations table using the following code:</p>
+
+<pre><code class="language-lua">local migrations = require(&quot;lapis.db.migrations&quot;)
+migrations.create_migrations_table()
+</code></pre>
+
+<pre><code class="language-moon">migrations = require &quot;lapis.db.migrations&quot;
+migrations.create_migrations_table!
+</code></pre>
+
+<p>It will execute the following SQL:</p>
+
+<pre><code class="language-sql">CREATE TABLE IF NOT EXISTS &quot;lapis_migrations&quot; (
+  &quot;name&quot; character varying(255) NOT NULL,
+  PRIMARY KEY(name)
+);
+</code></pre>
+
+<p>Then we can manually run migrations with the following code:</p>
+
+<pre><code class="language-lua">local migrations = require(&quot;lapis.db.migrations&quot;)
+migrations.run_migrations(require(&quot;migrations&quot;))
+</code></pre>
+
+<pre><code class="language-moon">import run_migrations from require &quot;lapis.db.migrations&quot;
+run_migrations require &quot;migrations&quot;
+</code></pre>
+
+<h1 id="html-generation">HTML Generation</h1>
+
+<p>This guide is focused on using builder syntax in Lua/MoonScript to generate
+HTML. If you&rsquo;re interested in a more traditional templating system see the
+<a href="$root/reference/etlua_templates.html">etlua Templates guide</a>.</p>
+
+<h2 id="html-in-actions">HTML In Actions</h2>
+
+<p>If we want to generate HTML directly in our action we can use the <code>@html</code>
+method:</p>
+
+<pre><code class="language-moon">&quot;/&quot;: =&gt;
+  @html -&gt;
+    h1 class: &quot;header&quot;, &quot;Hello&quot;
+    div class: &quot;body&quot;, -&gt;
+      text &quot;Welcome to my site!&quot;
+</code></pre>
+
+<p>HTML templates can be written directly as MoonScript (or Lua) code. This is a
+very powerful feature (inspired by <a href="http://erector.rubyforge.org/">Erector</a>)
+that gives us the ability to write templates with high composability and also
+all the features of MoonScript. No need to learn any goofy templating syntax
+with arbitrary restrictions.</p>
+
+<p>The <code>@html</code> method overrides the environment of the function passed to it.
+Functions that create HTML tags are generated on the fly as you call them. The
+output of these functions is written into a buffer that is compiled in the end
+and returned as the result of the action.</p>
+
+<p>Here are some examples of the HTML generation:</p>
+
+<pre><code class="language-moon">div!                -- &lt;div&gt;&lt;/div&gt;
+b &quot;Hello World&quot;     -- &lt;b&gt;Hello World&lt;/b&gt;
+div &quot;hi&lt;br/&gt;&quot;       -- &lt;div&gt;hi&amp;lt;br/&amp;gt;&lt;/div&gt;
+text &quot;Hi!&quot;          -- Hi!
+raw &quot;&lt;br/&gt;&quot;         -- &lt;br/&gt;
+
+element &quot;table&quot;, width: &quot;100%&quot;, -&gt;  -- &lt;table width=&quot;100%&quot;&gt;&lt;/table&gt;
+
+div class: &quot;footer&quot;, &quot;The Foot&quot;     -- &lt;div class=&quot;footer&quot;&gt;The Foot&lt;/div&gt;
+
+div -&gt;                              -- &lt;div&gt;Hey&lt;/div&gt;
+  text &quot;Hey&quot;
+
+div class: &quot;header&quot;, -&gt;             -- &lt;div class=&quot;header&quot;&gt;&lt;h2&gt;My Site&lt;/h2&gt;
+  h2 &quot;My Site&quot;                      --    &lt;p&gt;Welcome!&lt;/p&gt;&lt;/div&gt;
+  p &quot;Welcome!&quot;
+</code></pre>
+
+<p>The <code>element</code> function is a special builder that takes the name of tag to
+generate as the first argument followed by any attributes and content.</p>
+
+<p>The HTML builder methods have lower precedence than any existing variables, so
+if you have a variable named <code>div</code> and you want to make a <code>&lt;div&gt;</code> tag you&rsquo;ll need
+to call <code>element &quot;div&quot;</code>.</p>
+
+<blockquote>
+<p>If you want to create a <code>&lt;table&gt;</code> or <code>&lt;select&gt;</code> tag you&rsquo;ll need to use <code>element</code> because Lua
+uses those names in the built-in modules.</p>
+</blockquote>
+
+<h2 id="html-widgets">HTML Widgets</h2>
+
+<p>The preferred way to write HTML is through widgets. Widgets are classes who are
+only concerned with outputting HTML. They use the same syntax as the <code>@html</code>
+helper shown above for writing HTML.</p>
+
+<p>When Lapis loads a widget automatically it does it by package name. For
+example, if it was loading the widget for the name <code>&quot;index&quot;</code> it would try to
+load the module <code>views.index</code>, and the result of that module should be the
+widget.</p>
+
+<p>This is what a widget looks like:</p>
+
+<pre><code class="language-moon">-- views/index.moon
+import Widget from require &quot;lapis.html&quot;
+
+class Index extends Widget
+  content: =&gt;
+    h1 class: &quot;header&quot;, &quot;Hello&quot;
+    div class: &quot;body&quot;, -&gt;
+      text &quot;Welcome to my site!&quot;
+</code></pre>
+
+<blockquote>
+<p>The name of the widget class is insignificant, but it&rsquo;s worth making one
+because some systems can auto-generate encapsulating HTML named after the
+class.</p>
+</blockquote>
+
+<h3 id="rendering-a-widget-from-an-action">Rendering A Widget From An Action</h3>
+
+<p>The <code>render</code> option key is used to render a widget. For example you can render
+the <code>&quot;index&quot;</code> widget from our action by returning a table with render set to
+the name of the widget:</p>
+
+<pre><code class="language-moon">&quot;/&quot;: =&gt;
+  render: &quot;index&quot;
+</code></pre>
+
+<p>If the action has a name, then we can set render to <code>true</code> to load the widget
+with the same name as the action:</p>
+
+<pre><code class="language-moon">[index: &quot;/&quot;]: =&gt;
+  render: true
+</code></pre>
+
+<p>By default <code>views.</code> is appended to the front of the widget name and then loaded
+using Lua&rsquo;s <code>require</code> function. The <code>views</code> prefix can be customized by
+overwriting the <code>views_prefix</code> member of your application subclass:</p>
+
+<pre><code class="language-moon">class Application extends lapis.Application
+  views_prefix: &quot;app_views&quot;
+
+  -- will use &quot;app_views.home&quot; as the view
+  [home: &quot;/home&quot;]: =&gt; render: true
+</code></pre>
+
+<h3 id="passing-data-to-a-widget">Passing Data To A Widget</h3>
+
+<p>Any <code>@</code> variables set in the action can be accessed in the widget. Additionally
+any of the helper functions like <code>@url_for</code> are also accessible.</p>
+
+<pre><code class="language-moon">-- web.moon
+[index: &quot;/&quot;]: =&gt;
+  @page_title = &quot;Welcome To My Page&quot;
+  render: true
+</code></pre>
+
+<pre><code class="language-moon">-- views/index.moon
+import Widget from require &quot;lapis.html&quot;
+
+class Index extends Widget
+  content: =&gt;
+    h1 class: &quot;header&quot;, @page_title
+    div class: &quot;body&quot;, -&gt;
+      text &quot;Welcome to my site!&quot;
+</code></pre>
+
+<h3 id="rendering-widgets-manually">Rendering Widgets Manually</h3>
+
+<p>Widgets can also be rendered manually by instantiating them and calling the
+<code>render</code> method.</p>
+
+<pre><code class="language-moon">Index = require &quot;views.index&quot;
+
+widget = Index page_title: &quot;Hello World&quot;
+print widget\render_to_string!
+</code></pre>
+
+<p>If you want to use helpers like <code>@url_for</code> you also need to include them in the
+widget instance. Any object can be included as a helper, and it&rsquo;s methods will
+be made available inside of the widget.</p>
+
+<pre><code class="language-moon">html = require &quot;lapis.html&quot;
+class SomeWidget extends html.Widget
+  content: =&gt;
+    a href: @url_for(&quot;test&quot;), &quot;Test Page&quot;
+
+class extends lapis.Application
+  [test: &quot;/test_render&quot;]: =&gt;
+    widget = SomeWidget!
+    widget\include_helper @
+    widget\render_to_string!
+</code></pre>
+
+<p>You should avoid rendering widgets manually when possible. When in an action
+use the <code>render</code> <a href="#request-object-request-options">request option</a>. When in
+another widget use the <code>widget</code> helper function.</p>
+
+<h2 id="layouts">Layouts</h2>
+
+<p>Whenever an action is rendered normally the result is inserted into the
+current layout. The layout is just another widget, but it is used across many
+pages. Typically this is where you would put your <code>&lt;html&gt;</code> and <code>&lt;head&gt;</code> tags.</p>
+
+<p>Lapis comes with a default layout that looks like this:</p>
+
+<pre><code class="language-moon">html = require &quot;lapis.html&quot;
+
+class DefaultLayout extends html.Widget
+  content: =&gt;
+    html_5 -&gt;
+      head -&gt; title @title or &quot;Lapis Page&quot;
+      body -&gt; @content_for &quot;inner&quot;
+</code></pre>
+
+<p>Use this as a starting point for creating your own layout. The content of your
+page will be injected in the location of the call to <code>@content_for &quot;inner&quot;</code>.</p>
+
+<p>We can specify the layout for an entire application or specify it for a
+specific action. For example, if we have our new layout in <code>views/my_layout.moon</code></p>
+
+<pre><code class="language-moon">class extends lapis.Application
+  layout: require &quot;views.my_layout&quot;
+</code></pre>
+
+<p>If we want to set the layout for a specific action we can provide it as part of
+the action&rsquo;s return value.</p>
+
+<pre><code class="language-moon">class extends lapis.Application
+  -- the following two have the same effect
+  &quot;/home1&quot;: =&gt;
+    layout: &quot;my_layout&quot;
+
+  &quot;/home2&quot;: =&gt;
+    layout: require &quot;views.my_layout&quot;
+
+  -- this doesn't use a layout at all
+  &quot;/no_layout&quot;: =&gt;
+    layout: false, &quot;No layout rendered!&quot;
+
+</code></pre>
+
+<p>As demonstrated in the example, passing false will prevent any layout from
+being rendered.</p>
+
+<h2 id="widget-methods">Widget Methods</h2>
+
+<h3 id="include-other-class"><code>@@include(other_class)</code></h3>
+
+<p>Class method that copies the methods from another class into this widget.
+Useful for mixin in shared functionality across multiple widgets.</p>
+
+<pre><code class="language-moon">class MyHelpers
+  item_list: (items) =&gt;
+    ul -&gt;
+      for item in *items
+        li item
+
+
+class SomeWidget extends html.Widget
+  @include MyHelpers
+
+  content: =&gt;
+    @item_list {&quot;hello&quot;, &quot;world&quot;}
+</code></pre>
+
+<h3 id="content-for-name-content"><code>@content_for(name, [content])</code></h3>
+
+<p><code>content_for</code> is used for sending HTML or strings from the view to the layout.
+You&rsquo;ve probably already seen <code>@content_for &quot;inner&quot;</code> if you&rsquo;ve looked at
+layouts. By default the content of the view is placed in the content block
+called <code>&quot;inner&quot;</code>.</p>
+
+<p>You can create arbitrary content blocks from the view by calling <code>@content_for</code>
+with a name and some content:</p>
+
+<pre><code class="language-moon">class MyView extends Widget
+  content: =&gt;
+    @content_for &quot;title&quot;, &quot;This is the title of my page!&quot;
+
+    @content_for &quot;footer&quot;, -&gt;
+      div class: &quot;custom_footer&quot;, &quot;The Footer&quot;
+
+</code></pre>
+
+<p>You can use either strings or builder functions as the content.</p>
+
+<p>To access the content from the layout call <code>@content_for</code> without the content
+argument:</p>
+
+<pre><code class="language-moon">class MyLayout extends Widget
+  content: =&gt;
+    html -&gt;
+      body -&gt;
+        div class: &quot;title&quot;, -&gt;
+          @content_for &quot;title&quot;
+
+        @content_for &quot;inner&quot;
+        @content_for &quot;footer&quot;
+</code></pre>
+
+<p>If a string is used as the value of a content block then it will be escaped
+before written to the buffer. If you want to insert a raw string then you can
+use a builder function in conjunction with the <code>raw</code> function:</p>
+
+<pre><code class="language-moon">@content_for &quot;footer&quot;, -&gt;
+  raw &quot;&lt;pre&gt;this wont' be escaped&lt;/pre&gt;&quot;
+</code></pre>
+
+<h3 id="has-content-for-name"><code>@has_content_for(name)</code></h3>
+
+<p>Checks to see if content for <code>name</code> is set.</p>
+
+<pre><code class="language-moon">class MyView extends Widget
+  content: =&gt;
+    if @has_content_for &quot;things&quot;
+      @content_for &quot;things&quot;
+    else
+      div -&gt;
+        text &quot;default content&quot;
+</code></pre>
+
+<h2 id="html-module">HTML Module</h2>
+
+<pre><code class="language-moon">html = require &quot;lapis.html&quot;
+</code></pre>
+
+<h3 id="render-html-fn"><code>render_html(fn)</code></h3>
+
+<p>Runs the function, <code>fn</code> in the HTML rendering context as described above.
+Returns the resulting HTML. The HTML context will automatically convert any
+reference to an undefined global variable into a function that will render the
+appropriate tag.</p>
+
+<pre><code class="language-moon">import render_html from require &quot;lapis.html&quot;
+
+print render_html -&gt;
+  div class: &quot;item&quot;, -&gt;
+    strong &quot;Hello!&quot;
+</code></pre>
+
+<h3 id="escape-str"><code>escape(str)</code></h3>
+
+<p>Escapes any HTML special characters in the string. The following are escaped:</p>
+
+<ul>
+<li><code>&amp;</code> &ndash; <code>&amp;amp;</code></li>
+<li><code>&lt;</code> &ndash; <code>&amp;lt;</code></li>
+<li><code>&gt;</code> &ndash; <code>&amp;gt;</code></li>
+<li><code>&quot;</code> &ndash; <code>&amp;quot;</code></li>
+<li><code>'</code> &ndash; <code>&amp;#039;</code></li>
+</ul>
+
+		</div>
+		
+
+	</article>
+	
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="linuxing3 avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About linuxing3</span>
+	</div>
+	<div class="authorbox__description">
+		Emacser and Vimer
+	</div>
+</div>
+	
+<nav class="post-nav row clearfix" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+	<div class="post-nav__item post-nav__item--prev col-1-2">
+		<a class="post-nav__link" href="/posts/misc/lapis_console/" rel="prev"><span class="post-nav__caption">«Previous</span><p class="post-nav__post-title">lapis_console.md</p></a>
+	</div>
+	<div class="post-nav__item post-nav__item--next col-1-2">
+		<a class="post-nav__link" href="/posts/nodejs/karma/" rel="next"><span class="post-nav__caption">Next»</span><p class="post-nav__post-title">karma.md</p></a>
+	</div>
+</nav>
+
+	
+</main>
+
+<aside class="sidebar" itemscope="itemscope" itemtype="http://schema.org/WPSideBar">
+	
+<div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="//google.com/search">
+		<label>
+			<span class="screen-reader-text">Search for:</span>
+			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="https://linuxing3.github.io/" />
+	</form>
+</div>
+	
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/news/20180609/">20180609</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180608/">20180608</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180607/">20180607</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180606/">20180606</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180605/">20180605</a></li>
+		</ul>
+	</div>
+</div>
+
+	
+	
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Facebook" rel="noopener noreferrer" href="https://facebook.com/xingwenju0928" target="_blank">
+				<svg class="widget-social__link-icon icon-facebook" viewBox="0 0 352 352" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m0 32v288c0 17.5 14.5 32 32 32h288c17.5 0 32-14.5 32-32v-288c0-17.5-14.5-32-32-32h-288c-17.5 0-32 14.5-32 32zm320 0v288h-83v-108h41.5l6-48h-47.5v-31c0-14 3.5-23.5 23.5-23.5h26v-43.5c-4.4-.6-19.8-1.5-37.5-1.5-36.9 0-62 22.2-62 63.5v36h-42v48h42v108h-155v-288z"/></svg>
+				<span>Facebook</span>
+			</a>
+		</div>
+		
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Twitter" rel="noopener noreferrer" href="https://twitter.com/@linuxing3" target="_blank">
+				<svg class="widget-social__link-icon icon-twitter" viewBox="0 0 384 312" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m384 36.9c-14.1 6.3-29.3 10.5-45.2 12.4 16.3-9.7 28.8-25.2 34.6-43.6-15.2 9-32.1 15.6-50 19.1-14.4-15.2-34.9-24.8-57.5-24.8-43.5 0-78.8 35.3-78.8 78.8 0 6.2.7 12.2 2 17.9-65.5-3.3-123.5-34.6-162.4-82.3-6.7 11.6-10.6 25.2-10.6 39.6 0 27.3 13.9 51.4 35 65.6-12.9-.4-25.1-4-35.7-9.9v1c0 38.2 27.2 70 63.2 77.2-6.6 1.8-13.6 2.8-20.8 2.8-5.1 0-10-.5-14.8-1.4 10 31.3 39.1 54.1 73.6 54.7-27 21.1-60.9 33.7-97.8 33.7-6.4 0-12.6-.4-18.8-1.1 34.9 22.4 76.3 35.4 120.8 35.4 144.9 0 224.1-120 224.1-224.1 0-3.4-.1-6.8-.2-10.2 15.4-11.1 28.7-25 39.3-40.8z"/></svg>
+				<span>Twitter</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="GitHub" rel="noopener noreferrer" href="https://github.com/linuxing3" target="_blank">
+				<svg class="widget-social__link-icon icon-github" viewBox="0 0 384 374" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m192 0c-106.1 0-192 85.8-192 191.7 0 84.7 55 156.6 131.3 181.9 9.6 1.8 13.1-4.2 13.1-9.2 0-4.6-.2-16.6-.3-32.6-53.4 11.6-64.7-25.7-64.7-25.7-8.7-22.1-21.3-28-21.3-28-17.4-11.9 1.3-11.6 1.3-11.6 19.3 1.4 29.4 19.8 29.4 19.8 17.1 29.3 44.9 20.8 55.9 15.9 1.7-12.4 6.7-20.8 12.2-25.6-42.6-4.8-87.5-21.3-87.5-94.8 0-20.9 7.5-38 19.8-51.4-2-4.9-8.6-24.3 1.9-50.7 0 0 16.1-5.2 52.8 19.7 15.3-4.2 31.7-6.4 48.1-6.5 16.3.1 32.7 2.2 48.1 6.5 36.7-24.8 52.8-19.7 52.8-19.7 10.5 26.4 3.9 45.9 1.9 50.7 12.3 13.4 19.7 30.5 19.7 51.4 0 73.7-44.9 89.9-87.7 94.6 6.9 5.9 13 17.6 13 35.5 0 25.6-.2 46.3-.2 52.6 0 5.1 3.5 11.1 13.2 9.2 76.2-25.5 131.2-97.3 131.2-182 0-105.9-86-191.7-192-191.7z"/></svg>
+				<span>GitHub</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Email" href="mailto:xingwenju@gmail.com">
+				<svg class="widget-social__link-icon icon-mail" viewBox="0 0 416 288" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<span>xingwenju@gmail.com</span>
+			</a>
+		</div>
+	</div>
+</div>
+
+	
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget__link widget__link--taglist" href="/tags/tag1" title="tag1">tag1</a>
+	</div>
+</div>
+</aside>
+
+	</div>
+		<footer class="footer" itemscope="itemscope" itemtype="http://schema.org/WPFooter">
+			<div class="container container-inner">
+				<p class="footer__copyright">&copy; 2018 天生我材必有用，千金散尽还复来. <span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad theme</a>.</span></p>
+			</div>
+		</footer>
+	</div>
+
+<script>
+	var navigation = responsiveNav(".menu", {
+		navClass: "menu--collapse",
+	});
+</script>
+</body>
+</html>

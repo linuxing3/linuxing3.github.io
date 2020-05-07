@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>using-java-in-emacs.org</title>
+<meta name="description" content=" Linuxing3&#39;s个人博客 ">
+<meta name="generator" content="Hugo 0.31.1" />
+<meta property="og:title" content="using-java-in-emacs.org" />
+<meta property="og:description" content="Some Description" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://linuxing3.github.io/posts/emacs/using-java-in-emacs/" />
+
+
+
+<meta property="article:published_time" content="2018-02-16T20:03:50-04:00"/>
+
+<meta property="article:modified_time" content="2018-02-16T20:03:50-04:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="//fonts.googleapis.com" />
+<link rel="dns-prefetch" href="//fonts.gstatic.com" />
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700" type="text/css" media="all" />
+<link rel="stylesheet" href="/css/style.css" type="text/css" media="all" />
+<script type="text/javascript" src="/js/scripts.js"></script>
+<link rel="shortcut icon" href="/favicon.ico">
+
+</head>
+<body class="body body-right-sidebar mobile" itemscope="itemscope" itemtype="http://schema.org/WebPage">
+	<div class="container container-outer">
+		<header class="header" itemscope="itemscope" itemtype="http://schema.org/WPHeader">
+			<div class="container container-inner clearfix">
+				<div class="logo" role="banner" itemscope="itemscope" itemtype="http://schema.org/Brand">
+					<a class="logo__link" href="/" title="天生我材必有用，千金散尽还复来" rel="home">
+						<h1 class="logo__title">天生我材必有用，千金散尽还复来</h1>
+						<h2 class="logo__tagline">在编程世界中学习生活</h2>
+					</a>
+				</div>
+			</div>
+			
+<nav class="menu" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+	<ul class="menu__list">
+		<li class="menu__item"><a class="menu__link" href="/posts/">博客</a></li>
+		<li class="menu__item"><a class="menu__link" href="/news/">新闻</a></li>
+		<li class="menu__item"><a class="menu__link" href="/hexo/">老店</a></li>
+	</ul>
+</nav>
+
+		</header>
+		<div class="wrapper clearfix">
+
+<main class="main-content content" role="main" itemprop="mainContentOfPage">
+	<article class="post">
+		<header class="post__header clearfix">
+			<h1 class="post__title">using-java-in-emacs.org</h1>
+			<p class="post__meta meta">
+				<svg class="icon icon-time" height="14" viewBox="0 0 16 16" width="14" xmlns="http://www.w3.org/2000/svg"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
+				<time class="post__meta-date" datetime="2018-02-16T20:03:50">February 16, 2018</time>
+			</p>
+		</header>
+		<div class="post__content clearfix">
+			<p><img src="img/java.png" alt="img/java.png" title="img/java.png" /></p>
+
+<h1 id="table-of-contents-toc-4-gh-noexport">Table of Contents <span class="tags TOC_4_gh">TOC_4_gh</span>  <span class="tags noexport">noexport</span> </h1>
+
+<ul>
+<li><a href="#description" title="Description">Description</a></li>
+<li><a href="#features" title="Features:">Features:</a></li>
+<li><a href="#layer-installation" title="Layer Installation">Layer Installation</a></li>
+<li><a href="#layer" title="Layer">Layer</a></li>
+<li><a href="#choosing-a-backend" title="Choosing a backend">Choosing a backend</a></li>
+<li><a href="#backends" title="Backends">Backends</a></li>
+<li><a href="#meghanada" title="Meghanada">Meghanada</a></li>
+<li><a href="#installation" title="Installation">Installation</a></li>
+<li><a href="#about-maven" title="About Maven">About Maven</a></li>
+<li><a href="#eclim" title="Eclim">Eclim</a></li>
+<li><a href="#installation-1" title="Installation">Installation</a></li>
+<li><a href="#eclipse" title="Eclipse">Eclipse</a></li>
+<li><a href="#eclim-1" title="Eclim">Eclim</a></li>
+<li><a href="#configuration" title="Configuration">Configuration</a></li>
+<li><a href="#usage" title="Usage">Usage</a></li>
+<li><a href="#ensime" title="ENSIME">ENSIME</a></li>
+<li><a href="#installation-when-using-sbt" title="Installation when using SBT">Installation when using SBT</a></li>
+<li><a href="#installation-when-using-gradle" title="Installation when using Gradle">Installation when using Gradle</a></li>
+<li><a href="#configuration-1" title="Configuration">Configuration</a></li>
+<li><a href="#usage-1" title="Usage">Usage</a></li>
+<li><a href="#issues" title="Issues">Issues</a></li>
+<li><a href="#key-bindings" title="Key bindings">Key bindings</a></li>
+<li><a href="#meghanada-1" title="Meghanada">Meghanada</a></li>
+<li><a href="#server" title="Server">Server</a></li>
+<li><a href="#navigation" title="Navigation">Navigation</a></li>
+<li><a href="#compilation" title="Compilation">Compilation</a></li>
+<li><a href="#tests-junit" title="Tests (junit)">Tests (junit)</a></li>
+<li><a href="#refactoring" title="Refactoring">Refactoring</a></li>
+<li><a href="#tasks" title="Tasks">Tasks</a></li>
+<li><a href="#eclim-2" title="Eclim">Eclim</a></li>
+<li><a href="#java-mode" title="Java-mode">Java-mode</a></li>
+<li><a href="#ant" title="Ant">Ant</a></li>
+<li><a href="#project-management" title="Project management">Project management</a></li>
+<li><a href="#eclim-daemon" title="Eclim daemon">Eclim daemon</a></li>
+<li><a href="#goto" title="Goto">Goto</a></li>
+<li><a href="#refactoring-1" title="Refactoring">Refactoring</a></li>
+<li><a href="#documentation-find" title="Documentation, Find">Documentation, Find</a></li>
+<li><a href="#errors-problems" title="Errors (problems)">Errors (problems)</a></li>
+<li><a href="#tests" title="Tests">Tests</a></li>
+<li><a href="#errors-problems-buffer" title="Errors (problems) buffer">Errors (problems) buffer</a></li>
+<li><a href="#projects-buffer" title="Projects buffer">Projects buffer</a></li>
+<li><a href="#ensime-key-bindings" title="Ensime key bindings">Ensime key bindings</a></li>
+<li><a href="#search" title="Search">Search</a></li>
+<li><a href="#ensime-search-mode" title="Ensime Search Mode">Ensime Search Mode</a></li>
+<li><a href="#sbt" title="sbt">sbt</a></li>
+<li><a href="#typecheck" title="Typecheck">Typecheck</a></li>
+<li><a href="#debug" title="Debug">Debug</a></li>
+<li><a href="#errors" title="Errors">Errors</a></li>
+<li><a href="#goto-1" title="Goto">Goto</a></li>
+<li><a href="#print-and-yank-types" title="Print and yank types">Print and yank types</a></li>
+<li><a href="#documentation-inspect" title="Documentation, Inspect">Documentation, Inspect</a></li>
+<li><a href="#server-1" title="Server">Server</a></li>
+<li><a href="#refactoring-2" title="Refactoring">Refactoring</a></li>
+<li><a href="#tests-1" title="Tests">Tests</a></li>
+<li><a href="#repl" title="REPL">REPL</a></li>
+<li><a href="#maven" title="Maven">Maven</a></li>
+<li><a href="#gradle" title="Gradle">Gradle</a></li>
+</ul>
+
+<h1 id="description">Description</h1>
+
+<p>This layer adds support for the Java language.</p>
+
+<h2 id="features">Features:</h2>
+
+<ul>
+<li>Support for the following backends:</li>
+<li><a href="https://github.com/mopemope/meghanada-emacs" title="Meghanada">Meghanada</a> client/server (default),</li>
+<li><a href="http://eclim" title="Eclim">Eclim</a> client/server,</li>
+<li><a href="https://ensime.github.io/" title="ENSIME">ENSIME</a> client/server.</li>
+<li>Each provides:</li>
+<li>Auto-completion using company</li>
+<li>Linting using flycheck integration</li>
+<li>Maven and Gradle integration</li>
+</ul>
+
+<h1 id="layer-installation">Layer Installation</h1>
+
+<h2 id="layer">Layer</h2>
+
+<p>To use this configuration layer, add it to your <code>~/.spacemacs</code>. You will need to
+add <code>java</code> to the existing <code>dotspacemacs-configuration-layers</code> list in this
+file.</p>
+
+<h2 id="choosing-a-backend">Choosing a backend</h2>
+
+<p>To choose a default backend set the layer variable =java-backend=:</p>
+
+<pre><code class="language-elisp">
+(java :variables java-backend 'eclim)
+</code></pre>
+
+<p>Backend can be chosen on a per project basis using directory local variables
+(files named <code>.dir-locals.el</code> at the root of a project), an example to use the
+=eclim= backend:</p>
+
+<pre><code class="language-elisp">
+;;; Directory Local Variables
+;;; For more information see (info &quot;(emacs) Directory Variables&quot;)
+
+((java-mode (java-backend . eclim)))
+</code></pre>
+
+<p><strong>Note:</strong> you can easily add a directory local variable with <code>SPC f v d</code>.</p>
+
+<p>If you want to use the Ensime backend, you should modify your <code>~/.spacemacs</code> to
+use the recommended Ensime version (Stable). Please add the following lines to
+=dotspacemacs/user-init=:</p>
+
+<pre><code class="language-emacs-lisp">
+  (push '(&quot;melpa-stable&quot; . &quot;stable.melpa.org/packages/&quot;) configuration-layer-elpa-archives)
+  (push '(ensime . &quot;melpa-stable&quot;) package-pinned-packages)
+</code></pre>
+
+<h1 id="backends">Backends</h1>
+
+<h2 id="meghanada">Meghanada</h2>
+
+<p>Meghanada is composed of a lightweight server and an Emacs minor mode. It
+is unintrusive and integrates with <code>company</code> and <code>flycheck</code>.</p>
+
+<p>Both <code>Gradle</code> and <code>Maven</code> projects are compatible with Meghanada.</p>
+
+<p>Meghanada is the default backend used by this layer, see <a href="#choosing-a-backend" title="Choosing a backend">Choosing a backend</a> in
+order to lean how to select a different backend.</p>
+
+<h3 id="installation">Installation</h3>
+
+<p>The Meghanada server will be installed automatically whenever a Java file
+is opened.</p>
+
+<p>If you get issues with the auto-installation you can either download the last
+version of the server manually <a href="https://dl.bintray.com/mopemope/meghanada/" title="there">there</a> or build from source hosted on <a href="https://github.com/mopemope/meghanada-server" title="the GitHub
+repository">the GitHub
+repository</a> and copy the <code>jar</code> file to <code>.emacs.d/.cache/meghanada</code> folder.</p>
+
+<p>No additional configuration is necessary!</p>
+
+<h3 id="about-maven">About Maven</h3>
+
+<p>Maven is not fully supported by Meghanada (but should still work fine for most
+projects). If you encounter disconnection from the server then run =mvn install=
+at the root of your project first.</p>
+
+<h2 id="eclim">Eclim</h2>
+
+<p>Eclim provides the ability to access Eclipse features such as code completion,
+searching, code validation, and many more.</p>
+
+<h3 id="installation-1">Installation</h3>
+
+<h4 id="eclipse">Eclipse</h4>
+
+<p>First you need the last version of Eclispe from the <a href="https://www.eclipse.org/downloads/eclipse-packages/" title="official Eclipse site">official Eclipse site</a>.</p>
+
+<p><strong>Note:</strong> if you are on MacOS there some issues between the new native Eclipse
+application installed by the <code>Eclispe-install.app</code> wizard and the Eclim
+installer wizard. The recommended way to install Eclipse on MacOS is by using
+=homebrew= or by get the <code>tar.gz</code> compressed file instead. With homebrew
+the command line to install Eclipse is <code>brew cask install eclipse-jee</code>.</p>
+
+<h4 id="eclim-1">Eclim</h4>
+
+<p>For installation of Eclim check the <a href="http://eclim.org/install.html#download" title="official page">official page</a> to download the installer
+then double click on it or launch it in the command line with the following
+command (the example is for MacOS, replace the eclispe.home definition by
+your correct location as well as the current version of eclim):</p>
+
+<pre><code class="language-shell">
+$ java -Dvim.skip=true -Declipse.home=/Applications/Eclipse.app/Contents/Eclipse -jar eclim_2.6.0.jar install
+</code></pre>
+
+<h3 id="configuration">Configuration</h3>
+
+<p>You may need to set the Eclipse and Eclim paths in your dotfile as layer
+variables or in the <code>dotspacemacs/user-config</code>, for instance on MacOS as layer
+variables:</p>
+
+<p>#+BEGIN_SRC elisp
+(java :variables java-backend 'eclim
+                 eclim-eclipse-dirs '("/Applications/Eclipse.app/Contents/Eclipse/")
+                 eclim-executable "/Applications/Eclipse.app/Contents/Eclipse/eclim")
+ #+END_SRC</p>
+
+<p>You can also configure useful other options like the default location for the
+Eclim workspace (default value is <code>~/workspace</code>), as shown below:</p>
+
+<p>#+BEGIN_SRC elisp
+   (setq
+    ;; Specify the workspace to use by default
+    eclimd-default-workspace "/path/to/default/eclipse/workspace"
+    ;; wether autostarting eclimd or not (default nil)
+    eclimd-autostart t
+    ;; Whether or not to block emacs until eclimd is ready (default nil)
+    eclimd-wait-for-process t)
+ #+END_SRC</p>
+
+<h3 id="usage">Usage</h3>
+
+<p>Start the eclim daemon with <code>SPC m D s</code> and stop it with <code>SPC m D k</code>. (See
+below.)</p>
+
+<p>Syntax checking is performed only on demand with <code>SPC e e</code> to preserve
+perfomance.</p>
+
+<p>Auto-save feature may freeze Emacs sometimes, use <code>C-g</code> to unfreeze Emacs or
+atlernatively you can set <code>dotspacemacs-auto-save-file-location</code> to nil.</p>
+
+<h2 id="ensime">ENSIME</h2>
+
+<p>Another backend option is the ENSIME server, which is a lot more responsive than
+Eclim. ENSIME is originally made to work with Scala but it now works with plain
+Java projects as well.</p>
+
+<h3 id="installation-when-using-sbt">Installation when using SBT</h3>
+
+<p>Find it with your favourite package manager, eg:</p>
+
+<pre><code class="language-shell">
+  nix-env --install sbt
+</code></pre>
+
+<p>or refer to <a href="http://www.scala-sbt.org/download.html" title="the sbt installation instructions">the sbt installation instructions</a>.</p>
+
+<h3 id="installation-when-using-gradle">Installation when using Gradle</h3>
+
+<p>Refer to the <a href="https://ensime.org/build_tools/gradle/" title="Ensime installation instructions">Ensime installation instructions</a> to install the =ensime-gradle=
+plugin.</p>
+
+<h3 id="configuration-1">Configuration</h3>
+
+<p>Follow <a href="https://ensime.github.io/build_tools/sbt/" title="the ENSIME configuration instructions">the ENSIME configuration instructions</a>. Spacemacs uses
+the development version of Ensime so follow the appropriate steps.</p>
+
+<p>To use the build functions under <code>SPC m b</code> you need to use version <code>0.13.5</code> or
+newer of <code>sbt</code>, and specify that in your project's <code>project/build.properties</code>.
+For example,</p>
+
+<pre><code class="language-scala">
+  sbt.version=0.13.11
+</code></pre>
+
+<h3 id="usage-1">Usage</h3>
+
+<p><code>SPC SPC spacemacs/ensime-gen-and-restart</code> or <code>SPC m D r</code> generates a new config
+for a project and starts the server. Afterwards <code>SPC SPC ensime</code> or ~SPC m D s~
+will suffice do the trick.</p>
+
+<h3 id="issues">Issues</h3>
+
+<p>ENSIME is originally built for Scala, so support for java is not complete, in
+particular refactoring doesn't work.</p>
+
+<h1 id="key-bindings">Key bindings</h1>
+
+<h2 id="meghanada-1">Meghanada</h2>
+
+<h3 id="server">Server</h3>
+
+<p>| Key Binding | Description                                  |
+ |-------------+----------------------------------------------|
+ | <code>SPC m D c</code> | Connect to server                            |
+ | <code>SPC m D d</code> | Disconnect from server                       |
+ | <code>SPC m D i</code> | Install server (should be done automatically |
+ | <code>SPC m D k</code> | Kill server                                  |
+ | <code>SPC m D l</code> | Clear server cache                           |
+ | <code>SPC m D p</code> | Ping server                                  |
+ | <code>SPC m D r</code> | Restarrt server                              |
+ | <code>SPC m D s</code> | Start server                                 |
+ | <code>SPC m D u</code> | Update server                                |
+ | <code>SPC m D v</code> | Print version of the server                  |</p>
+
+<h3 id="navigation">Navigation</h3>
+
+<p>| Key Binding | Description                    |
+ |-------------+--------------------------------|
+ | <code>SPC m g b</code> | Jump back to previous location |
+ | <code>SPC m g g</code> | Jump to declaration            |</p>
+
+<h3 id="compilation">Compilation</h3>
+
+<p>| Key Binding | Description           |
+ |-------------+-----------------------|
+ | <code>SPC m c b</code> | Compile file (buffer) |
+ | <code>SPC m c c</code> | Compile project       |</p>
+
+<h3 id="tests-junit">Tests (junit)</h3>
+
+<p>| Key Binding | Description                 |
+ |-------------+-----------------------------|
+ | <code>SPC m t a</code> | Run all tests               |
+ | <code>SPC m t c</code> | Run test class around point |
+ | <code>SPC m t l</code> | Run last tests              |
+ | <code>SPC m t t</code> | Run test cause around point |</p>
+
+<h3 id="refactoring">Refactoring</h3>
+
+<p>| Key Binding | Description                            |
+ |-------------+----------------------------------------|
+ | <code>SPC m =</code>   | Beautify code                          |
+ | <code>SPC m r i</code> | Optimize imports                       |
+ | <code>SPC m r I</code> | Import all                             |
+ | <code>SPC m r n</code> | Create a new class, interface, or enum |</p>
+
+<h3 id="tasks">Tasks</h3>
+
+<p>| Key Binding | Description |
+ |-------------+-------------|
+ | <code>SPC m x :</code> | Run task    |</p>
+
+<h2 id="eclim-2">Eclim</h2>
+
+<h3 id="java-mode">Java-mode</h3>
+
+<h4 id="ant">Ant</h4>
+
+<p>| Key Binding | Description     |
+ |-------------+-----------------|
+ | <code>SPC m a a</code> | Run Ant         |
+ | <code>SPC m a c</code> | Clear Ant cache |
+ | <code>SPC m a r</code> | Run Ant         |
+ | <code>SPC m a v</code> | Validate        |</p>
+
+<h4 id="project-management">Project management</h4>
+
+<p>| Key Binding | Description                    |
+ |-------------+--------------------------------|
+ | <code>SPC m p b</code> | Build project                  |
+ | <code>SPC m p c</code> | Create project                 |
+ | <code>SPC m p d</code> | Delete project                 |
+ | <code>SPC m p g</code> | Open file in current project   |
+ | <code>SPC m p i</code> | Import project                 |
+ | <code>SPC m p j</code> | Information about project      |
+ | <code>SPC m p k</code> | Close project                  |
+ | <code>SPC m p o</code> | Open project                   |
+ | <code>SPC m p p</code> | Open project management buffer |
+ | <code>SPC m p r</code> | Run project                    |
+ | <code>SPC m p u</code> | Update project                 |</p>
+
+<h4 id="eclim-daemon">Eclim daemon</h4>
+
+<p>| Key Binding | Description  |
+ |-------------+--------------|
+ | <code>SPC m D k</code> | Kill daemon  |
+ | <code>SPC m D s</code> | Start daemon |</p>
+
+<h4 id="goto">Goto</h4>
+
+<p>| Key Binding | Description                                 |
+ |-------------+---------------------------------------------|
+ | <code>M-​,​</code>       | jump back from go to declaration/definition |
+ | <code>SPC m g g</code> | go to declaration                           |
+ | <code>SPC m g t</code> | go to type definition                       |</p>
+
+<h4 id="refactoring-1">Refactoring</h4>
+
+<p>| Key Binding | Description                            |
+ |-------------+----------------------------------------|
+ | <code>SPC m r c</code> | create a constructor                   |
+ | <code>SPC m r f</code> | format file                            |
+ | <code>SPC m r g</code> | generate getter and setter             |
+ | <code>SPC m r i</code> | optimize imports                       |
+ | <code>SPC m r j</code> | implement or override a method         |
+ | <code>SPC m r n</code> | create a new class, enum, or interface |
+ | <code>SPC m r r</code> | rename symbol                          |</p>
+
+<h4 id="documentation-find">Documentation, Find</h4>
+
+<p>| Key Binding | Description                            |
+ |-------------+----------------------------------------|
+ | <code>SPC m f f</code> | general find in project                |
+ | <code>SPC m h c</code> | call hierarchy                         |
+ | <code>SPC m h h</code> | show documentation for symbol at point |
+ | <code>SPC m h i</code> | view hierarchy                         |
+ | <code>SPC m h u</code> | show usages for symbol at point        |</p>
+
+<h4 id="errors-problems">Errors (problems)</h4>
+
+<p>| Key Binding | Description                |
+ |-------------+----------------------------|
+ | <code>SPC e e</code>   | Force an error check       |
+ | <code>SPC e l</code>   | List errors                |
+ | <code>SPC e n</code>   | Next error                 |
+ | <code>SPC e p</code>   | Previous error             |
+ | <code>SPC m e e</code> | Correct error around point |</p>
+
+<h4 id="tests">Tests</h4>
+
+<p>| Key Binding | Description                                                   |
+ |-------------+---------------------------------------------------------------|
+ | <code>SPC m t t</code> | run JUnit tests for current method or current file or project |</p>
+
+<h3 id="errors-problems-buffer">Errors (problems) buffer</h3>
+
+<p>| Key Binding | Description                         |
+ |-------------+-------------------------------------|
+ | <code>RET</code>       | go to problem place                 |
+ | <code>a</code>         | show all problems                   |
+ | <code>e</code>         | show only errors                    |
+ | <code>f</code>         | show problems only for current file |
+ | <code>g</code>         | refresh problems                    |
+ | <code>q</code>         | quit                                |
+ | <code>w</code>         | show only warnings                  |</p>
+
+<h3 id="projects-buffer">Projects buffer</h3>
+
+<p>| Key Binding | Description                                |
+ |-------------+--------------------------------------------|
+ | <code>RET</code>       | go to current project                      |
+ | <code>c</code>         | go to problem place                        |
+ | <code>D</code>         | delete project                             |
+ | <code>g</code>         | refresh buffer                             |
+ | <code>i</code>         | info about current project                 |
+ | <code>I</code>         | import existing project into the workspace |
+ | <code>m</code>         | mark current project                       |
+ | <code>M</code>         | mark all projects                          |
+ | <code>N</code>         | create new project                         |
+ | <code>o</code>         | open project                               |
+ | <code>p</code>         | update project                             |
+ | <code>q</code>         | quit                                       |
+ | <code>R</code>         | rename current project                     |
+ | <code>u</code>         | unmark current project                     |
+ | <code>U</code>         | unmark all projects                        |</p>
+
+<h2 id="ensime-key-bindings">Ensime key bindings</h2>
+
+<h3 id="search">Search</h3>
+
+<table>
+<thead>
+<tr>
+<th>Key Binding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SPC m /</code></td>
+<td>incremental search using <code>ensime-scalex</code> major mode</td>
+</tr>
+
+<tr>
+<td><code>SPC m ?</code></td>
+<td>incremental search in all live buffers</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="ensime-search-mode">Ensime Search Mode</h3>
+
+<table>
+<thead>
+<tr>
+<th>Key Binding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>C-j</code></td>
+<td>Move to next match</td>
+</tr>
+
+<tr>
+<td><code>C-k</code></td>
+<td>Move to previous match</td>
+</tr>
+
+<tr>
+<td><code>C-i</code></td>
+<td>Insert at point import of current result</td>
+</tr>
+
+<tr>
+<td><code>RET</code></td>
+<td>Jump to the target of the currently selected ensime-search-result</td>
+</tr>
+
+<tr>
+<td><code>C-q</code></td>
+<td>Quit ensime search</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="sbt">sbt</h3>
+
+<table>
+<thead>
+<tr>
+<th>Key Binding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SPC m b .</code></td>
+<td>sbt transient state</td>
+</tr>
+
+<tr>
+<td><code>SPC m b b</code></td>
+<td>sbt command</td>
+</tr>
+
+<tr>
+<td><code>SPC m b c</code></td>
+<td>compile</td>
+</tr>
+
+<tr>
+<td><code>SPC m b C</code></td>
+<td>clean command</td>
+</tr>
+
+<tr>
+<td><code>SPC m b i</code></td>
+<td>switch to sbt shell</td>
+</tr>
+
+<tr>
+<td><code>SPC m b p</code></td>
+<td>package command</td>
+</tr>
+
+<tr>
+<td><code>SPC m b r</code></td>
+<td>run command</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="typecheck">Typecheck</h3>
+
+<table>
+<thead>
+<tr>
+<th>Key Binding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SPC m c t</code></td>
+<td>type check the current file</td>
+</tr>
+
+<tr>
+<td><code>SPC m c T</code></td>
+<td>type check all the open buffers</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="debug">Debug</h3>
+
+<table>
+<thead>
+<tr>
+<th>Key Binding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SPC m d A</code></td>
+<td>Attach to a remote debugger</td>
+</tr>
+
+<tr>
+<td><code>SPC m d b</code></td>
+<td>set breakpoint</td>
+</tr>
+
+<tr>
+<td><code>SPC m d B</code></td>
+<td>clear breakpoint</td>
+</tr>
+
+<tr>
+<td><code>SPC m d C</code></td>
+<td>clear all breakpoints</td>
+</tr>
+
+<tr>
+<td><code>SPC m d c</code></td>
+<td>continue</td>
+</tr>
+
+<tr>
+<td><code>SPC m d i</code></td>
+<td>inspect value at point</td>
+</tr>
+
+<tr>
+<td><code>SPC m d n</code></td>
+<td>next</td>
+</tr>
+
+<tr>
+<td><code>SPC m d o</code></td>
+<td>step out</td>
+</tr>
+
+<tr>
+<td><code>SPC m d q</code></td>
+<td>quit</td>
+</tr>
+
+<tr>
+<td><code>SPC m d r</code></td>
+<td>run</td>
+</tr>
+
+<tr>
+<td><code>SPC m d s</code></td>
+<td>step</td>
+</tr>
+
+<tr>
+<td><code>SPC m d t</code></td>
+<td>backtrace</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Note:</strong> These key bindings need a transient-state, PR welcome :-)</p>
+
+<h3 id="errors">Errors</h3>
+
+<table>
+<thead>
+<tr>
+<th>Key Binding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SPC m e e</code></td>
+<td>print error at point</td>
+</tr>
+
+<tr>
+<td><code>SPC m e l</code></td>
+<td>show all errors and warnings</td>
+</tr>
+
+<tr>
+<td><code>SPC m e s</code></td>
+<td>switch to buffer containing the stack trace parser</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="goto-1">Goto</h3>
+
+<table>
+<thead>
+<tr>
+<th>Key Binding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SPC m g g</code></td>
+<td>go to definition</td>
+</tr>
+
+<tr>
+<td><code>SPC m g i</code></td>
+<td>go to implementation</td>
+</tr>
+
+<tr>
+<td><code>SPC m g t</code></td>
+<td>go to test</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="print-and-yank-types">Print and yank types</h3>
+
+<table>
+<tbody>
+<tr>
+<td><code>SPC m h T</code></td>
+<td>print full type name at point</td>
+</tr>
+
+<tr>
+<td><code>SPC m h t</code></td>
+<td>print short type name at point</td>
+</tr>
+
+<tr>
+<td><code>SPC m y T</code></td>
+<td>yank full type name at point</td>
+</tr>
+
+<tr>
+<td><code>SPC m y t</code></td>
+<td>yank short type name at point</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="documentation-inspect">Documentation, Inspect</h3>
+
+<table>
+<thead>
+<tr>
+<th>Key Binding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SPC m h h</code></td>
+<td>show documentation for symbol at point</td>
+</tr>
+
+<tr>
+<td><code>SPC m h u</code></td>
+<td>show uses for symbol at point</td>
+</tr>
+
+<tr>
+<td><code>SPC m i i</code></td>
+<td>inspect type at point</td>
+</tr>
+
+<tr>
+<td><code>SPC m i I</code></td>
+<td>inspect type in other frame</td>
+</tr>
+
+<tr>
+<td><code>SPC m i p</code></td>
+<td>inspect project package</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="server-1">Server</h3>
+
+<table>
+<thead>
+<tr>
+<th>Key Binding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SPC m D f</code></td>
+<td>reload open files</td>
+</tr>
+
+<tr>
+<td><code>SPC m D r</code></td>
+<td>regenerate the <code>.ensime</code> and restart the ensime server</td>
+</tr>
+
+<tr>
+<td><code>SPC m D s</code></td>
+<td>start ensime server</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="refactoring-2">Refactoring</h3>
+
+<table>
+<thead>
+<tr>
+<th>Key Binding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SPC m r a</code></td>
+<td>add type annotation</td>
+</tr>
+
+<tr>
+<td><code>SPC m r f</code></td>
+<td>format source</td>
+</tr>
+
+<tr>
+<td><code>SPC m r d</code></td>
+<td>get rid of an intermediate variable (<code>ensime-refactor-inline-local</code>)</td>
+</tr>
+
+<tr>
+<td><code>SPC m r D</code></td>
+<td>get rid of an intermediate variable (<code>ensime-undo-peek</code>)</td>
+</tr>
+
+<tr>
+<td><code>SPC m r i</code></td>
+<td>organize imports</td>
+</tr>
+
+<tr>
+<td><code>SPC m r m</code></td>
+<td>extract a range of code into a method</td>
+</tr>
+
+<tr>
+<td><code>SPC m r r</code></td>
+<td>rename a symbol project wide</td>
+</tr>
+
+<tr>
+<td><code>SPC m r t</code></td>
+<td>import type at point</td>
+</tr>
+
+<tr>
+<td><code>SPC m r v</code></td>
+<td>extract a range of code into a variable</td>
+</tr>
+
+<tr>
+<td><code>SPC m z</code></td>
+<td>expand/contract region</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="tests-1">Tests</h3>
+
+<table>
+<thead>
+<tr>
+<th>Key Binding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SPC m t a</code></td>
+<td>test command (sbt)</td>
+</tr>
+
+<tr>
+<td><code>SPC m t r</code></td>
+<td>test quick command (sbt)</td>
+</tr>
+
+<tr>
+<td><code>SPC m t t</code></td>
+<td>test only (sbt)</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="repl">REPL</h3>
+
+<table>
+<thead>
+<tr>
+<th>Key Binding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SPC m s a</code></td>
+<td>ask for a file to be loaded in the REPL</td>
+</tr>
+
+<tr>
+<td><code>SPC m s b</code></td>
+<td>send buffer to the REPL</td>
+</tr>
+
+<tr>
+<td><code>SPC m s B</code></td>
+<td>send buffer to the REPL and focus the REPL buffer in <code>insert state</code></td>
+</tr>
+
+<tr>
+<td><code>SPC m s i</code></td>
+<td>start or switch to the REPL inferior process</td>
+</tr>
+
+<tr>
+<td><code>SPC m s r</code></td>
+<td>send region to the REPL</td>
+</tr>
+
+<tr>
+<td><code>SPC m s R</code></td>
+<td>send region to the REPL and focus the REPL buffer in <code>insert state</code></td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="maven">Maven</h2>
+
+<table>
+<thead>
+<tr>
+<th>Key Binding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SPC m m c c</code></td>
+<td>Compile</td>
+</tr>
+
+<tr>
+<td><code>SPC m m c C</code></td>
+<td>Clean</td>
+</tr>
+
+<tr>
+<td><code>SPC m m c r</code></td>
+<td>Clean and compile</td>
+</tr>
+
+<tr>
+<td><code>SPC m m g a</code></td>
+<td>Switch between class and test file</td>
+</tr>
+
+<tr>
+<td><code>SPC m m g A</code></td>
+<td>Switch between class and test file in another window</td>
+</tr>
+
+<tr>
+<td><code>SPC m m t a</code></td>
+<td>Run all tests</td>
+</tr>
+
+<tr>
+<td><code>SPC m m t C-a</code></td>
+<td>Clean and run all tests</td>
+</tr>
+
+<tr>
+<td><code>SPC m m t b</code></td>
+<td>Run current buffer tests</td>
+</tr>
+
+<tr>
+<td><code>SPC m m t i</code></td>
+<td>Test and install</td>
+</tr>
+
+<tr>
+<td><code>SPC m m t t</code></td>
+<td>Run a specific test</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="gradle">Gradle</h2>
+
+<table>
+<thead>
+<tr>
+<th>Key Binding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SPC m l c c</code></td>
+<td>Compile</td>
+</tr>
+
+<tr>
+<td><code>SPC m l c C</code></td>
+<td>Clean</td>
+</tr>
+
+<tr>
+<td><code>SPC m l c r</code></td>
+<td>Clean and compile</td>
+</tr>
+
+<tr>
+<td><code>SPC m l t a</code></td>
+<td>Run all tests</td>
+</tr>
+
+<tr>
+<td><code>SPC m l t b</code></td>
+<td>Run current buffer tests</td>
+</tr>
+
+<tr>
+<td><code>SPC m l t t</code></td>
+<td>Run a specific test</td>
+</tr>
+
+<tr>
+<td><code>SPC m l x</code></td>
+<td>Execute a Gradle task</td>
+</tr>
+</tbody>
+</table>
+
+		</div>
+		
+<div class="post__tags tags clearfix">
+	<svg class="icon icon-tag" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="m4.73135 3.3795002q0-.5597-.39604-.9557-.39604-.3961-.95577-.3961-.55974 0-.95578.3961-.39604.396-.39604.9557 0 .5598.39604.9558.39604.3961.95578.3961.55973 0 .95577-.3961.39604-.396.39604-.9558zm11.26865 6.0832q0 .5596998-.39076.9504998l-5.18548 5.196q-.41188.3908-.9610504.3908-.55974 0-.9505-.3908l-7.5511496-7.5616998q-.40132-.3907-.68119-1.0666-.27987-.6759-.27987-1.2357v-4.3934q0-.54920004.40132-.95050004.40132-.4013.9505-.4013h4.39339q.55974 0 1.23565.2799.67591.2798 1.07723.6812l7.55115 7.54060004q.39076.4118.39076.961z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link" href="/tags/tag1/" rel="tag">tag1</a></li>
+	</ul>
+</div>
+
+	</article>
+	
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="linuxing3 avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About linuxing3</span>
+	</div>
+	<div class="authorbox__description">
+		Emacser and Vimer
+	</div>
+</div>
+	
+<nav class="post-nav row clearfix" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+	<div class="post-nav__item post-nav__item--prev col-1-2">
+		<a class="post-nav__link" href="/posts/emacs/using-javascript-in-emacs/" rel="prev"><span class="post-nav__caption">«Previous</span><p class="post-nav__post-title">using-javascript-in-emacs.org</p></a>
+	</div>
+	<div class="post-nav__item post-nav__item--next col-1-2">
+		<a class="post-nav__link" href="/posts/emacs/using-interactive-in-emacs/" rel="next"><span class="post-nav__caption">Next»</span><p class="post-nav__post-title">using-interactive-in-emacs.org</p></a>
+	</div>
+</nav>
+
+	
+</main>
+
+<aside class="sidebar" itemscope="itemscope" itemtype="http://schema.org/WPSideBar">
+	
+<div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="//google.com/search">
+		<label>
+			<span class="screen-reader-text">Search for:</span>
+			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="https://linuxing3.github.io/" />
+	</form>
+</div>
+	
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/news/20180609/">20180609</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180608/">20180608</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180607/">20180607</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180606/">20180606</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180605/">20180605</a></li>
+		</ul>
+	</div>
+</div>
+
+	
+	
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Facebook" rel="noopener noreferrer" href="https://facebook.com/xingwenju0928" target="_blank">
+				<svg class="widget-social__link-icon icon-facebook" viewBox="0 0 352 352" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m0 32v288c0 17.5 14.5 32 32 32h288c17.5 0 32-14.5 32-32v-288c0-17.5-14.5-32-32-32h-288c-17.5 0-32 14.5-32 32zm320 0v288h-83v-108h41.5l6-48h-47.5v-31c0-14 3.5-23.5 23.5-23.5h26v-43.5c-4.4-.6-19.8-1.5-37.5-1.5-36.9 0-62 22.2-62 63.5v36h-42v48h42v108h-155v-288z"/></svg>
+				<span>Facebook</span>
+			</a>
+		</div>
+		
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Twitter" rel="noopener noreferrer" href="https://twitter.com/@linuxing3" target="_blank">
+				<svg class="widget-social__link-icon icon-twitter" viewBox="0 0 384 312" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m384 36.9c-14.1 6.3-29.3 10.5-45.2 12.4 16.3-9.7 28.8-25.2 34.6-43.6-15.2 9-32.1 15.6-50 19.1-14.4-15.2-34.9-24.8-57.5-24.8-43.5 0-78.8 35.3-78.8 78.8 0 6.2.7 12.2 2 17.9-65.5-3.3-123.5-34.6-162.4-82.3-6.7 11.6-10.6 25.2-10.6 39.6 0 27.3 13.9 51.4 35 65.6-12.9-.4-25.1-4-35.7-9.9v1c0 38.2 27.2 70 63.2 77.2-6.6 1.8-13.6 2.8-20.8 2.8-5.1 0-10-.5-14.8-1.4 10 31.3 39.1 54.1 73.6 54.7-27 21.1-60.9 33.7-97.8 33.7-6.4 0-12.6-.4-18.8-1.1 34.9 22.4 76.3 35.4 120.8 35.4 144.9 0 224.1-120 224.1-224.1 0-3.4-.1-6.8-.2-10.2 15.4-11.1 28.7-25 39.3-40.8z"/></svg>
+				<span>Twitter</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="GitHub" rel="noopener noreferrer" href="https://github.com/linuxing3" target="_blank">
+				<svg class="widget-social__link-icon icon-github" viewBox="0 0 384 374" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m192 0c-106.1 0-192 85.8-192 191.7 0 84.7 55 156.6 131.3 181.9 9.6 1.8 13.1-4.2 13.1-9.2 0-4.6-.2-16.6-.3-32.6-53.4 11.6-64.7-25.7-64.7-25.7-8.7-22.1-21.3-28-21.3-28-17.4-11.9 1.3-11.6 1.3-11.6 19.3 1.4 29.4 19.8 29.4 19.8 17.1 29.3 44.9 20.8 55.9 15.9 1.7-12.4 6.7-20.8 12.2-25.6-42.6-4.8-87.5-21.3-87.5-94.8 0-20.9 7.5-38 19.8-51.4-2-4.9-8.6-24.3 1.9-50.7 0 0 16.1-5.2 52.8 19.7 15.3-4.2 31.7-6.4 48.1-6.5 16.3.1 32.7 2.2 48.1 6.5 36.7-24.8 52.8-19.7 52.8-19.7 10.5 26.4 3.9 45.9 1.9 50.7 12.3 13.4 19.7 30.5 19.7 51.4 0 73.7-44.9 89.9-87.7 94.6 6.9 5.9 13 17.6 13 35.5 0 25.6-.2 46.3-.2 52.6 0 5.1 3.5 11.1 13.2 9.2 76.2-25.5 131.2-97.3 131.2-182 0-105.9-86-191.7-192-191.7z"/></svg>
+				<span>GitHub</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Email" href="mailto:xingwenju@gmail.com">
+				<svg class="widget-social__link-icon icon-mail" viewBox="0 0 416 288" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<span>xingwenju@gmail.com</span>
+			</a>
+		</div>
+	</div>
+</div>
+
+	
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget__link widget__link--taglist" href="/tags/tag1" title="tag1">tag1</a>
+	</div>
+</div>
+</aside>
+
+	</div>
+		<footer class="footer" itemscope="itemscope" itemtype="http://schema.org/WPFooter">
+			<div class="container container-inner">
+				<p class="footer__copyright">&copy; 2018 天生我材必有用，千金散尽还复来. <span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad theme</a>.</span></p>
+			</div>
+		</footer>
+	</div>
+
+<script>
+	var navigation = responsiveNav(".menu", {
+		navClass: "menu--collapse",
+	});
+</script>
+</body>
+</html>

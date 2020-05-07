@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title></title>
+<meta name="description" content=" Linuxing3&#39;s个人博客 ">
+<meta name="generator" content="Hugo 0.31.1" />
+<meta property="og:title" content="" />
+<meta property="og:description" content="Introduction webpack is a bundler for modules. The main purpose is to bundle JavaScript files for usage in a browser, yet it is also capable of transforming, bundling, or packaging just about any resource or asset.
+TL; DR
+ Bundles both CommonJs and AMD modules (even combined). Can create a single bundle or multiple chunks that are asynchronously loaded at runtime (to reduce initial loading time). Dependencies are resolved during compilation reducing the runtime size." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://linuxing3.github.io/posts/nodejs/webpack/" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="//fonts.googleapis.com" />
+<link rel="dns-prefetch" href="//fonts.gstatic.com" />
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700" type="text/css" media="all" />
+<link rel="stylesheet" href="/css/style.css" type="text/css" media="all" />
+<script type="text/javascript" src="/js/scripts.js"></script>
+<link rel="shortcut icon" href="/favicon.ico">
+
+</head>
+<body class="body body-right-sidebar mobile" itemscope="itemscope" itemtype="http://schema.org/WebPage">
+	<div class="container container-outer">
+		<header class="header" itemscope="itemscope" itemtype="http://schema.org/WPHeader">
+			<div class="container container-inner clearfix">
+				<div class="logo" role="banner" itemscope="itemscope" itemtype="http://schema.org/Brand">
+					<a class="logo__link" href="/" title="天生我材必有用，千金散尽还复来" rel="home">
+						<h1 class="logo__title">天生我材必有用，千金散尽还复来</h1>
+						<h2 class="logo__tagline">在编程世界中学习生活</h2>
+					</a>
+				</div>
+			</div>
+			
+<nav class="menu" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+	<ul class="menu__list">
+		<li class="menu__item"><a class="menu__link" href="/posts/">博客</a></li>
+		<li class="menu__item"><a class="menu__link" href="/news/">新闻</a></li>
+		<li class="menu__item"><a class="menu__link" href="/hexo/">老店</a></li>
+	</ul>
+</nav>
+
+		</header>
+		<div class="wrapper clearfix">
+
+<main class="main-content content" role="main" itemprop="mainContentOfPage">
+	<article class="post">
+		<header class="post__header clearfix">
+			<h1 class="post__title"></h1>
+		</header>
+		<div class="post__content clearfix">
+			
+
+<h1 id="introduction">Introduction</h1>
+
+<p>webpack is a bundler for modules. The main purpose is to bundle JavaScript
+files for usage in a browser, yet it is also capable of transforming, bundling,
+or packaging just about any resource or asset.</p>
+
+<p><strong>TL; DR</strong></p>
+
+<ul>
+<li>Bundles both <a href="http://www.commonjs.org/specs/modules/1.0/">CommonJs</a> and <a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a> modules (even combined).</li>
+<li>Can create a single bundle or multiple chunks that are asynchronously loaded at runtime (to reduce initial loading time).</li>
+<li>Dependencies are resolved during compilation reducing the runtime size.</li>
+<li>Loaders can preprocess files while compiling, e.g. coffeescript to JavaScript, handlebars strings to compiled functions, images to Base64, etc.</li>
+<li>Highly modular plugin system to do whatever else your application requires.</li>
+</ul>
+
+<h1 id="getting-started">Getting Started</h1>
+
+<p>Check out webpack&rsquo;s <a href="https://webpack.github.io/docs/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=trdr">documentation</a> for quick Getting Started guide, in-depth usage,
+tutorials and resources.</p>
+
+<h1 id="installation">Installation</h1>
+
+<p>project:
+<code>npm install webpack --save-dev</code></p>
+
+<p>global:
+<code>npm install webpack -g</code>
+Usage
+<a href="https://webpack.github.io/docs/tutorials/getting-started/">https://webpack.github.io/docs/tutorials/getting-started/</a></p>
+
+<h1 id="examples">Examples</h1>
+
+<p>Take a look at the <a href="https://github.com/webpack/webpack/tree/master/examples"><code>examples</code></a> folder.</p>
+
+<h1 id="features">Features</h1>
+
+<h2 id="plugins">Plugins</h2>
+
+<p>webpack has a <a href="https://webpack.github.io/docs/plugins.html">rich plugin
+interface</a>. Most of the features
+within webpack itself use this plugin interface. This makes webpack very
+<strong>flexible</strong>.</p>
+
+<h2 id="performance">Performance</h2>
+
+<p>webpack uses async I/O and has multiple caching levels. This makes webpack fast
+and incredibly <strong>fast</strong> on incremental compilations.</p>
+
+<h2 id="loaders">Loaders</h2>
+
+<p>webpack enables use of loaders to preprocess files. This allows you to bundle
+<strong>any static resource</strong> way beyond JavaScript. You can easily <a href="https://webpack.github.io/docs/loaders.html">write your own
+loaders</a> using node.js.</p>
+
+<p>Loaders are activated by using <code>loadername!</code> prefixes in <code>require()</code> statements,
+or are automatically applied via regex from your webpack configuration.</p>
+
+<p>Please see <a href="https://webpack.github.io/docs/using-loaders.html">Using Loaders</a> for more information.</p>
+
+<p><strong>basic</strong>
+* <a href="https://github.com/webpack/json-loader"><code>json</code></a>: Loads file as JSON
+* <a href="https://github.com/webpack/raw-loader"><code>raw</code></a>: Loads raw content of a file (as utf-8)
+* <a href="https://github.com/webpack/val-loader"><code>val</code></a>: Executes code as module and consider exports as JavaScript code
+* <a href="https://github.com/webpack/script-loader"><code>script</code></a>: Executes a JavaScript file once in global context (like in script tag), requires are not parsed.</p>
+
+<p><strong>packaging</strong>
+* <a href="https://github.com/webpack/file-loader"><code>file</code></a>: Emits the file into the output folder and returns the (relative) url.
+* <a href="https://github.com/webpack/url-loader"><code>url</code></a>: The url loader works like the file loader, but can return a Data Url if the file is smaller than a limit.
+* <a href="https://github.com/tcoopman/image-webpack-loader"><code>image</code></a>: Compresses your images. Ideal to use together with <code>file</code> or <code>url</code>.
+* <a href="https://github.com/pozadi/svgo-loader"><code>svgo-loader</code></a>: Compresses SVG images using <a href="https://github.com/svg/svgo">svgo</a> library
+* <a href="https://github.com/deepsweet/baggage-loader"><code>baggage</code></a>: Automatically require any resources related to the required one
+* <a href="https://github.com/JonDum/polymer-loader"><code>polymer-loader</code></a>: Process HTML &amp; CSS with preprocessor of choice and <code>require()</code> Web Components like first-class modules.</p>
+
+<p><strong>dialects</strong>
+* <a href="https://github.com/webpack/coffee-loader"><code>coffee</code></a>: Loads coffee-script like JavaScript
+* <a href="https://github.com/babel/babel-loader"><code>babel</code></a>: Turn ES6 code into vanilla ES5 using <a href="https://github.com/babel/babel">Babel</a>.
+* <a href="https://github.com/appedemic/livescript-loader"><code>livescript</code></a>: Loads LiveScript like JavaScript
+* <a href="https://github.com/jlongster/sweetjs-loader"><code>sweetjs</code></a>: Use sweetjs macros.
+* <a href="https://github.com/jupl/traceur-loader"><code>traceur</code></a>: Use future JavaScript features with <a href="https://github.com/google/traceur-compiler">Traceur</a>.
+* <a href="https://github.com/andreypopp/typescript-loader"><code>typescript</code></a>: Loads TypeScript like JavaScript.</p>
+
+<p><strong>templating</strong>
+* <a href="https://github.com/webpack/html-loader"><code>html</code></a>: Exports HTML as string, require references to static resources.
+* <a href="https://github.com/webpack/jade-loader"><code>jade</code></a>: Loads jade template and returns a function
+* <a href="https://github.com/altano/handlebars-loader"><code>handlebars</code></a>: Loads handlebars template and returns a function
+* <a href="https://github.com/rstacruz/ractive-loader"><code>ractive</code></a>: Pre-compiles Ractive templates for interactive DOM manipulation
+* <a href="https://github.com/peerigon/markdown-loader"><code>markdown</code></a>: Compiles Markdown to HTML
+* <a href="https://github.com/teux/ng-cache-loader"><code>ng-cache</code></a>: Puts HTML partials in the Angular&rsquo;s $templateCache</p>
+
+<p><strong>styling</strong>
+* <a href="https://github.com/webpack/style-loader"><code>style</code></a>: Add exports of a module as style to DOM
+* <a href="https://github.com/webpack/css-loader"><code>css</code></a>: Loads css file with resolved imports and returns css code
+* <a href="https://github.com/cssnext/cssnext-loader"><code>cssnext</code></a>: Loads and compiles a css file using <a href="http://cssnext.io/">cssnext</a>
+* <a href="https://github.com/webpack/less-loader"><code>less</code></a>: Loads and compiles a less file
+* <a href="https://github.com/jtangelder/sass-loader"><code>sass</code></a>: Loads and compiles a scss file
+* <a href="https://github.com/shama/stylus-loader"><code>stylus</code></a>: Loads and compiles a stylus file</p>
+
+<p><strong>misc</strong>
+* <a href="https://github.com/dschissler/po-loader"><code>po</code></a>: Loads a PO gettext file and returns JSON
+* <a href="https://github.com/webpack/mocha-loader"><code>mocha</code></a>: Do tests with mocha in browser or node.js
+* <a href="https://github.com/MoOx/eslint-loader"><code>eslint</code></a>: PreLoader for linting code using ESLint.
+* <a href="https://github.com/webpack/jshint-loader"><code>jshint</code></a>: PreLoader for linting code.
+* <a href="https://github.com/unindented/jscs-loader"><code>jscs</code></a>: PreLoader for style checking.
+* <a href="https://github.com/jauco/webpack-injectable"><code>injectable</code></a>: Allow to inject dependencies into modules
+* <a href="https://github.com/webpack/transform-loader"><code>transform</code></a>: Use browserify transforms as loader.</p>
+
+<p>For the full list of loaders, see <a href="https://webpack.github.io/docs/list-of-loaders.html">list of loaders</a>.</p>
+
+<h2 id="module-format-amd-commonjs">Module Format (AMD/CommonJS)</h2>
+
+<p>webpack supports <strong>both</strong> AMD and CommonJS module styles. It performs clever static
+analysis on the AST of your code. It even has an evaluation engine to evaluate
+simple expressions. This allows you to <strong>support most existing libraries</strong> out of the box.</p>
+
+<h2 id="code-splitting">Code Splitting</h2>
+
+<p>webpack allows you to split your codebase into multiple chunks. Chunks are
+loaded asynchronously at runtime. This reduces the initial loading time.</p>
+
+<p><a href="https://webpack.github.io/docs/code-splitting.html">Code Splitting documentation</a></p>
+
+<h2 id="optimizations">Optimizations</h2>
+
+<p>webpack can do many optimizations to <strong>reduce the output size of your
+JavaScript</strong> by deduplicating frequently used modules, minifying, and giving
+you full control of what is loaded initially and what is loaded at runtime
+through code splitting. It can also can make your code chunks <strong>cache
+friendly</strong> by using hashes.</p>
+
+<p><a href="https://webpack.github.io/docs/optimization.html">Optimization documentation</a></p>
+
+<p>webpack optimizes in several ways. It also makes your chunks <strong>cache-friendly</strong> by using hashes.</p>
+
+<h1 id="a-small-example-of-what-s-possible">A small example of what&rsquo;s possible</h1>
+
+<pre><code class="language-javascript">// webpack is a module bundler.
+// This means webpack takes modules with dependencies
+// and emits static assets representing those modules.
+
+// Dependencies can be written in CommonJs
+var commonjs = require(&quot;./commonjs&quot;);
+// or in AMD
+define([&quot;amd-module&quot;, &quot;../file&quot;], function (amdModule, file) {
+	// while previous constructs are sync,
+	// this is async
+	require([&quot;big-module/big/file&quot;], function (big) {
+		 // For async dependencies, webpack splits
+		 // your application into multiple &quot;chunks&quot;.
+		 // This part of your application is
+		 // loaded on demand (code-splitting).
+		var stuff = require(&quot;../my/stuff&quot;);
+		// &quot;../my/stuff&quot; is also loaded on-demand
+		//  because it's in the callback function
+		//  of the AMD require.
+	});
+});
+
+
+require(&quot;coffee!./cup.coffee&quot;);
+// &quot;Loaders&quot; are used to preprocess files.
+// They can be prefixed in the require call
+// or configured in the configuration.
+require(&quot;./cup&quot;);
+// This does the same when you add &quot;.coffee&quot; to the extensions
+// and configure the &quot;coffee&quot; loader for /\.coffee$/
+
+function loadTemplate (name) {
+	return require(&quot;./templates/&quot; + name + &quot;.jade&quot;);
+	// Many expressions are supported in require calls.
+	// A clever parser extracts information and concludes
+	// that everything in &quot;./templates&quot; that matches
+	// /\.jade$/ should be included in the bundle, as it
+	// can be required.
+}
+
+
+// ...and you can combine everything.
+function loadTemplateAsync (name, callback) {
+	require([&quot;bundle?lazy!./templates/&quot; + name + &quot;.jade&quot;],
+	  function (templateBundle) {
+	          templateBundle(callback);
+	});
+}
+</code></pre>
+
+<h2 id="documentation">Documentation</h2>
+
+<p><a href="https://webpack.github.io/docs/?utm_source=github&amp;utm_medium=readme&amp;utm_campaign=documentation">documentation</a></p>
+
+<h2 id="changelog">Changelog</h2>
+
+<p><a href="https://webpack.github.io/docs/changelog.html">changelog</a></p>
+
+<h2 id="tests">Tests</h2>
+
+<p>You can run the Node tests with <code>npm test</code>.</p>
+
+<p>You can run the browser tests:</p>
+
+<pre><code>cd test/browsertests
+node build
+</code></pre>
+
+<p>and open <code>tests.html</code> in the browser.</p>
+
+<h2 id="contribution">Contribution</h2>
+
+<p>Most of the time, if webpack is not working correctly for you it is a simple configuration issue.</p>
+
+<p>If you are still having difficulty after looking over your configuration carefully, please post
+a question to <a href="http://stackoverflow.com/tags/webpack">StackOverflow with the webpack tag</a>. Questions
+that include your webpack.config.js and relevant files are more likely to receive responses.</p>
+
+<p>If you have discovered a bug or have a feature suggestion, feel free to create an issue on Github.</p>
+
+<p>If you create a loader or plugin, please consider open sourcing it, putting it
+on NPM and following the <code>x-loader</code>, <code>x-plugin</code> convention.</p>
+
+<p>You are also welcome to correct any spelling mistakes or any language issues.</p>
+
+<p>If you want to discuss something or just need help, <a href="https://gitter.im/webpack/webpack">here is our gitter.im room</a>.</p>
+
+<h2 id="license">License</h2>
+
+<p>Copyright &copy; 2012-2015 Tobias Koppers</p>
+
+<p>MIT (<a href="http://www.opensource.org/licenses/mit-license.php">http://www.opensource.org/licenses/mit-license.php</a>)</p>
+
+<h2 id="thanks-to">Thanks to</h2>
+
+<p>(In chronological order)</p>
+
+<ul>
+<li>@google for <a href="https://code.google.com/p/google-web-toolkit">Google Web Toolkit (GWT)</a>, which aims to compile Java to JavaScript. It features a similar <a href="https://code.google.com/p/google-web-toolkit/wiki/CodeSplitting">Code Splitting</a> as webpack.</li>
+<li>@medikoo for <a href="https://github.com/medikoo/modules-webmake">modules-webmake</a>, which is a similar project. webpack was born because I wanted Code Splitting for modules-webpack. Interestingly the <a href="https://github.com/medikoo/modules-webmake/issues/7">Code Splitting issue is still open</a> (thanks also to @Phoscur for the discussion).</li>
+<li>@substack for <a href="http://browserify.org/">browserify</a>, which is a similar project and source for many ideas.</li>
+<li>@jrburke for <a href="http://requirejs.org/">require.js</a>, which is a similar project and source for many ideas.</li>
+<li>@defunctzombie for the <a href="https://gist.github.com/defunctzombie/4339901">browser-field spec</a>, which makes modules available for node.js, browserify and webpack.</li>
+<li>Every early webpack user, which contributed to webpack by writing issues or PRs. You influenced the direction&hellip;</li>
+<li>@shama, @jhnns and @sokra for maintaining this project</li>
+<li>Everyone who has written a loader for webpack. You are the ecosystem&hellip;</li>
+<li>Everyone I forgot to mention here, but also influenced webpack.</li>
+</ul>
+
+<h2 id="sponsor">Sponsor</h2>
+
+<p>This is a free-time project. The time I invest in it fluctuates. If you use webpack for a serious task, and you&rsquo;d like me to invest more time on it, please donate. This project increases your income/productivity too. It makes development and applications faster and it reduces the required bandwidth.</p>
+
+<p>I&rsquo;m very thankful for every dollar. If you leave your username or email, I may show my thanks by giving you extra support.</p>
+
+<h2 id="dependencies">Dependencies</h2>
+
+<ul>
+<li><a href="http://esprima.org/">esprima</a></li>
+<li><a href="https://github.com/webpack/enhanced-resolve">enhanced-resolve</a></li>
+<li><a href="https://github.com/mishoo/UglifyJS">uglify-js</a></li>
+<li><a href="https://github.com/visionmedia/mocha">mocha</a></li>
+<li><a href="https://github.com/visionmedia/should.js">should</a></li>
+<li><a href="https://github.com/substack/node-optimist">optimist</a></li>
+<li><a href="https://github.com/caolan/async">async</a></li>
+<li><a href="https://github.com/substack/node-mkdirp">mkdirp</a></li>
+<li><a href="https://github.com/pvorb/node-clone">clone</a></li>
+</ul>
+
+		</div>
+		
+
+	</article>
+	
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="linuxing3 avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About linuxing3</span>
+	</div>
+	<div class="authorbox__description">
+		Emacser and Vimer
+	</div>
+</div>
+	
+<nav class="post-nav row clearfix" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+	<div class="post-nav__item post-nav__item--next col-1-2">
+		<a class="post-nav__link" href="/posts/misc/start/" rel="next"><span class="post-nav__caption">Next»</span><p class="post-nav__post-title">Vuex a state management for vue</p></a>
+	</div>
+</nav>
+
+	
+</main>
+
+<aside class="sidebar" itemscope="itemscope" itemtype="http://schema.org/WPSideBar">
+	
+<div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="//google.com/search">
+		<label>
+			<span class="screen-reader-text">Search for:</span>
+			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="https://linuxing3.github.io/" />
+	</form>
+</div>
+	
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/news/20180609/">20180609</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180608/">20180608</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180607/">20180607</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180606/">20180606</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180605/">20180605</a></li>
+		</ul>
+	</div>
+</div>
+
+	
+	
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Facebook" rel="noopener noreferrer" href="https://facebook.com/xingwenju0928" target="_blank">
+				<svg class="widget-social__link-icon icon-facebook" viewBox="0 0 352 352" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m0 32v288c0 17.5 14.5 32 32 32h288c17.5 0 32-14.5 32-32v-288c0-17.5-14.5-32-32-32h-288c-17.5 0-32 14.5-32 32zm320 0v288h-83v-108h41.5l6-48h-47.5v-31c0-14 3.5-23.5 23.5-23.5h26v-43.5c-4.4-.6-19.8-1.5-37.5-1.5-36.9 0-62 22.2-62 63.5v36h-42v48h42v108h-155v-288z"/></svg>
+				<span>Facebook</span>
+			</a>
+		</div>
+		
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Twitter" rel="noopener noreferrer" href="https://twitter.com/@linuxing3" target="_blank">
+				<svg class="widget-social__link-icon icon-twitter" viewBox="0 0 384 312" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m384 36.9c-14.1 6.3-29.3 10.5-45.2 12.4 16.3-9.7 28.8-25.2 34.6-43.6-15.2 9-32.1 15.6-50 19.1-14.4-15.2-34.9-24.8-57.5-24.8-43.5 0-78.8 35.3-78.8 78.8 0 6.2.7 12.2 2 17.9-65.5-3.3-123.5-34.6-162.4-82.3-6.7 11.6-10.6 25.2-10.6 39.6 0 27.3 13.9 51.4 35 65.6-12.9-.4-25.1-4-35.7-9.9v1c0 38.2 27.2 70 63.2 77.2-6.6 1.8-13.6 2.8-20.8 2.8-5.1 0-10-.5-14.8-1.4 10 31.3 39.1 54.1 73.6 54.7-27 21.1-60.9 33.7-97.8 33.7-6.4 0-12.6-.4-18.8-1.1 34.9 22.4 76.3 35.4 120.8 35.4 144.9 0 224.1-120 224.1-224.1 0-3.4-.1-6.8-.2-10.2 15.4-11.1 28.7-25 39.3-40.8z"/></svg>
+				<span>Twitter</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="GitHub" rel="noopener noreferrer" href="https://github.com/linuxing3" target="_blank">
+				<svg class="widget-social__link-icon icon-github" viewBox="0 0 384 374" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m192 0c-106.1 0-192 85.8-192 191.7 0 84.7 55 156.6 131.3 181.9 9.6 1.8 13.1-4.2 13.1-9.2 0-4.6-.2-16.6-.3-32.6-53.4 11.6-64.7-25.7-64.7-25.7-8.7-22.1-21.3-28-21.3-28-17.4-11.9 1.3-11.6 1.3-11.6 19.3 1.4 29.4 19.8 29.4 19.8 17.1 29.3 44.9 20.8 55.9 15.9 1.7-12.4 6.7-20.8 12.2-25.6-42.6-4.8-87.5-21.3-87.5-94.8 0-20.9 7.5-38 19.8-51.4-2-4.9-8.6-24.3 1.9-50.7 0 0 16.1-5.2 52.8 19.7 15.3-4.2 31.7-6.4 48.1-6.5 16.3.1 32.7 2.2 48.1 6.5 36.7-24.8 52.8-19.7 52.8-19.7 10.5 26.4 3.9 45.9 1.9 50.7 12.3 13.4 19.7 30.5 19.7 51.4 0 73.7-44.9 89.9-87.7 94.6 6.9 5.9 13 17.6 13 35.5 0 25.6-.2 46.3-.2 52.6 0 5.1 3.5 11.1 13.2 9.2 76.2-25.5 131.2-97.3 131.2-182 0-105.9-86-191.7-192-191.7z"/></svg>
+				<span>GitHub</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Email" href="mailto:xingwenju@gmail.com">
+				<svg class="widget-social__link-icon icon-mail" viewBox="0 0 416 288" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<span>xingwenju@gmail.com</span>
+			</a>
+		</div>
+	</div>
+</div>
+
+	
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget__link widget__link--taglist" href="/tags/tag1" title="tag1">tag1</a>
+	</div>
+</div>
+</aside>
+
+	</div>
+		<footer class="footer" itemscope="itemscope" itemtype="http://schema.org/WPFooter">
+			<div class="container container-inner">
+				<p class="footer__copyright">&copy; 2018 天生我材必有用，千金散尽还复来. <span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad theme</a>.</span></p>
+			</div>
+		</footer>
+	</div>
+
+<script>
+	var navigation = responsiveNav(".menu", {
+		navClass: "menu--collapse",
+	});
+</script>
+</body>
+</html>

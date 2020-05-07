@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>redux.md</title>
+<meta name="description" content=" Linuxing3&#39;s个人博客 ">
+<meta name="generator" content="Hugo 0.31.1" />
+<meta property="og:title" content="redux.md" />
+<meta property="og:description" content="Redux Redux is a predictable state container for JavaScript apps.
+Testimonials  “Love what you’re doing with Redux” Jing Chen, creator of Flux
+“I asked for comments on Redux in FB&rsquo;s internal JS discussion group, and it was universally praised. Really awesome work.” Bill Fisher, author of Flux documentation
+“It&rsquo;s cool that you are inventing a better Flux by not doing Flux at all.” André Staltz, creator of Cycle" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://linuxing3.github.io/posts/nodejs/redux/" />
+
+
+
+<meta property="article:published_time" content="2018-02-16T14:05:34-04:00"/>
+
+<meta property="article:modified_time" content="2018-02-16T14:05:34-04:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="//fonts.googleapis.com" />
+<link rel="dns-prefetch" href="//fonts.gstatic.com" />
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700" type="text/css" media="all" />
+<link rel="stylesheet" href="/css/style.css" type="text/css" media="all" />
+<script type="text/javascript" src="/js/scripts.js"></script>
+<link rel="shortcut icon" href="/favicon.ico">
+
+</head>
+<body class="body body-right-sidebar mobile" itemscope="itemscope" itemtype="http://schema.org/WebPage">
+	<div class="container container-outer">
+		<header class="header" itemscope="itemscope" itemtype="http://schema.org/WPHeader">
+			<div class="container container-inner clearfix">
+				<div class="logo" role="banner" itemscope="itemscope" itemtype="http://schema.org/Brand">
+					<a class="logo__link" href="/" title="天生我材必有用，千金散尽还复来" rel="home">
+						<h1 class="logo__title">天生我材必有用，千金散尽还复来</h1>
+						<h2 class="logo__tagline">在编程世界中学习生活</h2>
+					</a>
+				</div>
+			</div>
+			
+<nav class="menu" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+	<ul class="menu__list">
+		<li class="menu__item"><a class="menu__link" href="/posts/">博客</a></li>
+		<li class="menu__item"><a class="menu__link" href="/news/">新闻</a></li>
+		<li class="menu__item"><a class="menu__link" href="/hexo/">老店</a></li>
+	</ul>
+</nav>
+
+		</header>
+		<div class="wrapper clearfix">
+
+<main class="main-content content" role="main" itemprop="mainContentOfPage">
+	<article class="post">
+		<header class="post__header clearfix">
+			<h1 class="post__title">redux.md</h1>
+			<p class="post__meta meta">
+				<svg class="icon icon-time" height="14" viewBox="0 0 16 16" width="14" xmlns="http://www.w3.org/2000/svg"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
+				<time class="post__meta-date" datetime="2018-02-16T14:05:34">February 16, 2018</time>
+			</p>
+		</header>
+		<div class="post__content clearfix">
+			
+
+<h1 id="redux-http-rackt-github-io-redux"><a href="http://rackt.github.io/redux">Redux</a></h1>
+
+<p>Redux is a predictable state container for JavaScript apps.</p>
+
+<h3 id="testimonials">Testimonials</h3>
+
+<blockquote>
+<p><a href="https://twitter.com/jingc/status/616608251463909376">“Love what you’re doing with Redux”</a>
+Jing Chen, creator of Flux</p>
+
+<p><a href="https://twitter.com/fisherwebdev/status/616286955693682688">“I asked for comments on Redux in FB&rsquo;s internal JS discussion group, and it was universally praised. Really awesome work.”</a>
+Bill Fisher, author of Flux documentation</p>
+
+<p><a href="https://twitter.com/andrestaltz/status/616271392930201604">“It&rsquo;s cool that you are inventing a better Flux by not doing Flux at all.”</a>
+André Staltz, creator of Cycle</p>
+</blockquote>
+
+<h3 id="developer-experience">Developer Experience</h3>
+
+<p>I wrote Redux while working on my React Europe talk called <a href="https://www.youtube.com/watch?v=xsSnOQynTHs">“Hot Reloading with Time Travel”</a>. My goal was to create a state management library with minimal API but completely predictable behavior, so it is possible to implement logging, hot reloading, time travel, universal apps, record and replay, without any buy-in from the developer.</p>
+
+<h3 id="influences">Influences</h3>
+
+<p>Redux evolves the ideas of <a href="http://facebook.github.io/flux/">Flux</a>, but avoids its complexity by taking cues from <a href="https://github.com/evancz/elm-architecture-tutorial/">Elm</a>.
+Whether you have used them or not, Redux only takes a few minutes to get started with.</p>
+
+<h3 id="installation">Installation</h3>
+
+<p>To install the stable version:</p>
+
+<pre><code>npm install --save redux
+</code></pre>
+
+<p>Most likely, you’ll also need <a href="https://github.com/rackt/react-redux">the React bindings</a> and <a href="https://github.com/gaearon/redux-devtools">the developer tools</a>.</p>
+
+<pre><code>npm install --save react-redux
+npm install --save-dev redux-devtools
+</code></pre>
+
+<p>This assumes that you’re using <a href="https://www.npmjs.com/">npm</a> package manager with a module bundler like <a href="http://webpack.github.io">Webpack</a> or <a href="http://browserify.org/">Browserify</a> to consume <a href="http://webpack.github.io/docs/commonjs.html">CommonJS modules</a>.</p>
+
+<p>If you don’t yet use <a href="https://www.npmjs.com/">npm</a> or a modern module bundler, and would rather prefer a single-file <a href="https://github.com/umdjs/umd">UMD</a> build that makes <code>Redux</code> available as a global object, you can grab a pre-built version from <a href="https://cdnjs.com/libraries/redux">cdnjs</a>. We <em>don’t</em> recommend this approach for any serious application, as most of the libraries complementary to Redux are only available on <a href="https://www.npmjs.com/">npm</a>.</p>
+
+<h3 id="the-gist">The Gist</h3>
+
+<p>The whole state of your app is stored in an object tree inside a single <em>store</em>.
+The only way to change the state tree is to emit an <em>action</em>, an object describing what happened.
+To specify how the actions transform the state tree, you write pure <em>reducers</em>.</p>
+
+<p>That’s it!</p>
+
+<pre><code class="language-js">import { createStore } from 'redux'
+
+/**
+ * This is a reducer, a pure function with (state, action) =&gt; state signature.
+ * It describes how an action transforms the state into the next state.
+ *
+ * The shape of the state is up to you: it can be a primitive, an array, an object,
+ * or even an Immutable.js data structure. The only important part is that you should
+ * not mutate the state object, but return a new object if the state changes.
+ *
+ * In this example, we use a `switch` statement and strings, but you can use a helper that
+ * follows a different convention (such as function maps) if it makes sense for your project.
+ */
+function counter(state = 0, action) {
+  switch (action.type) {
+  case 'INCREMENT':
+    return state + 1
+  case 'DECREMENT':
+    return state - 1
+  default:
+    return state
+  }
+}
+
+// Create a Redux store holding the state of your app.
+// Its API is { subscribe, dispatch, getState }.
+let store = createStore(counter)
+
+// You can subscribe to the updates manually, or use bindings to your view layer.
+store.subscribe(() =&gt;
+  console.log(store.getState())
+)
+
+// The only way to mutate the internal state is to dispatch an action.
+// The actions can be serialized, logged or stored and later replayed.
+store.dispatch({ type: 'INCREMENT' })
+// 1
+store.dispatch({ type: 'INCREMENT' })
+// 2
+store.dispatch({ type: 'DECREMENT' })
+// 1
+</code></pre>
+
+<p>Instead of mutating the state directly, you specify the mutations you want to happen with plain objects called <em>actions</em>. Then you write a special function called a <em>reducer</em> to decide how every action transforms the entire application’s state.</p>
+
+<p>If you’re coming from Flux, there is a single important difference you need to understand. Redux doesn’t have a Dispatcher or support many stores. Instead, there is just a single store with a single root reducing function. As your app grows, instead of adding stores, you split the root reducer into smaller reducers independently operating on the different parts of the state tree. This is exactly like there is just one root component in a React app, but it is composed out of many small components.</p>
+
+<p>This architecture might seem like an overkill for a counter app, but the beauty of this pattern is how well it scales to large and complex apps. It also enables very powerful developer tools, because it is possible to trace every mutation to the action that caused it. You can record user sessions and reproduce them just by replaying every action.</p>
+
+<h3 id="learn-redux-from-its-creator">Learn Redux from Its Creator</h3>
+
+<p><a href="https://egghead.io/series/getting-started-with-redux">Getting Started with Redux</a> is a video course consisting of 30 videos narrated by Dan Abramov, author of Redux. It is designed to complement the “Basics” part of the docs while bringing additional insights about immutability, testing, Redux best practices, and using Redux with React. <strong>This course is free and will always be.</strong></p>
+
+<blockquote>
+<p><a href="https://twitter.com/sandrinodm/status/670548531422326785">“Great course on egghead.io by @dan_abramov - instead of just showing you how to use #redux, it also shows how and why redux was built!”</a>
+Sandrino Di Mattia</p>
+
+<p><a href="https://twitter.com/chrisdhanaraj/status/670328025553219584">“Plowing through @dan_abramov &lsquo;Getting Started with Redux&rsquo; - its amazing how much simpler concepts get with video.”</a>
+Chris Dhanaraj</p>
+
+<p><a href="https://twitter.com/eddiezane/status/670333133242408960">“This video series on Redux by @dan_abramov on @eggheadio is spectacular!”</a>
+Eddie Zaneski</p>
+
+<p><a href="https://twitter.com/danott/status/669909126554607617">“Come for the name hype. Stay for the rock solid fundamentals. (Thanks, and great job @dan_abramov and @eggheadio!)”</a>
+Dan</p>
+
+<p><a href="https://twitter.com/gelatindesign/status/669658358643892224">“This series of videos on Redux by @dan_abramov is repeatedly blowing my mind - gunna do some serious refactoring”</a>
+Laurence Roberts</p>
+</blockquote>
+
+<p>So, what are you waiting for?</p>
+
+<h4 id="watch-the-30-free-videos-https-egghead-io-series-getting-started-with-redux"><a href="https://egghead.io/series/getting-started-with-redux">Watch the 30 Free Videos!</a></h4>
+
+<p>If you enjoyed my course, consider supporting Egghead by <a href="https://egghead.io/pricing">buying a subscription</a>. Subscribers have access to the source code for the example in every one of my videos, as well as to tons of advanced lessons on other topics, including JavaScript in depth, React, Angular, and more. Many <a href="https://egghead.io/instructors">Egghead instructors</a> are also open source library authors, so buying a subscription is a nice way to thank them for the work that they’ve done.</p>
+
+<h3 id="documentation">Documentation</h3>
+
+<ul>
+<li><a href="http://rackt.github.io/redux/docs/introduction/index.html">Introduction</a></li>
+<li><a href="http://rackt.github.io/redux/docs/basics/index.html">Basics</a></li>
+<li><a href="http://rackt.github.io/redux/docs/advanced/index.html">Advanced</a></li>
+<li><a href="http://rackt.github.io/redux/docs/recipes/index.html">Recipes</a></li>
+<li><a href="http://rackt.github.io/redux/docs/Troubleshooting.html">Troubleshooting</a></li>
+<li><a href="http://rackt.github.io/redux/docs/Glossary.html">Glossary</a></li>
+<li><a href="http://rackt.github.io/redux/docs/api/index.html">API Reference</a></li>
+</ul>
+
+<p>For PDF, ePub, and MOBI exports for offline reading, and instructions on how to create them, please see: <a href="https://github.com/paulkogel/redux-offline-docs">paulkogel/redux-offline-docs</a>.</p>
+
+<h3 id="examples">Examples</h3>
+
+<ul>
+<li><a href="http://rackt.github.io/redux/docs/introduction/Examples.html#counter">Counter</a> (<a href="https://github.com/rackt/redux/tree/master/examples/counter">source</a>)</li>
+<li><a href="http://rackt.github.io/redux/docs/introduction/Examples.html#todomvc">TodoMVC</a> (<a href="https://github.com/rackt/redux/tree/master/examples/todomvc">source</a>)</li>
+<li><a href="http://rackt.github.io/redux/docs/introduction/Examples.html#todos-with-undo">Todos with Undo</a> (<a href="https://github.com/rackt/redux/tree/master/examples/todos-with-undo">source</a>)</li>
+<li><a href="http://rackt.github.io/redux/docs/introduction/Examples.html#async">Async</a> (<a href="https://github.com/rackt/redux/tree/master/examples/async">source</a>)</li>
+<li><a href="http://rackt.github.io/redux/docs/introduction/Examples.html#universal">Universal</a> (<a href="https://github.com/rackt/redux/tree/master/examples/universal">source</a>)</li>
+<li><a href="http://rackt.github.io/redux/docs/introduction/Examples.html#real-world">Real World</a> (<a href="https://github.com/rackt/redux/tree/master/examples/real-world">source</a>)</li>
+<li><a href="http://rackt.github.io/redux/docs/introduction/Examples.html#shopping-cart">Shopping Cart</a> (<a href="https://github.com/rackt/redux/tree/master/examples/shopping-cart">source</a>)</li>
+</ul>
+
+<p>If you’re new to the NPM ecosystem and have troubles getting a project up and running, or aren’t sure where to paste the gist above, check out <a href="https://github.com/jackielii/simplest-redux-example">simplest-redux-example</a> that uses Redux together with React and Browserify.</p>
+
+<h3 id="discussion">Discussion</h3>
+
+<p>Join the <a href="https://discord.gg/0ZcbPKXt5bZ6au5t">#redux</a> channel of the <a href="http://www.reactiflux.com">Reactiflux</a> Discord community.</p>
+
+<h3 id="thanks">Thanks</h3>
+
+<ul>
+<li><a href="https://github.com/evancz/elm-architecture-tutorial">The Elm Architecture</a> for a great intro to modeling state updates with reducers;</li>
+<li><a href="http://www.confluent.io/blog/turning-the-database-inside-out-with-apache-samza/">Turning the database inside-out</a> for blowing my mind;</li>
+<li><a href="https://www.youtube.com/watch?v=j-kj2qwJa_E">Developing ClojureScript with Figwheel</a> for convincing me that re-evaluation should “just work”;</li>
+<li><a href="https://github.com/webpack/docs/wiki/hot-module-replacement-with-webpack">Webpack</a> for Hot Module Replacement;</li>
+<li><a href="https://github.com/acdlite/flummox">Flummox</a> for teaching me to approach Flux without boilerplate or singletons;</li>
+<li><a href="https://github.com/threepointone/disto">disto</a> for a proof of concept of hot reloadable Stores;</li>
+<li><a href="https://github.com/optimizely/nuclear-js">NuclearJS</a> for proving this architecture can be performant;</li>
+<li><a href="https://github.com/omcljs/om">Om</a> for popularizing the idea of a single state atom;</li>
+<li><a href="https://github.com/cyclejs/cycle-core">Cycle</a> for showing how often a function is the best tool;</li>
+<li><a href="https://github.com/facebook/react">React</a> for the pragmatic innovation.</li>
+</ul>
+
+<p>Special thanks to <a href="http://jdpaton.github.io">Jamie Paton</a> for handing over the <code>redux</code> NPM package name.</p>
+
+<h3 id="change-log">Change Log</h3>
+
+<p>This project adheres to <a href="http://semver.org/">Semantic Versioning</a>.
+Every release, along with the migration instructions, is documented on the Github <a href="https://github.com/rackt/redux/releases">Releases</a> page.</p>
+
+<h3 id="patrons">Patrons</h3>
+
+<p>The work on Redux was <a href="https://www.patreon.com/reactdx">funded by the community</a>.
+Meet some of the outstanding companies that made it possible:</p>
+
+<ul>
+<li><a href="https://webflow.com/">Webflow</a></li>
+<li><a href="http://www.chess-ix.com/">Chess iX</a></li>
+</ul>
+
+<p><a href="PATRONS.md">See the full list of Redux patrons.</a></p>
+
+<h3 id="license">License</h3>
+
+<p>MIT</p>
+
+		</div>
+		
+
+	</article>
+	
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="linuxing3 avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About linuxing3</span>
+	</div>
+	<div class="authorbox__description">
+		Emacser and Vimer
+	</div>
+</div>
+	
+<nav class="post-nav row clearfix" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+	<div class="post-nav__item post-nav__item--prev col-1-2">
+		<a class="post-nav__link" href="/posts/academy/rlang/" rel="prev"><span class="post-nav__caption">«Previous</span><p class="post-nav__post-title">rlang.md</p></a>
+	</div>
+	<div class="post-nav__item post-nav__item--next col-1-2">
+		<a class="post-nav__link" href="/posts/nodejs/redux-devtools/" rel="next"><span class="post-nav__caption">Next»</span><p class="post-nav__post-title">redux-devtools.md</p></a>
+	</div>
+</nav>
+
+	
+</main>
+
+<aside class="sidebar" itemscope="itemscope" itemtype="http://schema.org/WPSideBar">
+	
+<div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="//google.com/search">
+		<label>
+			<span class="screen-reader-text">Search for:</span>
+			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="https://linuxing3.github.io/" />
+	</form>
+</div>
+	
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/news/20180609/">20180609</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180608/">20180608</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180607/">20180607</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180606/">20180606</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180605/">20180605</a></li>
+		</ul>
+	</div>
+</div>
+
+	
+	
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Facebook" rel="noopener noreferrer" href="https://facebook.com/xingwenju0928" target="_blank">
+				<svg class="widget-social__link-icon icon-facebook" viewBox="0 0 352 352" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m0 32v288c0 17.5 14.5 32 32 32h288c17.5 0 32-14.5 32-32v-288c0-17.5-14.5-32-32-32h-288c-17.5 0-32 14.5-32 32zm320 0v288h-83v-108h41.5l6-48h-47.5v-31c0-14 3.5-23.5 23.5-23.5h26v-43.5c-4.4-.6-19.8-1.5-37.5-1.5-36.9 0-62 22.2-62 63.5v36h-42v48h42v108h-155v-288z"/></svg>
+				<span>Facebook</span>
+			</a>
+		</div>
+		
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Twitter" rel="noopener noreferrer" href="https://twitter.com/@linuxing3" target="_blank">
+				<svg class="widget-social__link-icon icon-twitter" viewBox="0 0 384 312" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m384 36.9c-14.1 6.3-29.3 10.5-45.2 12.4 16.3-9.7 28.8-25.2 34.6-43.6-15.2 9-32.1 15.6-50 19.1-14.4-15.2-34.9-24.8-57.5-24.8-43.5 0-78.8 35.3-78.8 78.8 0 6.2.7 12.2 2 17.9-65.5-3.3-123.5-34.6-162.4-82.3-6.7 11.6-10.6 25.2-10.6 39.6 0 27.3 13.9 51.4 35 65.6-12.9-.4-25.1-4-35.7-9.9v1c0 38.2 27.2 70 63.2 77.2-6.6 1.8-13.6 2.8-20.8 2.8-5.1 0-10-.5-14.8-1.4 10 31.3 39.1 54.1 73.6 54.7-27 21.1-60.9 33.7-97.8 33.7-6.4 0-12.6-.4-18.8-1.1 34.9 22.4 76.3 35.4 120.8 35.4 144.9 0 224.1-120 224.1-224.1 0-3.4-.1-6.8-.2-10.2 15.4-11.1 28.7-25 39.3-40.8z"/></svg>
+				<span>Twitter</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="GitHub" rel="noopener noreferrer" href="https://github.com/linuxing3" target="_blank">
+				<svg class="widget-social__link-icon icon-github" viewBox="0 0 384 374" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m192 0c-106.1 0-192 85.8-192 191.7 0 84.7 55 156.6 131.3 181.9 9.6 1.8 13.1-4.2 13.1-9.2 0-4.6-.2-16.6-.3-32.6-53.4 11.6-64.7-25.7-64.7-25.7-8.7-22.1-21.3-28-21.3-28-17.4-11.9 1.3-11.6 1.3-11.6 19.3 1.4 29.4 19.8 29.4 19.8 17.1 29.3 44.9 20.8 55.9 15.9 1.7-12.4 6.7-20.8 12.2-25.6-42.6-4.8-87.5-21.3-87.5-94.8 0-20.9 7.5-38 19.8-51.4-2-4.9-8.6-24.3 1.9-50.7 0 0 16.1-5.2 52.8 19.7 15.3-4.2 31.7-6.4 48.1-6.5 16.3.1 32.7 2.2 48.1 6.5 36.7-24.8 52.8-19.7 52.8-19.7 10.5 26.4 3.9 45.9 1.9 50.7 12.3 13.4 19.7 30.5 19.7 51.4 0 73.7-44.9 89.9-87.7 94.6 6.9 5.9 13 17.6 13 35.5 0 25.6-.2 46.3-.2 52.6 0 5.1 3.5 11.1 13.2 9.2 76.2-25.5 131.2-97.3 131.2-182 0-105.9-86-191.7-192-191.7z"/></svg>
+				<span>GitHub</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Email" href="mailto:xingwenju@gmail.com">
+				<svg class="widget-social__link-icon icon-mail" viewBox="0 0 416 288" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<span>xingwenju@gmail.com</span>
+			</a>
+		</div>
+	</div>
+</div>
+
+	
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget__link widget__link--taglist" href="/tags/tag1" title="tag1">tag1</a>
+	</div>
+</div>
+</aside>
+
+	</div>
+		<footer class="footer" itemscope="itemscope" itemtype="http://schema.org/WPFooter">
+			<div class="container container-inner">
+				<p class="footer__copyright">&copy; 2018 天生我材必有用，千金散尽还复来. <span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad theme</a>.</span></p>
+			</div>
+		</footer>
+	</div>
+
+<script>
+	var navigation = responsiveNav(".menu", {
+		navClass: "menu--collapse",
+	});
+</script>
+</body>
+</html>

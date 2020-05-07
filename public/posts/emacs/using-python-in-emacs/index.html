@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>using-python-in-emacs.org</title>
+<meta name="description" content=" Linuxing3&#39;s个人博客 ">
+<meta name="generator" content="Hugo 0.31.1" />
+<meta property="og:title" content="using-python-in-emacs.org" />
+<meta property="og:description" content="Some Description" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://linuxing3.github.io/posts/emacs/using-python-in-emacs/" />
+
+
+
+<meta property="article:published_time" content="2018-02-16T20:03:50-04:00"/>
+
+<meta property="article:modified_time" content="2018-02-16T20:03:50-04:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="//fonts.googleapis.com" />
+<link rel="dns-prefetch" href="//fonts.gstatic.com" />
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700" type="text/css" media="all" />
+<link rel="stylesheet" href="/css/style.css" type="text/css" media="all" />
+<script type="text/javascript" src="/js/scripts.js"></script>
+<link rel="shortcut icon" href="/favicon.ico">
+
+</head>
+<body class="body body-right-sidebar mobile" itemscope="itemscope" itemtype="http://schema.org/WebPage">
+	<div class="container container-outer">
+		<header class="header" itemscope="itemscope" itemtype="http://schema.org/WPHeader">
+			<div class="container container-inner clearfix">
+				<div class="logo" role="banner" itemscope="itemscope" itemtype="http://schema.org/Brand">
+					<a class="logo__link" href="/" title="天生我材必有用，千金散尽还复来" rel="home">
+						<h1 class="logo__title">天生我材必有用，千金散尽还复来</h1>
+						<h2 class="logo__tagline">在编程世界中学习生活</h2>
+					</a>
+				</div>
+			</div>
+			
+<nav class="menu" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+	<ul class="menu__list">
+		<li class="menu__item"><a class="menu__link" href="/posts/">博客</a></li>
+		<li class="menu__item"><a class="menu__link" href="/news/">新闻</a></li>
+		<li class="menu__item"><a class="menu__link" href="/hexo/">老店</a></li>
+	</ul>
+</nav>
+
+		</header>
+		<div class="wrapper clearfix">
+
+<main class="main-content content" role="main" itemprop="mainContentOfPage">
+	<article class="post">
+		<header class="post__header clearfix">
+			<h1 class="post__title">using-python-in-emacs.org</h1>
+			<p class="post__meta meta">
+				<svg class="icon icon-time" height="14" viewBox="0 0 16 16" width="14" xmlns="http://www.w3.org/2000/svg"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
+				<time class="post__meta-date" datetime="2018-02-16T20:03:50">February 16, 2018</time>
+			</p>
+		</header>
+		<div class="post__content clearfix">
+			<h1 id="table-of-contents">Table of Contents</h1>
+
+<ul>
+<li><a href="#description" title="Description">Description</a></li>
+<li><a href="#features" title="Features:">Features:</a></li>
+<li><a href="#install" title="Install">Install</a></li>
+<li><a href="#layer" title="Layer">Layer</a></li>
+<li><a href="#dependencies" title="Dependencies">Dependencies</a></li>
+<li><a href="#auto-completion-anaconda-dependencies" title="Auto-completion: Anaconda dependencies">Auto-completion: Anaconda dependencies</a></li>
+<li><a href="#syntax-checking" title="Syntax checking">Syntax checking</a></li>
+<li><a href="#test-runner" title="Test runner">Test runner</a></li>
+<li><a href="#automatic-buffer-formatting-on-save" title="Automatic buffer formatting on save">Automatic buffer formatting on save</a></li>
+<li><a href="#automatic-save-of-buffer-when-testing" title="Automatic save of buffer when testing">Automatic save of buffer when testing</a></li>
+<li><a href="#autoflake" title="autoflake">autoflake</a></li>
+<li><a href="#pylookup" title="pylookup">pylookup</a></li>
+<li><a href="#hy-mode" title="Hy-mode">Hy-mode</a></li>
+<li><a href="#configuration" title="Configuration">Configuration</a></li>
+<li><a href="#fill-column" title="Fill column">Fill column</a></li>
+<li><a href="#sort-imports" title="Sort imports">Sort imports</a></li>
+<li><a href="#management-of-python-versions-and-virtual-environments" title="Management of Python versions and virtual environments">Management of Python versions and virtual environments</a></li>
+<li><a href="#manage-virtual-environments-with-pyvenv" title="Manage virtual environments with pyvenv">Manage virtual environments with pyvenv</a></li>
+<li><a href="#manage-multiple-python-versions-with-pyenv" title="Manage multiple Python versions with pyenv">Manage multiple Python versions with pyenv</a></li>
+<li><a href="#automatic-activation-of-local-pyenv-version" title="Automatic activation of local pyenv version">Automatic activation of local pyenv version</a></li>
+<li><a href="#key-bindings" title="Key Bindings">Key Bindings</a></li>
+<li><a href="#inferior-repl-process" title="Inferior REPL process">Inferior REPL process</a></li>
+<li><a href="#running-python-script-in-shell" title="Running Python Script in shell">Running Python Script in shell</a></li>
+<li><a href="#testing" title="Testing">Testing</a></li>
+<li><a href="#refactoring" title="Refactoring">Refactoring</a></li>
+<li><a href="#pip-package-management" title="Pip package management">Pip package management</a></li>
+<li><a href="#live-coding" title="Live coding">Live coding</a></li>
+<li><a href="#hy-repl-process" title="Hy REPL process">Hy REPL process</a></li>
+<li><a href="#other-python-commands" title="Other Python commands">Other Python commands</a></li>
+</ul>
+
+<h1 id="description">Description</h1>
+
+<p>This layer adds support for the Python language.</p>
+
+<h2 id="features">Features:</h2>
+
+<ul>
+<li>Auto-completion using <a href="https://github.com/proofit404/anaconda-mode" title="anaconda-mode">anaconda-mode</a></li>
+<li>Code Navigation using  <a href="https://github.com/proofit404/anaconda-mode" title="anaconda-mode">anaconda-mode</a></li>
+<li>Documentation Lookup using  <a href="https://github.com/proofit404/anaconda-mode" title="anaconda-mode">anaconda-mode</a>  and <a href="https://github.com/tsgates/pylookup" title="pylookup">pylookup</a></li>
+<li>Test Runners using <a href="https://github.com/syl20bnr/nose.el" title="nose.el">nose.el</a> or <a href="https://github.com/ionrock/pytest-el" title="pytest">pytest</a></li>
+<li>Virtual Environment using  <a href="https://github.com/jorgenschaefer/pyvenv" title="pyvenv">pyvenv</a> and <a href="https://github.com/yyuu/pyenv" title="pyenv">pyenv</a></li>
+<li>semantic mode is enabled</li>
+<li>PEP8 compliant formatting via <a href="https://github.com/google/yapf" title="YAPF">YAPF</a></li>
+<li>PEP8 checks with <a href="https://pypi.python.org/pypi/flake8" title="flake8">flake8</a> or <a href="https://pypi.python.org/pypi/pylint/1.6.4" title="pylint">pylint</a></li>
+<li>Suppression of unused import with <a href="https://github.com/myint/autoflake" title="autoflake">autoflake</a></li>
+<li>Use the <code>%</code> key to jump between blocks with <a href="https://github.com/redguardtoo/evil-matchit" title="evil-matchit">evil-matchit</a></li>
+<li>Sort imports with <a href="https://pypi.python.org/pypi/isort" title="isort">isort</a></li>
+<li>Fix a missing import statement with <a href="https://github.com/anachronic/importmagic.el" title="importmagic">importmagic</a></li>
+<li>Pip package manager with <a href="https://github.com/brotzeit/pippel" title="pippel">pippel</a></li>
+</ul>
+
+<h1 id="install">Install</h1>
+
+<h2 id="layer">Layer</h2>
+
+<p>To use this configuration layer, add it to your <code>~/.spacemacs</code>. You will need to
+add <code>python</code> to the existing <code>dotspacemacs-configuration-layers</code> list in this
+file.</p>
+
+<h2 id="dependencies">Dependencies</h2>
+
+<h3 id="auto-completion-anaconda-dependencies">Auto-completion: Anaconda dependencies</h3>
+
+<p><code>anaconda-mode</code> tries to install the dependencies itself but sometimes
+it does not work and you may encounter the following message when
+opening a python buffer:</p>
+
+<p>Blocking call to accept-process-output with quit inhibited!!</p>
+
+<p>To fix this, install the <code>anaconda-mode</code> <a href="https://github.com/proofit404/anaconda-mode/wiki" title="anaconda-deps">anaconda-deps</a> by hand:</p>
+
+<p>pip install --upgrade "jedi>=0.9.0" "json-rpc>=1.8.1" "service_factory>=0.1.5"</p>
+
+<p>If you encounter problems with Jedi 1.0 consider downgrading to 0.9.0. See <a href="https://github.com/davidhalter/jedi/issues/873" title="this
+issue">this
+issue</a> for details.</p>
+
+<p>Source: https://github.com/proofit404/anaconda-mode#issues</p>
+
+<p>If you are facing errors such as "Unable to run anaconda-mode server", try
+setting your <code>PYTHONPATH</code> as explained at
+https://github.com/proofit404/anaconda-mode#pythonpath</p>
+
+<h3 id="syntax-checking">Syntax checking</h3>
+
+<p>Syntax checking uses <code>flake8</code> package:</p>
+
+<p>pip install flake8</p>
+
+<h2 id="test-runner">Test runner</h2>
+
+<p>Both <code>nose</code> and <code>pytest</code> are supported. By default <code>nose</code> is used.
+To choose your test runner set the layer variable <code>python-test-runner</code> to
+either <code>nose</code> or <code>pytest</code>.</p>
+
+<pre><code class="language-emacs-lisp">
+(setq-default dotspacemacs-configuration-layers
+  '((python :variables python-test-runner 'pytest)))
+</code></pre>
+
+<p>If you need both then you can set <code>python-test-runner</code> to a list like this:</p>
+
+<pre><code class="language-emacs-lisp">
+(setq-default dotspacemacs-configuration-layers
+  '((python :variables python-test-runner '(pytest nose))))
+</code></pre>
+
+<p>This means that <code>pytest</code> is your primary test runner. To use the secondary test
+runner you can call the test functions with a prefix argument e.g. <code>SPC u SPC m
+t t</code> to run one test with <code>nose</code>.</p>
+
+<p>To set project specific test runners you can set <code>python-test-runner</code> in a
+directory local variable in your project root. <code>SPC f v d</code> in Spacemacs. See
+<a href="https://www.gnu.org/software/emacs/manual/html_node/emacs/Directory-Variables.html" title="the official documentation">the official documentation</a> for more information.</p>
+
+<p>The root of the project is detected with a <code>.git</code> directory or a <code>setup.cfg</code> file.</p>
+
+<h2 id="automatic-buffer-formatting-on-save">Automatic buffer formatting on save</h2>
+
+<p>To enable automatic buffer formatting on save with  <a href="https://github.com/google/yapf" title="YAPF">YAPF</a> set the variable
+=python-enable-yapf-format-on-save= to <code>t</code>.</p>
+
+<pre><code class="language-emacs-lisp">
+  (setq-default dotspacemacs-configuration-layers '(
+    (python :variables python-enable-yapf-format-on-save t)))
+</code></pre>
+
+<h2 id="automatic-save-of-buffer-when-testing">Automatic save of buffer when testing</h2>
+
+<p>By default a buffer is automatically saved before tests are executed upon it,
+you can disable this feature by setting <code>python-save-before-test</code> to <code>nil</code>.</p>
+
+<pre><code class="language-emacs-lisp">
+  (setq-default dotspacemacs-configuration-layers '(
+    (python :variables python-save-before-test nil)))
+</code></pre>
+
+<h2 id="autoflake">autoflake</h2>
+
+<p>To be able to suppress unused imports easily, install <a href="https://github.com/myint/autoflake" title="autoflake">autoflake</a>:</p>
+
+<pre><code class="language-sh">
+  pip install autoflake
+</code></pre>
+
+<h2 id="pylookup">pylookup</h2>
+
+<p>To use <code>pylookup</code> on <code>SPC m h H</code>, make sure you update the database first, using
+~SPC SPC pylookup-update~.</p>
+
+<h2 id="hy-mode">Hy-mode</h2>
+
+<p>To be able to connect to an inferior lisp repl in <code>hy-mode</code>, you need to make sure
+that hy is installed.</p>
+
+<pre><code class="language-sh">
+  pip install hy
+</code></pre>
+
+<h1 id="configuration">Configuration</h1>
+
+<h2 id="fill-column">Fill column</h2>
+
+<p>If you want to customize the fill column value, use something like this inside
+the <code>user-init</code> function in your =.spacemacs=:</p>
+
+<pre><code class="language-elisp">
+(setq-default dotspacemacs-configuration-layers '(
+    (python :variables python-fill-column 99)))
+</code></pre>
+
+<h2 id="sort-imports">Sort imports</h2>
+
+<p>If you want imports to be automatically sorted when you save a file (using
+<a href="https://pypi.python.org/pypi/isort" title="isort">isort</a>), set the <code>python-sort-imports-on-save</code> variable in the python layer
+config section:</p>
+
+<pre><code class="language-elisp">
+(setq-default dotspacemacs-configuration-layers
+  '((python :variables python-sort-imports-on-save t)))
+</code></pre>
+
+<p>or as a directory-local variable (for per-project settings).</p>
+
+<h1 id="management-of-python-versions-and-virtual-environments">Management of Python versions and virtual environments</h1>
+
+<h2 id="manage-virtual-environments-with-pyvenv">Manage virtual environments with pyvenv</h2>
+
+<p>A virtual environment provides isolation of your Python package versions. For a
+general overview see <a href="http://docs.python-guide.org/en/latest/dev/virtualenvs/" title="this site">this site</a>. <a href="http://virtualenvwrapper.readthedocs.io/en/latest/index.html" title="Virtualenvwrapper">Virtualenvwrapper</a> which is also explained in the
+previous link, is a program which manages your virtual environments in a central
+location set by the <code>WORKON_HOME</code> environment variable.</p>
+
+<p>Spacemacs integration of virtual environments and virtualenvwrapper is provided
+by the <a href="https://github.com/jorgenschaefer/pyvenv" title="pyvenv">pyvenv</a> package. It provides the following keybindings:</p>
+
+<table>
+<thead>
+<tr>
+<th>Key Binding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SPC m V a</code></td>
+<td>激活任何目录下的虚拟环境 activate a virtual environment in any directory</td>
+</tr>
+
+<tr>
+<td><code>SPC m V d</code></td>
+<td>停止虚拟环境 deactivate active virtual environment</td>
+</tr>
+
+<tr>
+<td><code>SPC m V w</code></td>
+<td>在 WORKON 目录工作 work on virtual environment in <code>WORKON_HOME</code></td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="manage-multiple-python-versions-with-pyenv">Manage multiple Python versions with pyenv</h2>
+
+<p>If you need multiple Python versions (e.g. Python 2 and Python 3) then take a
+look at <a href="https://github.com/yyuu/pyenv" title="pyenv">pyenv</a>. It enables the installation and managment of multiple
+Python versions.
+<a href="https://www.brianthicks.com/post/2015/04/15/automate-your-python-environment-with-pyenv/" title="This blogpost">This blogpost</a> gives a good overview on how to use the tool. Spacemacs
+integration is provided by <a href="https://github.com/proofit404/pyenv-mode" title="pyenv mode">pyenv mode</a> which has the following keybindings.</p>
+
+<table>
+<thead>
+<tr>
+<th>Key Binding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SPC m v s</code></td>
+<td>set a pyenv environment with <a href="https://github.com/pyenv/pyenv" title="pyenv">pyenv</a></td>
+</tr>
+
+<tr>
+<td><code>SPC m v u</code></td>
+<td>unset a pyenv environment with <a href="https://github.com/pyenv/pyenv" title="pyenv">pyenv</a></td>
+</tr>
+</tbody>
+</table>
+
+<p>Pyenv can also manage virtual environments for each of the Python versions it
+has installed. Those will be listed alongside your Python versions.</p>
+
+<h3 id="automatic-activation-of-local-pyenv-version">Automatic activation of local pyenv version</h3>
+
+<p>A project-specific pyenv version may be written to a file called
+=.python-version= using the <a href="https://github.com/yyuu/pyenv/blob/master/COMMANDS.md#user-content-pyenv-local" title="pyenv local">pyenv local</a> command.</p>
+
+<ul>
+Spacemacs can search in parent directories for this file, and automatically set
+the pyenv version. The behavior can be set with the variable
+=python-auto-set-local-pyenv-version= to:
+<li><code>on-visit</code> (default) set the version when you visit a python buffer,</li>
+<li><code>on-project-switch</code> set the version when you switch projects,</li>
+<li><code>nil</code> to disable.</li>
+</ul>
+
+<ul>
+The same is also possible on pyvenv with a file called <code>.venv</code>. The behavior
+can be set with the variable <code>python-auto-set-local-pyvenv-virtualenv=</code> to:
+<li><code>on-visit</code> (default) set the virtualenv when you visit a python buffer,</li>
+<li><code>on-project-switch</code> set the virtualenv when you switch projects,</li>
+<li><code>nil</code> to disable.</li>
+</ul>
+
+<h1 id="key-bindings">Key Bindings</h1>
+
+<h2 id="inferior-repl-process">Inferior REPL process</h2>
+
+<p>Start a Python or iPython inferior REPL process with <code>SPC m s i</code>.
+If <code>ipython</code> is available in system executable search paths, =ipython=
+will be used to launch python shell; otherwise, default =python=
+interpreter will be used.  You may change your system executable
+search path by activating a virtual environment.</p>
+
+<p>Send code to inferior process commands:</p>
+
+<table>
+<thead>
+<tr>
+<th>Key Binding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SPC m s b</code></td>
+<td>send buffer and keep code buffer focused</td>
+</tr>
+
+<tr>
+<td><code>SPC m s B</code></td>
+<td>send buffer and switch to REPL in insert mode</td>
+</tr>
+
+<tr>
+<td><code>SPC m s f</code></td>
+<td>send function and keep code buffer focused</td>
+</tr>
+
+<tr>
+<td><code>SPC m s F</code></td>
+<td>send function and switch to REPL in insert mode</td>
+</tr>
+
+<tr>
+<td><code>SPC m s i</code></td>
+<td>start inferior REPL process</td>
+</tr>
+
+<tr>
+<td><code>SPC m s r</code></td>
+<td>send region and keep code buffer focused</td>
+</tr>
+
+<tr>
+<td><code>SPC m s R</code></td>
+<td>send region and switch to REPL in insert mode</td>
+</tr>
+
+<tr>
+<td><code>CTRL+j</code></td>
+<td>next item in REPL history</td>
+</tr>
+
+<tr>
+<td><code>CTRL+k</code></td>
+<td>previous item in REPL history</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="running-python-script-in-shell">Running Python Script in shell</h2>
+
+<p>To run a Python script like you would in the shell press ~SPC m c c~
+to start the Python script in comint mode. This is useful when working with
+multiple Python files since the REPL does not reload changes made in other
+modules.</p>
+
+<table>
+<thead>
+<tr>
+<th>Key Binding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SPC m c c</code></td>
+<td>Execute current file in a comint shell</td>
+</tr>
+
+<tr>
+<td><code>SPC m c C</code></td>
+<td>Execute current file in a comint shell and switch to it in <code>insert state</code></td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Note:</strong> With the universal argument <code>SPC u</code> you can enter a new
+compilation command.</p>
+
+<h2 id="testing">Testing</h2>
+
+<p>Test commands start with <code>m t</code>. To use the secondary test runner call the
+function with a prefix argument, for example <code>SPC u SPC m t a</code>.</p>
+
+<table>
+<thead>
+<tr>
+<th>No Debug</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SPC m t a</code></td>
+<td>launch all tests of the project</td>
+</tr>
+
+<tr>
+<td><code>SPC m t b</code></td>
+<td>launch all tests of the current buffer (same as module)</td>
+</tr>
+
+<tr>
+<td><code>SPC m t m</code></td>
+<td>launch all tests of the current module</td>
+</tr>
+
+<tr>
+<td><code>SPC m t s</code></td>
+<td>launch all tests of the current suite (only with <code>nose</code>)</td>
+</tr>
+
+<tr>
+<td><code>SPC m t t</code></td>
+<td>launch the current test (function)</td>
+</tr>
+</tbody>
+</table>
+
+<table>
+<thead>
+<tr>
+<th>Debug</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SPC m t A</code></td>
+<td>launch all tests of the project in debug mode</td>
+</tr>
+
+<tr>
+<td><code>SPC m t B</code></td>
+<td>launch all tests of the current buffer (module) in debug mode</td>
+</tr>
+
+<tr>
+<td><code>SPC m t M</code></td>
+<td>launch all tests of the current module in debug mode</td>
+</tr>
+
+<tr>
+<td><code>SPC m t S</code></td>
+<td>launch all tests of the current suite in debug mode (only with <code>nose</code>)</td>
+</tr>
+
+<tr>
+<td><code>SPC m t T</code></td>
+<td>launch the current test (function) in debug mode</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="refactoring">Refactoring</h2>
+
+<table>
+<thead>
+<tr>
+<th>Key Binding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SPC m r f</code></td>
+<td>fix a missing import statement with <a href="https://pypi.python.org/pypi/importmagic" title="importmagic">importmagic</a></td>
+</tr>
+
+<tr>
+<td><code>SPC m r i</code></td>
+<td>remove unused imports with <a href="https://github.com/myint/autoflake" title="autoflake">autoflake</a></td>
+</tr>
+
+<tr>
+<td><code>SPC m r I</code></td>
+<td>sort imports with <a href="https://pypi.python.org/pypi/isort" title="isort">isort</a></td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="pip-package-management">Pip package management</h2>
+
+<p>In python buffer type <code>SPC m P</code> to open buffer listing all installed =pip=
+packages in the currently activated virtual environment.</p>
+
+<p><strong>Note:</strong> To open this menu from outside a python buffer type
+~SPC SPC pippel-list-packages RET~ .</p>
+
+<p>In the package list buffer:</p>
+
+<table>
+<thead>
+<tr>
+<th>Key Binding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>RET</code></td>
+<td>follow link (<code>pippel-menu-visit-homepage</code>)</td>
+</tr>
+
+<tr>
+<td><code>d</code></td>
+<td>mark for deletion (<code>pippel-menu-mark-delete</code>)</td>
+</tr>
+
+<tr>
+<td><code>i</code></td>
+<td>prompt user for packages (<code>pippel-install-package</code>)</td>
+</tr>
+
+<tr>
+<td><code>m</code></td>
+<td>remove mark (<code>pippel-menu-mark-unmark</code>)</td>
+</tr>
+
+<tr>
+<td><code>r</code></td>
+<td>refresh package list (<code>pippel-list-packages</code>)</td>
+</tr>
+
+<tr>
+<td><code>U</code></td>
+<td>mark all upgradable (<code>pippel-menu-mark-all-upgrades</code>)</td>
+</tr>
+
+<tr>
+<td><code>u</code></td>
+<td>mark for upgrade (<code>pippel-menu-mark-upgrade</code>)</td>
+</tr>
+
+<tr>
+<td><code>x</code></td>
+<td>perform marked package menu actions (<code>pippel-menu-execute</code>)</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="live-coding">Live coding</h2>
+
+<p>Live coding is provided by the <a href="https://github.com/donkirkby/live-py-plugin" title="live-py-plugin.">live-py-plugin.</a></p>
+
+<table>
+<thead>
+<tr>
+<th>Key Binding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SPC m l</code></td>
+<td>Toggle live-py-mode</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="hy-repl-process">Hy REPL process</h2>
+
+<p>Start a Hy inferior repel process with <code>SPC m s i</code>. If <code>hy</code> is
+available in system executable search paths, <code>hy</code> will be used to
+launch the shell. You may change your system executable search path
+by activating a virtual enviornment.</p>
+
+<p>Send code to hy REPL commands:</p>
+
+<table>
+<thead>
+<tr>
+<th>Key Binding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SPC m s b</code></td>
+<td>send buffer and keep code buffer focused</td>
+</tr>
+
+<tr>
+<td><code>SPC m s B</code></td>
+<td>switch to REPL</td>
+</tr>
+
+<tr>
+<td><code>SPC m s e</code></td>
+<td>send sexp in front of the cursor to the REPL</td>
+</tr>
+
+<tr>
+<td><code>SPC m s f</code></td>
+<td>send function to REPL and stay in buffer</td>
+</tr>
+
+<tr>
+<td><code>SPC m s F</code></td>
+<td>send function to REPL and switch to repl buffer</td>
+</tr>
+
+<tr>
+<td><code>SPC m s i</code></td>
+<td>start inferior hy repl</td>
+</tr>
+
+<tr>
+<td><code>SPC m s r</code></td>
+<td>send current region to the REPL and stay in buffer</td>
+</tr>
+
+<tr>
+<td><code>SPC m s R</code></td>
+<td>send current region to the REPL and switch to repl buffer</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="other-python-commands">Other Python commands</h2>
+
+<table>
+<thead>
+<tr>
+<th>Key Binding</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SPC m =</code></td>
+<td>Reformat the buffer according to PEP8 using  <a href="https://github.com/google/yapf" title="YAPF">YAPF</a></td>
+</tr>
+
+<tr>
+<td><code>SPC m d b</code></td>
+<td>toggle a breakpoint using <code>wdb</code>, <code>ipdb</code>, <code>pudb</code> or <code>pdb</code></td>
+</tr>
+
+<tr>
+<td><code>SPC m g g</code></td>
+<td>go to definition using <code>anaconda-mode-find-definitions</code> (<code>C-o</code> to jump back)</td>
+</tr>
+
+<tr>
+<td><code>SPC m g a</code></td>
+<td>go to assignment using <code>anaconda-mode-find-assignments</code> (<code>C-o</code> to jump back)</td>
+</tr>
+
+<tr>
+<td><code>SPC m g b</code></td>
+<td>jump back</td>
+</tr>
+
+<tr>
+<td><code>SPC m g u</code></td>
+<td>navigate between usages with <code>anaconda-mode-find-references</code></td>
+</tr>
+
+<tr>
+<td><code>SPC m h d</code></td>
+<td>look for documentation using <code>helm-pydoc</code></td>
+</tr>
+
+<tr>
+<td><code>SPC m h h</code></td>
+<td>quick documentation using anaconda</td>
+</tr>
+
+<tr>
+<td><code>SPC m h H</code></td>
+<td>open documentation in <code>firefox</code> using <a href="https://github.com/tsgates/pylookup" title="pylookup">pylookup</a></td>
+</tr>
+
+<tr>
+<td><code>SPC m v s</code></td>
+<td>set a pyenv environment with <a href="https://github.com/pyenv/pyenv" title="pyenv">pyenv</a></td>
+</tr>
+
+<tr>
+<td><code>SPC m v u</code></td>
+<td>unset a pyenv environment with <a href="https://github.com/pyenv/pyenv" title="pyenv">pyenv</a></td>
+</tr>
+
+<tr>
+<td><code>SPC m V w</code></td>
+<td>work on virtual environment in <code>WORKON_HOME</code></td>
+</tr>
+
+<tr>
+<td><code>SPC m V a</code></td>
+<td>activate a virtual environment in any directory</td>
+</tr>
+
+<tr>
+<td><code>SPC m V d</code></td>
+<td>deactivate active virtual environment</td>
+</tr>
+</tbody>
+</table>
+
+		</div>
+		
+<div class="post__tags tags clearfix">
+	<svg class="icon icon-tag" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="m4.73135 3.3795002q0-.5597-.39604-.9557-.39604-.3961-.95577-.3961-.55974 0-.95578.3961-.39604.396-.39604.9557 0 .5598.39604.9558.39604.3961.95578.3961.55973 0 .95577-.3961.39604-.396.39604-.9558zm11.26865 6.0832q0 .5596998-.39076.9504998l-5.18548 5.196q-.41188.3908-.9610504.3908-.55974 0-.9505-.3908l-7.5511496-7.5616998q-.40132-.3907-.68119-1.0666-.27987-.6759-.27987-1.2357v-4.3934q0-.54920004.40132-.95050004.40132-.4013.9505-.4013h4.39339q.55974 0 1.23565.2799.67591.2798 1.07723.6812l7.55115 7.54060004q.39076.4118.39076.961z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item"><a class="tags__link" href="/tags/tag1/" rel="tag">tag1</a></li>
+	</ul>
+</div>
+
+	</article>
+	
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="linuxing3 avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About linuxing3</span>
+	</div>
+	<div class="authorbox__description">
+		Emacser and Vimer
+	</div>
+</div>
+	
+<nav class="post-nav row clearfix" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+	<div class="post-nav__item post-nav__item--prev col-1-2">
+		<a class="post-nav__link" href="/posts/emacs/using-spacemacs-base-in-emacs/" rel="prev"><span class="post-nav__caption">«Previous</span><p class="post-nav__post-title">using-spacemacs-base-in-emacs.org</p></a>
+	</div>
+	<div class="post-nav__item post-nav__item--next col-1-2">
+		<a class="post-nav__link" href="/posts/emacs/using-orgmode-in-emacs/" rel="next"><span class="post-nav__caption">Next»</span><p class="post-nav__post-title">using-orgmode-in-emacs.org</p></a>
+	</div>
+</nav>
+
+	
+</main>
+
+<aside class="sidebar" itemscope="itemscope" itemtype="http://schema.org/WPSideBar">
+	
+<div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="//google.com/search">
+		<label>
+			<span class="screen-reader-text">Search for:</span>
+			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="https://linuxing3.github.io/" />
+	</form>
+</div>
+	
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/news/20180609/">20180609</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180608/">20180608</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180607/">20180607</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180606/">20180606</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180605/">20180605</a></li>
+		</ul>
+	</div>
+</div>
+
+	
+	
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Facebook" rel="noopener noreferrer" href="https://facebook.com/xingwenju0928" target="_blank">
+				<svg class="widget-social__link-icon icon-facebook" viewBox="0 0 352 352" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m0 32v288c0 17.5 14.5 32 32 32h288c17.5 0 32-14.5 32-32v-288c0-17.5-14.5-32-32-32h-288c-17.5 0-32 14.5-32 32zm320 0v288h-83v-108h41.5l6-48h-47.5v-31c0-14 3.5-23.5 23.5-23.5h26v-43.5c-4.4-.6-19.8-1.5-37.5-1.5-36.9 0-62 22.2-62 63.5v36h-42v48h42v108h-155v-288z"/></svg>
+				<span>Facebook</span>
+			</a>
+		</div>
+		
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Twitter" rel="noopener noreferrer" href="https://twitter.com/@linuxing3" target="_blank">
+				<svg class="widget-social__link-icon icon-twitter" viewBox="0 0 384 312" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m384 36.9c-14.1 6.3-29.3 10.5-45.2 12.4 16.3-9.7 28.8-25.2 34.6-43.6-15.2 9-32.1 15.6-50 19.1-14.4-15.2-34.9-24.8-57.5-24.8-43.5 0-78.8 35.3-78.8 78.8 0 6.2.7 12.2 2 17.9-65.5-3.3-123.5-34.6-162.4-82.3-6.7 11.6-10.6 25.2-10.6 39.6 0 27.3 13.9 51.4 35 65.6-12.9-.4-25.1-4-35.7-9.9v1c0 38.2 27.2 70 63.2 77.2-6.6 1.8-13.6 2.8-20.8 2.8-5.1 0-10-.5-14.8-1.4 10 31.3 39.1 54.1 73.6 54.7-27 21.1-60.9 33.7-97.8 33.7-6.4 0-12.6-.4-18.8-1.1 34.9 22.4 76.3 35.4 120.8 35.4 144.9 0 224.1-120 224.1-224.1 0-3.4-.1-6.8-.2-10.2 15.4-11.1 28.7-25 39.3-40.8z"/></svg>
+				<span>Twitter</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="GitHub" rel="noopener noreferrer" href="https://github.com/linuxing3" target="_blank">
+				<svg class="widget-social__link-icon icon-github" viewBox="0 0 384 374" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m192 0c-106.1 0-192 85.8-192 191.7 0 84.7 55 156.6 131.3 181.9 9.6 1.8 13.1-4.2 13.1-9.2 0-4.6-.2-16.6-.3-32.6-53.4 11.6-64.7-25.7-64.7-25.7-8.7-22.1-21.3-28-21.3-28-17.4-11.9 1.3-11.6 1.3-11.6 19.3 1.4 29.4 19.8 29.4 19.8 17.1 29.3 44.9 20.8 55.9 15.9 1.7-12.4 6.7-20.8 12.2-25.6-42.6-4.8-87.5-21.3-87.5-94.8 0-20.9 7.5-38 19.8-51.4-2-4.9-8.6-24.3 1.9-50.7 0 0 16.1-5.2 52.8 19.7 15.3-4.2 31.7-6.4 48.1-6.5 16.3.1 32.7 2.2 48.1 6.5 36.7-24.8 52.8-19.7 52.8-19.7 10.5 26.4 3.9 45.9 1.9 50.7 12.3 13.4 19.7 30.5 19.7 51.4 0 73.7-44.9 89.9-87.7 94.6 6.9 5.9 13 17.6 13 35.5 0 25.6-.2 46.3-.2 52.6 0 5.1 3.5 11.1 13.2 9.2 76.2-25.5 131.2-97.3 131.2-182 0-105.9-86-191.7-192-191.7z"/></svg>
+				<span>GitHub</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Email" href="mailto:xingwenju@gmail.com">
+				<svg class="widget-social__link-icon icon-mail" viewBox="0 0 416 288" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<span>xingwenju@gmail.com</span>
+			</a>
+		</div>
+	</div>
+</div>
+
+	
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget__link widget__link--taglist" href="/tags/tag1" title="tag1">tag1</a>
+	</div>
+</div>
+</aside>
+
+	</div>
+		<footer class="footer" itemscope="itemscope" itemtype="http://schema.org/WPFooter">
+			<div class="container container-inner">
+				<p class="footer__copyright">&copy; 2018 天生我材必有用，千金散尽还复来. <span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad theme</a>.</span></p>
+			</div>
+		</footer>
+	</div>
+
+<script>
+	var navigation = responsiveNav(".menu", {
+		navClass: "menu--collapse",
+	});
+</script>
+</body>
+</html>

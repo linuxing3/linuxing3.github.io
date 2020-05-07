@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tag1 on 天生我材必有用，千金散尽还复来</title>
+    <link>https://linuxing3.github.io/tags/tag1/</link>
+    <description>Recent content in Tag1 on 天生我材必有用，千金散尽还复来</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <copyright>© 2018 Linuxing3 blog powered by Hugo</copyright>
+    <lastBuildDate>Fri, 16 Feb 2018 20:03:50 -0400</lastBuildDate>
+    
+	<atom:link href="https://linuxing3.github.io/tags/tag1/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>building-modern-emacs.org</title>
+      <link>https://linuxing3.github.io/posts/emacs/building-modern-emacs/</link>
+      <pubDate>Fri, 16 Feb 2018 20:03:50 -0400</pubDate>
+      
+      <guid>https://linuxing3.github.io/posts/emacs/building-modern-emacs/</guid>
+      <description>Day 3 A modern emacs configuration Spliting the spacemacs/init #+srcname: init #+begin_src language (defun dotspacemacs/init () &amp;#34;Instantiate Spacemacs core settings.&amp;#34; (dotspacemacs/init/coding) (dotspacemacs/init/display) (dotspacemacs/init/evil) (dotspacemacs/init/keys) (dotspacemacs/init/layouts) (dotspacemacs/init/misc) (dotspacemacs/init/packages) (dotspacemacs/init/startup)) #+end_src Spliting the spacemacs/config #+srcname: config #+begin_src language (defun dotspacemacs/user-config () &amp;#34;Configuration that cannot be delegated to layers.&amp;#34; (dotspacemacs/user-config/toggles) (dotspacemacs/user-config/development) (dotspacemacs/user-config/experiments)) #+end_src
+Spliting the spacemacs/layers #+srcname: layers #+begin_src language (defun dotspacemacs/layers () &amp;#34;Instantiate Spacemacs layers declarations and package configurations.&amp;#34; (dotspacemacs/layers/config) (dotspacemacs/layers/packages)) #+end_src</description>
+    </item>
+    
+    <item>
+      <title>evil.org</title>
+      <link>https://linuxing3.github.io/posts/emacs/evil/</link>
+      <pubDate>Fri, 16 Feb 2018 20:03:50 -0400</pubDate>
+      
+      <guid>https://linuxing3.github.io/posts/emacs/evil/</guid>
+      <description>Table of Contents TOC_4_gh noexport   Description Features: Install Key bindings  Description This layer replaces evil-nerd-commenter with evil-commentary for those who prefer the behaviour of vim-commentary.
+Features:  Provides the original vim behaviour for commenting out lines via evil-commentary.  Install To use this configuration layer, add it to your ~/.spacemacs. You will need to add evil-commentary to the existing dotspacemacs-configuration-layers list in this file.
+Key bindings    Key Binding Description     SPC ; comment operator   gcc comment current line   gcap comment paragraphs   gc comment out the target of a motion   gc SPC y comment up to a line with avy   gy comment and yank    </description>
+    </item>
+    
+    <item>
+      <title>smart.org</title>
+      <link>https://linuxing3.github.io/posts/emacs/smart/</link>
+      <pubDate>Fri, 16 Feb 2018 20:03:50 -0400</pubDate>
+      
+      <guid>https://linuxing3.github.io/posts/emacs/smart/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>test-easy-hugo-in-emacs.org</title>
+      <link>https://linuxing3.github.io/posts/emacs/test-easy-hugo-in-emacs/</link>
+      <pubDate>Fri, 16 Feb 2018 20:03:50 -0400</pubDate>
+      
+      <guid>https://linuxing3.github.io/posts/emacs/test-easy-hugo-in-emacs/</guid>
+      <description>Tips You can type the post name as emacs/test-easy-hugo-in-emacs to put the post in subdirectory
+#+srcname: easy-hugo-newpost #+begin_src emacs-lisp (defun x/smart-create-hugo-newpost-with-current-buffer (post-file) &amp;#34;file needs to have and extension &amp;#39;.md&amp;#39; or &amp;#39;.org&amp;#39; or &amp;#39;.ad&amp;#39; or &amp;#39;.rst&amp;#39; or &amp;#39;.mmark&amp;#39; or &amp;#39;.html&amp;#39;.&amp;#34; (interactive (list (read-from-minibuffer &amp;#34;输入文件名: &amp;#34; `(,easy-hugo-default-ext . 1) nil nil nil))) (easy-hugo-with-env (let ( (filename (expand-file-name post-file easy-hugo-postdir)) ;; file to create (file-ext (file-name-extension post-file)) ;; file extention (current-buffer-file-name (buffer-file-name)) ;; buffer to copy content ) ;; Check file extention (when (not (member file-ext easy-hugo--formats)) (error &amp;#34;please enter .</description>
+    </item>
+    
+    <item>
+      <title>using-auto-completion-in-emacs.org</title>
+      <link>https://linuxing3.github.io/posts/emacs/using-auto-completion-in-emacs/</link>
+      <pubDate>Fri, 16 Feb 2018 20:03:50 -0400</pubDate>
+      
+      <guid>https://linuxing3.github.io/posts/emacs/using-auto-completion-in-emacs/</guid>
+      <description>Table of Contents TOC_4_gh noexport   Description Features: Install Configuration Key bindings Snippets directories Show snippets in auto-completion popup Tooltips Sort results by usage Enable company or auto-complete globally Replacing company by auto-complete Add auto-completion in a layer Completion back ends Improved faces Key Bindings Company Auto-complete Yasnippet Auto-yasnippet  Description This layer provides auto-completion to Spacemacs.
+ The following completion engines are supported: company auto-complete  Snippets are supported via yasnippet and auto-yasnippet.</description>
+    </item>
+    
+    <item>
+      <title>using-chinese-in-emacs.org</title>
+      <link>https://linuxing3.github.io/posts/emacs/using-chinese-in-emacs/</link>
+      <pubDate>Fri, 16 Feb 2018 20:03:50 -0400</pubDate>
+      
+      <guid>https://linuxing3.github.io/posts/emacs/using-chinese-in-emacs/</guid>
+      <description>Table of Contents TOC_4_gh noexport   Description Features: Install Layer Configuration Configure the Default Input Method(配置默认中文输入法) Configure the Chinese-pyim Input Method(配置中文拼音输入法) Enable fcitx Requirement Enable YouDao(有道) Dictionary(激活有道字典) Set monospaced font size(设置等宽字体） Enable/Disable ace-pinyin in avy-goto-char Key Bindings Youdao Dictionary Find-by-pinyin-dired  Description This layer adds support for traditional Chinese script to Spacemacs.
+Features:  Support for the Pinyin(拼音) input method via chinese-pyim. Support for the Wubi(五笔) input method via chinese-wbim.</description>
+    </item>
+    
+    <item>
+      <title>using-chrome-in-emacs.org</title>
+      <link>https://linuxing3.github.io/posts/emacs/using-chrome-in-emacs/</link>
+      <pubDate>Fri, 16 Feb 2018 20:03:50 -0400</pubDate>
+      
+      <guid>https://linuxing3.github.io/posts/emacs/using-chrome-in-emacs/</guid>
+      <description>Table of Contents TOC_4_gh noexport   Description Features: Install Layer Chrome extension Configuration Key bindings  Description This layer provides some integration with the Google Chrome browser.
+Features:  Edit text boxes with Emacs using edit-server Write markdown in Emacs and realtime show in chrome using flymd gmail message mode uses standard markdown keybindings  Install Layer To use this configuration layer, add it to your ~/.spacemacs. You will need to add chrome to the existing dotspacemacs-configuration-layers list in this file.</description>
+    </item>
+    
+    <item>
+      <title>using-clojure-in-emacs.org</title>
+      <link>https://linuxing3.github.io/posts/emacs/using-clojure-in-emacs/</link>
+      <pubDate>Fri, 16 Feb 2018 20:03:50 -0400</pubDate>
+      
+      <guid>https://linuxing3.github.io/posts/emacs/using-clojure-in-emacs/</guid>
+      <description>Clojure layer Table of Contents  Clojure layer Description Features: Install Layer Pretty Symbols CIDER and clj-refactor Quick Start with boot Quick Start with lein More details Usage Cheatsheet Structuraly safe editing Key Bindings Working with clojure files (barfage, slurpage &amp; more) Leader Documentation Evaluation Goto REPL Tests Toggles Debugging Refactoring Reformatting CIDER Buffers stacktrace-mode inspector-mode test-report-mode Sayid Buffers sayid-mode sayid-traced-mode sayid-pprint cider-repl-mode Development Notes Indentation  Description This layer adds support for Clojure language using CIDER.</description>
+    </item>
+    
+    <item>
+      <title>using-dotemacs-in-emacs.org</title>
+      <link>https://linuxing3.github.io/posts/emacs/using-dotemacs-in-emacs/</link>
+      <pubDate>Fri, 16 Feb 2018 20:03:50 -0400</pubDate>
+      
+      <guid>https://linuxing3.github.io/posts/emacs/using-dotemacs-in-emacs/</guid>
+      <description>Day 1 1. Using the manual to find emacs configuration convention  Keybings is =Ctrl h ?=	for further options   Keybings is =Ctrl h r=	for reading the manual  	#+begin_src emacs-lisp :tangle yes (info-manual ARG) ;; C-h r runs the command info-manual (found in global-map), which is an ;; interactive Lisp function in ‘info+.el’. ;; ;; It is bound to C-h r, &amp;lt;f1&amp;gt; r, &amp;lt;help&amp;gt; r, &amp;lt;menu-bar&amp;gt; &amp;lt;help-menu&amp;gt; &amp;lt;emacs-manual&amp;gt;.</description>
+    </item>
+    
+    <item>
+      <title>using-go-in-emacs.org</title>
+      <link>https://linuxing3.github.io/posts/emacs/using-go-in-emacs/</link>
+      <pubDate>Fri, 16 Feb 2018 20:03:50 -0400</pubDate>
+      
+      <guid>https://linuxing3.github.io/posts/emacs/using-go-in-emacs/</guid>
+      <description>Table of Contents TOC_4_gh noexport   Description Features: Install Pre-requisites Layer Configuration Indentation Tests Guru Autocomplete Working with Go Go commands (start with m): Go Guru Refactoring  Description This layer adds extensive support for go.
+Features:  gofmt/goimports on file save Auto-completion using go-autocomplete (with the auto-completion layer) Source analysis using go-guru Refactoring with godoctor Edit struct field tag with gomodifytags Linting with flycheck&#39;s built-in checkers or flycheck-gometalinter Coverage profile visualization  Install Pre-requisites You will need gocode, godef and =godoctor=:</description>
+    </item>
+    
+    <item>
+      <title>using-hugo-in-emacs.org</title>
+      <link>https://linuxing3.github.io/posts/emacs/using-hugo-in-emacs/</link>
+      <pubDate>Fri, 16 Feb 2018 20:03:50 -0400</pubDate>
+      
+      <guid>https://linuxing3.github.io/posts/emacs/using-hugo-in-emacs/</guid>
+      <description>Start the Hugo #+begin_src emacs-lisp :tangle yes (defun find-blog-dir () (interactive) &amp;#34;Open hugo blog files&amp;#34; (find-file &amp;#34;~/Dropbox/xingwenju.com/hugo/content&amp;#34;) ) ;;;###autoload (defun blog-deploy () &amp;#34;Run hugo and push changes upstream.&amp;#34; (interactive) (with-dir blog-public-dir (shell-command &amp;#34;git rm -rf .&amp;#34;) (shell-command &amp;#34;git clean -fxd&amp;#34;) (with-temp-file &amp;#34;CNAME&amp;#34; (insert &amp;#34;www.xingwenju.com\spacemacs&amp;#34;)) (with-dir blog-dir (-&amp;gt;&amp;gt; blog-public-dir (concat &amp;#34;hugo -d &amp;#34;) shell-command)) (shell-command &amp;#34;git add .&amp;#34;) (--&amp;gt; (current-time-string) (concat &amp;#34;git commit -m \&amp;#34;&amp;#34; it &amp;#34;\&amp;#34;&amp;#34;) (shell-command it)) (magit-push-current-to-upstream nil))) ;;;###autoload (defun blog-start-server () &amp;#34;Run hugo server if not already running and open its webpage.</description>
+    </item>
+    
+    <item>
+      <title>using-hy-mode-in-emacs.org</title>
+      <link>https://linuxing3.github.io/posts/emacs/using-hy-mode-in-emacs/</link>
+      <pubDate>Fri, 16 Feb 2018 20:03:50 -0400</pubDate>
+      
+      <guid>https://linuxing3.github.io/posts/emacs/using-hy-mode-in-emacs/</guid>
+      <description>You can type the post name as emacs/test-easy-hugo-in-emacs to put the post in subdirectory
+#+srcname: easy-hugo-newpost #+begin_src emacs-lisp (defun x/smart-create-hugo-newpost-with-current-buffer (post-file) &amp;#34;file needs to have and extension &amp;#39;.md&amp;#39; or &amp;#39;.org&amp;#39; or &amp;#39;.ad&amp;#39; or &amp;#39;.rst&amp;#39; or &amp;#39;.mmark&amp;#39; or &amp;#39;.html&amp;#39;.&amp;#34; (interactive (list (read-from-minibuffer &amp;#34;输入文件名: &amp;#34; `(,easy-hugo-default-ext . 1) nil nil nil))) (easy-hugo-with-env (let ( (filename (expand-file-name post-file easy-hugo-postdir)) ;; file to create (file-ext (file-name-extension post-file)) ;; file extention (current-buffer-file-name (buffer-file-name)) ;; buffer to copy content ) ;; Check file extention (when (not (member file-ext easy-hugo--formats)) (error &amp;#34;please enter .</description>
+    </item>
+    
+    <item>
+      <title>using-interactive-in-emacs.org</title>
+      <link>https://linuxing3.github.io/posts/emacs/using-interactive-in-emacs/</link>
+      <pubDate>Fri, 16 Feb 2018 20:03:50 -0400</pubDate>
+      
+      <guid>https://linuxing3.github.io/posts/emacs/using-interactive-in-emacs/</guid>
+      <description>Using Interactive #+BEGIN_SRC (defun x/hugo-save-current-buffer-as-hugo-post (hugo-post-subdir) &amp;#34;Saving the current buffer as a hugo post in a specific hugo post directory&amp;#34; (interactive (let ((hugo-post-subdirs &amp;#39;(&amp;#34;emacs&amp;#34; &amp;#34;linux&amp;#34; &amp;#34;hugo&amp;#34;))) (list (ido-completing-read &amp;#34;Directory Name:&amp;#34; hugo-post-subdirs)) )) (progn (setq hugo-post-title (read-from-minibuffer &amp;#34;请输入文件名：&amp;#34; (buffer-name))) (setq hugo-post-dir (concat easy-hugo-basedir easy-hugo-postdir &amp;#34;/&amp;#34; hugo-post-subdir)) (write-file (concat hugo-post-dir hugo-post-title)) (find-alternate-file-other-window (concat hugo-post-dir hugo-post-title)) ) ) #+END_SRC </description>
+    </item>
+    
+    <item>
+      <title>using-java-in-emacs.org</title>
+      <link>https://linuxing3.github.io/posts/emacs/using-java-in-emacs/</link>
+      <pubDate>Fri, 16 Feb 2018 20:03:50 -0400</pubDate>
+      
+      <guid>https://linuxing3.github.io/posts/emacs/using-java-in-emacs/</guid>
+      <description>Table of Contents TOC_4_gh noexport   Description Features: Layer Installation Layer Choosing a backend Backends Meghanada Installation About Maven Eclim Installation Eclipse Eclim Configuration Usage ENSIME Installation when using SBT Installation when using Gradle Configuration Usage Issues Key bindings Meghanada Server Navigation Compilation Tests (junit) Refactoring Tasks Eclim Java-mode Ant Project management Eclim daemon Goto Refactoring Documentation, Find Errors (problems) Tests Errors (problems) buffer Projects buffer Ensime key bindings Search Ensime Search Mode sbt Typecheck Debug Errors Goto Print and yank types Documentation, Inspect Server Refactoring Tests REPL Maven Gradle  Description This layer adds support for the Java language.</description>
+    </item>
+    
+    <item>
+      <title>using-javascript-in-emacs.org</title>
+      <link>https://linuxing3.github.io/posts/emacs/using-javascript-in-emacs/</link>
+      <pubDate>Fri, 16 Feb 2018 20:03:50 -0400</pubDate>
+      
+      <guid>https://linuxing3.github.io/posts/emacs/using-javascript-in-emacs/</guid>
+      <description>Day 2 Javascript mode of emacs Description 	This layer adds support for the JavaScript language using js2-mode.
+Features:  Smart code folding Refactoring: done using s2-refactor]. Auto-completion and documentation: provided by tern CoffeeScript support Formatting with web-beautify Get the path to a JSON value with json-snatcher REPL available via skewer-mode and livid-mode  Install 	To use this configuration layer, add it to your ~/.spacemacs. You will need to add javascript to the existing dotspacemacs-configuration-layers list in this file.</description>
+    </item>
+    
+    <item>
+      <title>using-lua-in-emacs.org</title>
+      <link>https://linuxing3.github.io/posts/emacs/using-lua-in-emacs/</link>
+      <pubDate>Fri, 16 Feb 2018 20:03:50 -0400</pubDate>
+      
+      <guid>https://linuxing3.github.io/posts/emacs/using-lua-in-emacs/</guid>
+      <description>Table of Contents  Description Features: Install Key Bindings Commands  Description This layer adds support for editing Lua.
+Features:  Editing lua files using lua-mode Sending code to a lua REPL Code linting using Luacheck  Install To use this configuration layer, add it to your ~/.spacemacs. You will need to add lua to the existing dotspacemacs-configuration-layers list in this file.
+In order to enable code linting, install Luacheck.</description>
+    </item>
+    
+    <item>
+      <title>using-macro-in-emacs.org</title>
+      <link>https://linuxing3.github.io/posts/emacs/using-macro-in-emacs/</link>
+      <pubDate>Fri, 16 Feb 2018 20:03:50 -0400</pubDate>
+      
+      <guid>https://linuxing3.github.io/posts/emacs/using-macro-in-emacs/</guid>
+      <description>Codes Define macros #+srcname: define-macros #+begin_src emacs-lisp ;;; with-dir (defmacro do-in-dir (DIR &amp;amp;rest FORMS) &amp;#34;Execute FORMS in DIR.&amp;#34; (let ((orig-dir (gensym))) `(prog2 (setq ,orig-dir default-directory) (progn (cd ,DIR) ,@FORMS) (cd ,orig-dir)))) #+end_src #+RESULTS: define-macros : do-in-dir Run macros #+srcname: run-macros #+begin_src emacs-lisp (macroexpand &amp;#39;(do-in-dir &amp;#34;~/.emacs.d&amp;#34;)) #+end_src #+RESULTS: run-macros | prog2 | (setq G1829 default-directory) | (progn (cd ~/.emacs.d)) | (cd G1829) |</description>
+    </item>
+    
+    <item>
+      <title>using-orgmode-in-emacs.org</title>
+      <link>https://linuxing3.github.io/posts/emacs/using-orgmode-in-emacs/</link>
+      <pubDate>Fri, 16 Feb 2018 20:03:50 -0400</pubDate>
+      
+      <guid>https://linuxing3.github.io/posts/emacs/using-orgmode-in-emacs/</guid>
+      <description>the super org is the module of emacs Org-mode is a fabulous organizational tool originally built by Carsten Dominik that operates on plain text files. Org-mode is part of Emacs.
+This document assumes you&#39;ve had some exposure to org-mode already so concepts like the agenda, capture mode, etc. won&#39;t be completely foreign to you. More information about org-mode can be found in the Org-Mode Manual and on the Worg Site.</description>
+    </item>
+    
+    <item>
+      <title>using-python-in-emacs.org</title>
+      <link>https://linuxing3.github.io/posts/emacs/using-python-in-emacs/</link>
+      <pubDate>Fri, 16 Feb 2018 20:03:50 -0400</pubDate>
+      
+      <guid>https://linuxing3.github.io/posts/emacs/using-python-in-emacs/</guid>
+      <description>Table of Contents  Description Features: Install Layer Dependencies Auto-completion: Anaconda dependencies Syntax checking Test runner Automatic buffer formatting on save Automatic save of buffer when testing autoflake pylookup Hy-mode Configuration Fill column Sort imports Management of Python versions and virtual environments Manage virtual environments with pyvenv Manage multiple Python versions with pyenv Automatic activation of local pyenv version Key Bindings Inferior REPL process Running Python Script in shell Testing Refactoring Pip package management Live coding Hy REPL process Other Python commands  Description This layer adds support for the Python language.</description>
+    </item>
+    
+    <item>
+      <title>using-spacemacs-base-in-emacs.org</title>
+      <link>https://linuxing3.github.io/posts/emacs/using-spacemacs-base-in-emacs/</link>
+      <pubDate>Fri, 16 Feb 2018 20:03:50 -0400</pubDate>
+      
+      <guid>https://linuxing3.github.io/posts/emacs/using-spacemacs-base-in-emacs/</guid>
+      <description>Table of Contents TOC_4_gh noexport   Description describe spacemacs distribution in this file  Description TODO describe spacemacs distribution in this file </description>
+    </item>
+    
+  </channel>
+</rss>

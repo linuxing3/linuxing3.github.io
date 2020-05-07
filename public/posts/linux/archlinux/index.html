@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>archlinux.md</title>
+<meta name="description" content=" Linuxing3&#39;s个人博客 ">
+<meta name="generator" content="Hugo 0.31.1" />
+<meta property="og:title" content="archlinux.md" />
+<meta property="og:description" content="Install Archlinux from beggining Boot from iso file 将安装的your_arch_image.iso文件放在win_drive的根目录，假设这里是ntfs格式
+使用grub4dos来引导最小镜像文件
+root (hd0,0) kernel /vmlinuz archisolabel=ARCH2016 initrd /archiso.img  启动后会进入系统安全模式，在这里执行
+mkdir /mnt/iso mount -r -t ntfs /dev/win_drive /mnt/iso modprobe loop losetup /dev/loop6 /mnt/iso/your_arch_image.iso ln -s /dev/loop6 /dev/disks/by-label/ARCH2016 exit  这样就可以启动安装光盘了！
+Prepare your partition Using fdisk to create partition table fdisk /dev/sda n # creating new partion w # write  Format partition mkfs.ext4 /dev/sda1  Mount new partition as install target mount /dev/sda1 /mnt  Setting network Setting network with netctl cp /etc/netctl/examples/ethernet-static /etc/netctl/office netctl list netctl start office  office profie as follows Description=&#39;A basic dhcp ethernet connection&#39; Interface=eth0 Connection=ethernet IP=dhcp ForceConnect=yes DHCPClient=&quot;dhclient&quot;  Setting network behind proxy  NAT Forward ssh to the virtual machine with port forward  And don&rsquo;t forget to export your new environment variables" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://linuxing3.github.io/posts/linux/archlinux/" />
+
+
+
+<meta property="article:published_time" content="2018-02-16T14:05:34-04:00"/>
+
+<meta property="article:modified_time" content="2018-02-16T14:05:34-04:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="//fonts.googleapis.com" />
+<link rel="dns-prefetch" href="//fonts.gstatic.com" />
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700" type="text/css" media="all" />
+<link rel="stylesheet" href="/css/style.css" type="text/css" media="all" />
+<script type="text/javascript" src="/js/scripts.js"></script>
+<link rel="shortcut icon" href="/favicon.ico">
+
+</head>
+<body class="body body-right-sidebar mobile" itemscope="itemscope" itemtype="http://schema.org/WebPage">
+	<div class="container container-outer">
+		<header class="header" itemscope="itemscope" itemtype="http://schema.org/WPHeader">
+			<div class="container container-inner clearfix">
+				<div class="logo" role="banner" itemscope="itemscope" itemtype="http://schema.org/Brand">
+					<a class="logo__link" href="/" title="天生我材必有用，千金散尽还复来" rel="home">
+						<h1 class="logo__title">天生我材必有用，千金散尽还复来</h1>
+						<h2 class="logo__tagline">在编程世界中学习生活</h2>
+					</a>
+				</div>
+			</div>
+			
+<nav class="menu" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+	<ul class="menu__list">
+		<li class="menu__item"><a class="menu__link" href="/posts/">博客</a></li>
+		<li class="menu__item"><a class="menu__link" href="/news/">新闻</a></li>
+		<li class="menu__item"><a class="menu__link" href="/hexo/">老店</a></li>
+	</ul>
+</nav>
+
+		</header>
+		<div class="wrapper clearfix">
+
+<main class="main-content content" role="main" itemprop="mainContentOfPage">
+	<article class="post">
+		<header class="post__header clearfix">
+			<h1 class="post__title">archlinux.md</h1>
+			<p class="post__meta meta">
+				<svg class="icon icon-time" height="14" viewBox="0 0 16 16" width="14" xmlns="http://www.w3.org/2000/svg"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
+				<time class="post__meta-date" datetime="2018-02-16T14:05:34">February 16, 2018</time>
+			</p>
+		</header>
+		<div class="post__content clearfix">
+			
+
+<h1 id="install-archlinux-from-beggining">Install Archlinux from beggining</h1>
+
+<h2 id="boot-from-iso-file">Boot from iso file</h2>
+
+<p>将安装的your_arch_image.iso文件放在<code>win_drive</code>的根目录，假设这里是<code>ntfs</code>格式</p>
+
+<p>使用grub4dos来引导最小镜像文件</p>
+
+<pre><code>root (hd0,0)
+kernel /vmlinuz archisolabel=ARCH2016
+initrd /archiso.img
+</code></pre>
+
+<p>启动后会进入系统安全模式，在这里执行</p>
+
+<pre><code>mkdir /mnt/iso
+mount -r -t ntfs /dev/win_drive /mnt/iso
+modprobe loop
+losetup /dev/loop6 /mnt/iso/your_arch_image.iso
+ln -s /dev/loop6 /dev/disks/by-label/ARCH2016
+exit
+</code></pre>
+
+<p>这样就可以启动安装光盘了！</p>
+
+<h2 id="prepare-your-partition">Prepare your partition</h2>
+
+<h3 id="using-fdisk-to-create-partition-table">Using <code>fdisk</code> to create partition table</h3>
+
+<pre><code class="language-sh">fdisk /dev/sda
+n # creating new partion
+w # write
+</code></pre>
+
+<h3 id="format-partition">Format partition</h3>
+
+<pre><code class="language-sh">mkfs.ext4 /dev/sda1
+</code></pre>
+
+<h3 id="mount-new-partition-as-install-target">Mount new partition as install target</h3>
+
+<pre><code class="language-sh">mount /dev/sda1 /mnt
+</code></pre>
+
+<h2 id="setting-network">Setting network</h2>
+
+<h3 id="setting-network-with-netctl">Setting network with <code>netctl</code></h3>
+
+<pre><code class="language-sh">cp /etc/netctl/examples/ethernet-static /etc/netctl/office
+netctl list
+netctl start office
+</code></pre>
+
+<h3 id="office-profie-as-follows"><code>office</code> profie as follows</h3>
+
+<pre><code class="language-sh">Description='A basic dhcp ethernet connection'
+Interface=eth0
+Connection=ethernet
+IP=dhcp
+ForceConnect=yes
+DHCPClient=&quot;dhclient&quot;
+</code></pre>
+
+<h3 id="setting-network-behind-proxy">Setting network behind proxy</h3>
+
+<ul>
+<li><code>NAT Forward</code></li>
+<li><code>ssh</code> to the virtual machine with port forward</li>
+</ul>
+
+<p>And don&rsquo;t forget to export your new environment variables</p>
+
+<pre><code class="language-sh">export http_proxy=your_proxy_id:your_proxy_port
+</code></pre>
+
+<h3 id="generating-file-system-genfstab-o-mnt-mnt-etc-fstab">Generating file system <code>genfstab -o /mnt /mnt/etc/fstab</code></h3>
+
+<h3 id="change-root-arch-chroot-mnt">change root <code>arch-chroot /mnt</code></h3>
+
+<p>Ok, Now your job on iso live environment is done!</p>
+
+<h2 id="next-steps-are-in-you-newly-installed-archlinux-environment">Next steps are in you newly installed archlinux environment</h2>
+
+<h3 id="vim-etc-fstab"><code>vim etc/fstab</code></h3>
+
+<pre><code class="language-sh">/dev/sda1           	/         	ext4      	rw,relatime,data=ordered	0 1
+/dev/sda2           	/home       ext4      	rw,relatime,data=ordered	0 1
+</code></pre>
+
+<h1 id="nano-etc-hostname"><code>nano /etc/hostname</code></h1>
+
+<p>arch</p>
+
+<h3 id="basic-configuration">Basic Configuration</h3>
+
+<pre><code class="language-sh">nano /etc/hosts
+ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+nano /etc/locale.gen
+nano /etc/locale.conf
+nano /usr/share/i18n/locales/zh_CN
+locale-gen
+mkinitcpio -p linux
+grub-install /dev/sda
+grub-mkconfig -o /boot/grub/grub.cfg
+passwd root
+</code></pre>
+
+<h3 id="nano-etc-pacman-d-mirrorlist"><code>nano /etc/pacman.d/mirrorlist</code></h3>
+
+<pre><code class="language-sh">Server = http://mirror.bjtu.edu.cn/archlinux/$repo/os/$arch
+Server = http://mirrors.163.com/archlinux/$repo/os/$arch
+Server = http://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch
+Server = http://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
+Server = http://mirrors.neusoft.edu.cn/archlinux/$repo/os/$arch
+Server = http://mirrors.hust.edu.cn/archlinux/$repo/os/$arch
+</code></pre>
+
+<h3 id="nano-etc-pacman-conf"><code>nano /etc/pacman.conf</code></h3>
+
+<pre><code class="language-sh">[options]
+HoldPkg     = pacman glibc
+#XferCommand = /usr/bin/wget --passive-ftp -c -O %o %u
+#CleanMethod = KeepInstalled
+#UseDelta    = 0.7
+Architecture = auto
+
+[core]
+Include = /etc/pacman.d/mirrorlist
+
+[extra]
+Include = /etc/pacman.d/mirrorlist
+
+[community]
+Include = /etc/pacman.d/mirrorlist
+
+[archlinuxfr]
+SigLevel = Optional TrustAll
+Server = http://repo.archlinux.fr/$arch
+
+</code></pre>
+
+<h3 id="using-pacman-to-install-programs">Using pacman to install programs</h3>
+
+<pre><code>pacman -Syy
+pacman -S gvim
+pacman -S git ruby lua clojure node gem npm
+pacman -S python
+pacman -S python-pip python-setuptools
+pacman -S calcurse ranger
+pacman -S cmus
+pacman -S tmux
+pacman -S openssh
+pacman -S xorg-xauth
+pacman -S xorg-server xorg-xinit
+pacman -S notion
+pacman -S enlightenment
+pacman -S connman
+pacman -S redis
+pacman -S mongodb
+pacman -S mysql
+pacman -S couchdb
+pacman -S wqy-bitmapfont wqy-zenhei ttf-arphic-ukai ttf-arphic-uming
+pacman -S ttf-monaco
+pacman -S ttf-dejavu
+pacman -S wqy-zenhei
+pacman -S fbterm
+pacman -S libx86
+pacman -S fcitx
+pacman -S fcitx-fbterm
+pacman -S yaourt
+pacman -S rsync customizepkg
+yaourt -S infinality
+yaourt -S fongconfig-infinality
+pacman -S urxvt
+pacman -S rxvt-unicode
+pacman -S gtk2-perl
+pacman -S vim-ultisnips
+pacman -S vim-fugitive
+pacman -S vim-nerdtree vim-minibufexpl vim-supertab vim-surround
+</code></pre>
+
+<h3 id="linking-conf-files">linking conf files</h3>
+
+<pre><code class="language-sh">ln -s archdotfiles/.curlrc ~/.curlrc
+ln -s archdotfiles/.wgetrc ~/.wgetrc
+ln -s archdotfiles/.bashrc ~/.bashrc
+ln -s archdotfiles/.gitconfig ~/.gitconfig
+ln -s archdotfiles/.xinitrc ~/.xinitrc
+ln -s archdotfiles/.Xdefaults ~/.Xdefaults
+</code></pre>
+
+<ul>
+<li>The <code>gitconfig</code> file like</li>
+</ul>
+
+<pre><code class="language-sh">[user]
+        name = your name
+        email = your email
+[push]
+        default = matching
+[http]
+	proxy=http://127.0.0.1:3127
+[credential]
+	helper=store
+</code></pre>
+
+<h3 id="installing-separate-servers-by-compling-from-source">installing separate servers by compling from source</h3>
+
+<pre><code class="language-sh">wget http://openresty.org/download/ngx_openresty-1.5.12.1.tar.gz
+mv ngx_openresty-1.5.12.1.tar.gz /home/shared/
+tar zxvf ngx_openresty-1.5.12.1.tar.gz
+cd ngx_openresty-1.5.12.1
+./configure --with-luajit
+make
+make install
+/usr/local/openresty/nginx/sbin/nginx &amp;
+</code></pre>
+
+<h3 id="evince-to-display-chinese-charaters">evince to display chinese charaters</h3>
+
+<h4 id="install-doppler-data">install <code>doppler-data</code></h4>
+
+<pre><code class="language-sh">pacman -S doppler-data
+</code></pre>
+
+<h4 id="modify-etc-fonts-conf-d-49-sansserif-confi">modify <code>/etc/fonts/conf.d/49-sansserif.confi</code></h4>
+
+<pre><code class="language-sh">&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;!DOCTYPE fontconfig SYSTEM &quot;fonts.dtd&quot;&gt;
+&lt;fontconfig&gt;
+&lt;!--
+  If the font still has no generic name, add sans-serif
+ --&gt;
+	&lt;match target=&quot;pattern&quot;&gt;
+		&lt;test qual=&quot;all&quot; name=&quot;family&quot; compare=&quot;not_eq&quot;&gt;
+			&lt;string&gt;sans-serif&lt;/string&gt;
+		&lt;/test&gt;
+		&lt;test qual=&quot;all&quot; name=&quot;family&quot; compare=&quot;not_eq&quot;&gt;
+			&lt;string&gt;serif&lt;/string&gt;
+		&lt;/test&gt;
+		&lt;test qual=&quot;all&quot; name=&quot;family&quot; compare=&quot;not_eq&quot;&gt;
+			&lt;string&gt;monospace&lt;/string&gt;
+		&lt;/test&gt;
+		&lt;edit name=&quot;family&quot; mode=&quot;append_last&quot;&gt;
+			&lt;string&gt;wqy-zenhei&lt;/string&gt;
+		&lt;/edit&gt;
+	&lt;/match&gt;
+&lt;/fontconfig&gt;
+</code></pre>
+
+<h3 id="virtualbox-guest-utils">Virtualbox-guest-utils</h3>
+
+<p>After installing, run the following script</p>
+
+<pre><code class="language-sh">echo &quot;load virtualbox modules&quot;
+echo &quot;you can install virtualbox-guest-utils first&quot;
+modprobe -a vboxguest vboxsf vboxvideo
+echo &quot;mounting virtualbox shared folders&quot;
+echo &quot;mounting winshared in /root/winshared&quot;
+mount -t vboxsf winshared /root/winshared
+echo &quot;mounting mfa in /home/mfa&quot;
+mount -t vboxsf mfa /home/mfa
+echo &quot;rsync from windows shared folder to /home/shared&quot;
+echo &quot;Done&quot;
+</code></pre>
+
+<h3 id="doing-sync-for-shared-folders">Doing sync for shared folders</h3>
+
+<pre><code class="language-sh">rsync /root/winshared/* /home/shared/
+</code></pre>
+
+<h2 id="great-you-have-a-fully-operational-archlinux-in-your-computer">Great! You have a fully operational Archlinux in your computer</h2>
+
+<h3 id="more-configuration-in-office">More configuration in office</h3>
+
+<p>We must configure the network by defining the ip address and route</p>
+
+<p>We have 2 subnet, first 192.168.76.x,second 192.168.5.x</p>
+
+<p>We need proper routes to comunicate between them</p>
+
+<pre><code>echo &quot;Configure your network and routing&quot;
+ifconfig enp3s0 down
+ifconfig enp3s0 192.168.76.54 netmask 255.255.252.0
+route add -net 0.0.0.0 netmask 0.0.0.0 gateway 192.168.76.1 dev enp3s0
+route add -net 192.168.76.0 netmask 255.255.252.0 gateway 192.168.76.63 dev enp3s0
+route add -net 192.168.76.255 netmask 255.255.255.255 gateway 192.168.76.63 dev enp3s0
+route add -net 224.0.0.0 netmask 240.0.0.0 gateway 192.168.76.3 dev enp3s0
+route add -net 255.255.255.255 netmask 255.255.255.255 gateway 192.168.76.3 dev enp3s0
+ifconfig enp3s0 up
+echo &quot;Done!&quot;
+</code></pre>
+
+<p>The route <code>224.0.0.0</code> is the key for connecting two subnet</p>
+
+<p>The gateway is <code>192.168.76.3</code>, not as default <code>76.1</code></p>
+
+<h2 id="the-grub-setting">The grub setting</h2>
+
+<h3 id="grub4dos">grub4dos</h3>
+
+<p>A problem os <code>grub2dos</code> is that it may not know</p>
+
+<h4 id="how-to-install-on-my-mac-mini">how to install on my Mac mini</h4>
+
+<ul>
+<li>install refind</li>
+</ul>
+
+<p><a href="http://www.rodsbooks.com/refind/installing.html#windows">rEFInd引导程序</a>会以图标的方式列出你所有的操作系统。因此，你可以通过点击相应的图标来启动Windows、Ubuntu或者优盘中的操作系统。</p>
+
+<p><a href="http://sourceforge.net/projects/refind/files/0.8.4/refind-bin-0.8.4.zip/download">点击这里下载rEFInd for Windows 8</a>。</p>
+
+<p><a href="https://edk2.svn.sourceforge.net/svnroot/edk2/trunk/edk2/ShellBinPkg/UefiShell/X64/Shell.efi">点击这里下载rEFInd Shell</a></p>
+
+<p><a href="http://dl.dropbox.com/u/17629062/Shell2.zip">点击这里下载rEFInd Shell for old EFI</a></p>
+
+<ul>
+<li>install rEFInd</li>
+</ul>
+
+<p>If you haven&rsquo;t installed rEFInd previously, unpack its zip file to a FAT partition. This can be the ESP itself or another partition, such as a USB flash drive. If you&rsquo;re simply repairing a lost NVRAM entry, you needn&rsquo;t move your existing rEFInd files.</p>
+
+<ul>
+<li>Identify your filesystems</li>
+</ul>
+
+<p>which are labelled with the form fsn:, as in fs0: for the first filesystem, fs1: for the second, and so on. Type the filesystem number followed by the Enter key to begin using it. You can then type ls or dir to see the contents of the filesystem. Chances are your ESP will be fs0:, but it could be something else. (The following steps assume your ESP is fs0:; you&rsquo;ll need to adjust them if it&rsquo;s not.) If rEFInd&rsquo;s source files are on another device, you must identify it, too.</p>
+
+<ul>
+<li>create a directory</li>
+</ul>
+
+<p>If necessary, create a directory for rEFInd by typing mkdir fs0:\EFI\refind. (If the fs0:\EFI directory doesn&rsquo;t already exist, you must create it first, though.)</p>
+
+<ul>
+<li>Change to the directory in which rEFInd&rsquo;s files exist.</li>
+</ul>
+
+<p>Type <code>cp refind_x64.efi fs0:\EFI\refind</code> to copy the rEFInd binary file. Adjust the name if you&rsquo;re using an IA32 or AARCH64 computer.)</p>
+
+<p>Type <code>cp refind.conf-sample fs0:\EFI\refind\refind.conf</code> to copy and rename
+   the sample rEFInd configuration file.</p>
+
+<p>Type <code>cp -r icons fs0:\EFI\refind\</code> to copy rEFInd&rsquo;s icons.</p>
+
+<p>Optionally, <code>type cp -r drivers_x64 fs0:\EFI\refind\</code> to copy rEFInd&rsquo;s X64 drivers. (You could instead copy the IA32 or AARCH64 drivers or limit
+   yourself to just the drivers you need, of course.)</p>
+
+<p>Type <code>fs0:</code>, if necessary, to change to the ESP.</p>
+
+<p>Type <code>cd \EFI\refind</code> to change to rEFInd&rsquo;s installation directory.</p>
+
+<p>If you want to edit rEFInd&rsquo;s options, type <code>edit refind.conf</code> and use the shell&rsquo;s built-in text editor to do so. Press <code>F2</code> followed by the Enter key
+   to save your changes and <code>F3</code> to exit.</p>
+
+<p>Type <code>bcfg boot dump -b</code> to see a list of existing NVRAM entries. Pay attention to their numbers (labelled Option: and Variable:, with the latter number preceded by the string Boot, as in Boot0007). You&rsquo;ll want to create
+a boot entry for rEFInd using a number that&rsquo;s not in use.</p>
+
+<p>Type <code>bcfg boot add 3 fs0:\EFI\refind\refind_x64.efi &quot;rEFInd&quot;</code>, adjusting the number (3 in this example), filesystem (fs0:), and filename (\EFI\refind\refind_x64.efi) as necessary for your system.</p>
+
+<p>If you&rsquo;re used to Linux, be sure to use backslashes (), not Linux-style forward slashes (/), as directory separators. Note that some shells may ignore the number you entered and use another one, so watch for this possibility.</p>
+
+<p>Type <code>bcfg boot mv 3 0</code>, substituting the option number for the entry you
+   created for 3. This moves rEFInd to the top of the boot order.</p>
+
+<p>Type <code>reset</code> to reboot the computer.</p>
+
+<p>2.下载和解压以后，按照以下的步骤安装rEFInd。</p>
+
+<pre><code>返回桌面
+
+右击开始按钮，选择管理员命令行
+
+输入 `mountvol g: /s` (这将你的EFI目录结构映射到G盘)
+
+进入解压的rEFInd目录。例如： `cd c:\users\gary\downloads\refind-bin-0.8.4\refind-bin-0.8.4` 。
+
+当你输入 `dir` 命令，你可以看到一个refind目录
+
+输入如下命令将refind拷贝到EFI引导区 `xcopy /E refind g:\EFI\refind\`
+
+输入如下命令进入refind文件夹 `cd g:\EFI\refind`
+
+重命名示例配置文件 `rename refind.conf-sample refind.conf`
+
+运行如下命令将rEFind设置为引导程序 `bcdedit /set {bootmgr} path \EFI\refind\refind_x64.efi`
+
+重启你的电脑
+
+你将会看到一个包含`Ubuntu`和`Windows`的图形菜单
+</code></pre>
+
+<ul>
+<li><p>install windows with winclone</p></li>
+
+<li><p>boot windows</p></li>
+
+<li><p>edit <code>BCD</code> with <code>bootice</code> to add <code>grub4dos</code> based on <code>grldr.mbr</code></p></li>
+
+<li><p>edit <code>menu.lst</code> to add <code>linux</code> entry</p></li>
+
+<li><p>install <code>linux</code></p></li>
+</ul>
+
+		</div>
+		
+
+	</article>
+	
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="linuxing3 avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About linuxing3</span>
+	</div>
+	<div class="authorbox__description">
+		Emacser and Vimer
+	</div>
+</div>
+	
+<nav class="post-nav row clearfix" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+	<div class="post-nav__item post-nav__item--prev col-1-2">
+		<a class="post-nav__link" href="/posts/nodejs/babel-loader/" rel="prev"><span class="post-nav__caption">«Previous</span><p class="post-nav__post-title">babel-loader.md</p></a>
+	</div>
+	<div class="post-nav__item post-nav__item--next col-1-2">
+		<a class="post-nav__link" href="/posts/linux/alpine/" rel="next"><span class="post-nav__caption">Next»</span><p class="post-nav__post-title">alpine.md</p></a>
+	</div>
+</nav>
+
+	
+</main>
+
+<aside class="sidebar" itemscope="itemscope" itemtype="http://schema.org/WPSideBar">
+	
+<div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="//google.com/search">
+		<label>
+			<span class="screen-reader-text">Search for:</span>
+			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="https://linuxing3.github.io/" />
+	</form>
+</div>
+	
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/news/20180609/">20180609</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180608/">20180608</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180607/">20180607</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180606/">20180606</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180605/">20180605</a></li>
+		</ul>
+	</div>
+</div>
+
+	
+	
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Facebook" rel="noopener noreferrer" href="https://facebook.com/xingwenju0928" target="_blank">
+				<svg class="widget-social__link-icon icon-facebook" viewBox="0 0 352 352" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m0 32v288c0 17.5 14.5 32 32 32h288c17.5 0 32-14.5 32-32v-288c0-17.5-14.5-32-32-32h-288c-17.5 0-32 14.5-32 32zm320 0v288h-83v-108h41.5l6-48h-47.5v-31c0-14 3.5-23.5 23.5-23.5h26v-43.5c-4.4-.6-19.8-1.5-37.5-1.5-36.9 0-62 22.2-62 63.5v36h-42v48h42v108h-155v-288z"/></svg>
+				<span>Facebook</span>
+			</a>
+		</div>
+		
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Twitter" rel="noopener noreferrer" href="https://twitter.com/@linuxing3" target="_blank">
+				<svg class="widget-social__link-icon icon-twitter" viewBox="0 0 384 312" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m384 36.9c-14.1 6.3-29.3 10.5-45.2 12.4 16.3-9.7 28.8-25.2 34.6-43.6-15.2 9-32.1 15.6-50 19.1-14.4-15.2-34.9-24.8-57.5-24.8-43.5 0-78.8 35.3-78.8 78.8 0 6.2.7 12.2 2 17.9-65.5-3.3-123.5-34.6-162.4-82.3-6.7 11.6-10.6 25.2-10.6 39.6 0 27.3 13.9 51.4 35 65.6-12.9-.4-25.1-4-35.7-9.9v1c0 38.2 27.2 70 63.2 77.2-6.6 1.8-13.6 2.8-20.8 2.8-5.1 0-10-.5-14.8-1.4 10 31.3 39.1 54.1 73.6 54.7-27 21.1-60.9 33.7-97.8 33.7-6.4 0-12.6-.4-18.8-1.1 34.9 22.4 76.3 35.4 120.8 35.4 144.9 0 224.1-120 224.1-224.1 0-3.4-.1-6.8-.2-10.2 15.4-11.1 28.7-25 39.3-40.8z"/></svg>
+				<span>Twitter</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="GitHub" rel="noopener noreferrer" href="https://github.com/linuxing3" target="_blank">
+				<svg class="widget-social__link-icon icon-github" viewBox="0 0 384 374" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m192 0c-106.1 0-192 85.8-192 191.7 0 84.7 55 156.6 131.3 181.9 9.6 1.8 13.1-4.2 13.1-9.2 0-4.6-.2-16.6-.3-32.6-53.4 11.6-64.7-25.7-64.7-25.7-8.7-22.1-21.3-28-21.3-28-17.4-11.9 1.3-11.6 1.3-11.6 19.3 1.4 29.4 19.8 29.4 19.8 17.1 29.3 44.9 20.8 55.9 15.9 1.7-12.4 6.7-20.8 12.2-25.6-42.6-4.8-87.5-21.3-87.5-94.8 0-20.9 7.5-38 19.8-51.4-2-4.9-8.6-24.3 1.9-50.7 0 0 16.1-5.2 52.8 19.7 15.3-4.2 31.7-6.4 48.1-6.5 16.3.1 32.7 2.2 48.1 6.5 36.7-24.8 52.8-19.7 52.8-19.7 10.5 26.4 3.9 45.9 1.9 50.7 12.3 13.4 19.7 30.5 19.7 51.4 0 73.7-44.9 89.9-87.7 94.6 6.9 5.9 13 17.6 13 35.5 0 25.6-.2 46.3-.2 52.6 0 5.1 3.5 11.1 13.2 9.2 76.2-25.5 131.2-97.3 131.2-182 0-105.9-86-191.7-192-191.7z"/></svg>
+				<span>GitHub</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Email" href="mailto:xingwenju@gmail.com">
+				<svg class="widget-social__link-icon icon-mail" viewBox="0 0 416 288" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<span>xingwenju@gmail.com</span>
+			</a>
+		</div>
+	</div>
+</div>
+
+	
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget__link widget__link--taglist" href="/tags/tag1" title="tag1">tag1</a>
+	</div>
+</div>
+</aside>
+
+	</div>
+		<footer class="footer" itemscope="itemscope" itemtype="http://schema.org/WPFooter">
+			<div class="container container-inner">
+				<p class="footer__copyright">&copy; 2018 天生我材必有用，千金散尽还复来. <span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad theme</a>.</span></p>
+			</div>
+		</footer>
+	</div>
+
+<script>
+	var navigation = responsiveNav(".menu", {
+		navClass: "menu--collapse",
+	});
+</script>
+</body>
+</html>

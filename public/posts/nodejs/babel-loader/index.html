@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>babel-loader.md</title>
+<meta name="description" content=" Linuxing3&#39;s个人博客 ">
+<meta name="generator" content="Hugo 0.31.1" />
+<meta property="og:title" content="babel-loader.md" />
+<meta property="og:description" content="babel-loader  Babel is a compiler for writing next generation JavaScript.
+ This package allows transpiling JavaScript files using Babel and webpack.
+Notes: Issues with the output should be reported on the babel issue tracker;
+Installation npm install babel-loader babel-core babel-preset-es2015 babel-preset-react --save-dev  Note: npm will deprecate auto-installing of peerDependencies on the next major release, so required peer dependencies like babel-core and webpack will have to be listed explicitly in your package." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://linuxing3.github.io/posts/nodejs/babel-loader/" />
+
+
+
+<meta property="article:published_time" content="2018-02-16T14:05:34-04:00"/>
+
+<meta property="article:modified_time" content="2018-02-16T14:05:34-04:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="dns-prefetch" href="//fonts.googleapis.com" />
+<link rel="dns-prefetch" href="//fonts.gstatic.com" />
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700" type="text/css" media="all" />
+<link rel="stylesheet" href="/css/style.css" type="text/css" media="all" />
+<script type="text/javascript" src="/js/scripts.js"></script>
+<link rel="shortcut icon" href="/favicon.ico">
+
+</head>
+<body class="body body-right-sidebar mobile" itemscope="itemscope" itemtype="http://schema.org/WebPage">
+	<div class="container container-outer">
+		<header class="header" itemscope="itemscope" itemtype="http://schema.org/WPHeader">
+			<div class="container container-inner clearfix">
+				<div class="logo" role="banner" itemscope="itemscope" itemtype="http://schema.org/Brand">
+					<a class="logo__link" href="/" title="天生我材必有用，千金散尽还复来" rel="home">
+						<h1 class="logo__title">天生我材必有用，千金散尽还复来</h1>
+						<h2 class="logo__tagline">在编程世界中学习生活</h2>
+					</a>
+				</div>
+			</div>
+			
+<nav class="menu" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+	<ul class="menu__list">
+		<li class="menu__item"><a class="menu__link" href="/posts/">博客</a></li>
+		<li class="menu__item"><a class="menu__link" href="/news/">新闻</a></li>
+		<li class="menu__item"><a class="menu__link" href="/hexo/">老店</a></li>
+	</ul>
+</nav>
+
+		</header>
+		<div class="wrapper clearfix">
+
+<main class="main-content content" role="main" itemprop="mainContentOfPage">
+	<article class="post">
+		<header class="post__header clearfix">
+			<h1 class="post__title">babel-loader.md</h1>
+			<p class="post__meta meta">
+				<svg class="icon icon-time" height="14" viewBox="0 0 16 16" width="14" xmlns="http://www.w3.org/2000/svg"><path d="m8-.0000003c-4.4 0-8 3.6-8 8 0 4.4000003 3.6 8.0000003 8 8.0000003 4.4 0 8-3.6 8-8.0000003 0-4.4-3.6-8-8-8zm0 14.4000003c-3.52 0-6.4-2.88-6.4-6.4000003 0-3.52 2.88-6.4 6.4-6.4 3.52 0 6.4 2.88 6.4 6.4 0 3.5200003-2.88 6.4000003-6.4 6.4000003zm.4-10.4000003h-1.2v4.8l4.16 2.5600003.64-1.04-3.6-2.1600003z"/></svg>
+				<time class="post__meta-date" datetime="2018-02-16T14:05:34">February 16, 2018</time>
+			</p>
+		</header>
+		<div class="post__content clearfix">
+			
+
+<h1 id="babel-loader-https-travis-ci-org-babel-babel-loader"><a href="https://travis-ci.org/babel/babel-loader">babel-loader</a></h1>
+
+<blockquote>
+<p>Babel is a compiler for writing next generation JavaScript.</p>
+</blockquote>
+
+<p>This package allows transpiling JavaScript files using <a href="https://github.com/babel/babel">Babel</a> and <a href="https://github.com/webpack/webpack">webpack</a>.</p>
+
+<p><strong>Notes:</strong> Issues with the output should be reported on the babel <a href="https://github.com/babel/babel/issues">issue tracker</a>;</p>
+
+<h2 id="installation">Installation</h2>
+
+<pre><code class="language-bash">npm install babel-loader babel-core babel-preset-es2015 babel-preset-react --save-dev
+</code></pre>
+
+<p><strong>Note:</strong> <a href="https://npmjs.com">npm</a> will deprecate <a href="https://github.com/npm/npm/issues/6565">auto-installing of peerDependencies</a> on the next major release, so required peer dependencies like babel-core and webpack will have to be listed explicitly in your <code>package.json</code>.</p>
+
+<p><strong>Note:</strong> If you&rsquo;re upgrading from babel 5 to babel 6, please take a look <a href="https://medium.com/@malyw/how-to-update-babel-5-x-6-x-d828c230ec53#.yqxukuzdk">at this guide</a>.</p>
+
+<h2 id="usage">Usage</h2>
+
+<p><a href="http://webpack.github.io/docs/using-loaders.html">Documentation: Using loaders</a></p>
+
+<p>Within your webpack configuration object, you&rsquo;ll need to add the babel-loader to the list of modules, like so:</p>
+
+<pre><code class="language-javascript">module: {
+  loaders: [
+    {
+      test: /\.jsx?$/,
+      exclude: /(node_modules|bower_components)/,
+      loader: 'babel', // 'babel-loader' is also a legal name to reference
+      query: {
+        presets: ['react', 'es2015']
+      }
+    }
+  ]
+}
+</code></pre>
+
+<h3 id="options">Options</h3>
+
+<p>See the <code>babel</code> <a href="http://babeljs.io/docs/usage/options/">options</a>.</p>
+
+<p>You can pass options to the loader by writing them as a <a href="https://github.com/webpack/loader-utils">query string</a>:</p>
+
+<pre><code class="language-javascript">module: {
+  loaders: [
+    {
+      test: /\.jsx?$/,
+      exclude: /(node_modules|bower_components)/,
+      loader: 'babel?presets[]=react,presets[]=es2015'
+    }
+  ]
+}
+</code></pre>
+
+<p>or by using the query property:</p>
+
+<pre><code class="language-javascript">module: {
+  loaders: [
+    {
+      test: /\.jsx?$/,
+      exclude: /(node_modules|bower_components)/,
+      loader: 'babel',
+      query: {
+        presets: ['react', 'es2015']
+      }
+    }
+  ]
+}
+</code></pre>
+
+<p>This loader also supports the following loader-specific option:</p>
+
+<ul>
+<li><p><code>cacheDirectory</code>: Default <code>false</code>. When set, the given directory will be used to cache the results of the loader. Future webpack builds will attempt to read from the cache to avoid needing to run the potentially expensive Babel recompilation process on each run. If the value is blank (<code>loader: 'babel-loader?cacheDirectory'</code>) the loader will use the default OS temporary file directory.</p></li>
+
+<li><p><code>cacheIdentifier</code>: Default is a string composed by the babel-core&rsquo;s version, the babel-loader&rsquo;s version and the contents of .babelrc file if it exists. This can set to a custom value to force cache busting if the identifier changes.</p></li>
+</ul>
+
+<p><strong>Note:</strong> The <code>sourceMap</code> option is ignored, instead sourceMaps are automatically enabled when webpack is configured to use them (via the <code>devtool</code> config option).</p>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<h3 id="babel-loader-is-slow">babel-loader is slow!</h3>
+
+<p>Make sure you are transforming as few files as possible. Because you are probably
+  matching <code>/\.js$/</code>, you might be transforming the <code>node_modules</code> folder or other unwanted
+  source.</p>
+
+<p>To exclude <code>node_modules</code>, see the <code>exclude</code> option in the <code>loaders</code> config as documented above.</p>
+
+<p>You can also speed up babel-loader by as much as 2x by using the <code>cacheDirectory</code> option.
+  This will cache transformations to the filesystem.</p>
+
+<h3 id="babel-is-injecting-helpers-into-each-file-and-bloating-my-code">babel is injecting helpers into each file and bloating my code!</h3>
+
+<p>babel uses very small helpers for common functions such as <code>_extend</code>. By default
+  this will be added to every file that requires it.</p>
+
+<p>You can instead require the babel runtime as a separate module to avoid the duplication.</p>
+
+<p>The following configuration disables automatic per-file runtime injection in babel, instead
+  requiring <code>babel-plugin-transform-runtime</code> and making all helper references use it.</p>
+
+<p>See the <a href="http://babeljs.io/docs/plugins/transform-runtime/">docs</a> for more information.</p>
+
+<p><strong>NOTE:</strong> You must run <code>npm install babel-plugin-transform-runtime --save</code> to include this in your project.</p>
+
+<pre><code class="language-javascript">loaders: [
+  // the 'transform-runtime' plugin tells babel to require the runtime
+  // instead of inlining it.
+  {
+    test: /\.jsx?$/,
+    exclude: /(node_modules|bower_components)/,
+    loader: 'babel',
+    query: {
+      presets: ['react', 'es2015'],
+      plugins: ['transform-runtime']
+    }
+  }
+]
+</code></pre>
+
+<h3 id="using-cachedirectory-fails-with-enoent-error">using <code>cacheDirectory</code> fails with ENOENT Error</h3>
+
+<p>If using cacheDirectory results in an error similar to the following:</p>
+
+<pre><code>ERROR in ./frontend/src/main.jsx
+Module build failed: Error: ENOENT, open 'true/350c59cae6b7bce3bb58c8240147581bfdc9cccc.json.gzip'
+ @ multi app
+</code></pre>
+
+<p>(notice the <code>true/</code> in the filepath)</p>
+
+<p>That means that most likely, you&rsquo;re not setting the options correctly, and you&rsquo;re doing something similar to:</p>
+
+<pre><code class="language-javascript">loaders: [
+  {
+    test: /\.jsx?$/,
+    exclude: /(node_modules|bower_components)/,
+    loader: 'babel?cacheDirectory=true'
+  }
+]
+</code></pre>
+
+<p>That&rsquo;s not the correct way of setting boolean values. You should do instead:</p>
+
+<pre><code class="language-javascript">loaders: [
+  {
+    test: /\.jsx?$/,
+    exclude: /(node_modules|bower_components)/,
+    loader: 'babel?cacheDirectory'
+  }
+]
+</code></pre>
+
+<p>or use the <a href="https://webpack.github.io/docs/using-loaders.html#query-parameters">query</a> property:</p>
+
+<pre><code class="language-javascript">loaders: [
+  // the optional 'runtime' transformer tells babel to require the runtime
+  // instead of inlining it.
+  {
+    test: /\.jsx?$/,
+    exclude: /(node_modules|bower_components)/,
+    loader: 'babel',
+    query: {
+      cacheDirectory: true
+    }
+  }
+]
+</code></pre>
+
+<h3 id="custom-polyfills-e-g-promise-library">custom polyfills (e.g. Promise library)</h3>
+
+<p>Since Babel includes a polyfill that includes a custom <a href="https://github.com/facebook/regenerator/blob/master/runtime.js">regenerator runtime</a> and <a href="https://github.com/zloirock/core-js">core.js</a>, the following usual shimming method using <code>webpack.ProvidePlugin</code> will not work:</p>
+
+<pre><code class="language-javascript">// ...
+        new webpack.ProvidePlugin({
+            'Promise': 'bluebird'
+        }),
+// ...
+</code></pre>
+
+<p>The following approach will not work either:</p>
+
+<pre><code class="language-javascript">require('babel-runtime/core-js/promise').default = require('bluebird');
+
+var promise = new Promise;
+</code></pre>
+
+<p>which outputs to (using <code>runtime</code>):</p>
+
+<pre><code class="language-javascript">'use strict';
+
+var _Promise = require('babel-runtime/core-js/promise')['default'];
+
+require('babel-runtime/core-js/promise')['default'] = require('bluebird');
+
+var promise = new _Promise();
+</code></pre>
+
+<p>The previous <code>Promise</code> library is referenced and used before it is overridden.</p>
+
+<p>One approach is to have a &ldquo;bootstrap&rdquo; step in your application that would first override the default globals before your application:</p>
+
+<pre><code class="language-javascript">// bootstrap.js
+
+require('babel-runtime/core-js/promise').default = require('bluebird');
+
+// ...
+
+require('./app');
+</code></pre>
+
+<h2 id="license-http-couto-mit-license-org"><a href="http://couto.mit-license.org/">License</a></h2>
+
+		</div>
+		
+
+	</article>
+	
+<div class="authorbox clearfix">
+	<figure class="authorbox__avatar">
+		<img alt="linuxing3 avatar" src="/img/avatar.png" class="avatar" height="90" width="90">
+	</figure>
+	<div class="authorbox__header">
+		<span class="authorbox__name">About linuxing3</span>
+	</div>
+	<div class="authorbox__description">
+		Emacser and Vimer
+	</div>
+</div>
+	
+<nav class="post-nav row clearfix" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement">
+	<div class="post-nav__item post-nav__item--prev col-1-2">
+		<a class="post-nav__link" href="/posts/python/basic/" rel="prev"><span class="post-nav__caption">«Previous</span><p class="post-nav__post-title">basic.md</p></a>
+	</div>
+	<div class="post-nav__item post-nav__item--next col-1-2">
+		<a class="post-nav__link" href="/posts/linux/archlinux/" rel="next"><span class="post-nav__caption">Next»</span><p class="post-nav__post-title">archlinux.md</p></a>
+	</div>
+</nav>
+
+	
+</main>
+
+<aside class="sidebar" itemscope="itemscope" itemtype="http://schema.org/WPSideBar">
+	
+<div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="//google.com/search">
+		<label>
+			<span class="screen-reader-text">Search for:</span>
+			<input class="widget-search__field" type="search" placeholder="SEARCH..." value="" name="q">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="https://linuxing3.github.io/" />
+	</form>
+</div>
+	
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/news/20180609/">20180609</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180608/">20180608</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180607/">20180607</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180606/">20180606</a></li>
+			<li class="widget__item"><a class="widget__link" href="/news/20180605/">20180605</a></li>
+		</ul>
+	</div>
+</div>
+
+	
+	
+<div class="widget-social widget">
+	<h4 class="widget-social__title widget__title">Social</h4>
+	<div class="widget-social__content widget__content">
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Facebook" rel="noopener noreferrer" href="https://facebook.com/xingwenju0928" target="_blank">
+				<svg class="widget-social__link-icon icon-facebook" viewBox="0 0 352 352" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m0 32v288c0 17.5 14.5 32 32 32h288c17.5 0 32-14.5 32-32v-288c0-17.5-14.5-32-32-32h-288c-17.5 0-32 14.5-32 32zm320 0v288h-83v-108h41.5l6-48h-47.5v-31c0-14 3.5-23.5 23.5-23.5h26v-43.5c-4.4-.6-19.8-1.5-37.5-1.5-36.9 0-62 22.2-62 63.5v36h-42v48h42v108h-155v-288z"/></svg>
+				<span>Facebook</span>
+			</a>
+		</div>
+		
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Twitter" rel="noopener noreferrer" href="https://twitter.com/@linuxing3" target="_blank">
+				<svg class="widget-social__link-icon icon-twitter" viewBox="0 0 384 312" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m384 36.9c-14.1 6.3-29.3 10.5-45.2 12.4 16.3-9.7 28.8-25.2 34.6-43.6-15.2 9-32.1 15.6-50 19.1-14.4-15.2-34.9-24.8-57.5-24.8-43.5 0-78.8 35.3-78.8 78.8 0 6.2.7 12.2 2 17.9-65.5-3.3-123.5-34.6-162.4-82.3-6.7 11.6-10.6 25.2-10.6 39.6 0 27.3 13.9 51.4 35 65.6-12.9-.4-25.1-4-35.7-9.9v1c0 38.2 27.2 70 63.2 77.2-6.6 1.8-13.6 2.8-20.8 2.8-5.1 0-10-.5-14.8-1.4 10 31.3 39.1 54.1 73.6 54.7-27 21.1-60.9 33.7-97.8 33.7-6.4 0-12.6-.4-18.8-1.1 34.9 22.4 76.3 35.4 120.8 35.4 144.9 0 224.1-120 224.1-224.1 0-3.4-.1-6.8-.2-10.2 15.4-11.1 28.7-25 39.3-40.8z"/></svg>
+				<span>Twitter</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="GitHub" rel="noopener noreferrer" href="https://github.com/linuxing3" target="_blank">
+				<svg class="widget-social__link-icon icon-github" viewBox="0 0 384 374" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m192 0c-106.1 0-192 85.8-192 191.7 0 84.7 55 156.6 131.3 181.9 9.6 1.8 13.1-4.2 13.1-9.2 0-4.6-.2-16.6-.3-32.6-53.4 11.6-64.7-25.7-64.7-25.7-8.7-22.1-21.3-28-21.3-28-17.4-11.9 1.3-11.6 1.3-11.6 19.3 1.4 29.4 19.8 29.4 19.8 17.1 29.3 44.9 20.8 55.9 15.9 1.7-12.4 6.7-20.8 12.2-25.6-42.6-4.8-87.5-21.3-87.5-94.8 0-20.9 7.5-38 19.8-51.4-2-4.9-8.6-24.3 1.9-50.7 0 0 16.1-5.2 52.8 19.7 15.3-4.2 31.7-6.4 48.1-6.5 16.3.1 32.7 2.2 48.1 6.5 36.7-24.8 52.8-19.7 52.8-19.7 10.5 26.4 3.9 45.9 1.9 50.7 12.3 13.4 19.7 30.5 19.7 51.4 0 73.7-44.9 89.9-87.7 94.6 6.9 5.9 13 17.6 13 35.5 0 25.6-.2 46.3-.2 52.6 0 5.1 3.5 11.1 13.2 9.2 76.2-25.5 131.2-97.3 131.2-182 0-105.9-86-191.7-192-191.7z"/></svg>
+				<span>GitHub</span>
+			</a>
+		</div>
+		<div class="widget-social__item widget__item">
+			<a class="widget-social__link widget__link btn" title="Email" href="mailto:xingwenju@gmail.com">
+				<svg class="widget-social__link-icon icon-mail" viewBox="0 0 416 288" width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="#fff"><path d="m0 16v256 16h16 384 16v-16-256-16h-16-384-16zm347 16-139 92.5-139-92.5zm-148 125.5 9 5.5 9-5.5 167-111.5v210h-352v-210z"/></svg>
+				<span>xingwenju@gmail.com</span>
+			</a>
+		</div>
+	</div>
+</div>
+
+	
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget__link widget__link--taglist" href="/tags/tag1" title="tag1">tag1</a>
+	</div>
+</div>
+</aside>
+
+	</div>
+		<footer class="footer" itemscope="itemscope" itemtype="http://schema.org/WPFooter">
+			<div class="container container-inner">
+				<p class="footer__copyright">&copy; 2018 天生我材必有用，千金散尽还复来. <span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad theme</a>.</span></p>
+			</div>
+		</footer>
+	</div>
+
+<script>
+	var navigation = responsiveNav(".menu", {
+		navClass: "menu--collapse",
+	});
+</script>
+</body>
+</html>

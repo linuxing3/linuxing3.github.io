@@ -1,0 +1,50 @@
+baseURL = "https://linuxing3.github.io/"
+languageCode = "zh-cn"
+copyright = "© 2018 Linuxing3 blog powered by Hugo"
+title = "天生我材必有用，千金散尽还复来"
+theme = "mainroad"
+
+[[menu.main]]
+  name = "博客"
+  weight = 1
+  identifier = "posts"
+  url = "/posts/"
+[[menu.main]]
+  name = "新闻"
+  weight = 2
+  identifier = "news"
+  url = "/news/"
+[[menu.main]]
+  name = "老店"
+  weight = 3
+  identifier = "hexo"
+  url = "/hexo/"
+
+[Author] # Used in authorbox
+    name = "linuxing3"
+    bio = "Emacser and Vimer"
+    avatar = "img/avatar.png"
+
+[Params]
+    subtitle = "在编程世界中学习生活" # Subtitle of your site. Used in site header
+    description = " Linuxing3's个人博客 " # Description of your site. Used in meta description
+    opengraph = true # Enable OpenGraph if true
+    readmore = true # Show "Read more" button in list if true
+    leftsidebar = false # Move sidebar to the left side if true
+    authorbox = true # Show authorbox at bottom of pages if true
+    post_navigation = true # Show post navigation at bottom of pages if true
+    postSections = ["posts","news"] # the section pages to show on home page and the "Recent articles" widget
+
+[Params.widgets]
+    search = true # Enable "Search" widget
+    recent_articles = true # Enable "Recent articles" widget
+    recent_articles_num = 5 # Set the number of articles in the "Recent articles" widget
+    categories = true # Enable "Categories" widget
+    tags = true # Enable "Tags" widget
+    tags_counter = false # Enable counter for each tag in "Tags" widget (disabled by default)
+
+    # Enable "Social" widget, if any of "social_*" set a value
+    social_facebook = "xingwenju0928"
+    social_twitter = "@linuxing3"
+    social_github = "linuxing3"
+    social_email = "xingwenju@gmail.com"
