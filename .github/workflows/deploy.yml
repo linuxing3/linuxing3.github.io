@@ -3,7 +3,7 @@ name: deploy document with hugo
 on:
   push:
     branches:
-      master
+      source
 
 env:
   SSH_ACTIONS: false
