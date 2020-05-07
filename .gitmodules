@@ -1,14 +1,21 @@
 [submodule "themes/ananke"]
 	path = themes/ananke
 	url = https://github.com/budparr/gohugo-theme-ananke.git
-
 [submodule "themes/after-dark"]
 	path = themes/after-dark
-	url = https://github.com/comfusion/after-dark.git
-
+	url = https://github.com/comfusion/after-dark
 [submodule "themes/mainroad"]
 	path = themes/mainroad
 	url = https://github.com/vimux/mainroad.git
 [submodule "themes/heather-hugo"]
 	path = themes/heather-hugo
 	url = https://github.com/hbpasti/heather-hugo
+[submodule "themes/hugo-freelancer"]
+	path = themes/hugo-freelancer
+	url = https://github.com/digitalcraftsman/hugo-freelancer-theme
+[submodule "themes/hugo-zen"]
+	path = themes/hugo-zen
+	url = https://github.com/rakuishi/hugo-zen.git
+[submodule "themes/hyde"]
+	path = themes/hyde
+	url = https://github.com/spf13/hyde.git
