@@ -11,8 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with: 
-          repository: source
-          branch: source
+          ref: source
       - name: SSH connection to Actions
         uses: P3TERX/debugger-action@master
         if: env.SSH_ACTIONS == 'true'
