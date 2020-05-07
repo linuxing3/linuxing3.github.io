@@ -20,6 +20,8 @@ jobs:
         with:
           hugo-version: latest # optional, default is latest
           extended: false # optional, default is false
+      - name: Hugo Build
+        run: hugo --minify
       - name: GitHub Push
         uses: ad-m/github-push-action@v0.5.0
         with:
