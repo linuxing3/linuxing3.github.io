@@ -23,5 +23,7 @@ jobs:
       - name: SSH connection to Actions
         uses: P3TERX/debugger-action@master
         if: env.SSH_ACTIONS == 'true'
+      - name: Hugo Actions
+        uses: srt32/hugo-action@v0.0.3
 
         
