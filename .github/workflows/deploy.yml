@@ -5,23 +5,26 @@ on:
     branches:
       source
 
-env:
-  SSH_ACTIONS: false
-  DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-  ARGS: "-e -c -r"
-  SERVER_PORT: "22"
-  FOLDER: "./docs/site/public/"
-  SERVER_IP: "xunqinji.top"
-  USERNAME: "root"
-  SERVER_DESTINATION: "/www/wwwroot/pro.xunqinji.top/"
-
 jobs:
   build-hugo-pages:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with: 
+          repository: source
+          branch: source
       - name: SSH connection to Actions
         uses: P3TERX/debugger-action@master
         if: env.SSH_ACTIONS == 'true'
-      - name: Hugo Actions
-        uses: srt32/hugo-action@v0.0.3
+      - name: Hugo setup
+        uses: peaceiris/actions-hugo@v2.4.11
+        with:
+          hugo-version: latest # optional, default is latest
+          extended: false # optional, default is false
+      - name: GitHub Push
+        uses: ad-m/github-push-action@v0.5.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }} 
+          branch: master # optional, default is master
+          force: true # optional
+          directory: "./public" # optional, default is .
