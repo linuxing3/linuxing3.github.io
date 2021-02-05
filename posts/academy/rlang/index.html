@@ -1,0 +1,228 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=generator content="Hugo 0.80.0"><link rel=canonical href=/posts/academy/rlang/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/safari-pinned-tab.svg color=#000000><meta name=msapplication-TileColor content="#ffffff"><meta name=theme-color content="#ffffff"><style>body{visibility:hidden;opacity:0}</style><link rel=stylesheet href=/css/prism.css media=none onload="this.media='all';"><link rel=stylesheet type=text/css href=/css/styles.css><title>rlang.md | Cupper</title></head><body><a href=#main>skip to content</a><noscript><style>body{visibility:visible;opacity:1}</style></noscript><svg style="display:none"><symbol id="bookmark" viewBox="0 0 40 50"><g transform="translate(2266 3206.2)"><path style="stroke:currentColor;stroke-width:3.2637;fill:none" d="m-2262.2-3203.4-.2331 42.195 16.319-16.318 16.318 16.318.2331-42.428z"/></g></symbol><symbol id="w3c" viewBox="0 0 127.09899 67.763"><text font-size="83" style="font-size:83px;font-family:Trebuchet;letter-spacing:-12;fill-opacity:0" letter-spacing="-12" y="67.609352" x="-26.782778">W3C</text><text font-size="83" style="font-size:83px;font-weight:700;font-family:Trebuchet;fill-opacity:0" y="67.609352" x="153.21722" font-weight="bold">SVG</text><path style="fill:currentColor;image-rendering:optimizeQuality;shape-rendering:geometricPrecision" d="m33.695.377 12.062 41.016 12.067-41.016h8.731l-19.968 67.386h-.831l-12.48-41.759-12.479 41.759h-.832l-19.965-67.386h8.736l12.061 41.016 8.154-27.618-3.993-13.397h8.737z"/><path style="fill:currentColor;image-rendering:optimizeQuality;shape-rendering:geometricPrecision" d="m91.355 46.132c0 6.104-1.624 11.234-4.862 15.394-3.248 4.158-7.45 6.237-12.607 6.237-3.882.0-7.263-1.238-10.148-3.702-2.885-2.47-5.02-5.812-6.406-10.022l6.82-2.829c1.001 2.552 2.317 4.562 3.953 6.028 1.636 1.469 3.56 2.207 5.781 2.207 2.329.0 4.3-1.306 5.909-3.911 1.609-2.606 2.411-5.738 2.411-9.401.0-4.049-.861-7.179-2.582-9.399-1.995-2.604-5.129-3.912-9.397-3.912h-3.327v-3.991l11.646-20.133h-14.062l-3.911 6.655h-2.493v-14.976h32.441v4.075l-12.31 21.217c4.324 1.385 7.596 3.911 9.815 7.571 2.22 3.659 3.329 7.953 3.329 12.892z"/><path style="fill:currentColor;image-rendering:optimizeQuality;shape-rendering:geometricPrecision" d="m125.21.0 1.414 8.6-5.008 9.583s-1.924-4.064-5.117-6.314c-2.693-1.899-4.447-2.309-7.186-1.746-3.527.73-7.516 4.938-9.258 10.13-2.084 6.21-2.104 9.218-2.178 11.978-.115 4.428.58 7.043.58 7.043s-3.04-5.626-3.011-13.866c.018-5.882.947-11.218 3.666-16.479 2.404-4.627 5.954-7.404 9.114-7.728 3.264-.343 5.848 1.229 7.841 2.938 2.089 1.788 4.213 5.698 4.213 5.698l4.94-9.837z"/><path style="fill:currentColor;image-rendering:optimizeQuality;shape-rendering:geometricPrecision" d="m125.82 48.674s-2.208 3.957-3.589 5.48c-1.379 1.524-3.849 4.209-6.896 5.555-3.049 1.343-4.646 1.598-7.661 1.306-3.01-.29-5.807-2.032-6.786-2.764-.979-.722-3.486-2.864-4.897-4.854-1.42-2-3.634-5.995-3.634-5.995s1.233 4.001 2.007 5.699c.442.977 1.81 3.965 3.749 6.572 1.805 2.425 5.315 6.604 10.652 7.545 5.336.945 9.002-1.449 9.907-2.031.907-.578 2.819-2.178 4.032-3.475 1.264-1.351 2.459-3.079 3.116-4.108.487-.758 1.276-2.286 1.276-2.286l-1.276-6.644z"/></symbol><symbol id="tag" viewBox="0 0 177.16535 177.16535"><g transform="translate(0 -875.2)"><path style="fill-rule:evenodd;stroke-width:0;fill:currentColor" d="m159.9 894.3-68.79 8.5872-75.42 77.336 61.931 60.397 75.429-76.565 6.8495-69.755zm-31.412 31.835a10.813 10.813.0 011.8443 2.247 10.813 10.813.0 01-3.5174 14.872l-.0445.0275a10.813 10.813.0 01-14.86-3.5714 10.813 10.813.0 013.5563-14.863 10.813 10.813.0 0113.022 1.2884z"/></g></symbol><symbol id="balloon" viewBox="0 0 141.73228 177.16535"><g transform="translate(0 -875.2)"><g><path style="fill:currentColor" d="m68.156 882.83-.88753 1.4269c-4.9564 7.9666-6.3764 17.321-5.6731 37.378.36584 10.437 1.1246 23.51 1.6874 29.062.38895 3.8372 3.8278 32.454 4.6105 38.459 4.6694-.24176 9.2946.2879 14.377 1.481 1.2359-3.2937 5.2496-13.088 8.886-21.623 6.249-14.668 8.4128-21.264 10.253-31.252 1.2464-6.7626 1.6341-12.156 1.4204-19.764-.36325-12.93-2.1234-19.487-6.9377-25.843-2.0833-2.7507-6.9865-7.6112-7.9127-7.8436-.79716-.20019-6.6946-1.0922-6.7755-1.0248-.02213.0182-5.0006-.41858-7.5248-.22808l-2.149-.22808h-3.3738z"/><path style="fill:currentColor" d="m61.915 883.28-3.2484.4497c-1.7863.24724-3.5182.53481-3.8494.63994-2.4751.33811-4.7267.86957-6.7777 1.5696-.28598.0-1.0254.20146-2.3695.58589-5.0418 1.4418-6.6374 2.2604-8.2567 4.2364-6.281 7.6657-11.457 18.43-12.932 26.891-1.4667 8.4111.71353 22.583 5.0764 32.996 3.8064 9.0852 13.569 25.149 22.801 37.517 1.3741 1.841 2.1708 2.9286 2.4712 3.5792 3.5437-1.1699 6.8496-1.9336 10.082-2.3263-1.3569-5.7831-4.6968-21.86-6.8361-33.002-.92884-4.8368-2.4692-14.322-3.2452-19.991-.68557-5.0083-.77707-6.9534-.74159-15.791.04316-10.803.41822-16.162 1.5026-21.503 1.4593-5.9026 3.3494-11.077 6.3247-15.852z"/><path style="fill:currentColor" d="m94.499 885.78c-.10214-.0109-.13691.0-.0907.0409.16033.13489 1.329 1.0675 2.5976 2.0723 6.7003 5.307 11.273 14.568 12.658 25.638.52519 4.1949.24765 14.361-.5059 18.523-2.4775 13.684-9.7807 32.345-20.944 53.519l-3.0559 5.7971c2.8082.76579 5.7915 1.727 8.9926 2.8441 11.562-11.691 18.349-19.678 24.129-28.394 7.8992-11.913 11.132-20.234 12.24-31.518.98442-10.02-1.5579-20.876-6.7799-28.959-.2758-.4269-.57803-.86856-.89617-1.3166-3.247-6.13-9.752-12.053-21.264-16.131-2.3687-.86369-6.3657-2.0433-7.0802-2.1166z"/><path style="fill:currentColor" d="m32.52 892.22c-.2009-.13016-1.4606.81389-3.9132 2.7457-11.486 9.0476-17.632 24.186-16.078 39.61.79699 7.9138 2.4066 13.505 5.9184 20.562 5.8577 11.77 14.749 23.219 30.087 38.74.05838.059.12188.1244.18052.1838 1.3166-.5556 2.5965-1.0618 3.8429-1.5199-.66408-.32448-1.4608-1.3297-3.8116-4.4602-5.0951-6.785-8.7512-11.962-13.051-18.486-5.1379-7.7948-5.0097-7.5894-8.0586-13.054-6.2097-11.13-8.2674-17.725-8.6014-27.563-.21552-6.3494.13041-9.2733 1.775-14.987 2.1832-7.5849 3.9273-10.986 9.2693-18.07 1.7839-2.3656 2.6418-3.57 2.4409-3.7003z"/><path style="fill:currentColor" d="m69.133 992.37c-6.2405.0309-12.635.76718-19.554 2.5706 4.6956 4.7759 9.935 10.258 12.05 12.625l4.1272 4.6202h11.493l3.964-4.4516c2.0962-2.3541 7.4804-7.9845 12.201-12.768-8.378-1.4975-16.207-2.6353-24.281-2.5955z"/><rect style="stroke-width:0;fill:currentColor" ry="2.0328" height="27.746" width="22.766" y="1017.7" x="60.201"/></g></g></symbol><symbol id="info" viewBox="0 0 41.667 41.667"><g transform="translate(-37.035 -1004.6)"><path style="stroke-linejoin:round;stroke:currentColor;stroke-linecap:round;stroke-width:3.728;fill:none" d="m76.25 1030.2a18.968 18.968.0 01-23.037 13.709 18.968 18.968.0 01-13.738-23.019 18.968 18.968.0 0123.001-13.768 18.968 18.968.0 0113.798 22.984"/><g transform="matrix(1.1146 0 0 1.1146 -26.276 -124.92)"><path style="stroke:currentColor;stroke-linecap:round;stroke-width:3.728;fill:none" d="m75.491 1039.5v-8.7472"/><path style="stroke-width:0;fill:currentColor" transform="scale(-1)" d="m-73.193-1024.5a2.3719 2.3719.0 01-2.8807 1.7142 2.3719 2.3719.0 01-1.718-2.8785 2.3719 2.3719.0 012.8763-1.7217 2.3719 2.3719.0 011.7254 2.8741"/></g></g></symbol><symbol id="warning" viewBox="0 0 48.430474 41.646302"><g transform="translate(-1.1273 -1010.2)"><path style="stroke-linejoin:round;stroke:currentColor;stroke-linecap:round;stroke-width:4.151;fill:none" d="m25.343 1012.3-22.14 37.496h44.28z"/><path style="stroke:currentColor;stroke-linecap:round;stroke-width:4.1512;fill:none" d="m25.54 1027.7v8.7472"/><path style="stroke-width:0;fill:currentColor" d="m27.839 1042.8a2.3719 2.3719.0 01-2.8807 1.7143 2.3719 2.3719.0 01-1.718-2.8785 2.3719 2.3719.0 012.8763-1.7217 2.3719 2.3719.0 011.7254 2.8741"/></g></symbol><symbol id="menu" viewBox="0 0 50 50"><rect style="stroke-width:0;fill:currentColor" height="10" width="50" y="0" x="0"/><rect style="stroke-width:0;fill:currentColor" height="10" width="50" y="20" x="0"/><rect style="stroke-width:0;fill:currentColor" height="10" width="50" y="40" x="0"/></symbol><symbol id="link" viewBox="0 0 50 50"><g transform="translate(0 -1002.4)"><g transform="matrix(.095670 0 0 .095670 2.3233 1004.9)"><g><path style="stroke-width:0;fill:currentColor" d="m452.84 192.9-128.65 128.65c-35.535 35.54-93.108 35.54-128.65.0l-42.881-42.886 42.881-42.876 42.884 42.876c11.845 11.822 31.064 11.846 42.886.0l128.64-128.64c11.816-11.831 11.816-31.066.0-42.9l-42.881-42.881c-11.822-11.814-31.064-11.814-42.887.0l-45.928 45.936c-21.292-12.531-45.491-17.905-69.449-16.291l72.501-72.526c35.535-35.521 93.136-35.521 128.64.0l42.886 42.881c35.535 35.523 35.535 93.141-.001 128.66zm-254.28 168.51-45.903 45.9c-11.845 11.846-31.064 11.817-42.881.0l-42.884-42.881c-11.845-11.821-11.845-31.041.0-42.886l128.65-128.65c11.819-11.814 31.069-11.814 42.884.0l42.886 42.886 42.876-42.886-42.876-42.881c-35.54-35.521-93.113-35.521-128.65.0l-128.65 128.64c-35.538 35.545-35.538 93.146.0 128.65l42.883 42.882c35.51 35.54 93.11 35.54 128.65.0l72.496-72.499c-23.956 1.597-48.092-3.784-69.474-16.283z"/></g></g></g></symbol><symbol id="doc" viewBox="0 0 35 45"><g transform="translate(-147.53 -539.83)"><path style="stroke:currentColor;stroke-width:2.4501;fill:none" d="m149.38 542.67v39.194h31.354V542.67z"/><g style="stroke-width:25" transform="matrix(.098003 0 0 .098003 133.69 525.96)"><path d="m220 252.36h2e2" style="stroke:currentColor;stroke-width:25;fill:none"/><path style="stroke:currentColor;stroke-width:25;fill:none" d="m220 409.95h2e2"/><path d="m220 488.74h2e2" style="stroke:currentColor;stroke-width:25;fill:none"/><path d="m220 331.15h2e2" style="stroke:currentColor;stroke-width:25;fill:none"/></g></g></symbol><symbol id="tick" viewBox="0 0 177.16535 177.16535"><g transform="translate(0 -875.2)"><rect style="stroke-width:0;fill:currentColor" transform="rotate(30)" height="155" width="40" y="702.99" x="556.82"/><rect style="stroke-width:0;fill:currentColor" transform="rotate(30)" height="40" width="90.404" y="817.99" x="506.42"/></g></symbol></svg><div class=wrapper><header class=intro-and-nav role=banner><div><div class=intro><a class=logo href=https://linuxing3.github.io aria-label="Cupper home page"><img src=/images/logo.svg alt></a><p class=library-desc>Journal of Emacser and Vimers.</p></div><nav id=patterns-nav class=patterns role=navigation><h2 class=vh>Main navigation</h2><button id=menu-button aria-expanded=false><svg viewBox="0 0 50 50" aria-hidden="true" focusable="false"><use xlink:href="#menu"/></svg>
+Menu</button><ul id=patterns-list><li class=pattern><a href=/posts/><svg class="bookmark-icon" aria-hidden="true" focusable="false" viewBox="0 0 40 50"><use xlink:href="#bookmark"/></svg><span class=text>Home</span></a></li><li class=pattern><a href=/posts/><svg class="bookmark-icon" aria-hidden="true" focusable="false" viewBox="0 0 40 50"><use xlink:href="#bookmark"/></svg><span class=text>Blog</span></a></li><li class=pattern><a href=/tags/><svg class="bookmark-icon" aria-hidden="true" focusable="false" viewBox="0 0 40 50"><use xlink:href="#bookmark"/></svg><span class=text>Tags</span></a></li><li class=pattern><a href=https://gridsome.netlify.com><svg class="bookmark-icon" aria-hidden="true" focusable="false" viewBox="0 0 40 50"><use xlink:href="#bookmark"/></svg><span class=text>Netlify</span></a></li><li class=pattern><a href=/index.xml><svg class="bookmark-icon" aria-hidden="true" focusable="false" viewBox="0 0 40 50"><use xlink:href="#bookmark"/></svg><span class=text>RSS</span></a></li></ul></nav></div></header><div class=main-and-footer><div><main id=main><h1>rlang.md</h1><h1 id=r常用命令medcl专用精简版>R常用命令（Medcl专用精简版）</h1><p>1.查看base包命令</p><pre><code class=language-sh>library(help=&quot;base&quot;)
+</code></pre><p>2.查看帮助</p><pre><code class=language-sh>?lm
+help(&quot;*&quot;)
+help(&quot;mean&quot;)
+help(&quot;bs&quot;, package = &quot;splines&quot;) #在特定包里搜索
+help(&quot;bs&quot;,try.all.packages=TRUE) #在所有包中搜索，默认只在内存加载的包中搜索
+help.start()
+help.search(&quot;tree&quot;)
+help.search(&quot;tree&quot;, rebuild = TRUE)) #新安装包之后，需要rebuild
+apropos(&quot;length&quot;)  #查找函数
+</code></pre><p>3.赋值</p><pre><code class=language-sh>a&lt;-5
+a=5
+5-&gt;a
+</code></pre><p>4.查看对象</p><pre><code class=language-sh>ls(pattern=&quot;a&quot;)
+ls(pat=&quot;^a&quot;)
+</code></pre><p>5.删除对象</p><pre><code class='language-rm(pat="a")'>rm(list=ls(pat=&quot;a&quot;))
+</code></pre><p>6.构建一个dataframe数据框</p><p>M &lt;- data.frame(n1, n2, n3)</p><p>7.查看数据类型（共有四种：数值型，字符型，复数型7和逻辑型(FALSE或TRUE)）</p><p>x &lt;- 1
+mode(x)
+用Inf和-Inf表示正负无穷，NaN（not a number），NA（not available）</p><p>8.工作目录</p><p>getwd()
+setwd("/home/paradis/R") #如果一个文件不在工作目录里则必须给出它的路径</p><p>9.读取文件</p><p>read.table(file=&ldquo;Q:/data_24.csv&rdquo;,header=T,sep = &ldquo;\t&rdquo;,dec=".",quote=""'") #创建一个数据框
+还有scan（前者可以指定变量的类型）
+和read.fwf（以用来读取文件中一些固定宽度格式的数据）</p><p><strong>mydata$V1和mydata[, 1]是向量，而mydata[&ldquo;V1&rdquo;]是数据框</strong></p><p>10.存数据</p><p>write.table
+write(x,file =&ldquo;data.txt&rdquo;),</p><p>工作空间保存加载:</p><p>用load(&ldquo;xyz.RData&rdquo;)
+save.image()是save(list =ls(all=TRUE),
+file=".RData")</p><p>11.生成数据</p><p>x &lt;- 1:30 #1到30个整数序列</p><blockquote><p>1:5
+[1] 1 2 3 4 5
+3;1
+[1] 3
+[1] 1
+3:1
+[1] 3 2 1
+1:(10-1)
+[1] 1 2 3 4 5 6 7 8 9</p></blockquote><blockquote><p>seq(1, 5, 0.5) #生成实数序列
+[1] 1.0 1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0
+seq(length=9, from=1, to=5)
+[1] 1.0 1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0</p></blockquote><p>还可以用函数c直接输入数值：</p><blockquote><p>c(1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5)
+[1] 1.0 1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0</p></blockquote><p>如果想用键盘输入一些数据也是可以的，只需要直接使用默认选项</p><p>的scan函数：</p><blockquote><p>z &lt;- scan()</p></blockquote><p>函数rep用来创建一个所有元素都相同的向量：</p><blockquote><p>rep(1, 30)
+[1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</p></blockquote><p>#矩阵操作</p><blockquote><p>matrix(1:6, 2, 3,byrow=F)
+[,1] [,2] [,3]
+[1,] 1 3 5
+[2,] 2 4 6
+matrix(1:6, 2, 3,byrow=T)
+[,1] [,2] [,3]
+[1,] 1 2 3
+[2,] 4 5 6</p></blockquote><p>#维度控制</p><blockquote><p>x=1:15
+x
+[1] 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+dim(x)
+NULL
+dim(x)&lt;-c(5,3)
+x
+[,1] [,2] [,3]
+[1,] 1 6 11
+[2,] 2 7 12
+[3,] 3 8 13
+[4,] 4 9 14
+[5,] 5 10 15</p></blockquote><p>12.数据框和列表</p><p>矩阵合并</p><p>rbind,基于行，cbind，基于列</p><blockquote><p>matrix&lt;-rbind(1:7,1:7)
+matrix
+[,1] [,2] [,3] [,4] [,5] [,6] [,7]
+[1,] 1 2 3 4 5 6 7
+[2,] 1 2 3 4 5 6 7</p></blockquote><blockquote><p>matrix&lt;-cbind(1:7,1:7)
+matrix
+[,1] [,2]
+[1,] 1 1
+[2,] 2 2
+[3,] 3 3
+[4,] 4 4
+[5,] 5 5
+[6,] 6 6
+[7,] 7 7</p></blockquote><blockquote><p>x &lt;- 1:4; n &lt;- 10; M &lt;- c(10, 35); y &lt;- 2:4
+data.frame(x, y)
+错误于data.frame(x, y) : 参数值意味着不同的行数 4, 3
+data.frame(x, M)
+x M
+1 1 10
+2 2 35
+3 3 10
+4 4 35
+data.frame(x, n)
+x n
+1 1 10
+2 2 10
+3 3 10
+4 4 10
+L1 &lt;- list(x, y); L2 &lt;- list(A=x, B=y)
+L1
+[[1]]
+[1] 1 2 3 4</p></blockquote><p>[[2]]
+[1] 2 3 4</p><blockquote><p>L2
+$A
+[1] 1 2 3 4</p></blockquote><p>$B
+[1] 2 3 4</p><blockquote><p>L2$A
+[1] 1 2 3 4
+L2$B
+[1] 2 3 4</p></blockquote><blockquote><p>seq(10,11,0.2)
+[1] 10.0 10.2 10.4 10.6 10.8 11.0
+c(1:5,seq(10,11,0.2))
+[1] 1.0 2.0 3.0 4.0 5.0 10.0 10.2 10.4 10.6 10.8 11.0</p></blockquote><blockquote><p>log2(4)
+[1] 2
+log10(1e7)
+[1] 7</p></blockquote><p>#比较</p><blockquote><p>a&lt;-&ldquo;a&rdquo;
+b&lt;-&ldquo;a&rdquo;
+identical(a,b)
+[1] TRUE
+all.equal(a,b)
+[1] TRUE
+x=1:5
+x[1]
+[1] 1
+x[4]
+[1] 4
+x[5]
+[1] 5
+x[0]
+integer(0)
+x[0]=5
+x[0]
+numeric(0)
+x[1]=5
+x[1]
+[1] 5
+x
+[1] 5 2 3 4 5
+i=c(1,2)
+x[i]
+[1] 5 2</p></blockquote><blockquote><p>x=matrix(1:3,2,3)
+x
+[,1] [,2] [,3]
+[1,] 1 3 2
+[2,] 2 1 3
+x[2,]
+[1] 2 1 3</p></blockquote><blockquote><p>x[,2]
+[1] 3 1
+x &lt;- 1:10
+x[x>=5]
+[1] 5 6 7 8 9 10</p></blockquote><blockquote><p>x[x%%2==0]
+[1] 2 4 6 8 10
+x[c(F,T)]
+[1] 2 4 6 8 10
+x[c(T,F)]
+[1] 1 3 5 7 9</p></blockquote><p>#自定义行列名</p><blockquote><p>names(x)&lt;-c(&ldquo;a&rdquo;,&ldquo;b&rdquo;,&ldquo;c&rdquo;)
+x
+a b c
+1 2 3
+x&lt;-matrix(1:3,2,3)
+x
+[,1] [,2] [,3]
+[1,] 1 3 2
+[2,] 2 1 3
+rownames(x)&lt;-c(&ldquo;row1&rdquo;,&ldquo;row2&rdquo;)
+colnames(x)&lt;-c(&ldquo;col1&rdquo;,&ldquo;col2&rdquo;,&ldquo;col3&rdquo;)
+x
+col1 col2 col3
+row1 1 3 2
+row2 2 1 3
+dimnames(x)
+[[1]]
+[1] &ldquo;row1&rdquo; &ldquo;row2&rdquo;</p></blockquote><p>[[2]]
+[1] &ldquo;col1&rdquo; &ldquo;col2&rdquo; &ldquo;col3&rdquo;</p><blockquote><p>x&lt;-array(1:8,dim=c(2,2,3))
+x
+, , 1</p></blockquote><p>[,1] [,2]
+[1,] 1 3
+[2,] 2 4</p><p>, , 2</p><p>[,1] [,2]
+[1,] 5 7
+[2,] 6 8</p><p>, , 3</p><p>[,1] [,2]
+[1,] 1 3
+[2,] 2 4</p><p>#向量运算</p><blockquote><p>x&lt;-1:4
+y&lt;-rep(1,4)
+z&lt;-x+y
+z
+[1] 2 3 4 5</p></blockquote><p>#不同长度，循环使用</p><blockquote><p>x=1:2
+y=1:4
+x+y
+[1] 2 4 4 6
+x
+[1] 1 2
+y
+[1] 1 2 3 4</p></blockquote><p>#函数快速参考</p><p>sum(x) 对x中的元素求和
+prod(x) 对x中的元素求连乘积
+max(x) x中元素的最大值
+min(x) x中元素的最小值
+which.max(x) 返回x中最大元素的下标
+which.min(x) 返回x中最小元素的下标
+range(x) 与c(min(x), max(x))作用相同
+length(x) x中元素的数目
+mean(x) x中元素的均值
+median(x) x中元素的中位数
+var(x) or cov(x) x中元素的的方差（用n ? 1做分母）；如果x是一个矩阵或者一
+个数据框，将计算协方差阵
+cor(x) 如果x是一个矩阵或者一个数据框则计算相关系数矩阵（如
+果x是一个向量则结果是1）
+var(x, y) or cov(x, y) x和y的协方差，如果是矩阵或数据框则计算x和y对应列的协方
+差
+cor(x, y) x和y的线性相关系数，如果是矩阵或者数据框则计算相关系数
+矩阵。</p><p>round(x, n) 将x中的元素四舍五入到小数点后n位
+rev(x) 对x中的元素取逆序
+sort(x) 将x中的元素按升序排列；要按降序排列可以用命令rev(sort(x))
+rank(x) 返回x中元素的秩
+log(x, base) 计算以base为底的x的对数值
+scale(x) 如果x是一个矩阵， 则中心化和标准化数据； 若只进行中心化
+则使用选项scale=FALSE， 只进行标准化则center=FALSE（ 缺省值
+是center=TRUE, scale=TRUE）
+pmin(x,y,&mldr;) 返回一个向量，它的第i个元素是x[i], y[i], . . . 中最小值
+pmax(x,y,&mldr;) 同上，取最大值
+cumsum(x) 返回一个向量，它的第i个元素是从x[1]到x[i]的和
+cumprod(x) 同上，取乘积
+cummin(x) 同上，取最小值
+cummax(x) 同上，取最大值
+match(x, y) 返回一个和x的长度相同的向量，表示x中与y中元素相同的元素在y中
+的位置（没有则返回NA）
+which(x == a) 返回一个包含x符合条件（当比较运算结果为真（TRUE）的下标的向
+量，在这个结果向量中数值i说明x[i] == a（这个函数的参数必须是
+逻辑型变量）
+choose(n, k) 计算从n个样本中选取k个的组合数
+na.omit(x) 忽略有缺失值（NA）的观察数据（如果x是矩阵或数据框则忽略相应的
+行）
+na.fail(x) 如果x包含至少一个NA则返回一个错误消息
+unique(x) 如果x是一个向量或者数据框，则返回一个类似的对象但是去掉所有重
+复的元素（对于重复的元素只取一个）
+table(x) 返回一个表格，给出x中重复元素的个数列表(尤其对于整数型或者因子
+型变量)
+table(x, y) x与y的列联表
+subset(x, &mldr;) 返回x中的一个满足特定条件&mldr;的子集，该条件通常是进行比较运
+算：x$V1 &lt; 10；如果x是数据框，选项select给出要保留的变量（或
+者用负号表示去掉）
+sample(x, size) 从x中无放回抽取size个样本，选项replace = TRUE表示有放回的抽样</p><pre><code></code></pre></main><footer role=contentinfo><div><label for=themer>dark theme: <input type=checkbox id=themer class=vh>
+<span aria-hidden=true></span></label></div>Made with <a href=https://gohugo.io/>Hugo</a>. Themed by <a href=https://github.com/zwbetz-gh/cupper-hugo-theme>Cupper</a>. Deployed to <a href=https://github.com/>Github</a>.</footer></div></div></div><script src=/js/dom-scripts.js></script><script src=/js/prism.js></script><script src=/js/search.7aef046a0cc8b0c532f1d20087b920459bc868c936bb48a6ae221eceefca2d07.js></script><link rel=stylesheet href=/css/search.fe0cd54a21628574bff49d721c827d1bb165ab56b0f22dd55ae78addbe61c309.css></link><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.css integrity=sha384-dbVIfZGuN1Yq7/1Ocstc1lUEm+AT+/rCkibIcC/OmWo5f0EA48Vf8CytHzGrSwbQ crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.js integrity=sha384-2BKqo+exmr9su6dir+qCw08N2ZKRucY4PrGQPPWU1A7FtlCGjmEGFqXCv5nyM5Ij crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/contrib/auto-render.min.js integrity=sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI crossorigin=anonymous onload=renderMathInElement(document.body);></script><script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','UA-123456789-1','auto');ga('send','pageview');</script><script async src=https://www.google-analytics.com/analytics.js></script></body></html>

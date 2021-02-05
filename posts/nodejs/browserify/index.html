@@ -1,0 +1,340 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=generator content="Hugo 0.80.0"><link rel=canonical href=/posts/nodejs/browserify/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/safari-pinned-tab.svg color=#000000><meta name=msapplication-TileColor content="#ffffff"><meta name=theme-color content="#ffffff"><style>body{visibility:hidden;opacity:0}</style><link rel=stylesheet href=/css/prism.css media=none onload="this.media='all';"><link rel=stylesheet type=text/css href=/css/styles.css><title>browserify.md | Cupper</title></head><body><a href=#main>skip to content</a><noscript><style>body{visibility:visible;opacity:1}</style></noscript><svg style="display:none"><symbol id="bookmark" viewBox="0 0 40 50"><g transform="translate(2266 3206.2)"><path style="stroke:currentColor;stroke-width:3.2637;fill:none" d="m-2262.2-3203.4-.2331 42.195 16.319-16.318 16.318 16.318.2331-42.428z"/></g></symbol><symbol id="w3c" viewBox="0 0 127.09899 67.763"><text font-size="83" style="font-size:83px;font-family:Trebuchet;letter-spacing:-12;fill-opacity:0" letter-spacing="-12" y="67.609352" x="-26.782778">W3C</text><text font-size="83" style="font-size:83px;font-weight:700;font-family:Trebuchet;fill-opacity:0" y="67.609352" x="153.21722" font-weight="bold">SVG</text><path style="fill:currentColor;image-rendering:optimizeQuality;shape-rendering:geometricPrecision" d="m33.695.377 12.062 41.016 12.067-41.016h8.731l-19.968 67.386h-.831l-12.48-41.759-12.479 41.759h-.832l-19.965-67.386h8.736l12.061 41.016 8.154-27.618-3.993-13.397h8.737z"/><path style="fill:currentColor;image-rendering:optimizeQuality;shape-rendering:geometricPrecision" d="m91.355 46.132c0 6.104-1.624 11.234-4.862 15.394-3.248 4.158-7.45 6.237-12.607 6.237-3.882.0-7.263-1.238-10.148-3.702-2.885-2.47-5.02-5.812-6.406-10.022l6.82-2.829c1.001 2.552 2.317 4.562 3.953 6.028 1.636 1.469 3.56 2.207 5.781 2.207 2.329.0 4.3-1.306 5.909-3.911 1.609-2.606 2.411-5.738 2.411-9.401.0-4.049-.861-7.179-2.582-9.399-1.995-2.604-5.129-3.912-9.397-3.912h-3.327v-3.991l11.646-20.133h-14.062l-3.911 6.655h-2.493v-14.976h32.441v4.075l-12.31 21.217c4.324 1.385 7.596 3.911 9.815 7.571 2.22 3.659 3.329 7.953 3.329 12.892z"/><path style="fill:currentColor;image-rendering:optimizeQuality;shape-rendering:geometricPrecision" d="m125.21.0 1.414 8.6-5.008 9.583s-1.924-4.064-5.117-6.314c-2.693-1.899-4.447-2.309-7.186-1.746-3.527.73-7.516 4.938-9.258 10.13-2.084 6.21-2.104 9.218-2.178 11.978-.115 4.428.58 7.043.58 7.043s-3.04-5.626-3.011-13.866c.018-5.882.947-11.218 3.666-16.479 2.404-4.627 5.954-7.404 9.114-7.728 3.264-.343 5.848 1.229 7.841 2.938 2.089 1.788 4.213 5.698 4.213 5.698l4.94-9.837z"/><path style="fill:currentColor;image-rendering:optimizeQuality;shape-rendering:geometricPrecision" d="m125.82 48.674s-2.208 3.957-3.589 5.48c-1.379 1.524-3.849 4.209-6.896 5.555-3.049 1.343-4.646 1.598-7.661 1.306-3.01-.29-5.807-2.032-6.786-2.764-.979-.722-3.486-2.864-4.897-4.854-1.42-2-3.634-5.995-3.634-5.995s1.233 4.001 2.007 5.699c.442.977 1.81 3.965 3.749 6.572 1.805 2.425 5.315 6.604 10.652 7.545 5.336.945 9.002-1.449 9.907-2.031.907-.578 2.819-2.178 4.032-3.475 1.264-1.351 2.459-3.079 3.116-4.108.487-.758 1.276-2.286 1.276-2.286l-1.276-6.644z"/></symbol><symbol id="tag" viewBox="0 0 177.16535 177.16535"><g transform="translate(0 -875.2)"><path style="fill-rule:evenodd;stroke-width:0;fill:currentColor" d="m159.9 894.3-68.79 8.5872-75.42 77.336 61.931 60.397 75.429-76.565 6.8495-69.755zm-31.412 31.835a10.813 10.813.0 011.8443 2.247 10.813 10.813.0 01-3.5174 14.872l-.0445.0275a10.813 10.813.0 01-14.86-3.5714 10.813 10.813.0 013.5563-14.863 10.813 10.813.0 0113.022 1.2884z"/></g></symbol><symbol id="balloon" viewBox="0 0 141.73228 177.16535"><g transform="translate(0 -875.2)"><g><path style="fill:currentColor" d="m68.156 882.83-.88753 1.4269c-4.9564 7.9666-6.3764 17.321-5.6731 37.378.36584 10.437 1.1246 23.51 1.6874 29.062.38895 3.8372 3.8278 32.454 4.6105 38.459 4.6694-.24176 9.2946.2879 14.377 1.481 1.2359-3.2937 5.2496-13.088 8.886-21.623 6.249-14.668 8.4128-21.264 10.253-31.252 1.2464-6.7626 1.6341-12.156 1.4204-19.764-.36325-12.93-2.1234-19.487-6.9377-25.843-2.0833-2.7507-6.9865-7.6112-7.9127-7.8436-.79716-.20019-6.6946-1.0922-6.7755-1.0248-.02213.0182-5.0006-.41858-7.5248-.22808l-2.149-.22808h-3.3738z"/><path style="fill:currentColor" d="m61.915 883.28-3.2484.4497c-1.7863.24724-3.5182.53481-3.8494.63994-2.4751.33811-4.7267.86957-6.7777 1.5696-.28598.0-1.0254.20146-2.3695.58589-5.0418 1.4418-6.6374 2.2604-8.2567 4.2364-6.281 7.6657-11.457 18.43-12.932 26.891-1.4667 8.4111.71353 22.583 5.0764 32.996 3.8064 9.0852 13.569 25.149 22.801 37.517 1.3741 1.841 2.1708 2.9286 2.4712 3.5792 3.5437-1.1699 6.8496-1.9336 10.082-2.3263-1.3569-5.7831-4.6968-21.86-6.8361-33.002-.92884-4.8368-2.4692-14.322-3.2452-19.991-.68557-5.0083-.77707-6.9534-.74159-15.791.04316-10.803.41822-16.162 1.5026-21.503 1.4593-5.9026 3.3494-11.077 6.3247-15.852z"/><path style="fill:currentColor" d="m94.499 885.78c-.10214-.0109-.13691.0-.0907.0409.16033.13489 1.329 1.0675 2.5976 2.0723 6.7003 5.307 11.273 14.568 12.658 25.638.52519 4.1949.24765 14.361-.5059 18.523-2.4775 13.684-9.7807 32.345-20.944 53.519l-3.0559 5.7971c2.8082.76579 5.7915 1.727 8.9926 2.8441 11.562-11.691 18.349-19.678 24.129-28.394 7.8992-11.913 11.132-20.234 12.24-31.518.98442-10.02-1.5579-20.876-6.7799-28.959-.2758-.4269-.57803-.86856-.89617-1.3166-3.247-6.13-9.752-12.053-21.264-16.131-2.3687-.86369-6.3657-2.0433-7.0802-2.1166z"/><path style="fill:currentColor" d="m32.52 892.22c-.2009-.13016-1.4606.81389-3.9132 2.7457-11.486 9.0476-17.632 24.186-16.078 39.61.79699 7.9138 2.4066 13.505 5.9184 20.562 5.8577 11.77 14.749 23.219 30.087 38.74.05838.059.12188.1244.18052.1838 1.3166-.5556 2.5965-1.0618 3.8429-1.5199-.66408-.32448-1.4608-1.3297-3.8116-4.4602-5.0951-6.785-8.7512-11.962-13.051-18.486-5.1379-7.7948-5.0097-7.5894-8.0586-13.054-6.2097-11.13-8.2674-17.725-8.6014-27.563-.21552-6.3494.13041-9.2733 1.775-14.987 2.1832-7.5849 3.9273-10.986 9.2693-18.07 1.7839-2.3656 2.6418-3.57 2.4409-3.7003z"/><path style="fill:currentColor" d="m69.133 992.37c-6.2405.0309-12.635.76718-19.554 2.5706 4.6956 4.7759 9.935 10.258 12.05 12.625l4.1272 4.6202h11.493l3.964-4.4516c2.0962-2.3541 7.4804-7.9845 12.201-12.768-8.378-1.4975-16.207-2.6353-24.281-2.5955z"/><rect style="stroke-width:0;fill:currentColor" ry="2.0328" height="27.746" width="22.766" y="1017.7" x="60.201"/></g></g></symbol><symbol id="info" viewBox="0 0 41.667 41.667"><g transform="translate(-37.035 -1004.6)"><path style="stroke-linejoin:round;stroke:currentColor;stroke-linecap:round;stroke-width:3.728;fill:none" d="m76.25 1030.2a18.968 18.968.0 01-23.037 13.709 18.968 18.968.0 01-13.738-23.019 18.968 18.968.0 0123.001-13.768 18.968 18.968.0 0113.798 22.984"/><g transform="matrix(1.1146 0 0 1.1146 -26.276 -124.92)"><path style="stroke:currentColor;stroke-linecap:round;stroke-width:3.728;fill:none" d="m75.491 1039.5v-8.7472"/><path style="stroke-width:0;fill:currentColor" transform="scale(-1)" d="m-73.193-1024.5a2.3719 2.3719.0 01-2.8807 1.7142 2.3719 2.3719.0 01-1.718-2.8785 2.3719 2.3719.0 012.8763-1.7217 2.3719 2.3719.0 011.7254 2.8741"/></g></g></symbol><symbol id="warning" viewBox="0 0 48.430474 41.646302"><g transform="translate(-1.1273 -1010.2)"><path style="stroke-linejoin:round;stroke:currentColor;stroke-linecap:round;stroke-width:4.151;fill:none" d="m25.343 1012.3-22.14 37.496h44.28z"/><path style="stroke:currentColor;stroke-linecap:round;stroke-width:4.1512;fill:none" d="m25.54 1027.7v8.7472"/><path style="stroke-width:0;fill:currentColor" d="m27.839 1042.8a2.3719 2.3719.0 01-2.8807 1.7143 2.3719 2.3719.0 01-1.718-2.8785 2.3719 2.3719.0 012.8763-1.7217 2.3719 2.3719.0 011.7254 2.8741"/></g></symbol><symbol id="menu" viewBox="0 0 50 50"><rect style="stroke-width:0;fill:currentColor" height="10" width="50" y="0" x="0"/><rect style="stroke-width:0;fill:currentColor" height="10" width="50" y="20" x="0"/><rect style="stroke-width:0;fill:currentColor" height="10" width="50" y="40" x="0"/></symbol><symbol id="link" viewBox="0 0 50 50"><g transform="translate(0 -1002.4)"><g transform="matrix(.095670 0 0 .095670 2.3233 1004.9)"><g><path style="stroke-width:0;fill:currentColor" d="m452.84 192.9-128.65 128.65c-35.535 35.54-93.108 35.54-128.65.0l-42.881-42.886 42.881-42.876 42.884 42.876c11.845 11.822 31.064 11.846 42.886.0l128.64-128.64c11.816-11.831 11.816-31.066.0-42.9l-42.881-42.881c-11.822-11.814-31.064-11.814-42.887.0l-45.928 45.936c-21.292-12.531-45.491-17.905-69.449-16.291l72.501-72.526c35.535-35.521 93.136-35.521 128.64.0l42.886 42.881c35.535 35.523 35.535 93.141-.001 128.66zm-254.28 168.51-45.903 45.9c-11.845 11.846-31.064 11.817-42.881.0l-42.884-42.881c-11.845-11.821-11.845-31.041.0-42.886l128.65-128.65c11.819-11.814 31.069-11.814 42.884.0l42.886 42.886 42.876-42.886-42.876-42.881c-35.54-35.521-93.113-35.521-128.65.0l-128.65 128.64c-35.538 35.545-35.538 93.146.0 128.65l42.883 42.882c35.51 35.54 93.11 35.54 128.65.0l72.496-72.499c-23.956 1.597-48.092-3.784-69.474-16.283z"/></g></g></g></symbol><symbol id="doc" viewBox="0 0 35 45"><g transform="translate(-147.53 -539.83)"><path style="stroke:currentColor;stroke-width:2.4501;fill:none" d="m149.38 542.67v39.194h31.354V542.67z"/><g style="stroke-width:25" transform="matrix(.098003 0 0 .098003 133.69 525.96)"><path d="m220 252.36h2e2" style="stroke:currentColor;stroke-width:25;fill:none"/><path style="stroke:currentColor;stroke-width:25;fill:none" d="m220 409.95h2e2"/><path d="m220 488.74h2e2" style="stroke:currentColor;stroke-width:25;fill:none"/><path d="m220 331.15h2e2" style="stroke:currentColor;stroke-width:25;fill:none"/></g></g></symbol><symbol id="tick" viewBox="0 0 177.16535 177.16535"><g transform="translate(0 -875.2)"><rect style="stroke-width:0;fill:currentColor" transform="rotate(30)" height="155" width="40" y="702.99" x="556.82"/><rect style="stroke-width:0;fill:currentColor" transform="rotate(30)" height="40" width="90.404" y="817.99" x="506.42"/></g></symbol></svg><div class=wrapper><header class=intro-and-nav role=banner><div><div class=intro><a class=logo href=https://linuxing3.github.io aria-label="Cupper home page"><img src=/images/logo.svg alt></a><p class=library-desc>Journal of Emacser and Vimers.</p></div><nav id=patterns-nav class=patterns role=navigation><h2 class=vh>Main navigation</h2><button id=menu-button aria-expanded=false><svg viewBox="0 0 50 50" aria-hidden="true" focusable="false"><use xlink:href="#menu"/></svg>
+Menu</button><ul id=patterns-list><li class=pattern><a href=/posts/><svg class="bookmark-icon" aria-hidden="true" focusable="false" viewBox="0 0 40 50"><use xlink:href="#bookmark"/></svg><span class=text>Home</span></a></li><li class=pattern><a href=/posts/><svg class="bookmark-icon" aria-hidden="true" focusable="false" viewBox="0 0 40 50"><use xlink:href="#bookmark"/></svg><span class=text>Blog</span></a></li><li class=pattern><a href=/tags/><svg class="bookmark-icon" aria-hidden="true" focusable="false" viewBox="0 0 40 50"><use xlink:href="#bookmark"/></svg><span class=text>Tags</span></a></li><li class=pattern><a href=https://gridsome.netlify.com><svg class="bookmark-icon" aria-hidden="true" focusable="false" viewBox="0 0 40 50"><use xlink:href="#bookmark"/></svg><span class=text>Netlify</span></a></li><li class=pattern><a href=/index.xml><svg class="bookmark-icon" aria-hidden="true" focusable="false" viewBox="0 0 40 50"><use xlink:href="#bookmark"/></svg><span class=text>RSS</span></a></li></ul></nav></div></header><div class=main-and-footer><div><main id=main><h1>browserify.md</h1><h1 id=browserify>browserify</h1><p><code>require('modules')</code> in the browser</p><p>Use a <a href=http://nodejs.org>node</a>-style <code>require()</code> to organize your browser code
+and load modules installed by <a href=https://www.npmjs.com>npm</a>.</p><p>browserify will recursively analyze all the <code>require()</code> calls in your app in
+order to build a bundle you can serve up to the browser in a single <code>&lt;script></code>
+tag.</p><p><a href=https://travis-ci.org/substack/node-browserify><img src=https://secure.travis-ci.org/substack/node-browserify.png alt="build status"></a></p><p><img src=http://substack.net/images/browserify_logo.png alt=browserify!></p><h1 id=getting-started>getting started</h1><p>If you&rsquo;re new to browserify, check out the
+<a href=https://github.com/substack/browserify-handbook>browserify handbook</a>
+and the resources on <a href=http://browserify.org/>browserify.org</a>.</p><p>Check out <a href=http://browserifysearch.org/>browserify search</a> to find
+browserify-compatible packages on npm.</p><h1 id=example>example</h1><p>Whip up a file, <code>main.js</code> with some <code>require()</code>s in it. You can use relative
+paths like <code>'./foo.js'</code> and <code>'../lib/bar.js'</code> or module paths like <code>'gamma'</code>
+that will search <code>node_modules/</code> using
+<a href=https://github.com/substack/node-resolve>node&rsquo;s module lookup algorithm</a>.</p><pre><code class=language-js>var foo = require('./foo.js');
+var bar = require('../lib/bar.js');
+var gamma = require('gamma');
+
+var elem = document.getElementById('result');
+var x = foo(100) + bar('baz');
+elem.textContent = gamma(x);
+</code></pre><p>Export functionality by assigning onto <code>module.exports</code> or <code>exports</code>:</p><pre><code class=language-js>module.exports = function (n) { return n * 111 }
+</code></pre><p>Now just use the <code>browserify</code> command to build a bundle starting at <code>main.js</code>:</p><pre><code>$ browserify main.js &gt; bundle.js
+</code></pre><p>All of the modules that <code>main.js</code> needs are included in the <code>bundle.js</code> from a
+recursive walk of the <code>require()</code> graph using
+<a href=https://github.com/defunctzombie/node-required>required</a>.</p><p>To use this bundle, just toss a <code>&lt;script src="bundle.js">&lt;/script></code> into your
+html!</p><h1 id=install>install</h1><p>With <a href=https://www.npmjs.com/>npm</a> do:</p><pre><code>npm install -g browserify
+</code></pre><h1 id=usage>usage</h1><pre><code>Usage: browserify [entry files] {OPTIONS}
+
+Standard Options:
+
+    --outfile, -o  Write the browserify bundle to this file.
+                   If unspecified, browserify prints to stdout.
+
+    --require, -r  A module name or file to bundle.require()
+                   Optionally use a colon separator to set the target.
+
+      --entry, -e  An entry point of your app
+
+     --ignore, -i  Replace a file with an empty stub. Files can be globs.
+
+    --exclude, -u  Omit a file from the output bundle. Files can be globs.
+
+   --external, -x  Reference a file from another bundle. Files can be globs.
+
+  --transform, -t  Use a transform module on top-level files.
+
+    --command, -c  Use a transform command on top-level files.
+
+  --standalone -s  Generate a UMD bundle for the supplied export name.
+                   This bundle works with other module systems and sets the name
+                   given as a window global if no module system is found.
+
+       --debug -d  Enable source maps that allow you to debug your files
+                   separately.
+
+       --help, -h  Show this message
+
+For advanced options, type `browserify --help advanced`.
+
+Specify a parameter.
+</code></pre><pre><code>Advanced Options:
+
+  --insert-globals, --ig, --fast    [default: false]
+
+    Skip detection and always insert definitions for process, global,
+    __filename, and __dirname.
+
+    benefit: faster builds
+    cost: extra bytes
+
+  --insert-global-vars, --igv
+
+    Comma-separated list of global variables to detect and define.
+    Default: __filename,__dirname,process,Buffer,global
+
+  --detect-globals, --dg            [default: true]
+
+    Detect the presence of process, global, __filename, and __dirname and define
+    these values when present.
+
+    benefit: npm modules more likely to work
+    cost: slower builds
+
+  --ignore-missing, --im            [default: false]
+
+    Ignore `require()` statements that don't resolve to anything.
+
+  --noparse=FILE
+
+    Don't parse FILE at all. This will make bundling much, much faster for giant
+    libs like jquery or threejs.
+
+  --no-builtins
+
+    Turn off builtins. This is handy when you want to run a bundle in node which
+    provides the core builtins.
+
+  --no-commondir
+
+    Turn off setting a commondir. This is useful if you want to preserve the
+    original paths that a bundle was generated with.
+
+  --no-bundle-external
+
+    Turn off bundling of all external modules. This is useful if you only want
+    to bundle your local files.
+
+  --bare
+
+    Alias for both --no-builtins, --no-commondir, and sets --insert-global-vars
+    to just &quot;__filename,__dirname&quot;. This is handy if you want to run bundles in
+    node.
+
+  --no-browser-field, --no-bf
+
+    Turn off package.json browser field resolution. This is also handy if you
+    need to run a bundle in node.
+
+  --node
+
+    Alias for --bare and --no-browser-field.
+
+  --full-paths
+
+    Turn off converting module ids into numerical indexes. This is useful for
+    preserving the original paths that a bundle was generated with.
+
+  --deps
+
+    Instead of standard bundle output, print the dependency array generated by
+    module-deps.
+
+  --list
+
+    Print each file in the dependency graph. Useful for makefiles.
+
+  --extension=EXTENSION
+
+    Consider files with specified EXTENSION as modules, this option can used
+    multiple times.
+
+  --global-transform=MODULE, -g MODULE
+
+    Use a transform module on all files after any ordinary transforms have run.
+
+  --plugin=MODULE, -p MODULE
+
+    Register MODULE as a plugin.
+
+Passing arguments to transforms and plugins:
+
+  For -t, -g, and -p, you may use subarg syntax to pass options to the
+  transforms or plugin function as the second parameter. For example:
+
+    -t [ foo -x 3 --beep ]
+
+  will call the `foo` transform for each applicable file by calling:
+
+    foo(file, { x: 3, beep: true })
+
+</code></pre><h1 id=compatibility>compatibility</h1><p>Many <a href=https://www.npmjs.com/>npm</a> modules that don&rsquo;t do IO will just work after being
+browserified. Others take more work.</p><p>Many node built-in modules have been wrapped to work in the browser, but only
+when you explicitly <code>require()</code> or use their functionality.</p><p>When you <code>require()</code> any of these modules, you will get a browser-specific shim:</p><ul><li><a href=https://www.npmjs.com/package/assert>assert</a></li><li><a href=https://www.npmjs.com/package/buffer>buffer</a></li><li><a href=https://www.npmjs.com/package/console-browserify>console</a></li><li><a href=https://www.npmjs.com/package/constants-browserify>constants</a></li><li><a href=https://www.npmjs.com/package/crypto-browserify>crypto</a></li><li><a href=https://www.npmjs.com/package/domain-browser>domain</a></li><li><a href=https://www.npmjs.com/package/events>events</a></li><li><a href=https://www.npmjs.com/package/stream-http>http</a></li><li><a href=https://www.npmjs.com/package/https-browserify>https</a></li><li><a href=https://www.npmjs.com/package/os-browserify>os</a></li><li><a href=https://www.npmjs.com/package/path-browserify>path</a></li><li><a href=https://www.npmjs.com/package/punycode>punycode</a></li><li><a href=https://www.npmjs.com/package/querystring-es3>querystring</a></li><li><a href=https://www.npmjs.com/package/stream-browserify>stream</a></li><li><a href=https://www.npmjs.com/package/string_decoder>string_decoder</a></li><li><a href=https://www.npmjs.com/package/timers-browserify>timers</a></li><li><a href=https://www.npmjs.com/package/tty-browserify>tty</a></li><li><a href=https://www.npmjs.com/package/url>url</a></li><li><a href=https://www.npmjs.com/package/util>util</a></li><li><a href=https://www.npmjs.com/package/vm-browserify>vm</a></li><li><a href=https://www.npmjs.com/package/browserify-zlib>zlib</a></li></ul><p>Additionally, if you use any of these variables, they
+<a href=https://github.com/substack/insert-module-globals>will be defined</a>
+in the bundled output in a browser-appropriate way:</p><ul><li><a href=https://www.npmjs.com/package/process>process</a></li><li><a href=https://www.npmjs.com/package/buffer>Buffer</a></li><li>global - top-level scope object (window)</li><li>__filename - file path of the currently executing file</li><li>__dirname - directory path of the currently executing file</li></ul><h1 id=more-examples>more examples</h1><h2 id=external-requires>external requires</h2><p>You can just as easily create a bundle that will export a <code>require()</code> function so
+you can <code>require()</code> modules from another script tag. Here we&rsquo;ll create a
+<code>bundle.js</code> with the <a href=https://www.npmjs.com/package/through>through</a>
+and <a href=https://www.npmjs.com/package/duplexer>duplexer</a> modules.</p><pre><code>$ browserify -r through -r duplexer -r ./my-file.js:my-module &gt; bundle.js
+</code></pre><p>Then in your page you can do:</p><pre><code class=language-html>&lt;script src=&quot;bundle.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  var through = require('through');
+  var duplexer = require('duplexer');
+  var myModule = require('my-module');
+  /* ... */
+&lt;/script&gt;
+</code></pre><h2 id=external-source-maps>external source maps</h2><p>If you prefer the source maps be saved to a separate <code>.js.map</code> source map file, you may use
+<a href=https://github.com/thlorenz/exorcist>exorcist</a> in order to achieve that. It&rsquo;s as simple as:</p><pre><code>$ browserify main.js --debug | exorcist bundle.js.map &gt; bundle.js
+</code></pre><p>Learn about additional options <a href=https://github.com/thlorenz/exorcist#usage>here</a>.</p><h2 id=multiple-bundles>multiple bundles</h2><p>If browserify finds a <code>require</code>d function already defined in the page scope, it
+will fall back to that function if it didn&rsquo;t find any matches in its own set of
+bundled modules.</p><p>In this way, you can use browserify to split up bundles among multiple pages to
+get the benefit of caching for shared, infrequently-changing modules, while
+still being able to use <code>require()</code>. Just use a combination of <code>--external</code> and
+<code>--require</code> to factor out common dependencies.</p><p>For example, if a website with 2 pages, <code>beep.js</code>:</p><pre><code class=language-js>var robot = require('./robot.js');
+console.log(robot('beep'));
+</code></pre><p>and <code>boop.js</code>:</p><pre><code class=language-js>var robot = require('./robot.js');
+console.log(robot('boop'));
+</code></pre><p>both depend on <code>robot.js</code>:</p><pre><code class=language-js>module.exports = function (s) { return s.toUpperCase() + '!' };
+</code></pre><pre><code>$ browserify -r ./robot.js &gt; static/common.js
+$ browserify -x ./robot.js beep.js &gt; static/beep.js
+$ browserify -x ./robot.js boop.js &gt; static/boop.js
+</code></pre><p>Then on the beep page you can have:</p><pre><code class=language-html>&lt;script src=&quot;common.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;beep.js&quot;&gt;&lt;/script&gt;
+</code></pre><p>while the boop page can have:</p><pre><code class=language-html>&lt;script src=&quot;common.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;boop.js&quot;&gt;&lt;/script&gt;
+</code></pre><p>This approach using <code>-r</code> and <code>-x</code> works fine for a small number of split assets,
+but there are plugins for automatically factoring out components which are
+described in the
+<a href=https://github.com/substack/browserify-handbook#partitioning>partitioning section of the browserify handbook</a>.</p><h2 id=api-example>api example</h2><p>You can use the API directly too:</p><pre><code class=language-js>var browserify = require('browserify');
+var b = browserify();
+b.add('./browser/main.js');
+b.bundle().pipe(process.stdout);
+</code></pre><h1 id=methods>methods</h1><pre><code class=language-js>var browserify = require('browserify')
+</code></pre><h2 id=browserifyfiles--opts><code>browserify([files] [, opts])</code></h2><p>Returns a new browserify instance.</p><dl><dt>files</dt><dd>String, file object, or array of those types (they may be mixed) specifying entry file(s).</dd><dt>opts</dt><dd>Object.</dd></dl><p><code>files</code> and <code>opts</code> are both optional, but must be in the order shown if both are
+passed.</p><p>Entry files may be passed in <code>files</code> and / or <code>opts.entries</code>.</p><p>If an entry file is a stream, its contents will be used. You should pass
+<code>opts.basedir</code> when using streaming files so that relative requires can be
+resolved.</p><p><code>opts.entries</code> has the same definition as <code>files</code>.</p><p><code>opts.noParse</code> is an array which will skip all require() and global parsing for
+each file in the array. Use this for giant libs like jquery or threejs that
+don&rsquo;t have any requires or node-style globals but take forever to parse.</p><p><code>opts.transform</code> is an array of transform functions or modules names which will
+transform the source code before the parsing.</p><p><code>opts.extensions</code> is an array of optional extra extensions for the module lookup
+machinery to use when the extension has not been specified.
+By default browserify considers only <code>.js</code> and <code>.json</code> files in such cases.</p><p><code>opts.basedir</code> is the directory that browserify starts bundling from for
+filenames that start with <code>.</code>.</p><p><code>opts.paths</code> is an array of directories that browserify searches when looking
+for modules which are not referenced using relative path. Can be absolute or
+relative to <code>basedir</code>. Equivalent of setting <code>NODE_PATH</code> environmental variable
+when calling <code>browserify</code> command.</p><p><code>opts.commondir</code> sets the algorithm used to parse out the common paths. Use
+<code>false</code> to turn this off, otherwise it uses the
+<a href=https://www.npmjs.com/package/commondir>commondir</a> module.</p><p><code>opts.fullPaths</code> disables converting module ids into numerical indexes. This is
+useful for preserving the original paths that a bundle was generated with.</p><p><code>opts.builtins</code> sets the list of built-ins to use, which by default is set in
+<code>lib/builtins.js</code> in this distribution.</p><p><code>opts.bundleExternal</code> boolean option to set if external modules should be
+bundled. Defaults to true.</p><p>When <code>opts.insertGlobals</code> is true, always insert <code>process</code>, <code>global</code>,
+<code>__filename</code>, and <code>__dirname</code> without analyzing the AST for faster builds but
+larger output bundles. Default false.</p><p>When <code>opts.detectGlobals</code> is true, scan all files for <code>process</code>, <code>global</code>,
+<code>__filename</code>, and <code>__dirname</code>, defining as necessary. With this option npm
+modules are more likely to work but bundling takes longer. Default true.</p><p>When <code>opts.debug</code> is true, add a source map inline to the end of the bundle.
+This makes debugging easier because you can see all the original files if
+you are in a modern enough browser.</p><p>When <code>opts.standalone</code> is a non-empty string, a standalone module is created
+with that name and a <a href=https://github.com/forbeslindesay/umd>umd</a> wrapper.
+You can use namespaces in the standalone global export using a <code>.</code> in the string
+name as a separator, for example <code>'A.B.C'</code>. The global export will be <a href=https://github.com/ForbesLindesay/umd#name-casing-and-characters>sanitized
+and camel cased</a>.</p><p>Note that in standalone mode the <code>require()</code> calls from the original source will
+still be around, which may trip up AMD loaders scanning for <code>require()</code> calls.
+You can remove these calls with
+<a href=https://www.npmjs.com/package/derequire>derequire</a>:</p><pre><code>$ npm install -g derequire
+$ browserify main.js --standalone Foo | derequire &gt; bundle.js
+</code></pre><p><code>opts.insertGlobalVars</code> will be passed to
+<a href=https://www.npmjs.com/package/insert-module-globals>insert-module-globals</a>
+as the <code>opts.vars</code> parameter.</p><p><code>opts.externalRequireName</code> defaults to <code>'require'</code> in <code>expose</code> mode but you can
+use another name.</p><p>Note that if files do not contain javascript source code then you also need to
+specify a corresponding transform for them.</p><p>All other options are forwarded along to
+<a href=https://www.npmjs.com/package/module-deps>module-deps</a>
+and <a href=https://www.npmjs.com/package/browser-pack>browser-pack</a> directly.</p><h2 id=baddfile-opts>b.add(file, opts)</h2><p>Add an entry file from <code>file</code> that will be executed when the bundle loads.</p><p>If <code>file</code> is an array, each item in <code>file</code> will be added as an entry file.</p><h2 id=brequirefile-opts>b.require(file, opts)</h2><p>Make <code>file</code> available from outside the bundle with <code>require(file)</code>.</p><p>The <code>file</code> param is anything that can be resolved by <code>require.resolve()</code>.</p><p><code>file</code> can also be a stream, but you should also use <code>opts.basedir</code> so that
+relative requires will be resolvable.</p><p>If <code>file</code> is an array, each item in <code>file</code> will be required.
+In <code>file</code> array form, you can use a string or object for each item. Object items
+should have a <code>file</code> property and the rest of the parameters will be used for
+the <code>opts</code>.</p><p>Use the <code>expose</code> property of opts to specify a custom dependency name.
+<code>require('./vendor/angular/angular.js', {expose: 'angular'})</code> enables <code>require('angular')</code></p><h2 id=bbundlecb>b.bundle(cb)</h2><p>Bundle the files and their dependencies into a single javascript file.</p><p>Return a readable stream with the javascript file contents or
+optionally specify a <code>cb(err, buf)</code> to get the buffered results.</p><h2 id=bexternalfile>b.external(file)</h2><p>Prevent <code>file</code> from being loaded into the current bundle, instead referencing
+from another bundle.</p><p>If <code>file</code> is an array, each item in <code>file</code> will be externalized.</p><p>If <code>file</code> is another bundle, that bundle&rsquo;s contents will be read and excluded
+from the current bundle as the bundle in <code>file</code> gets bundled.</p><h2 id=bignorefile>b.ignore(file)</h2><p>Prevent the module name or file at <code>file</code> from showing up in the output bundle.</p><p>Instead you will get a file with <code>module.exports = {}</code>.</p><h2 id=bexcludefile>b.exclude(file)</h2><p>Prevent the module name or file at <code>file</code> from showing up in the output bundle.</p><p>If your code tries to <code>require()</code> that file it will throw unless you&rsquo;ve provided
+another mechanism for loading it.</p><h2 id=btransformtr-opts>b.transform(tr, opts={})</h2><p>Transform source code before parsing it for <code>require()</code> calls with the transform
+function or module name <code>tr</code>.</p><p>If <code>tr</code> is a function, it will be called with <code>tr(file)</code> and it should return a
+<a href=https://github.com/substack/stream-handbook#through>through-stream</a>
+that takes the raw file contents and produces the transformed source.</p><p>If <code>tr</code> is a string, it should be a module name or file path of a
+<a href=https://github.com/substack/module-deps#transforms>transform module</a>
+with a signature of:</p><pre><code class=language-js>var through = require('through');
+module.exports = function (file) { return through() };
+</code></pre><p>You don&rsquo;t need to necessarily use the
+<a href=https://www.npmjs.com/package/through>through</a> module. Browserify is compatible with the newer, more verbose <a href=http://nodejs.org/api/stream.html#stream_class_stream_transform_1>Transform streams</a> built into Node v0.10.</p><p>Here&rsquo;s how you might compile coffee script on the fly using <code>.transform()</code>:</p><pre><code class=language-js>var coffee = require('coffee-script');
+var through = require('through');
+
+b.transform(function (file) {
+    var data = '';
+    return through(write, end);
+
+    function write (buf) { data += buf }
+    function end () {
+        this.queue(coffee.compile(data));
+        this.queue(null);
+    }
+});
+</code></pre><p>Note that on the command-line with the <code>-c</code> flag you can just do:</p><pre><code>$ browserify -c 'coffee -sc' main.coffee &gt; bundle.js
+</code></pre><p>Or better still, use the <a href=https://github.com/jnordberg/coffeeify>coffeeify</a>
+module:</p><pre><code>$ npm install coffeeify
+$ browserify -t coffeeify main.coffee &gt; bundle.js
+</code></pre><p>If <code>opts.global</code> is <code>true</code>, the transform will operate on ALL files, despite
+whether they exist up a level in a <code>node_modules/</code> directory. Use global
+transforms cautiously and sparingly, since most of the time an ordinary
+transform will suffice. You can also not configure global transforms in a
+<code>package.json</code> like you can with ordinary transforms.</p><p>Global transforms always run after any ordinary transforms have run.</p><p>Transforms may obtain options from the command-line with
+<a href=https://www.npmjs.com/package/subarg>subarg</a> syntax:</p><pre><code>$ browserify -t [ foo --bar=555 ] main.js
+</code></pre><p>or from the api:</p><pre><code>b.transform('foo', { bar: 555 })
+</code></pre><p>In both cases, these options are provided as the second argument to the
+transform function:</p><pre><code>module.exports = function (file, opts) { /* opts.bar === 555 */ }
+</code></pre><p>Options sent to the browserify constructor are also provided under
+<code>opts._flags</code>. These browserify options are sometimes required if your transform
+needs to do something different when browserify is run in debug mode, for
+example.</p><h2 id=bpluginplugin-opts>b.plugin(plugin, opts)</h2><p>Register a <code>plugin</code> with <code>opts</code>. Plugins can be a string module name or a
+function the same as transforms.</p><p><code>plugin(b, opts)</code> is called with the browserify instance <code>b</code>.</p><p>For more information, consult the plugins section below.</p><h2 id=bpipeline>b.pipeline</h2><p>There is an internal
+<a href=https://www.npmjs.com/package/labeled-stream-splicer>labeled-stream-splicer</a>
+pipeline with these labels:</p><ul><li><code>'record'</code> - save inputs to play back later on subsequent <code>bundle()</code> calls</li><li><code>'deps'</code> - <a href=https://www.npmjs.com/package/module-deps>module-deps</a></li><li><code>'json'</code> - adds <code>module.exports=</code> to the beginning of json files</li><li><code>'unbom'</code> - remove byte-order markers</li><li><code>'unshebang'</code> - remove #! labels on the first line</li><li><code>'syntax'</code> - check for syntax errors</li><li><code>'sort'</code> - sort the dependencies for deterministic bundles</li><li><code>'dedupe'</code> - remove duplicate source contents</li><li><code>'label'</code> - apply integer labels to files</li><li><code>'emit-deps'</code> - emit <code>'dep'</code> event</li><li><code>'debug'</code> - apply source maps</li><li><code>'pack'</code> - <a href=https://www.npmjs.com/package/browser-pack>browser-pack</a></li><li><code>'wrap'</code> - apply final wrapping, <code>require=</code> and a newline and semicolon</li></ul><p>You can call <code>b.pipeline.get()</code> with a label name to get a handle on a stream pipeline
+that you can <code>push()</code>, <code>unshift()</code>, or <code>splice()</code> to insert your own transform
+streams.</p><h1 id=bresetopts>b.reset(opts)</h1><p>Reset the pipeline back to a normal state. This function is called automatically
+when <code>bundle()</code> is called multiple times.</p><p>This function triggers a &lsquo;reset&rsquo; event.</p><h1 id=packagejson>package.json</h1><p>browserify uses the <code>package.json</code> in its module resolution algorithm, just like
+node. If there is a <code>"main"</code> field, browserify will start resolving the package
+at that point. If there is no <code>"main"</code> field, browserify will look for an
+<code>"index.js"</code> file in the module root directory. Here are some more
+sophisticated things you can do in the package.json:</p><h2 id=browser-field>browser field</h2><p>There is a special &ldquo;<a href=https://gist.github.com/4339901>browser</a>&rdquo; field you can
+set in your package.json on a per-module basis to override file resolution for
+browser-specific versions of files.</p><p>For example, if you want to have a browser-specific module entry point for your
+<code>"main"</code> field you can just set the <code>"browser"</code> field to a string:</p><pre><code class=language-json>&quot;browser&quot;: &quot;./browser.js&quot;
+</code></pre><p>or you can have overrides on a per-file basis:</p><pre><code class=language-json>&quot;browser&quot;: {
+  &quot;fs&quot;: &quot;level-fs&quot;,
+  &quot;./lib/ops.js&quot;: &quot;./browser/opts.js&quot;
+}
+</code></pre><p>Note that the browser field only applies to files in the local module, and like
+transforms, it doesn&rsquo;t apply into <code>node_modules</code> directories.</p><h2 id=browserifytransform>browserify.transform</h2><p>You can specify source transforms in the package.json in the
+<code>browserify.transform</code> field. There is more information about how source
+transforms work in package.json on the
+<a href=https://github.com/substack/module-deps#transforms>module-deps readme</a>.</p><p>For example, if your module requires <a href=https://www.npmjs.com/package/brfs>brfs</a>, you
+can add</p><pre><code class=language-json>&quot;browserify&quot;: { &quot;transform&quot;: [ &quot;brfs&quot; ] }
+</code></pre><p>to your package.json. Now when somebody <code>require()</code>s your module, brfs will
+automatically be applied to the files in your module without explicit
+intervention by the person using your module. Make sure to add transforms to
+your package.json dependencies field.</p><h1 id=events>events</h1><h2 id=bonfile-function-file-id-parent->b.on(&lsquo;file&rsquo;, function (file, id, parent) {})</h2><h2 id=bpipelineonfile-function-file-id-parent->b.pipeline.on(&lsquo;file&rsquo;, function (file, id, parent) {})</h2><p>When a file is resolved for the bundle, the bundle emits a <code>'file'</code> event with
+the full <code>file</code> path, the <code>id</code> string passed to <code>require()</code>, and the <code>parent</code>
+object used by
+<a href=https://github.com/defunctzombie/node-browser-resolve>browser-resolve</a>.</p><p>You could use the <code>file</code> event to implement a file watcher to regenerate bundles
+when files change.</p><h2 id=bonpackage-function-pkg->b.on(&lsquo;package&rsquo;, function (pkg) {})</h2><h2 id=bpipelineonpackage-function-pkg->b.pipeline.on(&lsquo;package&rsquo;, function (pkg) {})</h2><p>When a package file is read, this event fires with the contents. The package
+directory is available at <code>pkg.__dirname</code>.</p><h2 id=bonbundle-function-bundle->b.on(&lsquo;bundle&rsquo;, function (bundle) {})</h2><p>When <code>.bundle()</code> is called, this event fires with the <code>bundle</code> output stream.</p><h2 id=bonreset-function-->b.on(&lsquo;reset&rsquo;, function () {})</h2><p>When the <code>.reset()</code> method is called or implicitly called by another call to
+<code>.bundle()</code>, this event fires.</p><h2 id=bontransform-function-tr-file->b.on(&lsquo;transform&rsquo;, function (tr, file) {})</h2><h2 id=bpipelineontransform-function-tr-file->b.pipeline.on(&lsquo;transform&rsquo;, function (tr, file) {})</h2><p>When a transform is applied to a file, the <code>'transform'</code> event fires on the
+bundle stream with the transform stream <code>tr</code> and the <code>file</code> that the transform
+is being applied to.</p><h1 id=plugins>plugins</h1><p>For some more advanced use-cases, a transform is not sufficiently extensible.
+Plugins are modules that take the bundle instance as their first parameter and
+an option hash as their second.</p><p>Plugins can be used to do perform some fancy features that transforms can&rsquo;t do.
+For example, <a href=https://www.npmjs.com/package/factor-bundle>factor-bundle</a> is a
+plugin that can factor out common dependencies from multiple entry-points into a
+common bundle. Use plugins with <code>-p</code> and pass options to plugins with
+<a href=https://www.npmjs.com/package/subarg>subarg</a> syntax:</p><pre><code>browserify x.js y.js -p [ factor-bundle -o bundle/x.js -o bundle/y.js ] \
+  &gt; bundle/common.js
+</code></pre><p>For a list of plugins, consult the
+<a href=https://www.npmjs.com/browse/keyword/browserify-plugin>browserify-plugin tag</a>
+on npm.</p><h1 id=list-of-source-transforms>list of source transforms</h1><p>There is a <a href=https://github.com/substack/node-browserify/wiki/list-of-transforms>wiki page that lists the known browserify
+transforms</a>.</p><p>If you write a transform, make sure to add your transform to that wiki page and
+add a package.json keyword of <code>browserify-transform</code> so that
+<a href=https://www.npmjs.com/browse/keyword/browserify-transform>people can browse for all the browserify
+transforms</a> on npmjs.org.</p><h1 id=third-party-tools>third-party tools</h1><p>There is a <a href=https://github.com/substack/node-browserify/wiki/browserify-tools>wiki page that lists the known browserify
+tools</a>.</p><p>If you write a tool, make sure to add it to that wiki page and
+add a package.json keyword of <code>browserify-tool</code> so that
+<a href=https://www.npmjs.com/browse/keyword/browserify-tool>people can browse for all the browserify
+tools</a> on npmjs.org.</p><h1 id=changelog>changelog</h1><p>Releases are documented in
+<a href=changelog.markdown>changelog.markdown</a> and on the
+<a href=https://twitter.com/browserify>browserify twitter feed</a>.</p><h1 id=license>license</h1><p>MIT</p><p><img src=http://substack.net/images/browserify/browserify.png alt=browserify!></p></main><footer role=contentinfo><div><label for=themer>dark theme: <input type=checkbox id=themer class=vh>
+<span aria-hidden=true></span></label></div>Made with <a href=https://gohugo.io/>Hugo</a>. Themed by <a href=https://github.com/zwbetz-gh/cupper-hugo-theme>Cupper</a>. Deployed to <a href=https://github.com/>Github</a>.</footer></div></div></div><script src=/js/dom-scripts.js></script><script src=/js/prism.js></script><script src=/js/search.7aef046a0cc8b0c532f1d20087b920459bc868c936bb48a6ae221eceefca2d07.js></script><link rel=stylesheet href=/css/search.fe0cd54a21628574bff49d721c827d1bb165ab56b0f22dd55ae78addbe61c309.css></link><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.css integrity=sha384-dbVIfZGuN1Yq7/1Ocstc1lUEm+AT+/rCkibIcC/OmWo5f0EA48Vf8CytHzGrSwbQ crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/katex.min.js integrity=sha384-2BKqo+exmr9su6dir+qCw08N2ZKRucY4PrGQPPWU1A7FtlCGjmEGFqXCv5nyM5Ij crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.10.1/dist/contrib/auto-render.min.js integrity=sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI crossorigin=anonymous onload=renderMathInElement(document.body);></script><script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','UA-123456789-1','auto');ga('send','pageview');</script><script async src=https://www.google-analytics.com/analytics.js></script></body></html>
