@@ -1,0 +1,152 @@
+<!doctype html><html lang=en><head><title>moon_getting_started.md :: Vim Emacser Personal Blog</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="title: Creating a Lapis Application with MoonScript Creating a Lapis Application with MoonScript Creating a Basic Application You can start a new MoonScript project in the current directory by running the following command:
+$ lapis new This provides us with a default Nginx configuration, nginx.conf, and a skeleton application, app.moon. The skeleton application looks like this:
+-- app.moon lapis = require &amp;#34;lapis&amp;#34; class extends lapis.Application &amp;#34;/&amp;#34;: =&amp;gt; &amp;#34;Welcome to Lapis #{require &amp;#34;lapis."><meta name=keywords content><meta name=robots content="noodp"><link rel=canonical href=/posts/misc/moon_getting_started/><link rel=stylesheet href=/assets/style.css><link rel=stylesheet href=/assets/green.css><link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png><link rel="shortcut icon" href=/img/favicon/green.png><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/linuxing3"><meta name=twitter:creator content><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="og:title" content="moon_getting_started.md"><meta property="og:description" content="title: Creating a Lapis Application with MoonScript Creating a Lapis Application with MoonScript Creating a Basic Application You can start a new MoonScript project in the current directory by running the following command:
+$ lapis new This provides us with a default Nginx configuration, nginx.conf, and a skeleton application, app.moon. The skeleton application looks like this:
+-- app.moon lapis = require &amp;#34;lapis&amp;#34; class extends lapis.Application &amp;#34;/&amp;#34;: =&amp;gt; &amp;#34;Welcome to Lapis #{require &amp;#34;lapis."><meta property="og:url" content="/posts/misc/moon_getting_started/"><meta property="og:site_name" content="Vim Emacser Personal Blog"><meta property="og:image" content="/img/favicon/green.png"><meta property="og:image:width" content="2048"><meta property="og:image:height" content="1024"><meta property="article:published_time" content="2018-02-16 14:05:34 -0400 -0400"></head><body class=green><div class="container full"><header class=header><div class=header__inner><div class=header__logo><a href=/><div class=logo>Terminal</div></a></div><div class=menu-trigger>menu</div></div><nav class=menu><ul class="menu__inner menu__inner--desktop"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><div class=spacer></div><ul class=language-selector><ul class=language-selector-current><li>English ▾</li></ul><ul class="language-selector__more hidden"><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></ul></ul><ul class="menu__inner menu__inner--mobile"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><hr><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></nav></header><div class=content><div class=post><h1 class=post-title><a href=/posts/misc/moon_getting_started/>moon_getting_started.md</a></h1><div class=post-meta><span class=post-date>2018-02-16</span></div><div class=post-content><div><h2 id=title-creating-a-lapis-application-with-moonscript>title: Creating a Lapis Application with MoonScript<a href=#title-creating-a-lapis-application-with-moonscript class=hanchor arialabel=Anchor>&#8983;</a></h2><h1 id=creating-a-lapis-application-with-moonscript>Creating a Lapis Application with MoonScript<a href=#creating-a-lapis-application-with-moonscript class=hanchor arialabel=Anchor>&#8983;</a></h1><h2 id=creating-a-basic-application>Creating a Basic Application<a href=#creating-a-basic-application class=hanchor arialabel=Anchor>&#8983;</a></h2><p>You can start a new MoonScript project in the current directory by running the
+following command:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ lapis new
+</span></span></code></pre></div><p>This provides us with a default Nginx configuration, <code>nginx.conf</code>, and a
+skeleton application, <code>app.moon</code>. The skeleton application looks like this:</p><pre tabindex=0><code class=language-moon data-lang=moon>-- app.moon
+lapis = require &#34;lapis&#34;
+
+class extends lapis.Application
+  &#34;/&#34;: =&gt;
+    &#34;Welcome to Lapis #{require &#34;lapis.version&#34;}!&#34;
+]]
+</code></pre><p>This defines a regular Lua module that returns out application class. (Implicit
+return in MoonScript states that the last statement in a block of code is the
+return value.)</p><blockquote><p>Don&rsquo;t forget to compile the <code>.moon</code> files when changing and creating them.
+You can watch the current directory and compile automatically with <code>moonc -w</code>.</p></blockquote><p>Try it out by starting the server:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>lapis server
+</span></span></code></pre></div><p>If you&rsquo;ve compiled the <code>.moon</code> file then <a href=http://localhost:8080>http://localhost:8080</a> will display
+the page.</p><p>The members of the application class make up the patterns that can be matched
+by incoming requests. This is referred to as the route and the action, where
+the route is the pattern and the action is the function that handles the
+matching route. In this example, the route <code>"/"</code> is matched to a function that
+returns <code>"Hello World!"</code></p><p>The return value of an action determines what is written as the response. In
+the simplest form we can return a string in order to write a string.</p><blockquote><p>Learn more about routes and actions and the return value in the <a href=$root/reference/actions.html>Routes and
+Actions</a> guide.</p></blockquote><h2 id=lapis-applications>Lapis Applications<a href=#lapis-applications class=hanchor arialabel=Anchor>&#8983;</a></h2><p>When we refer to a Lapis application we are talking about a class that extends
+from <code>lapis.Application</code>. The properties of the application make up the routes
+the application can serve and the actions it will perform.</p><p>If a property name is a string and begins with a <code>"/"</code> or the property is a
+table then it defines a route. All other properties are methods of the
+application.</p><h3 id=request-parameters>Request Parameters<a href=#request-parameters class=hanchor arialabel=Anchor>&#8983;</a></h3><p>Routes can contain special patterns that match parts of the URL and put them
+into a request parameter.</p><p>Named parameters are a <code>:</code> followed by a name. They match all characters
+excluding <code>/</code>.</p><pre tabindex=0><code class=language-moon data-lang=moon>class extends lapis.Application
+  &#34;/user/:name&#34;: =&gt; &#34;Hello #{@params.name}&#34;
+</code></pre><p>If we were to go to the path <code>"/user/leaf"</code>, <code>@params.name</code> would be set to
+<code>"leaf"</code>.</p><p><code>@params</code> holds all the parameters to the action. This is a concatenation of
+the URL parameters, the GET parameters and the POST parameters.</p><p>A splat will match all characters and is represented with a <code>*</code>. Splats are not
+named. The value of the splat is placed into <code>@params.splat</code></p><pre tabindex=0><code class=language-moon data-lang=moon>&#34;/things/*&#34;: =&gt; &#34;Rest of the url: #{@params.splat}&#34;
+</code></pre><blockquote><p>Learn more about where parameters come from in the <a href=$root/reference/actions.html#request-object>Request Object guide</a>.</p></blockquote><h3 id=the-action>The Action<a href=#the-action class=hanchor arialabel=Anchor>&#8983;</a></h3><p>The action is the function called in response to a route matching the path of a
+request. Actions are written with the fat arrow, <code>=></code>, so you might think that
+<code>self</code> is an instance of application. It&rsquo;s actually an instance of <code>Request</code>, a
+class that&rsquo;s used to represent the current request.</p><p>As we&rsquo;ve already seen, the request holds all the parameters in <code>@params</code>.</p><p>We can the get the distinct parameters types using <code>@GET</code>, <code>@POST</code>, and
+<code>@url_params</code>.</p><p>We can also access the instance of the application with <code>@app</code>, and the raw
+request and response with <code>@req</code> and <code>@res</code>.</p><p>You should treat <code>@app</code> as read only because the instance is shared among many
+requests.</p><blockquote><p>Learn more about the request object in the <a href=$root/reference/actions.html#request-object>Request Object guide</a>.</p></blockquote><h3 id=named-routes>Named Routes<a href=#named-routes class=hanchor arialabel=Anchor>&#8983;</a></h3><p>It&rsquo;s useful to give names to your routes so links to other pages can be
+generated just by knowing the name of the page instead of hard-coding the
+structure of the URL</p><p>If the route of the action is a table with a single pair, then the key of that
+table is the name and the value is the pattern. MoonScript gives us convenient
+syntax for representing this:</p><pre tabindex=0><code class=language-moon data-lang=moon>class extends lapis.Application
+  [index: &#34;/&#34;]: =&gt;
+    @url_for &#34;user_profile&#34;, name: &#34;leaf&#34;
+
+  [user_profile: &#34;/user/:name&#34;]: =&gt;
+    &#34;Hello #{@params.name}, go home: #{@url_for &#34;index&#34;}&#34;
+</code></pre><p>We can generate the paths to various actions using <code>@url_for</code>. The first
+argument is the name of the route, and the second optional argument is a table
+of values to fill a parameterized route with.</p><h3 id=before-filters>Before Filters<a href=#before-filters class=hanchor arialabel=Anchor>&#8983;</a></h3><p>Sometimes you want a piece of code to run before every action. A good example
+of this is setting up the user session. We can declare a before filter, or a
+function that runs before every action, like so:</p><pre tabindex=0><code class=language-moon data-lang=moon>lapis = require &#34;lapis&#34;
+
+class App extends lapis.Application
+  @before_filter =&gt;
+    if @session.user
+      @current_user = load_user @session.user
+
+  &#34;/&#34;: =&gt;
+    &#34;current user is: #{@current_user}&#34;
+</code></pre><p>You are free to add as many as you like by calling <code>@before_filter</code> multiple
+times. They will be run in the order they are registered.</p><p>If a before filter calls the <code>@write</code> method then the action will be canceled.
+For example we can cancel the action and redirect to another page if some
+condition is not met:</p><pre tabindex=0><code class=language-moon data-lang=moon>lapis = require &#34;lapis&#34;
+
+class App extends lapis.Application
+  @before_filter =&gt;
+    unless user_meets_requirements!
+      @write redirect_to: @url_for &#34;login&#34;
+
+  &#34;/&#34;: =&gt;
+    &#34;Welcome to the page&#34;
+</code></pre><blockquote><p><code>@write</code> is what handles the return value of an action, so the same things
+you can return in an action can be passed to <code>@write</code></p></blockquote><h3 id=handling-http-verbs>Handling HTTP verbs<a href=#handling-http-verbs class=hanchor arialabel=Anchor>&#8983;</a></h3><p>It&rsquo;s common to have a single action do different things depending on the HTTP
+verb. Lapis comes with some helpers to make writing these actions simple.
+<code>respond_to</code> takes a table indexed by HTTP verb with a value of the function to
+perform when the action receives that verb.</p><pre tabindex=0><code class=language-moon data-lang=moon>lapis = require &#34;lapis&#34;
+import respond_to from require &#34;lapis.application&#34;
+
+class App extends lapis.Application
+  [create_account: &#34;/create_account&#34;]: respond_to {
+    GET: =&gt; render: true
+
+    POST: =&gt;
+      create_user @params
+      redirect_to: @url_for &#34;index&#34;
+  }
+</code></pre><p><code>respond_to</code> can also take a before filter of its own that will run before the
+corresponding HTTP verb action. We do this by specifying a <code>before</code> function.
+The same semantics of <a href=#lapis-applications-before-filters>before filters</a>
+apply, so if you call <code>@write</code> then the rest of the action will not get run.</p><pre tabindex=0><code class=language-moon data-lang=moon>lapis = require &#34;lapis&#34;
+
+class App extends lapis.Application
+  &#34;/edit_user/:id&#34;: respond_to {
+    before: =&gt;
+      @user = Users\find @params.id
+      @write status: 404, &#34;Not Found&#34; unless @user
+
+    GET: =&gt;
+      &#34;Welcome &#34; .. @user.name
+
+    POST: =&gt;
+      @user\update @params.user
+      redirect_to: @url_for &#34;index&#34;
+  }
+</code></pre><h3 id=sub-applications>Sub-Applications<a href=#sub-applications class=hanchor arialabel=Anchor>&#8983;</a></h3><p>As your web application becomes more complex it helps to break it apart into
+multiple sub-applications. Lapis doesn&rsquo;t place any rules on how you divide your
+application, instead it facilities the combination of applications.</p><h4 id=includeother_application-opts><code>@include(other_application, [opts])</code><a href=#includeother_application-opts class=hanchor arialabel=Anchor>&#8983;</a></h4><p>Let&rsquo;s say we&rsquo;ve got a separate application for handling users:</p><pre tabindex=0><code class=language-moon data-lang=moon>-- applications/users.moon
+lapis = require &#34;lapis&#34;
+
+class UsersApplication extends lapis.Application
+  [login: &#34;/login&#34;]: do_login!
+  [logout: &#34;/logout&#34;]: do_logout!
+</code></pre><p>We can include this application into our main one:</p><pre tabindex=0><code class=language-moon data-lang=moon>-- app.moon
+lapis = require &#34;lapis&#34;
+
+class extends lapis.Application
+  @include &#34;applications.users&#34;
+
+  [index: &#34;/&#34;]: =&gt;
+    @html -&gt;
+      a href: @url_for(&#34;login&#34;), &#34;Log in&#34;
+</code></pre><p>In this example <code>applications/user.moon</code> is a module that returns the
+sub-application. The <code>include</code> class method is used to load this application
+into our root one. <code>include</code> copies all the routes of the other application,
+leaving the original untouched.</p><p>Sub-applications are allowed to have before filters, and the before filters
+will only apply to all actions enclosed by the application.</p><p>A sub-application supports special <code>path</code> and <code>name</code> class values:</p><ul><li><code>path</code> &ndash; The patterns of the routes copied are prefixed with <code>path</code></li><li><code>name</code> &ndash; The names of all the routes copied are prefixed with <code>name</code></li></ul><pre tabindex=0><code class=language-moon data-lang=moon>class UsersApplication extends lapis.Application
+  @path: &#34;/users&#34;
+  @name: &#34;user_&#34;
+
+  -- etc...
+</code></pre><p><code>include</code> takes an optional second argument, a table of options. The options
+can be used to provide or override the <code>path</code> and <code>name</code> values that might have
+been set in the application.</p><p>For example, we might prefix <code>UsersApplication</code> like so:</p><pre tabindex=0><code class=language-moon data-lang=moon>class extends lapis.Application
+  @include &#34;applications.users&#34;, path: &#34;/users&#34;, name: &#34;user_&#34;
+
+  &#34;/&#34;: =&gt;
+    @url_for(&#34;user_login&#34;) -- returns &#34;/users/login&#34;
+</code></pre><h3 id=class-methods>Class Methods<a href=#class-methods class=hanchor arialabel=Anchor>&#8983;</a></h3><h4 id=find_actionaction_name><code>@find_action(action_name)</code><a href=#find_actionaction_name class=hanchor arialabel=Anchor>&#8983;</a></h4><p>Returns the function of the action that has the name specified by
+<code>action_name</code>.</p></div></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button previous"><a href=/posts/misc/moon_creating_configurations/><span class=button__icon>←</span>
+<span class=button__text>moon_creating_configurations.md</span></a></span>
+<span class="button next"><a href=/posts/misc/moonscript/><span class=button__text>moonscript.md</span>
+<span class=button__icon>→</span></a></span></div></div></div></div><footer class=footer><div class=footer__inner><div class="copyright copyright--user"><span>@linuxing3</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span></div></div></footer><script src=/assets/main.js></script>
+<script src=/assets/prism.js></script>
+<script src=/assets/languageSelector.js></script></div></body></html>

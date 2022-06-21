@@ -1,0 +1,50 @@
+<!doctype html><html lang=en><head><title>2013-5-10-redis6.md :: Vim Emacser Personal Blog</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="layout: post category: lessons title: &amp;ldquo;自己搭建Node+Express+Redis的MVC框架（六）&amp;rdquo; tagline: &amp;ldquo;Supporting tagline&amp;rdquo; tags: [intro, beginner, jekyll, tutorial] 与Express结合 module_users = require &amp;#39;./routes/module_users.coffee&amp;#39; app.get &amp;#39;users&amp;#39;,module_users.list 流程很简单 引用模块文件
+调用模块文件中的方法，前提是你要将方法输出，请参见下面的引用
+测试 Controller控制器 Express路由原理 在app.coffee文件中定义路径，添加引用 index = require &amp;#39;./routes/index.coffee&amp;#39; app.get &amp;#39;index&amp;#39;,index.list 在routes/index.coffee中定义方法，输出引用 list=(req,res)-&amp;gt; res.render &amp;#39;index&amp;#39;,{title:&amp;#34;Hello Express&amp;#34;} module.exports.list = list 这样实现了Controller和Module之间的双向通信
+其中req是http请求，res是http回应，具体可参考Express手册中文版
+常用的Express API req.body
+这个对应的是解析过的请求体。这个特性是bodyParser() 中间件提供,其它的请求体解析中间件可以放在这个中间件之后。当bodyParser()中间件使用后，这个对象默认为 {}。
+// POST user[name]=tobi&amp;amp;user[email]=tobi@learnboost.com req.body.user.name // =&amp;gt; &amp;#34;tobi&amp;#34; req.params
+这是一个数组对象，命名过的参数会以键值对的形式存放。 比如你有一个路由/user/:name, &amp;quot;name&amp;quot;属性会存放在req.params.name. 这个对象默认为 {}.
+// GET /user/tj req.params.name // =&amp;gt; &amp;#34;tj&amp;#34; res."><meta name=keywords content><meta name=robots content="noodp"><link rel=canonical href=/posts/database/2013-5-10-redis6/><link rel=stylesheet href=/assets/style.css><link rel=stylesheet href=/assets/green.css><link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png><link rel="shortcut icon" href=/img/favicon/green.png><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/linuxing3"><meta name=twitter:creator content><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="og:title" content="2013-5-10-redis6.md"><meta property="og:description" content="layout: post category: lessons title: &amp;ldquo;自己搭建Node+Express+Redis的MVC框架（六）&amp;rdquo; tagline: &amp;ldquo;Supporting tagline&amp;rdquo; tags: [intro, beginner, jekyll, tutorial] 与Express结合 module_users = require &amp;#39;./routes/module_users.coffee&amp;#39; app.get &amp;#39;users&amp;#39;,module_users.list 流程很简单 引用模块文件
+调用模块文件中的方法，前提是你要将方法输出，请参见下面的引用
+测试 Controller控制器 Express路由原理 在app.coffee文件中定义路径，添加引用 index = require &amp;#39;./routes/index.coffee&amp;#39; app.get &amp;#39;index&amp;#39;,index.list 在routes/index.coffee中定义方法，输出引用 list=(req,res)-&amp;gt; res.render &amp;#39;index&amp;#39;,{title:&amp;#34;Hello Express&amp;#34;} module.exports.list = list 这样实现了Controller和Module之间的双向通信
+其中req是http请求，res是http回应，具体可参考Express手册中文版
+常用的Express API req.body
+这个对应的是解析过的请求体。这个特性是bodyParser() 中间件提供,其它的请求体解析中间件可以放在这个中间件之后。当bodyParser()中间件使用后，这个对象默认为 {}。
+// POST user[name]=tobi&amp;amp;user[email]=tobi@learnboost.com req.body.user.name // =&amp;gt; &amp;#34;tobi&amp;#34; req.params
+这是一个数组对象，命名过的参数会以键值对的形式存放。 比如你有一个路由/user/:name, &amp;quot;name&amp;quot;属性会存放在req.params.name. 这个对象默认为 {}.
+// GET /user/tj req.params.name // =&amp;gt; &amp;#34;tj&amp;#34; res."><meta property="og:url" content="/posts/database/2013-5-10-redis6/"><meta property="og:site_name" content="Vim Emacser Personal Blog"><meta property="og:image" content="/img/favicon/green.png"><meta property="og:image:width" content="2048"><meta property="og:image:height" content="1024"><meta property="article:published_time" content="2018-02-16 14:05:34 -0400 -0400"></head><body class=green><div class="container full"><header class=header><div class=header__inner><div class=header__logo><a href=/><div class=logo>Terminal</div></a></div><div class=menu-trigger>menu</div></div><nav class=menu><ul class="menu__inner menu__inner--desktop"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><div class=spacer></div><ul class=language-selector><ul class=language-selector-current><li>English ▾</li></ul><ul class="language-selector__more hidden"><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></ul></ul><ul class="menu__inner menu__inner--mobile"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><hr><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></nav></header><div class=content><div class=post><h1 class=post-title><a href=/posts/database/2013-5-10-redis6/>2013-5-10-redis6.md</a></h1><div class=post-meta><span class=post-date>2018-02-16</span></div><div class=post-content><div><hr><h2 id=tags-intro-beginner-jekyll-tutorial>layout: post
+category: lessons
+title: &ldquo;自己搭建Node+Express+Redis的MVC框架（六）&rdquo;
+tagline: &ldquo;Supporting tagline&rdquo;
+tags: [intro, beginner, jekyll, tutorial]</h2><h3 id=与express结合>与Express结合<a href=#与express结合 class=hanchor arialabel=Anchor>&#8983;</a></h3><pre tabindex=0><code>module_users = require &#39;./routes/module_users.coffee&#39;
+app.get &#39;users&#39;,module_users.list
+</code></pre><ul><li>流程很简单</li></ul><ol><li><p>引用模块文件</p></li><li><p>调用模块文件中的方法，前提是你要将方法输出，请参见下面的引用</p></li></ol><h3 id=测试>测试<a href=#测试 class=hanchor arialabel=Anchor>&#8983;</a></h3><h2 id=controller控制器>Controller控制器<a href=#controller控制器 class=hanchor arialabel=Anchor>&#8983;</a></h2><h3 id=express路由原理>Express路由原理<a href=#express路由原理 class=hanchor arialabel=Anchor>&#8983;</a></h3><ul><li>在app.coffee文件中定义路径，添加引用</li></ul><pre tabindex=0><code>index = require &#39;./routes/index.coffee&#39;
+app.get &#39;index&#39;,index.list
+</code></pre><ul><li>在routes/index.coffee中定义方法，输出引用</li></ul><pre tabindex=0><code>list=(req,res)-&gt;
+	res.render &#39;index&#39;,{title:&#34;Hello Express&#34;}
+module.exports.list = list
+</code></pre><ul><li><p>这样实现了Controller和Module之间的双向通信</p></li><li><p>其中req是http请求，res是http回应，具体可参考<a href=http://expressjs.jser.us/api.html>Express手册中文版</a></p></li></ul><h4 id=常用的express-api>常用的Express API<a href=#常用的express-api class=hanchor arialabel=Anchor>&#8983;</a></h4><ul><li><p>req.body</p></li><li><p>这个对应的是解析过的请求体。这个特性是<code>bodyParser()</code> 中间件提供,其它的请求体解析中间件可以放在这个中间件之后。当<code>bodyParser()</code>中间件使用后，这个对象默认为 {}。</p></li></ul><pre tabindex=0><code>// POST user[name]=tobi&amp;user[email]=tobi@learnboost.com
+req.body.user.name
+// =&gt; &#34;tobi&#34;
+</code></pre><ul><li><p>req.params</p></li><li><p>这是一个数组对象，命名过的参数会以键值对的形式存放。 比如你有一个路由<code>/user/:name</code>, <code>"name"</code>属性会存放在<code>req.params.name</code>. 这个对象默认为 <code>{}</code>.</p></li></ul><pre tabindex=0><code>// GET /user/tj
+req.params.name
+// =&gt; &#34;tj&#34;
+</code></pre><ul><li><p>res.render(view, [locals], callback)</p></li><li><p>渲染view, 同时向callback 传入渲染后的字符串。 callback如果不传的话，直接会把渲染后的字符串输出至请求方， 一般如果不需要再对渲染后的模板作操作，就不需要传callback。 当有错误发生时next(err)会被执行. 如果提供了callback参数，可能发生的错误和渲染的字符串都会被当作参数传入, 并且没有默认响应。</p></li></ul><pre tabindex=0><code>res.render &#39;index&#39;, (err, html)-&gt;
+	console.log &#34;index.html&#34;
+res.render &#39;user&#39;, { name: &#39;Tobi&#39; }
+</code></pre><h3 id=javascript的模块输出和引用>Javascript的模块输出和引用<a href=#javascript的模块输出和引用 class=hanchor arialabel=Anchor>&#8983;</a></h3><ul><li>需要使用module.exports方法</li></ul><pre tabindex=0><code>list=(req,res)-&gt;
+	Users.list   (err, user)- &gt;
+        		console.log(err, user.id)
+module.exports.list = list
+</code></pre><ul><li><p>这样你的list函数可以被其它文件引用了</p></li><li><p>有时候可以更加简化</p></li></ul><pre tabindex=0><code>module.exports.list=(req,res)-&gt;
+	Users.list   (err, users)- &gt;
+        		console.log(err)
+</code></pre></div></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button previous"><a href=/posts/database/2013-5-10-redis5/><span class=button__icon>←</span>
+<span class=button__text>2013-5-10-redis5.md</span></a></span>
+<span class="button next"><a href=/posts/database/2013-5-10-redis7/><span class=button__text>2013-5-10-redis7.md</span>
+<span class=button__icon>→</span></a></span></div></div></div></div><footer class=footer><div class=footer__inner><div class="copyright copyright--user"><span>@linuxing3</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span></div></div></footer><script src=/assets/main.js></script>
+<script src=/assets/prism.js></script>
+<script src=/assets/languageSelector.js></script></div></body></html>

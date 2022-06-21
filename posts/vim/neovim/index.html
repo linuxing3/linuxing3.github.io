@@ -1,0 +1,514 @@
+<!doctype html><html lang=en><head><title>NeoVim is a modern life style :: Vim Emacser Personal Blog</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Neovim outstanding configuration file My neovim simple configuration pure lua super fast intuitive https://gitee.com/linuxing3/nvim
+依赖 For newer version of neovim, use snap to install
+sudo snap install neovim sudo apt install -y ripgrep fd-find 构建 alias nvim=/snap/bin/nvim nvim +PackerSync nvim +Compile pack ---@diagnostic disable:undefined-global local fn = vim.fn -- Automatically install packer local install_path = fn.stdpath &amp;#34;data&amp;#34; .. &amp;#34;/site/pack/packer/start/packer.nvim&amp;#34; if fn.empty(fn.glob(install_path)) &amp;gt; 0 then PACKER_BOOTSTRAP = fn.system { &amp;#34;git&amp;#34;, &amp;#34;clone&amp;#34;, &amp;#34;--depth&amp;#34;, &amp;#34;1&amp;#34;, &amp;#34;https://hub."><meta name=keywords content><meta name=robots content="noodp"><link rel=canonical href=/posts/vim/neovim/><link rel=stylesheet href=/assets/style.css><link rel=stylesheet href=/assets/green.css><link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png><link rel="shortcut icon" href=/img/favicon/green.png><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/linuxing3"><meta name=twitter:creator content><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="og:title" content="NeoVim is a modern life style"><meta property="og:description" content="Neovim outstanding configuration file My neovim simple configuration pure lua super fast intuitive https://gitee.com/linuxing3/nvim
+依赖 For newer version of neovim, use snap to install
+sudo snap install neovim sudo apt install -y ripgrep fd-find 构建 alias nvim=/snap/bin/nvim nvim +PackerSync nvim +Compile pack ---@diagnostic disable:undefined-global local fn = vim.fn -- Automatically install packer local install_path = fn.stdpath &amp;#34;data&amp;#34; .. &amp;#34;/site/pack/packer/start/packer.nvim&amp;#34; if fn.empty(fn.glob(install_path)) &amp;gt; 0 then PACKER_BOOTSTRAP = fn.system { &amp;#34;git&amp;#34;, &amp;#34;clone&amp;#34;, &amp;#34;--depth&amp;#34;, &amp;#34;1&amp;#34;, &amp;#34;https://hub."><meta property="og:url" content="/posts/vim/neovim/"><meta property="og:site_name" content="Vim Emacser Personal Blog"><meta property="og:image" content="/img/favicon/green.png"><meta property="og:image:width" content="2048"><meta property="og:image:height" content="1024"><meta property="article:published_time" content="2022-06-20 14:06:05 -0400 -0400"></head><body class=green><div class="container full"><header class=header><div class=header__inner><div class=header__logo><a href=/><div class=logo>Terminal</div></a></div><div class=menu-trigger>menu</div></div><nav class=menu><ul class="menu__inner menu__inner--desktop"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><div class=spacer></div><ul class=language-selector><ul class=language-selector-current><li>English ▾</li></ul><ul class="language-selector__more hidden"><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></ul></ul><ul class="menu__inner menu__inner--mobile"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><hr><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></nav></header><div class=content><div class=post><h1 class=post-title><a href=/posts/vim/neovim/>NeoVim is a modern life style</a></h1><div class=post-meta><span class=post-date>2022-06-20</span></div><div class=post-content><div><h1 id=neovim-outstanding-configuration-file>Neovim outstanding configuration file<a href=#neovim-outstanding-configuration-file class=hanchor arialabel=Anchor>&#8983;</a></h1><h1 id=my-neovim-simple-configuration>My neovim simple configuration<a href=#my-neovim-simple-configuration class=hanchor arialabel=Anchor>&#8983;</a></h1><ul><li>pure lua</li><li>super fast</li><li>intuitive</li></ul><p><a href=https://gitee.com/linuxing3/nvim>https://gitee.com/linuxing3/nvim</a></p><h2 id=依赖>依赖<a href=#依赖 class=hanchor arialabel=Anchor>&#8983;</a></h2><p>For newer version of neovim, use <code>snap</code> to install</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>sudo snap install neovim
+</span></span><span style=display:flex><span>sudo apt install -y ripgrep fd-find
+</span></span></code></pre></div><h2 id=构建>构建<a href=#构建 class=hanchor arialabel=Anchor>&#8983;</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>alias nvim<span style=color:#f92672>=</span>/snap/bin/nvim
+</span></span><span style=display:flex><span>nvim +PackerSync
+</span></span><span style=display:flex><span>nvim +Compile
+</span></span></code></pre></div><h2 id=pack>pack<a href=#pack class=hanchor arialabel=Anchor>&#8983;</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>---@diagnostic disable:undefined-global</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> fn <span style=color:#f92672>=</span> vim.fn
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>-- Automatically install packer</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> install_path <span style=color:#f92672>=</span> fn.stdpath <span style=color:#e6db74>&#34;data&#34;</span> <span style=color:#f92672>..</span> <span style=color:#e6db74>&#34;/site/pack/packer/start/packer.nvim&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> fn.empty(fn.glob(install_path)) <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>0</span> <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>    PACKER_BOOTSTRAP <span style=color:#f92672>=</span>
+</span></span><span style=display:flex><span>        fn.system {
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;git&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;clone&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;--depth&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;1&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;https://hub.fastgit.xyz/wbthomason/packer.nvim&#34;</span>,
+</span></span><span style=display:flex><span>        install_path
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    print <span style=color:#e6db74>&#34;Installing packer close and reopen Neovim...&#34;</span>
+</span></span><span style=display:flex><span>    vim.cmd <span style=color:#e6db74>[[packadd packer.nvim]]</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>-- Autocommand that reloads neovim whenever you save the pack.lua and plugins.lua file</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> packer_user_config <span style=color:#f92672>=</span> vim.api.nvim_create_augroup(<span style=color:#e6db74>&#34;packer_user_config&#34;</span>, { clear <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span> })
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>vim.api.nvim_create_autocmd({ <span style=color:#e6db74>&#34;BufWritePre&#34;</span> }, {
+</span></span><span style=display:flex><span>    pattern <span style=color:#f92672>=</span> { <span style=color:#e6db74>&#34;pack&#34;</span>, <span style=color:#e6db74>&#34;plugins.lua&#34;</span> },
+</span></span><span style=display:flex><span>    callback <span style=color:#f92672>=</span> <span style=color:#66d9ef>function</span>()
+</span></span><span style=display:flex><span>        vim.cmd(<span style=color:#e6db74>&#34;source &lt;afile&gt;&#34;</span>)
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- vim.cmd(&#34;PackerSync&#34;)</span>
+</span></span><span style=display:flex><span>        vim.pretty_print(<span style=color:#e6db74>&#34;Reloading plugins successify...&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>end</span>,
+</span></span><span style=display:flex><span>    group <span style=color:#f92672>=</span> packer_user_config,
+</span></span><span style=display:flex><span>})
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>-- Use a protected call so we don&#39;t error out on first use</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> status_ok, packer <span style=color:#f92672>=</span> pcall(require, <span style=color:#e6db74>&#34;packer&#34;</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> <span style=color:#f92672>not</span> status_ok <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>return</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>-- Have packer use a popup window</span>
+</span></span><span style=display:flex><span>packer.init {
+</span></span><span style=display:flex><span>    display <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        open_fn <span style=color:#f92672>=</span> <span style=color:#66d9ef>function</span>()
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span> require(<span style=color:#e6db74>&#34;packer.util&#34;</span>).float {border <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;rounded&#34;</span>}
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    git <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        default_url_format <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;https://hub.fastgit.xyz/%s&#34;</span>
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>-- Install your plugins here</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>return</span> packer.startup(
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>function</span>(use)
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- My plugins here</span>
+</span></span><span style=display:flex><span>        use <span style=color:#e6db74>&#34;wbthomason/packer.nvim&#34;</span> <span style=color:#75715e>-- Have packer manage itself</span>
+</span></span><span style=display:flex><span>        use <span style=color:#e6db74>&#34;nvim-lua/popup.nvim&#34;</span> <span style=color:#75715e>-- An implementation of the Popup API from vim in Neovim</span>
+</span></span><span style=display:flex><span>        use <span style=color:#e6db74>&#34;nvim-lua/plenary.nvim&#34;</span> <span style=color:#75715e>-- Useful lua functions used ny lots of plugins</span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- Fuzzy finder</span>
+</span></span><span style=display:flex><span>        use <span style=color:#e6db74>&#34;junegunn/fzf&#34;</span>
+</span></span><span style=display:flex><span>        use <span style=color:#e6db74>&#34;junegunn/fzf.vim&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>	<span style=color:#75715e>-- formatter</span>
+</span></span><span style=display:flex><span>        use <span style=color:#e6db74>&#34;sbdchd/neoformat&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- Automatically set up your configuration after cloning packer.nvim</span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- Put this at the end after all plugins</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> PACKER_BOOTSTRAP <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>            require(<span style=color:#e6db74>&#34;packer&#34;</span>).sync()
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- Loading custom plugins</span>
+</span></span><span style=display:flex><span>        require(<span style=color:#e6db74>&#34;custom.plugins&#34;</span>).install(use)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>)
+</span></span></code></pre></div><h2 id=plugins>Plugins<a href=#plugins class=hanchor arialabel=Anchor>&#8983;</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#75715e>---@diagnostic disable:undefined-global</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> options <span style=color:#f92672>=</span> require(<span style=color:#e6db74>&#34;core.options&#34;</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> path <span style=color:#f92672>=</span> require(<span style=color:#e6db74>&#34;utils.api.path&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> M <span style=color:#f92672>=</span> {}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> plugins <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--     --[[</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- 	=====================================</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- 	  ------------- basic -------------</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- 	=====================================</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- 	--]]</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- [&#34;wbthomason/packer.nvim&#34;] = {}, -- package manager</span>
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;lewis6991/impatient.nvim&#34;</span>] <span style=color:#f92672>=</span> {}, <span style=color:#75715e>-- speed up startup</span>
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;tami5/sqlite.lua&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- persistent storage history yank records</span>
+</span></span><span style=display:flex><span>        after <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;impatient.nvim&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;nathom/filetype.nvim&#34;</span>] <span style=color:#f92672>=</span> {}, <span style=color:#75715e>-- speed up startup</span>
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;rcarriga/nvim-notify&#34;</span>] <span style=color:#f92672>=</span> {}, <span style=color:#75715e>-- fancy notification message</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- [&#34;akinsho/bufferline.nvim&#34;] = {</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--     -- buffer label</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--     after = {&#34;nvim-web-devicons&#34;}</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- },</span>
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;mbbill/undotree&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- undo tree</span>
+</span></span><span style=display:flex><span>        ptp <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;viml&#34;</span>,
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;folke/which-key.nvim&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- keybinder</span>
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;kyazdani42/nvim-tree.lua&#34;</span>] <span style=color:#f92672>=</span> {},
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--[[
+</span></span></span><span style=display:flex><span><span style=color:#75715e>	=====================================
+</span></span></span><span style=display:flex><span><span style=color:#75715e>	 ------------- Theme ---------------
+</span></span></span><span style=display:flex><span><span style=color:#75715e>	=====================================
+</span></span></span><span style=display:flex><span><span style=color:#75715e>	--]]</span>
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;askfiy/catppuccin&#34;</span>] <span style=color:#f92672>=</span> {},
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;Mofiqul/vscode.nvim&#34;</span>] <span style=color:#f92672>=</span> {},
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;projekt0n/github-nvim-theme&#34;</span>] <span style=color:#f92672>=</span> {},
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;lunarvim/colorschemes&#34;</span>] <span style=color:#f92672>=</span> {},
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;lunarvim/darkplus.nvim&#34;</span>] <span style=color:#f92672>=</span> {},
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;folke/tokyonight.nvim&#34;</span>] <span style=color:#f92672>=</span> {},
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;folke/lsp-colors.nvim&#34;</span>] <span style=color:#f92672>=</span> {},
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;sainnhe/sonokai&#34;</span>] <span style=color:#f92672>=</span> {},
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;NTBBloodbath/doom-one.nvim&#34;</span>] <span style=color:#f92672>=</span> {},
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;glepnir/dashboard-nvim&#34;</span>] <span style=color:#f92672>=</span> {},
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--[[
+</span></span></span><span style=display:flex><span><span style=color:#75715e> =====================================
+</span></span></span><span style=display:flex><span><span style=color:#75715e>  ---------- Fuzzy Finder ---------
+</span></span></span><span style=display:flex><span><span style=color:#75715e> =====================================
+</span></span></span><span style=display:flex><span><span style=color:#75715e> --]]</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- [&#34;vim-telescope/telescope-fzf-native.nvim&#34;] = {run = &#34;make&#34;},</span>
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;nvim-telescope/telescope-project.nvim&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        config <span style=color:#f92672>=</span> <span style=color:#66d9ef>function</span>()
+</span></span><span style=display:flex><span>            require <span style=color:#e6db74>&#34;telescope&#34;</span>.load_extension(<span style=color:#e6db74>&#34;project&#34;</span>)
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;nvim-telescope/telescope-file-browser.nvim&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        config <span style=color:#f92672>=</span> <span style=color:#66d9ef>function</span>()
+</span></span><span style=display:flex><span>            require <span style=color:#e6db74>&#34;telescope&#34;</span>.load_extension(<span style=color:#e6db74>&#34;file_browser&#34;</span>)
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;liuchengxu/vim-clap&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        ptp <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;viml&#34;</span>
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- [&#34;nvim-telescope/telescope-frecency.nvim&#34;] = {</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--     config = function()</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--         require &#34;telescope&#34;.load_extension(&#34;frecency&#34;)</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--     end,</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--     requires = {&#34;tami5/sqlite.lua&#34;}</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- },</span>
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;nvim-telescope/telescope.nvim&#34;</span>] <span style=color:#f92672>=</span> {},
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--[[
+</span></span></span><span style=display:flex><span><span style=color:#75715e>	=====================================
+</span></span></span><span style=display:flex><span><span style=color:#75715e>	 ------------- Tools ---------------
+</span></span></span><span style=display:flex><span><span style=color:#75715e>	=====================================
+</span></span></span><span style=display:flex><span><span style=color:#75715e>	--]]</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--</span>
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;davidgranstrom/nvim-markdown-preview&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- markdown preview tool</span>
+</span></span><span style=display:flex><span>        ptp <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;viml&#34;</span>,
+</span></span><span style=display:flex><span>        ft <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;markdown&#34;</span>},
+</span></span><span style=display:flex><span>        cmd <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;MarkdownPreview&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- [&#34;askfiy/nvim-picgo&#34;] = {},</span>
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;mg979/vim-visual-multi&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- multi-cursor mode</span>
+</span></span><span style=display:flex><span>        ptp <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;viml&#34;</span>,
+</span></span><span style=display:flex><span>        fn <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;vm##add_cursor_up&#34;</span>, <span style=color:#e6db74>&#34;vm##add_cursor_down&#34;</span>},
+</span></span><span style=display:flex><span>        keys <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;&lt;c-d&gt;&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;jbyuki/venn.nvim&#34;</span>] <span style=color:#f92672>=</span> {},
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;kristijanhusak/vim-carbon-now-sh&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- carbon-based code screenshot tool (requires internet connection)</span>
+</span></span><span style=display:flex><span>        ptp <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;viml&#34;</span>,
+</span></span><span style=display:flex><span>        cmd <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;CarbonNowSh&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;akinsho/toggleterm.nvim&#34;</span>] <span style=color:#f92672>=</span> {},
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--[[
+</span></span></span><span style=display:flex><span><span style=color:#75715e>	=====================================
+</span></span></span><span style=display:flex><span><span style=color:#75715e>	 ----- language server protocol ----
+</span></span></span><span style=display:flex><span><span style=color:#75715e>	=====================================
+</span></span></span><span style=display:flex><span><span style=color:#75715e>	--]]</span>
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;neovim/nvim-lspconfig&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- Basic LSP configuration support</span>
+</span></span><span style=display:flex><span>        after <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;impatient.nvim&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;hrsh7th/cmp-nvim-lsp&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- Enhance neovim completion</span>
+</span></span><span style=display:flex><span>        after <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;nvim-lspconfig&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- In order to keep the order of lazy loading, so this plugin is placed here</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- but it is not part of the LSP plugin scope</span>
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;stevearc/aerial.nvim&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- outline notation preview</span>
+</span></span><span style=display:flex><span>        after <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;nvim-lspconfig&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;folke/lua-dev.nvim&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- sumneko_lua enhancement plugin for neovim-lua development</span>
+</span></span><span style=display:flex><span>        after <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;nvim-lspconfig&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;jose-elias-alvarez/null-ls.nvim&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- Provides third-party diagnostics, debugging, formatting, etc. for the built-in LSP</span>
+</span></span><span style=display:flex><span>        after <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;nvim-lspconfig&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;williamboman/nvim-lsp-installer&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- automatically install LSP service</span>
+</span></span><span style=display:flex><span>        after <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;nvim-lspconfig&#34;</span>, <span style=color:#e6db74>&#34;cmp-nvim-lsp&#34;</span>, <span style=color:#e6db74>&#34;aerial.nvim&#34;</span>, <span style=color:#e6db74>&#34;lua-dev.nvim&#34;</span>, <span style=color:#e6db74>&#34;null-ls.nvim&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- [&#34;j-hui/fidget.nvim&#34;] = {</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--     -- prompt LSP initialization status</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--     after = {&#34;nvim-lsp-installer&#34;}</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- },</span>
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;kosayoda/nvim-lightbulb&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- prompt a lightbulb when code behavior is available</span>
+</span></span><span style=display:flex><span>        after <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;nvim-lsp-installer&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--[[
+</span></span></span><span style=display:flex><span><span style=color:#75715e>	=====================================
+</span></span></span><span style=display:flex><span><span style=color:#75715e>	 --------- Code Completion ---------
+</span></span></span><span style=display:flex><span><span style=color:#75715e>	=====================================
+</span></span></span><span style=display:flex><span><span style=color:#75715e>	--]]</span>
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;rafamadriz/friendly-snippets&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- provide rich snippet support</span>
+</span></span><span style=display:flex><span>        event <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;InsertEnter&#34;</span>, <span style=color:#e6db74>&#34;CmdlineEnter&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;hrsh7th/vim-vsnip&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- provide snippet support for nvim-cmp</span>
+</span></span><span style=display:flex><span>        ptp <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;viml&#34;</span>,
+</span></span><span style=display:flex><span>        after <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;friendly-snippets&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;hrsh7th/nvim-cmp&#34;</span>] <span style=color:#f92672>=</span> {},
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;hrsh7th/cmp-vsnip&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- vsnip support for cmp</span>
+</span></span><span style=display:flex><span>        after <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;nvim-cmp&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;hrsh7th/cmp-buffer&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- provide buffer completion</span>
+</span></span><span style=display:flex><span>        after <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;nvim-cmp&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;hrsh7th/cmp-path&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- provide path completion</span>
+</span></span><span style=display:flex><span>        after <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;nvim-cmp&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;hrsh7th/cmp-cmdline&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- provide command line completion</span>
+</span></span><span style=display:flex><span>        after <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;nvim-cmp&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--[[
+</span></span></span><span style=display:flex><span><span style=color:#75715e>    -- 	=====================================
+</span></span></span><span style=display:flex><span><span style=color:#75715e>    -- 	 ----- debug adapter protocol ------
+</span></span></span><span style=display:flex><span><span style=color:#75715e>    -- 	=====================================
+</span></span></span><span style=display:flex><span><span style=color:#75715e>	--]]</span>
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;mfussenegger/nvim-dap&#34;</span>] <span style=color:#f92672>=</span> {},
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;theHamsta/nvim-dap-virtual-text&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- provide dummy text for debugging</span>
+</span></span><span style=display:flex><span>        after <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;nvim-dap&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;rcarriga/nvim-dap-ui&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- provide UI interface for debugging</span>
+</span></span><span style=display:flex><span>        after <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;nvim-dap&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--[[
+</span></span></span><span style=display:flex><span><span style=color:#75715e>	=====================================
+</span></span></span><span style=display:flex><span><span style=color:#75715e>	 ----------- Code Editor -----------
+</span></span></span><span style=display:flex><span><span style=color:#75715e>	=====================================
+</span></span></span><span style=display:flex><span><span style=color:#75715e>	--]]</span>
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;klen/nvim-test&#34;</span>] <span style=color:#f92672>=</span> {},
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;windwp/nvim-autopairs&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- autocomplete parentheses</span>
+</span></span><span style=display:flex><span>        event <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;InsertEnter&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- [&#34;norcalli/nvim-colorizer.lua&#34;] = {</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--     -- view code color</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--     event = {&#34;BufReadPre&#34;, &#34;BufNewFile&#34;}</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- },</span>
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;RRethy/vim-illuminate&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- highlight the same word under the cursor</span>
+</span></span><span style=display:flex><span>        ptp <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;viml&#34;</span>,
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;lukas-reineke/indent-blankline.nvim&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- highlight indent</span>
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;nvim-treesitter/nvim-treesitter&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- syntax tree plugin</span>
+</span></span><span style=display:flex><span>        event <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;BufRead&#34;</span>, <span style=color:#e6db74>&#34;BufNewFile&#34;</span>},
+</span></span><span style=display:flex><span>        run <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;:TSUpdate&#34;</span>
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;lewis6991/spellsitter.nvim&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        after <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;nvim-treesitter&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;p00f/nvim-ts-rainbow&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- rainbow brackets</span>
+</span></span><span style=display:flex><span>        after <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;nvim-treesitter&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;windwp/nvim-ts-autotag&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- autocomplete tags</span>
+</span></span><span style=display:flex><span>        after <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;nvim-treesitter&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;JoosepAlviste/nvim-ts-context-commentstring&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- Provides context-based commenting behavior for Comment</span>
+</span></span><span style=display:flex><span>        after <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;nvim-treesitter&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;numToStr/Comment.nvim&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- provide code comment function</span>
+</span></span><span style=display:flex><span>        keys <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;gb&#34;</span>, <span style=color:#e6db74>&#34;gc&#34;</span>},
+</span></span><span style=display:flex><span>        after <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;nvim-ts-context-commentstring&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;tpope/vim-repeat&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- repeat the modified surround operation of surround</span>
+</span></span><span style=display:flex><span>        ptp <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;viml&#34;</span>,
+</span></span><span style=display:flex><span>        fn <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;repeat#set&#34;</span>
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;ur4ltz/surround.nvim&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- modify surround</span>
+</span></span><span style=display:flex><span>        event <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;BufRead&#34;</span>, <span style=color:#e6db74>&#34;BufNewFile&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;folke/todo-comments.nvim&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- highlight and find all TODO comments</span>
+</span></span><span style=display:flex><span>        event <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;BufRead&#34;</span>, <span style=color:#e6db74>&#34;BufNewFile&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;AndrewRadev/switch.vim&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- quickly switch the opposite of the word</span>
+</span></span><span style=display:flex><span>        ptp <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;viml&#34;</span>,
+</span></span><span style=display:flex><span>        cmd <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;Switch&#34;</span>},
+</span></span><span style=display:flex><span>        fn <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;switch#Switch&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;Vimjas/vim-python-pep8-indent&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- Python indentation rules</span>
+</span></span><span style=display:flex><span>        ptp <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;viml&#34;</span>,
+</span></span><span style=display:flex><span>        ft <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;py&#34;</span>,
+</span></span><span style=display:flex><span>        event <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;InsertEnter&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;mattn/emmet-vim&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- emmet abbreviation support</span>
+</span></span><span style=display:flex><span>        ptp <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;viml&#34;</span>,
+</span></span><span style=display:flex><span>        ft <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;html&#34;</span>, <span style=color:#e6db74>&#34;javascript&#34;</span>, <span style=color:#e6db74>&#34;typescript&#34;</span>, <span style=color:#e6db74>&#34;vue&#34;</span>, <span style=color:#e6db74>&#34;xml&#34;</span>, <span style=color:#e6db74>&#34;jsx&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--     --[[</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- 	=====================================</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- 	 ------- Database connection -------</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- 	=====================================</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- 	--]]</span>
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;tpope/vim-dadbod&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- core tool for linking databases</span>
+</span></span><span style=display:flex><span>        ptp <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;viml&#34;</span>,
+</span></span><span style=display:flex><span>        fn <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;db#resolve&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;kristijanhusak/vim-dadbod-ui&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- quick link database</span>
+</span></span><span style=display:flex><span>        ptp <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;viml&#34;</span>,
+</span></span><span style=display:flex><span>        cmd <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;DBUIToggle&#34;</span>
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--[[
+</span></span></span><span style=display:flex><span><span style=color:#75715e> =====================================
+</span></span></span><span style=display:flex><span><span style=color:#75715e>  ---------- Other function ---------
+</span></span></span><span style=display:flex><span><span style=color:#75715e> =====================================
+</span></span></span><span style=display:flex><span><span style=color:#75715e> --]]</span>
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;NTBBloodbath/rest.nvim&#34;</span>] <span style=color:#f92672>=</span> {},
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;nvim-pack/nvim-spectre&#34;</span>] <span style=color:#f92672>=</span> {},
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;olimorris/persisted.nvim&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- session manager</span>
+</span></span><span style=display:flex><span>        after <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;impatient.nvim&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;yianwillis/vimcdoc&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- vim Chinese documentation</span>
+</span></span><span style=display:flex><span>        ptp <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;viml&#34;</span>,
+</span></span><span style=display:flex><span>        event <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;CmdlineEnter&#34;</span>},
+</span></span><span style=display:flex><span>        after <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;telescope.nvim&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;dstein64/vim-startuptime&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- query startup time</span>
+</span></span><span style=display:flex><span>        ptp <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;viml&#34;</span>,
+</span></span><span style=display:flex><span>        cmd <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;StartupTime&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;ethanholz/nvim-lastplace&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        event <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;BufRead&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;uga-rosa/translate.nvim&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- an excellent translation plugin</span>
+</span></span><span style=display:flex><span>        cmd <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;Translate&#34;</span>}
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;jghauser/mkdir.nvim&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        event <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;CmdlineEnter&#34;</span>
+</span></span><span style=display:flex><span>    },
+</span></span><span style=display:flex><span>    [<span style=color:#e6db74>&#34;michaelb/sniprun&#34;</span>] <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>        opt <span style=color:#f92672>=</span> <span style=color:#66d9ef>true</span>,
+</span></span><span style=display:flex><span>        run <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;bash ./install.sh&#34;</span>,
+</span></span><span style=display:flex><span>        cmd <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;SnipRun&#34;</span>, <span style=color:#e6db74>&#34;&#39;&lt;,&#39;&gt;SnipRun&#34;</span>}
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- [&#34;AckslD/nvim-neoclip.lua&#34;] = {</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--     -- can be used to quickly view historical yank records</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--     after = {&#34;sqlite.lua&#34;}</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- },</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- [&#34;dstein64/nvim-scrollview&#34;] = {</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--     -- draggable scrollbar</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>--     event = {&#34;BufRead&#34;, &#34;BufNewFile&#34;}</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>-- },</span>
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>-- local plugins_extra = {</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>--     [&#34;kristijanhusak/vim-dadbod-completion&#34;] = {</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>--         -- complete completion for dadbod  (it may affect performance)</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>--         ptp = &#34;viml&#34;,</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>--         after = {&#34;nvim-cmp&#34;}</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>--     },</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>--     [&#34;tzachar/cmp-tabnine&#34;] = {</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>--         -- AI smart completion (it may affect performance)</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>--         disable = false,</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>--         run = &#34;./install.sh&#34;,</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>--         after = {&#34;nvim-cmp&#34;}</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>--     },</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>--     [&#34;github/copilot.vim&#34;] = {</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>--         -- AI smart completion</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>--         disable = false,</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>--         ptp = &#34;viml&#34;,</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>--         event = {&#34;InsertEnter&#34;}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>M</span>.<span style=color:#a6e22e>install</span>(use)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>for</span> plug_name, plug_config <span style=color:#66d9ef>in</span> pairs(plugins) <span style=color:#66d9ef>do</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>local</span> plug_options <span style=color:#f92672>=</span> vim.tbl_deep_extend(<span style=color:#e6db74>&#34;force&#34;</span>, {plug_name}, plug_config)
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>local</span> plug_filename <span style=color:#f92672>=</span> plug_options.as <span style=color:#f92672>or</span> string.match(plug_name, <span style=color:#e6db74>&#34;/([%w%-_]+).?&#34;</span>)
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- The plugin configuration module that needs to be loaded</span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- Path: ~/.config/nvim/lua/custom/configure/plugins/</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>local</span> load_disk_path <span style=color:#f92672>=</span>
+</span></span><span style=display:flex><span>            path.join(<span style=color:#e6db74>&#34;custom&#34;</span>, <span style=color:#e6db74>&#34;configure&#34;</span>, <span style=color:#e6db74>&#34;plugins&#34;</span>, string.format(<span style=color:#e6db74>&#34;nv_%s&#34;</span>, plug_filename:lower()))
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- Path of the plugin configuration module on disk</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>local</span> file_disk_path <span style=color:#f92672>=</span> path.join(vim.fn.stdpath(<span style=color:#e6db74>&#34;config&#34;</span>), <span style=color:#e6db74>&#34;lua&#34;</span>, string.format(<span style=color:#e6db74>&#34;%s.lua&#34;</span>, load_disk_path))
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- If the path exists, load the configuration, otherwise apply the plugin directly</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> path.is_exists(file_disk_path) <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> plug_config.ptp <span style=color:#f92672>==</span> <span style=color:#e6db74>&#34;viml&#34;</span> <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>                plug_options.setup <span style=color:#f92672>=</span> string.format(<span style=color:#e6db74>&#34;require(&#39;%s&#39;).entrance()&#34;</span>, load_disk_path)
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>else</span>
+</span></span><span style=display:flex><span>                plug_options.setup <span style=color:#f92672>=</span> string.format(<span style=color:#e6db74>&#34;require(&#39;%s&#39;).before()&#34;</span>, load_disk_path)
+</span></span><span style=display:flex><span>                plug_options.config <span style=color:#f92672>=</span>
+</span></span><span style=display:flex><span>                    string.format(
+</span></span><span style=display:flex><span>                    <span style=color:#e6db74>[[
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>                        require(&#39;%s&#39;).load()
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>                        require(&#39;%s&#39;).after()
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>                        ]]</span>,
+</span></span><span style=display:flex><span>                    load_disk_path,
+</span></span><span style=display:flex><span>                    load_disk_path
+</span></span><span style=display:flex><span>                )
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>        use(plug_options)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> Packer_bootstrap <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e>-- Automatically download plugins when neovim is opened for the first time</span>
+</span></span><span style=display:flex><span>        packer.sync()
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>return</span> M
+</span></span></code></pre></div><blockquote><p>The <code>install</code> function will do the trick, all configuration will be under <code>~/.config/nvim/lua/custom/configure/plugins/</code> with name as <code>nv_plugin_name.lua</code></p></blockquote><blockquote><p>Each configuration file is a lua module which has <code>before</code>, <code>load</code> and <code>after</code> method
+<code>before</code> for prepare
+<code>load</code> for setup, most of time you make <code>plugin_name.setup{}</code> here
+<code>after</code> for post actions like key mapping</p></blockquote><p>| i.e.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#75715e>-- https://github.com/numToStr/Comment.nvim</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> M <span style=color:#f92672>=</span> {}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>M</span>.<span style=color:#a6e22e>before</span>() <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>M</span>.<span style=color:#a6e22e>load</span>()
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>local</span> ok, m <span style=color:#f92672>=</span> pcall(require, <span style=color:#e6db74>&#34;Comment&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> <span style=color:#f92672>not</span> ok <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>return</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    M.comment <span style=color:#f92672>=</span> m
+</span></span><span style=display:flex><span>    M.comment_utils <span style=color:#f92672>=</span> require(<span style=color:#e6db74>&#34;Comment.utils&#34;</span>)
+</span></span><span style=display:flex><span>    M.comment.setup({
+</span></span><span style=display:flex><span>        toggler <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>            line <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;gcc&#34;</span>,
+</span></span><span style=display:flex><span>            block <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;gcb&#34;</span>,
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        opleader <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>            line <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;gc&#34;</span>,
+</span></span><span style=display:flex><span>            block <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;gb&#34;</span>,
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        extra <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>            above <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;gck&#34;</span>,
+</span></span><span style=display:flex><span>            below <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;gcj&#34;</span>,
+</span></span><span style=display:flex><span>            eol <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;gca&#34;</span>,
+</span></span><span style=display:flex><span>        },
+</span></span><span style=display:flex><span>        pre_hook <span style=color:#f92672>=</span> <span style=color:#66d9ef>function</span>(ctx)
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>local</span> location <span style=color:#f92672>=</span> <span style=color:#66d9ef>nil</span>
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>if</span> ctx.ctype <span style=color:#f92672>==</span> M.comment_utils.ctype.block <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>                location <span style=color:#f92672>=</span> require(<span style=color:#e6db74>&#34;ts_context_commentstring.utils&#34;</span>).get_cursor_location()
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>elseif</span> ctx.cmotion <span style=color:#f92672>==</span> M.comment_utils.cmotion.v <span style=color:#f92672>or</span> ctx.cmotion <span style=color:#f92672>==</span> M.comment_utils.cmotion.V <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>                location <span style=color:#f92672>=</span> require(<span style=color:#e6db74>&#34;ts_context_commentstring.utils&#34;</span>).get_visual_start_location()
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>return</span> require(<span style=color:#e6db74>&#34;ts_context_commentstring.internal&#34;</span>).calculate_commentstring({
+</span></span><span style=display:flex><span>                key <span style=color:#f92672>=</span> ctx.ctype <span style=color:#f92672>==</span> M.comment_utils.ctype.line <span style=color:#f92672>and</span> <span style=color:#e6db74>&#34;__default&#34;</span> <span style=color:#f92672>or</span> <span style=color:#e6db74>&#34;__multiline&#34;</span>,
+</span></span><span style=display:flex><span>                location <span style=color:#f92672>=</span> location,
+</span></span><span style=display:flex><span>            })
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>end</span>,
+</span></span><span style=display:flex><span>    })
+</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> <span style=color:#a6e22e>M</span>.<span style=color:#a6e22e>after</span>() <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>return</span> M
+</span></span></code></pre></div><h2 id=workflow>Workflow<a href=#workflow class=hanchor arialabel=Anchor>&#8983;</a></h2><ol><li><p>Add a new blog</p></li><li><p>Editing</p></li><li><p>Saving</p></li><li><p>toggle float terminal with <code>&lt;Space>tf</code></p></li><li><p>Press <code>a</code> to add new file</p></li><li><p>Press <code>c</code> to commit</p></li><li><p>Press <code>P</code> to push</p></li><li><p>Wait for <code>github workflow</code> to generate blog</p></li><li><p>Visit blog at <code>https://linuxing3.github.io</code> and <code>http://localhost:1313</code></p></li></ol><h2 id=参与贡献>参与贡献<a href=#参与贡献 class=hanchor arialabel=Anchor>&#8983;</a></h2><h2 id=翻译>翻译<a href=#翻译 class=hanchor arialabel=Anchor>&#8983;</a></h2><h2 id=授权协议>授权协议<a href=#授权协议 class=hanchor arialabel=Anchor>&#8983;</a></h2></div></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button next"><a href=/posts/emacs/quickstart-org-mode/><span class=button__text>Org-mode quickstart tutorial</span>
+<span class=button__icon>→</span></a></span></div></div></div></div><footer class=footer><div class=footer__inner><div class="copyright copyright--user"><span>@linuxing3</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span></div></div></footer><script src=/assets/main.js></script>
+<script src=/assets/prism.js></script>
+<script src=/assets/languageSelector.js></script></div></body></html>

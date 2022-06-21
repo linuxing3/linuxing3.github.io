@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>emacs python on Vim Emacser Personal Blog</title><link>/tags/emacs-python/</link><description>Recent content in emacs python on Vim Emacser Personal Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>@linuxing3</copyright><lastBuildDate>Fri, 01 May 2020 20:03:50 -0400</lastBuildDate><atom:link href="/tags/emacs-python/index.xml" rel="self" type="application/rss+xml"/><item><title>using-ipython-with-lsp.org</title><link>/posts/emacs/using-ipython-with-lsp/</link><pubDate>Fri, 01 May 2020 20:03:50 -0400</pubDate><guid>/posts/emacs/using-ipython-with-lsp/</guid><description> Skills Using Ipython within org
+import sys sys.version Lsp Already included int the recent PR of `doom-emacs`
+(def-package! lsp-typescript :when (featurep! +lsp) :when (featurep! :feature-x lsp) :hook ((js2-mode web-mode typescript-mode) . lsp-typescript-enable)) (def-package! tide :config (map! :map tide-mode-map :localleader :n &amp;#34;R&amp;#34; #&amp;#39;tide-restart-server :n &amp;#34;E&amp;#34; #&amp;#39;tide-project-errors :n &amp;#34;D&amp;#34; #&amp;#39;tide-documentation-at-point :n &amp;#34;o&amp;#34; #&amp;#39;tide-organize-imports :n &amp;#34;d&amp;#34; #&amp;#39;tide-jsdoc-template :n &amp;#34;F&amp;#34; #&amp;#39;tide-refactor :n &amp;#34;X&amp;#34; #&amp;#39;tide-fix :n &amp;#34;s&amp;#34; #&amp;#39;tide-rename-symbol :n &amp;#34;f&amp;#34; #&amp;#39;tide-rename-file))</description><content>
+&lt;div id="outline-container-headline-1" class="outline-2">
+&lt;h2 id="headline-1">
+Skills
+&lt;/h2>
+&lt;div id="outline-text-headline-1" class="outline-text-2">
+&lt;p>
+Using Ipython within org&lt;/p>
+&lt;div class="src src-python">
+&lt;div class="highlight">&lt;pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;">&lt;code class="language-python" data-lang="python">&lt;span style="display:flex;">&lt;span> &lt;span style="color:#f92672">import&lt;/span> sys
+&lt;/span>&lt;/span>&lt;span style="display:flex;">&lt;span> sys&lt;span style="color:#f92672">.&lt;/span>version&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;/div>
+&lt;div id="outline-container-headline-2" class="outline-2">
+&lt;h2 id="headline-2">
+Lsp
+&lt;/h2>
+&lt;div id="outline-text-headline-2" class="outline-text-2">
+&lt;p>
+Already included int the recent PR of `doom-emacs`&lt;/p>
+&lt;div class="src src-emacs-lsp">
+&lt;pre tabindex="0">&lt;code class="language-emacs-lsp" data-lang="emacs-lsp"> (def-package! lsp-typescript
+:when (featurep! +lsp)
+:when (featurep! :feature-x lsp)
+:hook ((js2-mode web-mode typescript-mode) . lsp-typescript-enable))
+(def-package! tide
+:config
+(map! :map tide-mode-map
+:localleader
+:n &amp;#34;R&amp;#34; #&amp;#39;tide-restart-server
+:n &amp;#34;E&amp;#34; #&amp;#39;tide-project-errors
+:n &amp;#34;D&amp;#34; #&amp;#39;tide-documentation-at-point
+:n &amp;#34;o&amp;#34; #&amp;#39;tide-organize-imports
+:n &amp;#34;d&amp;#34; #&amp;#39;tide-jsdoc-template
+:n &amp;#34;F&amp;#34; #&amp;#39;tide-refactor
+:n &amp;#34;X&amp;#34; #&amp;#39;tide-fix
+:n &amp;#34;s&amp;#34; #&amp;#39;tide-rename-symbol
+:n &amp;#34;f&amp;#34; #&amp;#39;tide-rename-file))&lt;/code>&lt;/pre>
+&lt;/div>
+&lt;/div>
+&lt;/div></content></item></channel></rss>

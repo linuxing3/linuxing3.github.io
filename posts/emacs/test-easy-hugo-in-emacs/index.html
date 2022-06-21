@@ -1,0 +1,66 @@
+<!doctype html><html lang=en><head><title>test-easy-hugo-in-emacs.org :: Vim Emacser Personal Blog</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Some Description"><meta name=keywords content><meta name=robots content="noodp"><link rel=canonical href=/posts/emacs/test-easy-hugo-in-emacs/><link rel=stylesheet href=/assets/style.css><link rel=stylesheet href=/assets/green.css><link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png><link rel="shortcut icon" href=/img/favicon/green.png><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/linuxing3"><meta name=twitter:creator content="Xing Wenju"><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="og:title" content="test-easy-hugo-in-emacs.org"><meta property="og:description" content="Some Description"><meta property="og:url" content="/posts/emacs/test-easy-hugo-in-emacs/"><meta property="og:site_name" content="Vim Emacser Personal Blog"><meta property="og:image" content="/img/favicon/green.png"><meta property="og:image:width" content="2048"><meta property="og:image:height" content="1024"><meta property="article:published_time" content="2018-02-16 20:03:50 -0400 -0400"></head><body class=green><div class="container full"><header class=header><div class=header__inner><div class=header__logo><a href=/><div class=logo>Terminal</div></a></div><div class=menu-trigger>menu</div></div><nav class=menu><ul class="menu__inner menu__inner--desktop"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><div class=spacer></div><ul class=language-selector><ul class=language-selector-current><li>English ▾</li></ul><ul class="language-selector__more hidden"><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></ul></ul><ul class="menu__inner menu__inner--mobile"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><hr><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></nav></header><div class=content><div class=post><h1 class=post-title><a href=/posts/emacs/test-easy-hugo-in-emacs/>test-easy-hugo-in-emacs.org</a></h1><div class=post-meta><span class=post-date>2018-02-16</span>
+<span class=post-author>:: Xing Wenju</span></div><span class=post-tags>#<a href=/tags/hugo-emacs/>hugo emacs</a>&nbsp;</span><div class=post-content><div><div id=outline-container-headline-1 class=outline-3><h3 id=headline-1>Tips</h3><div id=outline-text-headline-1 class=outline-text-3><p>You can type the post name as <code class=verbatim>emacs/test-easy-hugo-in-emacs</code> to put the post in subdirectory</p><p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-emacs-lisp data-lang=emacs-lisp><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>#</span>+srcname: easy-hugo-newpost
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>#</span>+begin_src emacs-lisp
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>(defun x/smart-create-hugo-newpost-with-current-buffer (post-file)
+</span></span><span style=display:flex><span><span style=color:#e6db74>&#34;file needs to have and extension &#39;.md&#39; or &#39;.org&#39; or &#39;.ad&#39; or &#39;.rst&#39; or &#39;.mmark&#39; or &#39;.html&#39;.&#34;</span>
+</span></span><span style=display:flex><span>  (interactive (<span style=color:#a6e22e>list</span> (<span style=color:#a6e22e>read-from-minibuffer</span>
+</span></span><span style=display:flex><span>		      <span style=color:#e6db74>&#34;输入文件名: &#34;</span>
+</span></span><span style=display:flex><span>		      <span style=color:#f92672>`</span>(<span style=color:#f92672>,</span>easy-hugo-default-ext <span style=color:#f92672>.</span> <span style=color:#ae81ff>1</span>) <span style=color:#66d9ef>nil</span> <span style=color:#66d9ef>nil</span> <span style=color:#66d9ef>nil</span>)))
+</span></span><span style=display:flex><span>  (easy-hugo-with-env
+</span></span><span style=display:flex><span>   (let (
+</span></span><span style=display:flex><span>         (filename (<span style=color:#a6e22e>expand-file-name</span> post-file easy-hugo-postdir)) <span style=color:#75715e>;; file to create</span>
+</span></span><span style=display:flex><span>         (file-ext (file-name-extension post-file)) <span style=color:#75715e>;; file extention</span>
+</span></span><span style=display:flex><span>         (current-buffer-file-name (<span style=color:#a6e22e>buffer-file-name</span>)) <span style=color:#75715e>;; buffer to copy content</span>
+</span></span><span style=display:flex><span>         )
+</span></span><span style=display:flex><span>     <span style=color:#75715e>;; Check file extention</span>
+</span></span><span style=display:flex><span>     (when (not (<span style=color:#a6e22e>member</span> file-ext easy-hugo--formats))
+</span></span><span style=display:flex><span>       (<span style=color:#a6e22e>error</span> <span style=color:#e6db74>&#34;please enter .%s or .org or .%s or .rst or .mmark or .%s file name&#34;</span>
+</span></span><span style=display:flex><span>	      easy-hugo-markdown-extension
+</span></span><span style=display:flex><span>	      easy-hugo-asciidoc-extension
+</span></span><span style=display:flex><span>	      easy-hugo-html-extension))
+</span></span><span style=display:flex><span>     <span style=color:#75715e>;; Check target file exists</span>
+</span></span><span style=display:flex><span>     (when (<span style=color:#a6e22e>file-exists-p</span> (file-truename filename))
+</span></span><span style=display:flex><span>       (<span style=color:#a6e22e>error</span> <span style=color:#e6db74>&#34;%s already exists!&#34;</span> filename))
+</span></span><span style=display:flex><span>     <span style=color:#75715e>;; Check if org is supported and defined</span>
+</span></span><span style=display:flex><span>     (if (and (<span style=color:#a6e22e>null</span> easy-hugo-org-header)
+</span></span><span style=display:flex><span>	      (<span style=color:#a6e22e>&lt;=</span> <span style=color:#ae81ff>0.25</span> (easy-hugo--version)))
+</span></span><span style=display:flex><span>	 (<span style=color:#a6e22e>call-process</span> <span style=color:#e6db74>&#34;hugo&#34;</span> <span style=color:#66d9ef>nil</span> <span style=color:#e6db74>&#34;*hugo*&#34;</span> <span style=color:#66d9ef>t</span> <span style=color:#e6db74>&#34;new&#34;</span>
+</span></span><span style=display:flex><span>		       (file-relative-name filename
+</span></span><span style=display:flex><span>					   (<span style=color:#a6e22e>expand-file-name</span> <span style=color:#e6db74>&#34;content&#34;</span> easy-hugo-basedir)))
+</span></span><span style=display:flex><span>       (progn
+</span></span><span style=display:flex><span>	 (if (or (<span style=color:#a6e22e>string-equal</span> file-ext easy-hugo-markdown-extension)
+</span></span><span style=display:flex><span>		 (<span style=color:#a6e22e>string-equal</span> file-ext easy-hugo-asciidoc-extension)
+</span></span><span style=display:flex><span>		 (<span style=color:#a6e22e>string-equal</span> file-ext <span style=color:#e6db74>&#34;rst&#34;</span>)
+</span></span><span style=display:flex><span>		 (<span style=color:#a6e22e>string-equal</span> file-ext <span style=color:#e6db74>&#34;mmark&#34;</span>)
+</span></span><span style=display:flex><span>		 (<span style=color:#a6e22e>string-equal</span> file-ext easy-hugo-html-extension))
+</span></span><span style=display:flex><span>	     (<span style=color:#a6e22e>call-process</span> <span style=color:#e6db74>&#34;hugo&#34;</span> <span style=color:#66d9ef>nil</span> <span style=color:#e6db74>&#34;*hugo*&#34;</span> <span style=color:#66d9ef>t</span> <span style=color:#e6db74>&#34;new&#34;</span>
+</span></span><span style=display:flex><span>			   (file-relative-name filename
+</span></span><span style=display:flex><span>					       (<span style=color:#a6e22e>expand-file-name</span> <span style=color:#e6db74>&#34;content&#34;</span> easy-hugo-basedir))))))
+</span></span><span style=display:flex><span>     <span style=color:#75715e>;; End of check org support</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>     <span style=color:#75715e>;; Kill temporary buffer</span>
+</span></span><span style=display:flex><span>     (when (<span style=color:#a6e22e>get-buffer</span> <span style=color:#e6db74>&#34;*hugo*&#34;</span>)
+</span></span><span style=display:flex><span>       (<span style=color:#a6e22e>kill-buffer</span> <span style=color:#e6db74>&#34;*hugo*&#34;</span>))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>     <span style=color:#75715e>;; Open the new post with filename</span>
+</span></span><span style=display:flex><span>     (find-file filename)
+</span></span><span style=display:flex><span>     <span style=color:#75715e>;;</span>
+</span></span><span style=display:flex><span>     (when (or easy-hugo-org-header
+</span></span><span style=display:flex><span>	       (and (<span style=color:#a6e22e>&gt;</span> <span style=color:#ae81ff>0.25</span> (easy-hugo--version))
+</span></span><span style=display:flex><span>		    (<span style=color:#a6e22e>string-equal</span> file-ext <span style=color:#e6db74>&#34;org&#34;</span>)))
+</span></span><span style=display:flex><span>       <span style=color:#75715e>;; Insert header</span>
+</span></span><span style=display:flex><span>       (<span style=color:#a6e22e>insert</span> (easy-hugo--org-headers (file-name-base post-file)))
+</span></span><span style=display:flex><span>       (<span style=color:#a6e22e>goto-char</span> (<span style=color:#a6e22e>point-max</span>)))
+</span></span><span style=display:flex><span>       <span style=color:#75715e>;; Insert contents from another buffer</span>
+</span></span><span style=display:flex><span>       (<span style=color:#a6e22e>insert-file-contents</span> current-buffer-file-name)
+</span></span><span style=display:flex><span>       (<span style=color:#a6e22e>goto-char</span> (<span style=color:#a6e22e>point-max</span>))
+</span></span><span style=display:flex><span>       (save-buffer)))
+</span></span><span style=display:flex><span>)
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>#</span>+end_src</span></span></code></pre></div></p></div></div></div></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button previous"><a href=/posts/emacs/smart/><span class=button__icon>←</span>
+<span class=button__text>smart.org</span></a></span>
+<span class="button next"><a href=/posts/hugo/using-org-in-hugo/><span class=button__text>Using Org Mode in Hugo</span>
+<span class=button__icon>→</span></a></span></div></div></div></div><footer class=footer><div class=footer__inner><div class="copyright copyright--user"><span>@linuxing3</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span></div></div></footer><script src=/assets/main.js></script>
+<script src=/assets/prism.js></script>
+<script src=/assets/languageSelector.js></script></div></body></html>

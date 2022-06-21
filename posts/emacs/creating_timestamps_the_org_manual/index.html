@@ -1,0 +1,42 @@
+<!doctype html><html lang=en><head><title>Creating Timestamps (The Org Manual) :: Vim Emacser Personal Blog</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="[学习] 创建活动时间戳 Org mode 识别专门标识的时间戳
+C-c . (org-time-stamp) 提示日期和时间。如果时间戳已经存在，进行修改。
+连续输入2次，插入时间段。
+Prompt for a date and insert a corresponding timestamp.
+When point is at an existing timestamp in the buffer, the command is used to modify this timestamp instead of inserting a new one.
+When this command is used twice in succession, a time range is inserted
+如果包括前缀，这采用替代格式。默认时间可以以5分钟倍数的形式取整。
+When called with a prefix argument, use the alternative format which contains date and time."><meta name=keywords content><meta name=robots content="noodp"><link rel=canonical href=/posts/emacs/creating_timestamps_the_org_manual/><link rel=stylesheet href=/assets/style.css><link rel=stylesheet href=/assets/green.css><link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png><link rel="shortcut icon" href=/img/favicon/green.png><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/linuxing3"><meta name=twitter:creator content="[Xing Wenju]"><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="og:title" content="Creating Timestamps (The Org Manual)"><meta property="og:description" content="[学习] 创建活动时间戳 Org mode 识别专门标识的时间戳
+C-c . (org-time-stamp) 提示日期和时间。如果时间戳已经存在，进行修改。
+连续输入2次，插入时间段。
+Prompt for a date and insert a corresponding timestamp.
+When point is at an existing timestamp in the buffer, the command is used to modify this timestamp instead of inserting a new one.
+When this command is used twice in succession, a time range is inserted
+如果包括前缀，这采用替代格式。默认时间可以以5分钟倍数的形式取整。
+When called with a prefix argument, use the alternative format which contains date and time."><meta property="og:url" content="/posts/emacs/creating_timestamps_the_org_manual/"><meta property="og:site_name" content="Vim Emacser Personal Blog"><meta property="og:image" content="/img/favicon/green.png"><meta property="og:image:width" content="2048"><meta property="og:image:height" content="1024"><meta property="article:published_time" content="2021-11-11 00:00:00 -0400 -0400"></head><body class=green><div class="container full"><header class=header><div class=header__inner><div class=header__logo><a href=/><div class=logo>Terminal</div></a></div><div class=menu-trigger>menu</div></div><nav class=menu><ul class="menu__inner menu__inner--desktop"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><div class=spacer></div><ul class=language-selector><ul class=language-selector-current><li>English ▾</li></ul><ul class="language-selector__more hidden"><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></ul></ul><ul class="menu__inner menu__inner--mobile"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><hr><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></nav></header><div class=content><div class=post><h1 class=post-title><a href=/posts/emacs/creating_timestamps_the_org_manual/>Creating Timestamps (The Org Manual)</a></h1><div class=post-meta><span class=post-date>2021-11-11</span>
+<span class=post-author>:: [Xing Wenju]</span></div><div class=post-content><div><h2 id=创建活动时间戳>[学习] 创建活动时间戳<a href=#创建活动时间戳 class=hanchor arialabel=Anchor>&#8983;</a></h2><p><code>Org mode</code> 识别专门标识的时间戳</p><ul><li>C-c . (org-time-stamp)</li></ul><p>提示日期和时间。如果时间戳已经存在，进行修改。</p><p>连续输入2次，插入时间段。</p><p>Prompt for a date and insert a corresponding timestamp.</p><p>When point is at an existing timestamp in the buffer, the command is
+used to modify this timestamp instead of inserting a new one.</p><p>When this command is used twice in succession, a time range is
+inserted</p><p>如果包括前缀，这采用替代格式。默认时间可以以5分钟倍数的形式取整。</p><p>When called with a prefix argument, use the alternative format which
+contains date and time.</p><p>The default time can be rounded to multiples
+of 5 minutes. See the option org-time-stamp-rounding-minutes</p><p>如果有2个前缀参数，插入活动时间戳，无任何提示。</p><p>With two prefix arguments, insert an active timestamp with the current
+time without prompting.</p><h2 id=插入非活动时间戳>[学习] 插入非活动时间戳<a href=#插入非活动时间戳 class=hanchor arialabel=Anchor>&#8983;</a></h2><p>C-c ! (org-time-stamp-inactive)</p><p>Like C-c ., but insert an inactive timestamp that does not cause an
+agenda entry.</p><h2 id=修正化时间戳>[学习] 修正化时间戳<a href=#修正化时间戳 class=hanchor arialabel=Anchor>&#8983;</a></h2><p>C-c C-c</p><p>如发现时间确实或错误，尝试插入或更正时间</p><p>Normalize timestamp, insert or fix day name if missing or wrong.</p><h2 id=从日历获取日期>从日历获取日期<a href=#从日历获取日期 class=hanchor arialabel=Anchor>&#8983;</a></h2><p>C-c &lt; (org-date-from-calendar)</p><p>Insert a timestamp corresponding to point date in the calendar.</p><h2 id=访问日历中的日期>[学习] 访问日历中的日期<a href=#访问日历中的日期 class=hanchor arialabel=Anchor>&#8983;</a></h2><p>C-c > (org-goto-calendar)</p><p>Access the Emacs calendar for the current date. If there is a
+timestamp in the current line, go to the corresponding date instead</p><h2 id=打开ａｇｅｎｄａ行事历>[学习] 打开Ａｇｅｎｄａ行事历<a href=#打开ａｇｅｎｄａ行事历 class=hanchor arialabel=Anchor>&#8983;</a></h2><p>C-c C-o (org-open-at-point)</p><p>Access the agenda for the date given by the timestamp or -range at
+point (see Weekly/daily agenda).</p><h2 id=加一天-减一天>[学习] 加一天/减一天<a href=#加一天-减一天 class=hanchor arialabel=Anchor>&#8983;</a></h2><p>S-LEFT (org-timestamp-down-day)
+S-RIGHT (org-timestamp-up-day)</p><p>Change date at point by one day. These key bindings conflict with
+shift-selection and related modes (see Conflicts).</p><h2 id=加时间-减时间>[BUG] 加时间/减时间<a href=#加时间-减时间 class=hanchor arialabel=Anchor>&#8983;</a></h2><p>S-UP (org-timestamp-up)
+S-DOWN (org-timestamp-down)</p><p>如光标在时间戳开始或者括号处，可以修改类型。在时间戳内部，修改所在点的
+内容。每个点可以是年月日等时间单位。如果是时间段，修改开始时间将改变结束时间。</p><p>On the beginning or enclosing bracket of a timestamp, change its type.
+Within a timestamp, change the item under point.</p><p>Point can be on a year, month, day, hour or minute. When the
+timestamp contains a time range like ‘15:30-16:30’, modifying the
+first time also shifts the second, shifting the time block with
+constant length. To change the length, modify the second time.</p><p>Note that if point is in a headline and not at a timestamp, these same
+keys modify the priority of an item (see Priorities).</p><p>The key bindings also conflict with shift-selection and related modes
+(see Conflicts)</p><h2 id=验证时间段>验证时间段<a href=#验证时间段 class=hanchor arialabel=Anchor>&#8983;</a></h2><p>C-c C-y (org-evaluate-time-range)</p><p>Evaluate a time range by computing the difference between start and
+end.</p><p>With a prefix argument, insert result after the time range (in a
+table: into the following column).</p></div></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button previous"><a href=/posts/emacs/emacs%E5%AD%97%E4%BD%93%E8%AE%BE%E7%BD%AE%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93_codeantenna/><span class=button__icon>←</span>
+<span class=button__text>Emacs字体设置方法总结 - CodeAntenna</span></a></span>
+<span class="button next"><a href=/posts/2021-11-11/><span class=button__text>进入Linux下新的Emacs桌面系统</span>
+<span class=button__icon>→</span></a></span></div></div></div></div><footer class=footer><div class=footer__inner><div class="copyright copyright--user"><span>@linuxing3</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span></div></div></footer><script src=/assets/main.js></script>
+<script src=/assets/prism.js></script>
+<script src=/assets/languageSelector.js></script></div></body></html>

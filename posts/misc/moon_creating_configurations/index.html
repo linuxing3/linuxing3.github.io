@@ -1,0 +1,72 @@
+<!doctype html><html lang=en><head><title>moon_creating_configurations.md :: Vim Emacser Personal Blog</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="title: MoonScript Configuration Syntax MoonScript Configuration Syntax Configuration Example The MoonScript configuration builder syntax uses function calls to define variables. The advantage to this approach over using a Lua table literal is that you can have logic surrounding your assignments. You can also freely mix regular table objects.
+Here&amp;rsquo;s an example of the configuration DSL (domain specific language) and the table it generates:
+some_function = -&amp;gt; steak &amp;#34;medium_well&amp;#34; config &amp;#34;development&amp;#34;, -&amp;gt; hello &amp;#34;world&amp;#34; if 20 &amp;gt; 4 color &amp;#34;blue&amp;#34; else color &amp;#34;green&amp;#34; custom_settings -&amp;gt; age 10 enabled true -- tables are merged extra -&amp;gt; name &amp;#34;leaf&amp;#34; mood &amp;#34;happy&amp;#34; extra -&amp;gt; name &amp;#34;beef&amp;#34; shoe_size 12 include some_function include some_function -- a normal table can be passed instead of a function some_list { 1,2,3,4 } -- use set to assign names that are unavailable set &amp;#34;include&amp;#34;, &amp;#34;hello&amp;#34; { hello: &amp;#34;world&amp;#34; color: &amp;#34;blue&amp;#34; custom_settings: { age: 10 enabled: true } extra: { name: &amp;#34;beef&amp;#34; mood: &amp;#34;happy&amp;#34; shoe_size: 12 steak: &amp;#34;medium_well&amp;#34; } steak: &amp;#34;medium_well&amp;#34; some_list: { 1,2,3,4 } include: &amp;#34;hello&amp;#34; } "><meta name=keywords content><meta name=robots content="noodp"><link rel=canonical href=/posts/misc/moon_creating_configurations/><link rel=stylesheet href=/assets/style.css><link rel=stylesheet href=/assets/green.css><link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png><link rel="shortcut icon" href=/img/favicon/green.png><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/linuxing3"><meta name=twitter:creator content><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="og:title" content="moon_creating_configurations.md"><meta property="og:description" content="title: MoonScript Configuration Syntax MoonScript Configuration Syntax Configuration Example The MoonScript configuration builder syntax uses function calls to define variables. The advantage to this approach over using a Lua table literal is that you can have logic surrounding your assignments. You can also freely mix regular table objects.
+Here&amp;rsquo;s an example of the configuration DSL (domain specific language) and the table it generates:
+some_function = -&amp;gt; steak &amp;#34;medium_well&amp;#34; config &amp;#34;development&amp;#34;, -&amp;gt; hello &amp;#34;world&amp;#34; if 20 &amp;gt; 4 color &amp;#34;blue&amp;#34; else color &amp;#34;green&amp;#34; custom_settings -&amp;gt; age 10 enabled true -- tables are merged extra -&amp;gt; name &amp;#34;leaf&amp;#34; mood &amp;#34;happy&amp;#34; extra -&amp;gt; name &amp;#34;beef&amp;#34; shoe_size 12 include some_function include some_function -- a normal table can be passed instead of a function some_list { 1,2,3,4 } -- use set to assign names that are unavailable set &amp;#34;include&amp;#34;, &amp;#34;hello&amp;#34; { hello: &amp;#34;world&amp;#34; color: &amp;#34;blue&amp;#34; custom_settings: { age: 10 enabled: true } extra: { name: &amp;#34;beef&amp;#34; mood: &amp;#34;happy&amp;#34; shoe_size: 12 steak: &amp;#34;medium_well&amp;#34; } steak: &amp;#34;medium_well&amp;#34; some_list: { 1,2,3,4 } include: &amp;#34;hello&amp;#34; } "><meta property="og:url" content="/posts/misc/moon_creating_configurations/"><meta property="og:site_name" content="Vim Emacser Personal Blog"><meta property="og:image" content="/img/favicon/green.png"><meta property="og:image:width" content="2048"><meta property="og:image:height" content="1024"><meta property="article:published_time" content="2018-02-16 14:05:34 -0400 -0400"></head><body class=green><div class="container full"><header class=header><div class=header__inner><div class=header__logo><a href=/><div class=logo>Terminal</div></a></div><div class=menu-trigger>menu</div></div><nav class=menu><ul class="menu__inner menu__inner--desktop"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><div class=spacer></div><ul class=language-selector><ul class=language-selector-current><li>English ▾</li></ul><ul class="language-selector__more hidden"><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></ul></ul><ul class="menu__inner menu__inner--mobile"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><hr><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></nav></header><div class=content><div class=post><h1 class=post-title><a href=/posts/misc/moon_creating_configurations/>moon_creating_configurations.md</a></h1><div class=post-meta><span class=post-date>2018-02-16</span></div><div class=post-content><div><h2 id=title-moonscript-configuration-syntax>title: MoonScript Configuration Syntax<a href=#title-moonscript-configuration-syntax class=hanchor arialabel=Anchor>&#8983;</a></h2><h1 id=moonscript-configuration-syntax>MoonScript Configuration Syntax<a href=#moonscript-configuration-syntax class=hanchor arialabel=Anchor>&#8983;</a></h1><h2 id=configuration-example>Configuration Example<a href=#configuration-example class=hanchor arialabel=Anchor>&#8983;</a></h2><p>The MoonScript configuration builder syntax uses function calls to define
+variables. The advantage to this approach over using a Lua table literal is
+that you can have logic surrounding your assignments. You can also freely mix
+regular table objects.</p><p>Here&rsquo;s an example of the configuration DSL (domain specific language) and the
+table it generates:</p><pre tabindex=0><code class=language-moon data-lang=moon>some_function = -&gt; steak &#34;medium_well&#34;
+
+config &#34;development&#34;, -&gt;
+  hello &#34;world&#34;
+
+  if 20 &gt; 4
+    color &#34;blue&#34;
+  else
+    color &#34;green&#34;
+
+  custom_settings -&gt;
+    age 10
+    enabled true
+
+  -- tables are merged
+  extra -&gt;
+    name &#34;leaf&#34;
+    mood &#34;happy&#34;
+
+  extra -&gt;
+    name &#34;beef&#34;
+    shoe_size 12
+
+    include some_function
+
+
+  include some_function
+
+  -- a normal table can be passed instead of a function
+  some_list {
+    1,2,3,4
+  }
+
+  -- use set to assign names that are unavailable
+  set &#34;include&#34;, &#34;hello&#34;
+</code></pre><pre tabindex=0><code class=language-moon data-lang=moon>{
+  hello: &#34;world&#34;
+  color: &#34;blue&#34;
+
+  custom_settings: {
+    age: 10
+    enabled: true
+  }
+
+  extra: {
+    name: &#34;beef&#34;
+    mood: &#34;happy&#34;
+    shoe_size: 12
+    steak: &#34;medium_well&#34;
+  }
+
+  steak: &#34;medium_well&#34;
+
+  some_list: { 1,2,3,4 }
+
+  include: &#34;hello&#34;
+}
+</code></pre></div></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button previous"><a href=/posts/misc/misc/><span class=button__icon>←</span>
+<span class=button__text>misc.md</span></a></span>
+<span class="button next"><a href=/posts/misc/moon_getting_started/><span class=button__text>moon_getting_started.md</span>
+<span class=button__icon>→</span></a></span></div></div></div></div><footer class=footer><div class=footer__inner><div class="copyright copyright--user"><span>@linuxing3</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span></div></div></footer><script src=/assets/main.js></script>
+<script src=/assets/prism.js></script>
+<script src=/assets/languageSelector.js></script></div></body></html>

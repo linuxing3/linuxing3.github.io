@@ -1,0 +1,204 @@
+<!doctype html><html lang=en><head><title>archlinux.md :: Vim Emacser Personal Blog</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Install Archlinux from beggining Boot from iso file 将安装的your_arch_image.iso文件放在win_drive的根目录，假设这里是ntfs格式
+使用grub4dos来引导最小镜像文件
+root (hd0,0) kernel /vmlinuz archisolabel=ARCH2016 initrd /archiso.img 启动后会进入系统安全模式，在这里执行
+mkdir /mnt/iso mount -r -t ntfs /dev/win_drive /mnt/iso modprobe loop losetup /dev/loop6 /mnt/iso/your_arch_image.iso ln -s /dev/loop6 /dev/disks/by-label/ARCH2016 exit 这样就可以启动安装光盘了！
+Prepare your partition Using fdisk to create partition table fdisk /dev/sda n # creating new partion w # write Format partition mkfs.ext4 /dev/sda1 Mount new partition as install target mount /dev/sda1 /mnt Setting network Setting network with netctl cp /etc/netctl/examples/ethernet-static /etc/netctl/office netctl list netctl start office office profie as follows Description=&amp;#39;A basic dhcp ethernet connection&amp;#39; Interface=eth0 Connection=ethernet IP=dhcp ForceConnect=yes DHCPClient=&amp;#34;dhclient&amp;#34; Setting network behind proxy NAT Forward ssh to the virtual machine with port forward And don&amp;rsquo;t forget to export your new environment variables"><meta name=keywords content><meta name=robots content="noodp"><link rel=canonical href=/posts/linux/archlinux/><link rel=stylesheet href=/assets/style.css><link rel=stylesheet href=/assets/green.css><link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png><link rel="shortcut icon" href=/img/favicon/green.png><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/linuxing3"><meta name=twitter:creator content><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="og:title" content="archlinux.md"><meta property="og:description" content="Install Archlinux from beggining Boot from iso file 将安装的your_arch_image.iso文件放在win_drive的根目录，假设这里是ntfs格式
+使用grub4dos来引导最小镜像文件
+root (hd0,0) kernel /vmlinuz archisolabel=ARCH2016 initrd /archiso.img 启动后会进入系统安全模式，在这里执行
+mkdir /mnt/iso mount -r -t ntfs /dev/win_drive /mnt/iso modprobe loop losetup /dev/loop6 /mnt/iso/your_arch_image.iso ln -s /dev/loop6 /dev/disks/by-label/ARCH2016 exit 这样就可以启动安装光盘了！
+Prepare your partition Using fdisk to create partition table fdisk /dev/sda n # creating new partion w # write Format partition mkfs.ext4 /dev/sda1 Mount new partition as install target mount /dev/sda1 /mnt Setting network Setting network with netctl cp /etc/netctl/examples/ethernet-static /etc/netctl/office netctl list netctl start office office profie as follows Description=&amp;#39;A basic dhcp ethernet connection&amp;#39; Interface=eth0 Connection=ethernet IP=dhcp ForceConnect=yes DHCPClient=&amp;#34;dhclient&amp;#34; Setting network behind proxy NAT Forward ssh to the virtual machine with port forward And don&amp;rsquo;t forget to export your new environment variables"><meta property="og:url" content="/posts/linux/archlinux/"><meta property="og:site_name" content="Vim Emacser Personal Blog"><meta property="og:image" content="/img/favicon/green.png"><meta property="og:image:width" content="2048"><meta property="og:image:height" content="1024"><meta property="article:published_time" content="2018-02-16 14:05:34 -0400 -0400"></head><body class=green><div class="container full"><header class=header><div class=header__inner><div class=header__logo><a href=/><div class=logo>Terminal</div></a></div><div class=menu-trigger>menu</div></div><nav class=menu><ul class="menu__inner menu__inner--desktop"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><div class=spacer></div><ul class=language-selector><ul class=language-selector-current><li>English ▾</li></ul><ul class="language-selector__more hidden"><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></ul></ul><ul class="menu__inner menu__inner--mobile"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><hr><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></nav></header><div class=content><div class=post><h1 class=post-title><a href=/posts/linux/archlinux/>archlinux.md</a></h1><div class=post-meta><span class=post-date>2018-02-16</span></div><div class=post-content><div><h1 id=install-archlinux-from-beggining>Install Archlinux from beggining<a href=#install-archlinux-from-beggining class=hanchor arialabel=Anchor>&#8983;</a></h1><h2 id=boot-from-iso-file>Boot from iso file<a href=#boot-from-iso-file class=hanchor arialabel=Anchor>&#8983;</a></h2><p>将安装的your_arch_image.iso文件放在<code>win_drive</code>的根目录，假设这里是<code>ntfs</code>格式</p><p>使用grub4dos来引导最小镜像文件</p><pre tabindex=0><code>root (hd0,0)
+kernel /vmlinuz archisolabel=ARCH2016
+initrd /archiso.img
+</code></pre><p>启动后会进入系统安全模式，在这里执行</p><pre tabindex=0><code>mkdir /mnt/iso
+mount -r -t ntfs /dev/win_drive /mnt/iso
+modprobe loop
+losetup /dev/loop6 /mnt/iso/your_arch_image.iso
+ln -s /dev/loop6 /dev/disks/by-label/ARCH2016
+exit
+</code></pre><p>这样就可以启动安装光盘了！</p><h2 id=prepare-your-partition>Prepare your partition<a href=#prepare-your-partition class=hanchor arialabel=Anchor>&#8983;</a></h2><h3 id=using-fdisk-to-create-partition-table>Using <code>fdisk</code> to create partition table<a href=#using-fdisk-to-create-partition-table class=hanchor arialabel=Anchor>&#8983;</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>fdisk /dev/sda
+</span></span><span style=display:flex><span>n <span style=color:#75715e># creating new partion</span>
+</span></span><span style=display:flex><span>w <span style=color:#75715e># write</span>
+</span></span></code></pre></div><h3 id=format-partition>Format partition<a href=#format-partition class=hanchor arialabel=Anchor>&#8983;</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>mkfs.ext4 /dev/sda1
+</span></span></code></pre></div><h3 id=mount-new-partition-as-install-target>Mount new partition as install target<a href=#mount-new-partition-as-install-target class=hanchor arialabel=Anchor>&#8983;</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>mount /dev/sda1 /mnt
+</span></span></code></pre></div><h2 id=setting-network>Setting network<a href=#setting-network class=hanchor arialabel=Anchor>&#8983;</a></h2><h3 id=setting-network-with-netctl>Setting network with <code>netctl</code><a href=#setting-network-with-netctl class=hanchor arialabel=Anchor>&#8983;</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>cp /etc/netctl/examples/ethernet-static /etc/netctl/office
+</span></span><span style=display:flex><span>netctl list
+</span></span><span style=display:flex><span>netctl start office
+</span></span></code></pre></div><h3 id=office-profie-as-follows><code>office</code> profie as follows<a href=#office-profie-as-follows class=hanchor arialabel=Anchor>&#8983;</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>Description<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;A basic dhcp ethernet connection&#39;</span>
+</span></span><span style=display:flex><span>Interface<span style=color:#f92672>=</span>eth0
+</span></span><span style=display:flex><span>Connection<span style=color:#f92672>=</span>ethernet
+</span></span><span style=display:flex><span>IP<span style=color:#f92672>=</span>dhcp
+</span></span><span style=display:flex><span>ForceConnect<span style=color:#f92672>=</span>yes
+</span></span><span style=display:flex><span>DHCPClient<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;dhclient&#34;</span>
+</span></span></code></pre></div><h3 id=setting-network-behind-proxy>Setting network behind proxy<a href=#setting-network-behind-proxy class=hanchor arialabel=Anchor>&#8983;</a></h3><ul><li><code>NAT Forward</code></li><li><code>ssh</code> to the virtual machine with port forward</li></ul><p>And don&rsquo;t forget to export your new environment variables</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>export http_proxy<span style=color:#f92672>=</span>your_proxy_id:your_proxy_port
+</span></span></code></pre></div><h3 id=generating-file-system-genfstab--o-mnt-mntetcfstab>Generating file system <code>genfstab -o /mnt /mnt/etc/fstab</code><a href=#generating-file-system-genfstab--o-mnt-mntetcfstab class=hanchor arialabel=Anchor>&#8983;</a></h3><h3 id=change-root-arch-chroot-mnt>change root <code>arch-chroot /mnt</code><a href=#change-root-arch-chroot-mnt class=hanchor arialabel=Anchor>&#8983;</a></h3><p>Ok, Now your job on iso live environment is done!</p><h2 id=next-steps-are-in-you-newly-installed-archlinux-environment>Next steps are in you newly installed archlinux environment<a href=#next-steps-are-in-you-newly-installed-archlinux-environment class=hanchor arialabel=Anchor>&#8983;</a></h2><h3 id=vim-etcfstab><code>vim etc/fstab</code><a href=#vim-etcfstab class=hanchor arialabel=Anchor>&#8983;</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>/dev/sda1           	/         	ext4      	rw,relatime,data<span style=color:#f92672>=</span>ordered	<span style=color:#ae81ff>0</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>/dev/sda2           	/home       ext4      	rw,relatime,data<span style=color:#f92672>=</span>ordered	<span style=color:#ae81ff>0</span> <span style=color:#ae81ff>1</span>
+</span></span></code></pre></div><h1 id=nano-etchostname><code>nano /etc/hostname</code><a href=#nano-etchostname class=hanchor arialabel=Anchor>&#8983;</a></h1><p>arch</p><h3 id=basic-configuration>Basic Configuration<a href=#basic-configuration class=hanchor arialabel=Anchor>&#8983;</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>nano /etc/hosts
+</span></span><span style=display:flex><span>ln -s /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+</span></span><span style=display:flex><span>nano /etc/locale.gen
+</span></span><span style=display:flex><span>nano /etc/locale.conf
+</span></span><span style=display:flex><span>nano /usr/share/i18n/locales/zh_CN
+</span></span><span style=display:flex><span>locale-gen
+</span></span><span style=display:flex><span>mkinitcpio -p linux
+</span></span><span style=display:flex><span>grub-install /dev/sda
+</span></span><span style=display:flex><span>grub-mkconfig -o /boot/grub/grub.cfg
+</span></span><span style=display:flex><span>passwd root
+</span></span></code></pre></div><h3 id=nano-etcpacmandmirrorlist><code>nano /etc/pacman.d/mirrorlist</code><a href=#nano-etcpacmandmirrorlist class=hanchor arialabel=Anchor>&#8983;</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>Server <span style=color:#f92672>=</span> http://mirror.bjtu.edu.cn/archlinux/$repo/os/$arch
+</span></span><span style=display:flex><span>Server <span style=color:#f92672>=</span> http://mirrors.163.com/archlinux/$repo/os/$arch
+</span></span><span style=display:flex><span>Server <span style=color:#f92672>=</span> http://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch
+</span></span><span style=display:flex><span>Server <span style=color:#f92672>=</span> http://mirrors.tuna.tsinghua.edu.cn/archlinux/$repo/os/$arch
+</span></span><span style=display:flex><span>Server <span style=color:#f92672>=</span> http://mirrors.neusoft.edu.cn/archlinux/$repo/os/$arch
+</span></span><span style=display:flex><span>Server <span style=color:#f92672>=</span> http://mirrors.hust.edu.cn/archlinux/$repo/os/$arch
+</span></span></code></pre></div><h3 id=nano-etcpacmanconf><code>nano /etc/pacman.conf</code><a href=#nano-etcpacmanconf class=hanchor arialabel=Anchor>&#8983;</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#f92672>[</span>options<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>HoldPkg     <span style=color:#f92672>=</span> pacman glibc
+</span></span><span style=display:flex><span><span style=color:#75715e>#XferCommand = /usr/bin/wget --passive-ftp -c -O %o %u</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#CleanMethod = KeepInstalled</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>#UseDelta    = 0.7</span>
+</span></span><span style=display:flex><span>Architecture <span style=color:#f92672>=</span> auto
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>core<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>Include <span style=color:#f92672>=</span> /etc/pacman.d/mirrorlist
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>extra<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>Include <span style=color:#f92672>=</span> /etc/pacman.d/mirrorlist
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>community<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>Include <span style=color:#f92672>=</span> /etc/pacman.d/mirrorlist
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>archlinuxfr<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>SigLevel <span style=color:#f92672>=</span> Optional TrustAll
+</span></span><span style=display:flex><span>Server <span style=color:#f92672>=</span> http://repo.archlinux.fr/$arch
+</span></span></code></pre></div><h3 id=using-pacman-to-install-programs>Using pacman to install programs<a href=#using-pacman-to-install-programs class=hanchor arialabel=Anchor>&#8983;</a></h3><pre tabindex=0><code>pacman -Syy
+pacman -S gvim
+pacman -S git ruby lua clojure node gem npm
+pacman -S python
+pacman -S python-pip python-setuptools
+pacman -S calcurse ranger
+pacman -S cmus
+pacman -S tmux
+pacman -S openssh
+pacman -S xorg-xauth
+pacman -S xorg-server xorg-xinit
+pacman -S notion
+pacman -S enlightenment
+pacman -S connman
+pacman -S redis
+pacman -S mongodb
+pacman -S mysql
+pacman -S couchdb
+pacman -S wqy-bitmapfont wqy-zenhei ttf-arphic-ukai ttf-arphic-uming
+pacman -S ttf-monaco
+pacman -S ttf-dejavu
+pacman -S wqy-zenhei
+pacman -S fbterm
+pacman -S libx86
+pacman -S fcitx
+pacman -S fcitx-fbterm
+pacman -S yaourt
+pacman -S rsync customizepkg
+yaourt -S infinality
+yaourt -S fongconfig-infinality
+pacman -S urxvt
+pacman -S rxvt-unicode
+pacman -S gtk2-perl
+pacman -S vim-ultisnips
+pacman -S vim-fugitive
+pacman -S vim-nerdtree vim-minibufexpl vim-supertab vim-surround
+</code></pre><h3 id=linking-conf-files>linking conf files<a href=#linking-conf-files class=hanchor arialabel=Anchor>&#8983;</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>ln -s archdotfiles/.curlrc ~/.curlrc
+</span></span><span style=display:flex><span>ln -s archdotfiles/.wgetrc ~/.wgetrc
+</span></span><span style=display:flex><span>ln -s archdotfiles/.bashrc ~/.bashrc
+</span></span><span style=display:flex><span>ln -s archdotfiles/.gitconfig ~/.gitconfig
+</span></span><span style=display:flex><span>ln -s archdotfiles/.xinitrc ~/.xinitrc
+</span></span><span style=display:flex><span>ln -s archdotfiles/.Xdefaults ~/.Xdefaults
+</span></span></code></pre></div><ul><li>The <code>gitconfig</code> file like</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span><span style=color:#f92672>[</span>user<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>        name <span style=color:#f92672>=</span> your name
+</span></span><span style=display:flex><span>        email <span style=color:#f92672>=</span> your email
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>push<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>        default <span style=color:#f92672>=</span> matching
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>http<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>	proxy<span style=color:#f92672>=</span>http://127.0.0.1:3127
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span>credential<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>	helper<span style=color:#f92672>=</span>store
+</span></span></code></pre></div><h3 id=installing-separate-servers-by-compling-from-source>installing separate servers by compling from source<a href=#installing-separate-servers-by-compling-from-source class=hanchor arialabel=Anchor>&#8983;</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>wget http://openresty.org/download/ngx_openresty-1.5.12.1.tar.gz
+</span></span><span style=display:flex><span>mv ngx_openresty-1.5.12.1.tar.gz /home/shared/
+</span></span><span style=display:flex><span>tar zxvf ngx_openresty-1.5.12.1.tar.gz
+</span></span><span style=display:flex><span>cd ngx_openresty-1.5.12.1
+</span></span><span style=display:flex><span>./configure --with-luajit
+</span></span><span style=display:flex><span>make
+</span></span><span style=display:flex><span>make install
+</span></span><span style=display:flex><span>/usr/local/openresty/nginx/sbin/nginx &amp;
+</span></span></code></pre></div><h3 id=evince-to-display-chinese-charaters>evince to display chinese charaters<a href=#evince-to-display-chinese-charaters class=hanchor arialabel=Anchor>&#8983;</a></h3><h4 id=install-doppler-data>install <code>doppler-data</code><a href=#install-doppler-data class=hanchor arialabel=Anchor>&#8983;</a></h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>pacman -S doppler-data
+</span></span></code></pre></div><h4 id=modify-etcfontsconfd49-sansserifconfi>modify <code>/etc/fonts/conf.d/49-sansserif.confi</code><a href=#modify-etcfontsconfd49-sansserifconfi class=hanchor arialabel=Anchor>&#8983;</a></h4><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>&lt;?xml version<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;1.0&#34;</span>?&gt;
+</span></span><span style=display:flex><span>&lt;!DOCTYPE fontconfig SYSTEM <span style=color:#e6db74>&#34;fonts.dtd&#34;</span>&gt;
+</span></span><span style=display:flex><span>&lt;fontconfig&gt;
+</span></span><span style=display:flex><span>&lt;!--
+</span></span><span style=display:flex><span>  If the font still has no generic name, add sans-serif
+</span></span><span style=display:flex><span> --&gt;
+</span></span><span style=display:flex><span>	&lt;match target<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;pattern&#34;</span>&gt;
+</span></span><span style=display:flex><span>		&lt;test qual<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;all&#34;</span> name<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;family&#34;</span> compare<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;not_eq&#34;</span>&gt;
+</span></span><span style=display:flex><span>			&lt;string&gt;sans-serif&lt;/string&gt;
+</span></span><span style=display:flex><span>		&lt;/test&gt;
+</span></span><span style=display:flex><span>		&lt;test qual<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;all&#34;</span> name<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;family&#34;</span> compare<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;not_eq&#34;</span>&gt;
+</span></span><span style=display:flex><span>			&lt;string&gt;serif&lt;/string&gt;
+</span></span><span style=display:flex><span>		&lt;/test&gt;
+</span></span><span style=display:flex><span>		&lt;test qual<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;all&#34;</span> name<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;family&#34;</span> compare<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;not_eq&#34;</span>&gt;
+</span></span><span style=display:flex><span>			&lt;string&gt;monospace&lt;/string&gt;
+</span></span><span style=display:flex><span>		&lt;/test&gt;
+</span></span><span style=display:flex><span>		&lt;edit name<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;family&#34;</span> mode<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;append_last&#34;</span>&gt;
+</span></span><span style=display:flex><span>			&lt;string&gt;wqy-zenhei&lt;/string&gt;
+</span></span><span style=display:flex><span>		&lt;/edit&gt;
+</span></span><span style=display:flex><span>	&lt;/match&gt;
+</span></span><span style=display:flex><span>&lt;/fontconfig&gt;
+</span></span></code></pre></div><h3 id=virtualbox-guest-utils>Virtualbox-guest-utils<a href=#virtualbox-guest-utils class=hanchor arialabel=Anchor>&#8983;</a></h3><p>After installing, run the following script</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>echo <span style=color:#e6db74>&#34;load virtualbox modules&#34;</span>
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;you can install virtualbox-guest-utils first&#34;</span>
+</span></span><span style=display:flex><span>modprobe -a vboxguest vboxsf vboxvideo
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;mounting virtualbox shared folders&#34;</span>
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;mounting winshared in /root/winshared&#34;</span>
+</span></span><span style=display:flex><span>mount -t vboxsf winshared /root/winshared
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;mounting mfa in /home/mfa&#34;</span>
+</span></span><span style=display:flex><span>mount -t vboxsf mfa /home/mfa
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;rsync from windows shared folder to /home/shared&#34;</span>
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;Done&#34;</span>
+</span></span></code></pre></div><h3 id=doing-sync-for-shared-folders>Doing sync for shared folders<a href=#doing-sync-for-shared-folders class=hanchor arialabel=Anchor>&#8983;</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>rsync /root/winshared/* /home/shared/
+</span></span></code></pre></div><h2 id=great-you-have-a-fully-operational-archlinux-in-your-computer>Great! You have a fully operational Archlinux in your computer<a href=#great-you-have-a-fully-operational-archlinux-in-your-computer class=hanchor arialabel=Anchor>&#8983;</a></h2><h3 id=more-configuration-in-office>More configuration in office<a href=#more-configuration-in-office class=hanchor arialabel=Anchor>&#8983;</a></h3><p>We must configure the network by defining the ip address and route</p><p>We have 2 subnet, first 192.168.76.x,second 192.168.5.x</p><p>We need proper routes to comunicate between them</p><pre tabindex=0><code>echo &#34;Configure your network and routing&#34;
+ifconfig enp3s0 down
+ifconfig enp3s0 192.168.76.54 netmask 255.255.252.0
+route add -net 0.0.0.0 netmask 0.0.0.0 gateway 192.168.76.1 dev enp3s0
+route add -net 192.168.76.0 netmask 255.255.252.0 gateway 192.168.76.63 dev enp3s0
+route add -net 192.168.76.255 netmask 255.255.255.255 gateway 192.168.76.63 dev enp3s0
+route add -net 224.0.0.0 netmask 240.0.0.0 gateway 192.168.76.3 dev enp3s0
+route add -net 255.255.255.255 netmask 255.255.255.255 gateway 192.168.76.3 dev enp3s0
+ifconfig enp3s0 up
+echo &#34;Done!&#34;
+</code></pre><p>The route <code>224.0.0.0</code> is the key for connecting two subnet</p><p>The gateway is <code>192.168.76.3</code>, not as default <code>76.1</code></p><h2 id=the-grub-setting>The grub setting<a href=#the-grub-setting class=hanchor arialabel=Anchor>&#8983;</a></h2><h3 id=grub4dos>grub4dos<a href=#grub4dos class=hanchor arialabel=Anchor>&#8983;</a></h3><p>A problem os <code>grub2dos</code> is that it may not know</p><h4 id=how-to-install-on-my-mac-mini>how to install on my Mac mini<a href=#how-to-install-on-my-mac-mini class=hanchor arialabel=Anchor>&#8983;</a></h4><ul><li>install refind</li></ul><p><a href=http://www.rodsbooks.com/refind/installing.html#windows>rEFInd引导程序</a>会以图标的方式列出你所有的操作系统。因此，你可以通过点击相应的图标来启动Windows、Ubuntu或者优盘中的操作系统。</p><p><a href=http://sourceforge.net/projects/refind/files/0.8.4/refind-bin-0.8.4.zip/download>点击这里下载rEFInd for Windows 8</a>。</p><p><a href=https://edk2.svn.sourceforge.net/svnroot/edk2/trunk/edk2/ShellBinPkg/UefiShell/X64/Shell.efi>点击这里下载rEFInd Shell</a></p><p><a href=http://dl.dropbox.com/u/17629062/Shell2.zip>点击这里下载rEFInd Shell for old EFI</a></p><ul><li>install rEFInd</li></ul><p>If you haven&rsquo;t installed rEFInd previously, unpack its zip file to a FAT partition. This can be the ESP itself or another partition, such as a USB flash drive. If you&rsquo;re simply repairing a lost NVRAM entry, you needn&rsquo;t move your existing rEFInd files.</p><ul><li>Identify your filesystems</li></ul><p>which are labelled with the form fsn:, as in fs0: for the first filesystem, fs1: for the second, and so on. Type the filesystem number followed by the Enter key to begin using it. You can then type ls or dir to see the contents of the filesystem. Chances are your ESP will be fs0:, but it could be something else. (The following steps assume your ESP is fs0:; you&rsquo;ll need to adjust them if it&rsquo;s not.) If rEFInd&rsquo;s source files are on another device, you must identify it, too.</p><ul><li>create a directory</li></ul><p>If necessary, create a directory for rEFInd by typing mkdir fs0:\EFI\refind. (If the fs0:\EFI directory doesn&rsquo;t already exist, you must create it first, though.)</p><ul><li>Change to the directory in which rEFInd&rsquo;s files exist.</li></ul><p>Type <code>cp refind_x64.efi fs0:\EFI\refind</code> to copy the rEFInd binary file. Adjust the name if you&rsquo;re using an IA32 or AARCH64 computer.)</p><p>Type <code>cp refind.conf-sample fs0:\EFI\refind\refind.conf</code> to copy and rename
+the sample rEFInd configuration file.</p><p>Type <code>cp -r icons fs0:\EFI\refind\</code> to copy rEFInd&rsquo;s icons.</p><p>Optionally, <code>type cp -r drivers_x64 fs0:\EFI\refind\</code> to copy rEFInd&rsquo;s X64 drivers. (You could instead copy the IA32 or AARCH64 drivers or limit
+yourself to just the drivers you need, of course.)</p><p>Type <code>fs0:</code>, if necessary, to change to the ESP.</p><p>Type <code>cd \EFI\refind</code> to change to rEFInd&rsquo;s installation directory.</p><p>If you want to edit rEFInd&rsquo;s options, type <code>edit refind.conf</code> and use the shell&rsquo;s built-in text editor to do so. Press <code>F2</code> followed by the Enter key
+to save your changes and <code>F3</code> to exit.</p><p>Type <code>bcfg boot dump -b</code> to see a list of existing NVRAM entries. Pay attention to their numbers (labelled Option: and Variable:, with the latter number preceded by the string Boot, as in Boot0007). You&rsquo;ll want to create
+a boot entry for rEFInd using a number that&rsquo;s not in use.</p><p>Type <code>bcfg boot add 3 fs0:\EFI\refind\refind_x64.efi "rEFInd"</code>, adjusting the number (3 in this example), filesystem (fs0:), and filename (\EFI\refind\refind_x64.efi) as necessary for your system.</p><p>If you&rsquo;re used to Linux, be sure to use backslashes (), not Linux-style forward slashes (/), as directory separators. Note that some shells may ignore the number you entered and use another one, so watch for this possibility.</p><p>Type <code>bcfg boot mv 3 0</code>, substituting the option number for the entry you
+created for 3. This moves rEFInd to the top of the boot order.</p><p>Type <code>reset</code> to reboot the computer.</p><p>2.下载和解压以后，按照以下的步骤安装rEFInd。</p><pre><code>返回桌面
+
+右击开始按钮，选择管理员命令行
+
+输入 `mountvol g: /s` (这将你的EFI目录结构映射到G盘)
+
+进入解压的rEFInd目录。例如： `cd c:\users\gary\downloads\refind-bin-0.8.4\refind-bin-0.8.4` 。
+
+当你输入 `dir` 命令，你可以看到一个refind目录
+
+输入如下命令将refind拷贝到EFI引导区 `xcopy /E refind g:\EFI\refind\`
+
+输入如下命令进入refind文件夹 `cd g:\EFI\refind`
+
+重命名示例配置文件 `rename refind.conf-sample refind.conf`
+
+运行如下命令将rEFind设置为引导程序 `bcdedit /set {bootmgr} path \EFI\refind\refind_x64.efi`
+
+重启你的电脑
+
+你将会看到一个包含`Ubuntu`和`Windows`的图形菜单
+</code></pre><ul><li><p>install windows with winclone</p></li><li><p>boot windows</p></li><li><p>edit <code>BCD</code> with <code>bootice</code> to add <code>grub4dos</code> based on <code>grldr.mbr</code></p></li><li><p>edit <code>menu.lst</code> to add <code>linux</code> entry</p></li><li><p>install <code>linux</code></p></li></ul></div></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button previous"><a href=/posts/linux/alpine/><span class=button__icon>←</span>
+<span class=button__text>alpine.md</span></a></span>
+<span class="button next"><a href=/posts/nodejs/babel-loader/><span class=button__text>babel-loader.md</span>
+<span class=button__icon>→</span></a></span></div></div></div></div><footer class=footer><div class=footer__inner><div class="copyright copyright--user"><span>@linuxing3</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span></div></div></footer><script src=/assets/main.js></script>
+<script src=/assets/prism.js></script>
+<script src=/assets/languageSelector.js></script></div></body></html>

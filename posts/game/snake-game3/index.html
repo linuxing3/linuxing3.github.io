@@ -1,0 +1,144 @@
+<!doctype html><html lang=en><head><title>snake-game3.md :: Vim Emacser Personal Blog</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="从零开始设计一个类贪吃蛇的框架（三） 从零开始设计一个类贪吃蛇的框架（一）
+从零开始设计一个类贪吃蛇的框架（二）
+我们的蛇不能老是傻傻地瞎转悠
+为了让蛇显得聪明些，我们增加一些相关的效果
+比如停、撞墙、躲避墙
+让蛇停下来 function SnakeGameController:stopSnake() print(&amp;#34;stopping snake!&amp;#34;) for i=1,snake[&amp;#34;nodes&amp;#34;] do snake[&amp;#34;x&amp;#34;][i] = display.cx snake[&amp;#34;y&amp;#34;][i] = display.cy end self:drawSnakeNode(BLUE) end 如果点击或触摸，让蛇转向 转向要首先判断方向，我们把他单独实现出来 function SnakeGameController:needChangeDirection(x,y) print(&amp;#34;Detected touch!!!!!&amp;#34;) x = x - display.width/2 y = y - display.height/2 curDirection = snake[&amp;#34;direction&amp;#34;] snakeHead = snake[&amp;#34;nodes&amp;#34;] if curDirection&amp;lt;3 and y &amp;gt; snake[&amp;#34;y&amp;#34;][snakeHead] then newDirection = 3 elseif curDirection&amp;lt;3 and y &amp;lt; snake[&amp;#34;y&amp;#34;][snakeHead] then newDirection = 4 elseif curDirection&amp;gt;2 and x &amp;gt; snake[&amp;#34;x&amp;#34;][snakeHead] then newDirection = 1 elseif curDirection&amp;gt;2 and x &amp;lt; snake[&amp;#34;x&amp;#34;][snakeHead] then newDirection = 2 end return newDirection end 触摸事件，按方向移动 function SnakeGameController:onTouch(event, x, y) newDirection = self:needChangeDirection(x,y) print(&amp;#34;Direction is &amp;#34;."><meta name=keywords content><meta name=robots content="noodp"><link rel=canonical href=/posts/game/snake-game3/><link rel=stylesheet href=/assets/style.css><link rel=stylesheet href=/assets/green.css><link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png><link rel="shortcut icon" href=/img/favicon/green.png><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/linuxing3"><meta name=twitter:creator content><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="og:title" content="snake-game3.md"><meta property="og:description" content="从零开始设计一个类贪吃蛇的框架（三） 从零开始设计一个类贪吃蛇的框架（一）
+从零开始设计一个类贪吃蛇的框架（二）
+我们的蛇不能老是傻傻地瞎转悠
+为了让蛇显得聪明些，我们增加一些相关的效果
+比如停、撞墙、躲避墙
+让蛇停下来 function SnakeGameController:stopSnake() print(&amp;#34;stopping snake!&amp;#34;) for i=1,snake[&amp;#34;nodes&amp;#34;] do snake[&amp;#34;x&amp;#34;][i] = display.cx snake[&amp;#34;y&amp;#34;][i] = display.cy end self:drawSnakeNode(BLUE) end 如果点击或触摸，让蛇转向 转向要首先判断方向，我们把他单独实现出来 function SnakeGameController:needChangeDirection(x,y) print(&amp;#34;Detected touch!!!!!&amp;#34;) x = x - display.width/2 y = y - display.height/2 curDirection = snake[&amp;#34;direction&amp;#34;] snakeHead = snake[&amp;#34;nodes&amp;#34;] if curDirection&amp;lt;3 and y &amp;gt; snake[&amp;#34;y&amp;#34;][snakeHead] then newDirection = 3 elseif curDirection&amp;lt;3 and y &amp;lt; snake[&amp;#34;y&amp;#34;][snakeHead] then newDirection = 4 elseif curDirection&amp;gt;2 and x &amp;gt; snake[&amp;#34;x&amp;#34;][snakeHead] then newDirection = 1 elseif curDirection&amp;gt;2 and x &amp;lt; snake[&amp;#34;x&amp;#34;][snakeHead] then newDirection = 2 end return newDirection end 触摸事件，按方向移动 function SnakeGameController:onTouch(event, x, y) newDirection = self:needChangeDirection(x,y) print(&amp;#34;Direction is &amp;#34;."><meta property="og:url" content="/posts/game/snake-game3/"><meta property="og:site_name" content="Vim Emacser Personal Blog"><meta property="og:image" content="/img/favicon/green.png"><meta property="og:image:width" content="2048"><meta property="og:image:height" content="1024"><meta property="article:published_time" content="2018-02-16 14:05:34 -0400 -0400"></head><body class=green><div class="container full"><header class=header><div class=header__inner><div class=header__logo><a href=/><div class=logo>Terminal</div></a></div><div class=menu-trigger>menu</div></div><nav class=menu><ul class="menu__inner menu__inner--desktop"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><div class=spacer></div><ul class=language-selector><ul class=language-selector-current><li>English ▾</li></ul><ul class="language-selector__more hidden"><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></ul></ul><ul class="menu__inner menu__inner--mobile"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><hr><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></nav></header><div class=content><div class=post><h1 class=post-title><a href=/posts/game/snake-game3/>snake-game3.md</a></h1><div class=post-meta><span class=post-date>2018-02-16</span></div><div class=post-content><div><h1 id=从零开始设计一个类贪吃蛇的框架三>从零开始设计一个类贪吃蛇的框架（三）<a href=#从零开始设计一个类贪吃蛇的框架三 class=hanchor arialabel=Anchor>&#8983;</a></h1><p><a href=snake-game1>从零开始设计一个类贪吃蛇的框架（一）</a></p><p><a href=snake-game2>从零开始设计一个类贪吃蛇的框架（二）</a></p><p>我们的蛇不能老是傻傻地瞎转悠</p><p>为了让蛇显得聪明些，我们增加一些相关的效果</p><p>比如停、撞墙、躲避墙</p><h2 id=让蛇停下来>让蛇停下来<a href=#让蛇停下来 class=hanchor arialabel=Anchor>&#8983;</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span>      <span style=color:#66d9ef>function</span> <span style=color:#a6e22e>SnakeGameController</span>:<span style=color:#a6e22e>stopSnake</span>()
+</span></span><span style=display:flex><span>          print(<span style=color:#e6db74>&#34;stopping snake!&#34;</span>)
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>for</span> i<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>,snake[<span style=color:#e6db74>&#34;nodes&#34;</span>] <span style=color:#66d9ef>do</span>
+</span></span><span style=display:flex><span>              snake[<span style=color:#e6db74>&#34;x&#34;</span>][i] <span style=color:#f92672>=</span> display.cx
+</span></span><span style=display:flex><span>              snake[<span style=color:#e6db74>&#34;y&#34;</span>][i] <span style=color:#f92672>=</span> display.cy
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>          self:drawSnakeNode(BLUE)
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>end</span>
+</span></span></code></pre></div><h2 id=如果点击或触摸让蛇转向>如果点击或触摸，让蛇转向<a href=#如果点击或触摸让蛇转向 class=hanchor arialabel=Anchor>&#8983;</a></h2><h3 id=转向要首先判断方向我们把他单独实现出来>转向要首先判断方向，我们把他单独实现出来<a href=#转向要首先判断方向我们把他单独实现出来 class=hanchor arialabel=Anchor>&#8983;</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span>      <span style=color:#66d9ef>function</span> <span style=color:#a6e22e>SnakeGameController</span>:<span style=color:#a6e22e>needChangeDirection</span>(x,y)
+</span></span><span style=display:flex><span>          print(<span style=color:#e6db74>&#34;Detected touch!!!!!&#34;</span>)
+</span></span><span style=display:flex><span>          x <span style=color:#f92672>=</span> x <span style=color:#f92672>-</span> display.width<span style=color:#f92672>/</span><span style=color:#ae81ff>2</span>
+</span></span><span style=display:flex><span>          y <span style=color:#f92672>=</span> y <span style=color:#f92672>-</span> display.height<span style=color:#f92672>/</span><span style=color:#ae81ff>2</span>
+</span></span><span style=display:flex><span>          curDirection <span style=color:#f92672>=</span> snake[<span style=color:#e6db74>&#34;direction&#34;</span>]
+</span></span><span style=display:flex><span>          snakeHead <span style=color:#f92672>=</span> snake[<span style=color:#e6db74>&#34;nodes&#34;</span>]
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>if</span> curDirection<span style=color:#f92672>&lt;</span><span style=color:#ae81ff>3</span> <span style=color:#f92672>and</span> y <span style=color:#f92672>&gt;</span> snake[<span style=color:#e6db74>&#34;y&#34;</span>][snakeHead] <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>               newDirection <span style=color:#f92672>=</span> <span style=color:#ae81ff>3</span>
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>elseif</span> curDirection<span style=color:#f92672>&lt;</span><span style=color:#ae81ff>3</span> <span style=color:#f92672>and</span> y <span style=color:#f92672>&lt;</span> snake[<span style=color:#e6db74>&#34;y&#34;</span>][snakeHead] <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>              newDirection <span style=color:#f92672>=</span> <span style=color:#ae81ff>4</span>
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>elseif</span> curDirection<span style=color:#f92672>&gt;</span><span style=color:#ae81ff>2</span> <span style=color:#f92672>and</span> x <span style=color:#f92672>&gt;</span> snake[<span style=color:#e6db74>&#34;x&#34;</span>][snakeHead] <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>              newDirection <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>elseif</span> curDirection<span style=color:#f92672>&gt;</span><span style=color:#ae81ff>2</span> <span style=color:#f92672>and</span> x <span style=color:#f92672>&lt;</span> snake[<span style=color:#e6db74>&#34;x&#34;</span>][snakeHead] <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>              newDirection <span style=color:#f92672>=</span> <span style=color:#ae81ff>2</span>
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>return</span> newDirection
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>end</span>
+</span></span></code></pre></div><h3 id=触摸事件按方向移动>触摸事件，按方向移动<a href=#触摸事件按方向移动 class=hanchor arialabel=Anchor>&#8983;</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span>      <span style=color:#66d9ef>function</span> <span style=color:#a6e22e>SnakeGameController</span>:<span style=color:#a6e22e>onTouch</span>(event, x, y)
+</span></span><span style=display:flex><span>           newDirection <span style=color:#f92672>=</span> self:needChangeDirection(x,y)
+</span></span><span style=display:flex><span>           print(<span style=color:#e6db74>&#34;Direction is &#34;</span><span style=color:#f92672>..</span>newDirection)
+</span></span><span style=display:flex><span>           snake[<span style=color:#e6db74>&#34;direction&#34;</span>] <span style=color:#f92672>=</span> newDirection
+</span></span><span style=display:flex><span>           self:moveSnake()
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>end</span>
+</span></span></code></pre></div><h3 id=能够聪明地躲避墙自动转向>能够聪明地躲避墙，自动转向<a href=#能够聪明地躲避墙自动转向 class=hanchor arialabel=Anchor>&#8983;</a></h3><p>注意调用这个函数后，都要重新画蛇身，这个功能我们已经在帧函数中实现。</p><pre tabindex=0><code>    function SnakeGameController:needChangeDirectionFromWall()
+        curDirection = snake[&#34;direction&#34;]
+        snakeHead = snake[&#34;nodes&#34;]
+        switch = {
+            [1] = function( ... )
+                if snake[&#34;x&#34;][snakeHead] &gt; display.width/2 - 100 then
+                   snake[&#34;direction&#34;] =  math.random(3,4)
+                end
+            end,
+            [2]=  function( ... )
+                if snake[&#34;x&#34;][snakeHead] == 100 then
+                   snake[&#34;direction&#34;] = math.random(3,4)
+                end
+            end,
+            [3] = function( ... )
+                if snake[&#34;y&#34;][snakeHead] &gt; display.height/2 - 100 then
+                  snake[&#34;direction&#34;] =  math.random(1,2)
+                end
+            end,
+            [4] = function ( ... )
+                if snake[&#34;y&#34;][snakeHead] &lt; 100 then
+                    snake[&#34;direction&#34;] = math.random(1,2)
+                end
+            end,
+        }
+        print(switch[curDirection]())
+        return switch[curDirection]()
+    end
+</code></pre><h3 id=如果蛇撞墙就结束>如果蛇撞墙就结束<a href=#如果蛇撞墙就结束 class=hanchor arialabel=Anchor>&#8983;</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span>      <span style=color:#66d9ef>function</span> <span style=color:#a6e22e>SnakeGameController</span>:<span style=color:#a6e22e>snakeHitWall</span>()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>for</span> i<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>,snake[<span style=color:#e6db74>&#34;nodes&#34;</span>] <span style=color:#66d9ef>do</span>
+</span></span><span style=display:flex><span>              <span style=color:#66d9ef>if</span> snake[<span style=color:#e6db74>&#34;x&#34;</span>][i] <span style=color:#f92672>&gt;</span> display.width<span style=color:#f92672>/</span><span style=color:#ae81ff>2</span> <span style=color:#f92672>or</span>
+</span></span><span style=display:flex><span>                 snake[<span style=color:#e6db74>&#34;x&#34;</span>][i] <span style=color:#f92672>&lt;</span> <span style=color:#f92672>-</span>display.width<span style=color:#f92672>/</span><span style=color:#ae81ff>2</span> <span style=color:#f92672>or</span>
+</span></span><span style=display:flex><span>                 snake[<span style=color:#e6db74>&#34;y&#34;</span>][i] <span style=color:#f92672>&gt;</span> display.height<span style=color:#f92672>/</span><span style=color:#ae81ff>2</span> <span style=color:#f92672>or</span>
+</span></span><span style=display:flex><span>                 snake[<span style=color:#e6db74>&#34;y&#34;</span>][i] <span style=color:#f92672>&lt;</span> <span style=color:#f92672>-</span>display.height<span style=color:#f92672>/</span><span style=color:#ae81ff>2</span> <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>                 snake[<span style=color:#e6db74>&#34;life&#34;</span>] <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>                 snake[<span style=color:#e6db74>&#34;brain&#34;</span>]:getState()
+</span></span><span style=display:flex><span>                 snake[<span style=color:#e6db74>&#34;brain&#34;</span>]:doEvent(<span style=color:#e6db74>&#34;panic&#34;</span>)
+</span></span><span style=display:flex><span>                 snake[<span style=color:#e6db74>&#34;brain&#34;</span>]:getState()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>                 <span style=color:#75715e>-- self:GameOver()</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>             <span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>end</span> <span style=color:#75715e>-- for</span>
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>end</span>
+</span></span></code></pre></div><h3 id=添加结束函数终止游戏>添加结束函数，终止游戏<a href=#添加结束函数终止游戏 class=hanchor arialabel=Anchor>&#8983;</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span>    <span style=color:#66d9ef>function</span> <span style=color:#a6e22e>SnakeGameController</span>:<span style=color:#a6e22e>GameOver</span>()
+</span></span><span style=display:flex><span>        print(<span style=color:#e6db74>&#34;Game Over!&#34;</span>)
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>local</span> label <span style=color:#f92672>=</span> ui.newTTFLabel({
+</span></span><span style=display:flex><span>            text <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;Game Over!&#34;</span>,
+</span></span><span style=display:flex><span>            size <span style=color:#f92672>=</span> <span style=color:#ae81ff>64</span>,
+</span></span><span style=display:flex><span>            x <span style=color:#f92672>=</span> display.cx,
+</span></span><span style=display:flex><span>            y <span style=color:#f92672>=</span> display.cy,
+</span></span><span style=display:flex><span>            align <span style=color:#f92672>=</span> ui.TEXT_ALIGN_CENTER
+</span></span><span style=display:flex><span>        })
+</span></span><span style=display:flex><span>        self:addChild(label)
+</span></span><span style=display:flex><span>        self.state <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;IDLE&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>end</span>
+</span></span></code></pre></div><h3 id=添加胜利函数>添加胜利函数<a href=#添加胜利函数 class=hanchor arialabel=Anchor>&#8983;</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span>      <span style=color:#66d9ef>function</span> <span style=color:#a6e22e>SnakeGameController</span>:<span style=color:#a6e22e>GameWin</span>()
+</span></span><span style=display:flex><span>          print(<span style=color:#e6db74>&#34;Game Win!&#34;</span>)
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>local</span> label <span style=color:#f92672>=</span> ui.newTTFLabel({
+</span></span><span style=display:flex><span>              text <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;Game Win!&#34;</span>,
+</span></span><span style=display:flex><span>              size <span style=color:#f92672>=</span> <span style=color:#ae81ff>64</span>,
+</span></span><span style=display:flex><span>              x <span style=color:#f92672>=</span> display.cx,
+</span></span><span style=display:flex><span>              y <span style=color:#f92672>=</span> display.cy,
+</span></span><span style=display:flex><span>              align <span style=color:#f92672>=</span> ui.TEXT_ALIGN_CENTER
+</span></span><span style=display:flex><span>          })
+</span></span><span style=display:flex><span>          self:addChild(label)
+</span></span><span style=display:flex><span>          <span style=color:#75715e>-- self.state = &#34;IDLE&#34;</span>
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>end</span>
+</span></span></code></pre></div><h2 id=进阶设计--让蛇躲避墙artificial-inteligence>进阶设计&ndash;让蛇躲避墙（Artificial Inteligence）<a href=#进阶设计--让蛇躲避墙artificial-inteligence class=hanchor arialabel=Anchor>&#8983;</a></h2><p>为了让我们的蛇更聪明，我们可以调用<code>人工智能</code>的概念，让蛇判断自己的方位，当靠近四周墙壁的时候就自动转向</p><h3 id=在文件前面引用一个状态机这个文件是在framework目录下>在文件前面引用一个<code>状态机</code>。这个文件是在<code>framework</code>目录下<a href=#在文件前面引用一个状态机这个文件是在framework目录下 class=hanchor arialabel=Anchor>&#8983;</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span>      <span style=color:#66d9ef>local</span> StateMachine <span style=color:#f92672>=</span> import(<span style=color:#e6db74>&#34;controller.stateMachine&#34;</span>)
+</span></span></code></pre></div><h3 id=在ctor函数中为我们的蛇增加状态机>在<code>ctor</code>函数中为我们的蛇增加状态机<a href=#在ctor函数中为我们的蛇增加状态机 class=hanchor arialabel=Anchor>&#8983;</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span>      snake[<span style=color:#e6db74>&#34;brain&#34;</span>] <span style=color:#f92672>=</span> self:SnakeStateMachine()
+</span></span></code></pre></div><h3 id=增加snakestatemachine函数用来定义snake的状态机>增加<code>SnakeStateMachine</code>函数，用来定义<code>snake</code>的状态机<a href=#增加snakestatemachine函数用来定义snake的状态机 class=hanchor arialabel=Anchor>&#8983;</a></h3><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span>      <span style=color:#66d9ef>function</span> <span style=color:#a6e22e>SnakeGameController</span>:<span style=color:#a6e22e>SnakeStateMachine</span>()
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>local</span> fsm <span style=color:#f92672>=</span> StateMachine.new()
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>local</span> fsm <span style=color:#f92672>=</span> StateMachine.new()
+</span></span><span style=display:flex><span>          fsm:setupState({
+</span></span><span style=display:flex><span>              initial <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;green&#34;</span>,
+</span></span><span style=display:flex><span>              events  <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>                      {name <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;warn&#34;</span>,  from <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;green&#34;</span>,  to <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;yellow&#34;</span>},
+</span></span><span style=display:flex><span>                      {name <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;panic&#34;</span>, from <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;green&#34;</span>,  to <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;red&#34;</span>   },
+</span></span><span style=display:flex><span>                      {name <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;calm&#34;</span>,  from <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;red&#34;</span>,    to <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;yellow&#34;</span>},
+</span></span><span style=display:flex><span>                      {name <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;clear&#34;</span>, from <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;yellow&#34;</span>, to <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;green&#34;</span> },
+</span></span><span style=display:flex><span>              },
+</span></span><span style=display:flex><span>              callbacks <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>                  onbeforestart <span style=color:#f92672>=</span> <span style=color:#66d9ef>function</span>(event) print(<span style=color:#e6db74>&#34;[FSM] STARTING UP&#34;</span>) <span style=color:#66d9ef>end</span>,
+</span></span><span style=display:flex><span>                  onstart       <span style=color:#f92672>=</span> <span style=color:#66d9ef>function</span>(event) print(<span style=color:#e6db74>&#34;[FSM] READY&#34;</span>) <span style=color:#66d9ef>end</span>,
+</span></span><span style=display:flex><span>                  onbeforewarn  <span style=color:#f92672>=</span> <span style=color:#66d9ef>function</span>(event) print(<span style=color:#e6db74>&#34;[FSM] START   EVENT: warn!&#34;</span>) <span style=color:#66d9ef>end</span>,
+</span></span><span style=display:flex><span>                  onbeforepanic <span style=color:#f92672>=</span> <span style=color:#66d9ef>function</span>(event) print(<span style=color:#e6db74>&#34;[FSM] START   EVENT: panic!&#34;</span>) <span style=color:#66d9ef>end</span>,
+</span></span><span style=display:flex><span>                  onbeforecalm  <span style=color:#f92672>=</span> <span style=color:#66d9ef>function</span>(event) print(<span style=color:#e6db74>&#34;[FSM] START   EVENT: calm!&#34;</span>) <span style=color:#66d9ef>end</span>,
+</span></span><span style=display:flex><span>                  onbeforeclear <span style=color:#f92672>=</span> <span style=color:#66d9ef>function</span>(event) print(<span style=color:#e6db74>&#34;[FSM] START   EVENT: clear!&#34;</span>) <span style=color:#66d9ef>end</span>,
+</span></span><span style=display:flex><span>                  onpanic        <span style=color:#f92672>=</span> <span style=color:#66d9ef>function</span>(event) self:needChangeDirectionFromWall() <span style=color:#66d9ef>end</span>,
+</span></span><span style=display:flex><span>                  onwarn        <span style=color:#f92672>=</span> <span style=color:#66d9ef>function</span>(event) self:stopSnake() <span style=color:#66d9ef>end</span>,
+</span></span><span style=display:flex><span>              }})
+</span></span><span style=display:flex><span>          print(fsm:isReady())
+</span></span><span style=display:flex><span>          <span style=color:#66d9ef>return</span> fsm
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>end</span>
+</span></span></code></pre></div><p>注意到，上面的很多功能可以通过状态机来进行跟踪和协调</p><p>基本的思路就是，没更改一种状态，就调用相应的响应函数</p><p>比如更改精灵的图片，改变它的位置等等。</p><p>状态机的设计比较复杂，再说吧！</p></div></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button previous"><a href=/posts/game/snake-game2/><span class=button__icon>←</span>
+<span class=button__text>snake-game2.md</span></a></span>
+<span class="button next"><a href=/posts/nodejs/socketio/><span class=button__text>socketio.md</span>
+<span class=button__icon>→</span></a></span></div></div></div></div><footer class=footer><div class=footer__inner><div class="copyright copyright--user"><span>@linuxing3</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span></div></div></footer><script src=/assets/main.js></script>
+<script src=/assets/prism.js></script>
+<script src=/assets/languageSelector.js></script></div></body></html>

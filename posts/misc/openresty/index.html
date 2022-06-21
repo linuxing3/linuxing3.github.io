@@ -1,0 +1,199 @@
+<!doctype html><html lang=en><head><title>openresty.md :: Vim Emacser Personal Blog</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="openresty luajit install pacman -S luajit this will install luajit into usr/bin and lib files into usr/lib/luajit-2.0/
+lib and include cp /usr/lib/luajit-2.0/* /usr/lib/ nginx/conf/nginx.conf http { include mime.types; default_type application/octet-stream; sendfile on; lua_shared_dict config 1m; lua_package_path &amp;#34;conf/?.lua;;&amp;#34;; init_by_lua_file &amp;#34;conf/init.lua&amp;#34;; server { listen 80; server_name localhost; location /luaredis { content_by_lua_file &amp;#34;conf/content.lua&amp;#34;; } } } nginx/conf/init.lua local cjson = require &amp;#34;cjson&amp;#34; local config = ngx.shared.config local file = io.open(&amp;#34;conf/config.json&amp;#34;,&amp;#34;r&amp;#34;) local content = cjson."><meta name=keywords content><meta name=robots content="noodp"><link rel=canonical href=/posts/misc/openresty/><link rel=stylesheet href=/assets/style.css><link rel=stylesheet href=/assets/green.css><link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png><link rel="shortcut icon" href=/img/favicon/green.png><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/linuxing3"><meta name=twitter:creator content><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="og:title" content="openresty.md"><meta property="og:description" content="openresty luajit install pacman -S luajit this will install luajit into usr/bin and lib files into usr/lib/luajit-2.0/
+lib and include cp /usr/lib/luajit-2.0/* /usr/lib/ nginx/conf/nginx.conf http { include mime.types; default_type application/octet-stream; sendfile on; lua_shared_dict config 1m; lua_package_path &amp;#34;conf/?.lua;;&amp;#34;; init_by_lua_file &amp;#34;conf/init.lua&amp;#34;; server { listen 80; server_name localhost; location /luaredis { content_by_lua_file &amp;#34;conf/content.lua&amp;#34;; } } } nginx/conf/init.lua local cjson = require &amp;#34;cjson&amp;#34; local config = ngx.shared.config local file = io.open(&amp;#34;conf/config.json&amp;#34;,&amp;#34;r&amp;#34;) local content = cjson."><meta property="og:url" content="/posts/misc/openresty/"><meta property="og:site_name" content="Vim Emacser Personal Blog"><meta property="og:image" content="/img/favicon/green.png"><meta property="og:image:width" content="2048"><meta property="og:image:height" content="1024"><meta property="article:published_time" content="2018-02-16 14:05:34 -0400 -0400"></head><body class=green><div class="container full"><header class=header><div class=header__inner><div class=header__logo><a href=/><div class=logo>Terminal</div></a></div><div class=menu-trigger>menu</div></div><nav class=menu><ul class="menu__inner menu__inner--desktop"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><div class=spacer></div><ul class=language-selector><ul class=language-selector-current><li>English ▾</li></ul><ul class="language-selector__more hidden"><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></ul></ul><ul class="menu__inner menu__inner--mobile"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><hr><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></nav></header><div class=content><div class=post><h1 class=post-title><a href=/posts/misc/openresty/>openresty.md</a></h1><div class=post-meta><span class=post-date>2018-02-16</span></div><div class=post-content><div><h1 id=openresty>openresty<a href=#openresty class=hanchor arialabel=Anchor>&#8983;</a></h1><h2 id=luajit-install>luajit install<a href=#luajit-install class=hanchor arialabel=Anchor>&#8983;</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>pacman -S luajit
+</span></span></code></pre></div><p>this will install luajit into <code>usr/bin</code> and <code>lib</code> files into <code>usr/lib/luajit-2.0/</code></p><h2 id=lib-and-include>lib and include<a href=#lib-and-include class=hanchor arialabel=Anchor>&#8983;</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>cp /usr/lib/luajit-2.0/* /usr/lib/
+</span></span></code></pre></div><h2 id=nginxconfnginxconf>nginx/conf/nginx.conf<a href=#nginxconfnginxconf class=hanchor arialabel=Anchor>&#8983;</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt><span style=display:flex><span>http {
+</span></span><span style=display:flex><span>    include       mime.types;
+</span></span><span style=display:flex><span>    default_type  application/octet-stream;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    sendfile on;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    lua_shared_dict config 1m;
+</span></span><span style=display:flex><span>    lua_package_path &#34;conf/?.lua;;&#34;;
+</span></span><span style=display:flex><span>    init_by_lua_file &#34;conf/init.lua&#34;;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    server {
+</span></span><span style=display:flex><span>        listen       80;
+</span></span><span style=display:flex><span>        server_name  localhost;
+</span></span><span style=display:flex><span>        location /luaredis {
+</span></span><span style=display:flex><span>              content_by_lua_file &#34;conf/content.lua&#34;;
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>      }
+</span></span><span style=display:flex><span>    }
+</span></span></code></pre></div><h2 id=nginxconfinitlua>nginx/conf/init.lua<a href=#nginxconfinitlua class=hanchor arialabel=Anchor>&#8983;</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#66d9ef>local</span> cjson <span style=color:#f92672>=</span> require <span style=color:#e6db74>&#34;cjson&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> config <span style=color:#f92672>=</span> ngx.shared.config
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> file <span style=color:#f92672>=</span> io.open(<span style=color:#e6db74>&#34;conf/config.json&#34;</span>,<span style=color:#e6db74>&#34;r&#34;</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> content <span style=color:#f92672>=</span> cjson.decode(file:read(<span style=color:#e6db74>&#34;*all&#34;</span>))
+</span></span><span style=display:flex><span>file:close()
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> name, value <span style=color:#66d9ef>in</span> pairs(content) <span style=color:#66d9ef>do</span>
+</span></span><span style=display:flex><span>  config:set(name,value)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>
+</span></span></code></pre></div><h2 id=nginxconfconfigjson>nginx/conf/config.json<a href=#nginxconfconfigjson class=hanchor arialabel=Anchor>&#8983;</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-json data-lang=json><span style=display:flex><span>{<span style=color:#f92672>&#34;host&#34;</span>:<span style=color:#e6db74>&#34;127.0.0.1&#34;</span>,<span style=color:#f92672>&#34;port&#34;</span>:<span style=color:#e6db74>&#34;6379&#34;</span>}
+</span></span></code></pre></div><h2 id=nginxconfcontentlua>nginx/conf/content.lua<a href=#nginxconfcontentlua class=hanchor arialabel=Anchor>&#8983;</a></h2><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span>ngx.header.content_type <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;text/plain&#34;</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> redis <span style=color:#f92672>=</span> require <span style=color:#e6db74>&#34;resty.redis&#34;</span>;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> config <span style=color:#f92672>=</span> ngx.shared.config;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> instance <span style=color:#f92672>=</span> redis:new();
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> host <span style=color:#f92672>=</span> config:get(<span style=color:#e6db74>&#34;host&#34;</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> port <span style=color:#f92672>=</span> config:get(<span style=color:#e6db74>&#34;port&#34;</span>);
+</span></span><span style=display:flex><span>ngx.say(<span style=color:#e6db74>&#34;Redis server conneted on &#34;</span>,host, <span style=color:#e6db74>&#34;:&#34;</span>, port);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> ok,err <span style=color:#f92672>=</span> instance:connect(host, port);
+</span></span><span style=display:flex><span>ngx.say(err)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> <span style=color:#f92672>not</span> ok <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>
+</span></span><span style=display:flex><span>instance:set(<span style=color:#e6db74>&#34;name&#34;</span>, <span style=color:#e6db74>&#34;Grand Xing Wenju &#34;</span>);
+</span></span><span style=display:flex><span>instance:set(<span style=color:#e6db74>&#34;work&#34;</span>, <span style=color:#e6db74>&#34;Diplomat&#34;</span>);
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> name <span style=color:#f92672>=</span> instance:get(<span style=color:#e6db74>&#34;name&#34;</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> work <span style=color:#f92672>=</span> instance:get(<span style=color:#e6db74>&#34;work&#34;</span>)
+</span></span><span style=display:flex><span>ngx.say(<span style=color:#e6db74>&#34;name: &#34;</span>, name);
+</span></span><span style=display:flex><span>ngx.say(<span style=color:#e6db74>&#34;work: &#34;</span>, work);
+</span></span></code></pre></div><h2 id=test-it>Test it!<a href=#test-it class=hanchor arialabel=Anchor>&#8983;</a></h2><p>Then open your browser <code>http://127.0.0.1/luaredis</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>Redis server conneted on 127.0.0.1:6379
+</span></span><span style=display:flex><span>nil
+</span></span><span style=display:flex><span>name: Grand Xing Wenju
+</span></span><span style=display:flex><span>work: Diplomat
+</span></span></code></pre></div><h1 id=complete-nginxconf-file>Complete <code>nginx.conf</code> file<a href=#complete-nginxconf-file class=hanchor arialabel=Anchor>&#8983;</a></h1><p>#user nobody;</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-txt data-lang=txt><span style=display:flex><span>worker_processes  1;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>#error_log  logs/error.log;
+</span></span><span style=display:flex><span>#error_log  logs/error.log  notice;
+</span></span><span style=display:flex><span>#error_log  logs/error.log  info;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>#pid        logs/nginx.pid;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>events {
+</span></span><span style=display:flex><span>    worker_connections  1024;
+</span></span><span style=display:flex><span>}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>http {
+</span></span><span style=display:flex><span>    include       mime.types;
+</span></span><span style=display:flex><span>    default_type  application/octet-stream;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    #log_format  main  &#39;$remote_addr - $remote_user [$time_local] &#34;$request&#34; &#39;
+</span></span><span style=display:flex><span>    #                  &#39;$status $body_bytes_sent &#34;$http_referer&#34; &#39;
+</span></span><span style=display:flex><span>    #                  &#39;&#34;$http_user_agent&#34; &#34;$http_x_forwarded_for&#34;&#39;;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    #access_log  logs/access.log  main;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    #tcp_nopush     on;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    #keepalive_timeout  0;
+</span></span><span style=display:flex><span>    keepalive_timeout  65;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    #gzip  on;
+</span></span><span style=display:flex><span>#sendfile on;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    lua_shared_dict config 1m;
+</span></span><span style=display:flex><span>    lua_package_path &#34;conf/?.lua;;&#34;;
+</span></span><span style=display:flex><span>    init_by_lua_file &#34;conf/init.lua&#34;;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    server {
+</span></span><span style=display:flex><span>        listen       80;
+</span></span><span style=display:flex><span>        server_name  localhost;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        #charset koi8-r;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        #access_log  logs/host.access.log  main;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        location / {
+</span></span><span style=display:flex><span>            root   html;
+</span></span><span style=display:flex><span>            index  index.html index.htm index.lsp;
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        location = /lua{
+</span></span><span style=display:flex><span>            default_type &#39;text/plain&#39;;
+</span></span><span style=display:flex><span>            content_by_lua &#39;ngx.say(&#34;Hello Lua!&#34;)&#39;;
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        location /luaredis {
+</span></span><span style=display:flex><span>            default_type &#39;text/plain&#39;;
+</span></span><span style=display:flex><span>              content_by_lua_file &#34;conf/content.lua&#34;;
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        location = /addr {
+</span></span><span style=display:flex><span>            default_type &#39;text/plain&#39;;
+</span></span><span style=display:flex><span>              set $a &#34;hello&#34;;
+</span></span><span style=display:flex><span>              set $b &#34;world&#34;;
+</span></span><span style=display:flex><span>              set_by_lua_file $res &#34;conf/addr.lua&#34; $a $b;
+</span></span><span style=display:flex><span>              echo $res;
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>        #error_page  404              /404.html;
+</span></span><span style=display:flex><span>    location = /test {
+</span></span><span style=display:flex><span>            default_type &#39;text/plain&#39;;
+</span></span><span style=display:flex><span>              content_by_lua_file &#34;conf/test.lua&#34;;
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        # redirect server error pages to the static page /50x.html
+</span></span><span style=display:flex><span>        #
+</span></span><span style=display:flex><span>        error_page   500 502 503 504  /50x.html;
+</span></span><span style=display:flex><span>        location = /50x.html {
+</span></span><span style=display:flex><span>            root   html;
+</span></span><span style=display:flex><span>        }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+</span></span><span style=display:flex><span>        #
+</span></span><span style=display:flex><span>        #location ~ \.php$ {
+</span></span><span style=display:flex><span>        #    proxy_pass   http://127.0.0.1;
+</span></span><span style=display:flex><span>        #}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+</span></span><span style=display:flex><span>        #
+</span></span><span style=display:flex><span>        #location ~ \.php$ {
+</span></span><span style=display:flex><span>        #    root           html;
+</span></span><span style=display:flex><span>        #    fastcgi_pass   127.0.0.1:9000;
+</span></span><span style=display:flex><span>        #    fastcgi_index  index.php;
+</span></span><span style=display:flex><span>        #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+</span></span><span style=display:flex><span>        #    include        fastcgi_params;
+</span></span><span style=display:flex><span>        #}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        # deny access to .htaccess files, if Apache&#39;s document root
+</span></span><span style=display:flex><span>        # concurs with nginx&#39;s one
+</span></span><span style=display:flex><span>        #
+</span></span><span style=display:flex><span>        #location ~ /\.ht {
+</span></span><span style=display:flex><span>        #    deny  all;
+</span></span><span style=display:flex><span>        #}
+</span></span><span style=display:flex><span>    }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    # another virtual host using mix of IP-, name-, and port-based configuration
+</span></span><span style=display:flex><span>    #
+</span></span><span style=display:flex><span>    #server {
+</span></span><span style=display:flex><span>    #    listen       8000;
+</span></span><span style=display:flex><span>    #    listen       somename:8080;
+</span></span><span style=display:flex><span>    #    server_name  somename  alias  another.alias;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    #    location / {
+</span></span><span style=display:flex><span>    #        root   html;
+</span></span><span style=display:flex><span>    #        index  index.html index.htm;
+</span></span><span style=display:flex><span>    #    }
+</span></span><span style=display:flex><span>    #}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    # HTTPS server
+</span></span><span style=display:flex><span>    #
+</span></span><span style=display:flex><span>    #server {
+</span></span><span style=display:flex><span>    #    listen       443 ssl;
+</span></span><span style=display:flex><span>    #    server_name  localhost;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    #    ssl_certificate      cert.pem;
+</span></span><span style=display:flex><span>    #    ssl_certificate_key  cert.key;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    #    ssl_session_cache    shared:SSL:1m;
+</span></span><span style=display:flex><span>    #    ssl_session_timeout  5m;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    #    ssl_ciphers  HIGH:!aNULL:!MD5;
+</span></span><span style=display:flex><span>    #    ssl_prefer_server_ciphers  on;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    #    location / {
+</span></span><span style=display:flex><span>    #        root   html;
+</span></span><span style=display:flex><span>    #        index  index.html index.htm;
+</span></span><span style=display:flex><span>    #    }
+</span></span><span style=display:flex><span>    #}
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div></div></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button previous"><a href=/posts/linux/notion/><span class=button__icon>←</span>
+<span class=button__text>notion.md</span></a></span>
+<span class="button next"><a href=/posts/misc/pointer/><span class=button__text>pointer.md</span>
+<span class=button__icon>→</span></a></span></div></div></div></div><footer class=footer><div class=footer__inner><div class="copyright copyright--user"><span>@linuxing3</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span></div></div></footer><script src=/assets/main.js></script>
+<script src=/assets/prism.js></script>
+<script src=/assets/languageSelector.js></script></div></body></html>

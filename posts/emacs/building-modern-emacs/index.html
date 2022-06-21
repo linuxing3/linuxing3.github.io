@@ -1,0 +1,560 @@
+<!doctype html><html lang=en><head><title>building-modern-emacs.org :: Vim Emacser Personal Blog</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Some Description"><meta name=keywords content><meta name=robots content="noodp"><link rel=canonical href=/posts/emacs/building-modern-emacs/><link rel=stylesheet href=/assets/style.css><link rel=stylesheet href=/assets/green.css><link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png><link rel="shortcut icon" href=/img/favicon/green.png><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/linuxing3"><meta name=twitter:creator content="Xing Wenju"><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="og:title" content="building-modern-emacs.org"><meta property="og:description" content="Some Description"><meta property="og:url" content="/posts/emacs/building-modern-emacs/"><meta property="og:site_name" content="Vim Emacser Personal Blog"><meta property="og:image" content="/img/favicon/green.png"><meta property="og:image:width" content="2048"><meta property="og:image:height" content="1024"><meta property="article:published_time" content="2018-02-16 20:03:50 -0400 -0400"></head><body class=green><div class="container full"><header class=header><div class=header__inner><div class=header__logo><a href=/><div class=logo>Terminal</div></a></div><div class=menu-trigger>menu</div></div><nav class=menu><ul class="menu__inner menu__inner--desktop"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><div class=spacer></div><ul class=language-selector><ul class=language-selector-current><li>English ▾</li></ul><ul class="language-selector__more hidden"><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></ul></ul><ul class="menu__inner menu__inner--mobile"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><hr><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></nav></header><div class=content><div class=post><h1 class=post-title><a href=/posts/emacs/building-modern-emacs/>building-modern-emacs.org</a></h1><div class=post-meta><span class=post-date>2018-02-16</span>
+<span class=post-author>:: Xing Wenju</span></div><span class=post-tags>#<a href=/tags/hugo-emacs/>hugo emacs</a>&nbsp;</span><div class=post-content><div><div id=outline-container-headline-1 class=outline-2><h2 id=headline-1>Day 3</h2><div id=outline-text-headline-1 class=outline-text-2><div id=outline-container-headline-2 class=outline-3><h3 id=headline-2>A modern emacs configuration</h3><div id=outline-text-headline-2 class=outline-text-3><div id=outline-container-headline-3 class=outline-4><h4 id=headline-3>Spliting the <code class=verbatim>spacemacs/init</code></h4><div id=outline-text-headline-3 class=outline-text-4><div class="src src-language"><pre tabindex=0><code class=language-language data-lang=language>(defun dotspacemacs/init ()
+ &#34;Instantiate Spacemacs core settings.&#34;
+ (dotspacemacs/init/coding)
+ (dotspacemacs/init/display)
+ (dotspacemacs/init/evil)
+ (dotspacemacs/init/keys)
+ (dotspacemacs/init/layouts)
+ (dotspacemacs/init/misc)
+ (dotspacemacs/init/packages)
+ (dotspacemacs/init/startup))</code></pre></div></div></div><div id=outline-container-headline-4 class=outline-4><h4 id=headline-4>Spliting the <code class=verbatim>spacemacs/config</code></h4><div id=outline-text-headline-4 class=outline-text-4><div class="src src-language"><pre tabindex=0><code class=language-language data-lang=language>(defun dotspacemacs/user-config ()
+ &#34;Configuration that cannot be delegated to layers.&#34;
+ (dotspacemacs/user-config/toggles)
+ (dotspacemacs/user-config/development)
+ (dotspacemacs/user-config/experiments))</code></pre></div></div></div><div id=outline-container-headline-5 class=outline-4><h4 id=headline-5>Spliting the <code class=verbatim>spacemacs/layers</code></h4><div id=outline-text-headline-5 class=outline-text-4><div class="src src-language"><pre tabindex=0><code class=language-language data-lang=language>(defun dotspacemacs/layers ()
+ &#34;Instantiate Spacemacs layers declarations and package configurations.&#34;
+ (dotspacemacs/layers/config)
+ (dotspacemacs/layers/packages))</code></pre></div></div></div><div id=outline-container-headline-6 class=outline-4><h4 id=headline-6>Source Code</h4><div id=outline-text-headline-6 class=outline-text-4><div class="src src-language"><pre tabindex=0><code class=language-language data-lang=language>
+(defvar XING-ONLY? nil
+ &#34;If cloning, set to nil, enable non-layer personal configuration.&#34;)
+
+(defvar linux? (eq system-type &#39;gnu/linux)
+ &#34;Are we on a gnu/linux machine?&#34;)
+
+(defvar desktop? (= 1440 (display-pixel-height))
+ &#34;Am I on my desktop? For determining font size.&#34;)
+
+(defun os-path (path)
+ &#34;Prepend drive label to PATH if on windows machine.&#34;
+ (if linux?
+     path
+   (expand-file-name path &#34;c:&#34;)))
+
+(setq x-smart-package-archives
+&#39;(
+	 (&#34;org&#34;       . &#34;https://orgmode.org/elpa/&#34;)
+	 (&#34;gnu&#34;       . &#34;https://elpa.gnu.org/packages/&#34;)
+	 (&#34;melpa&#34;     . &#34;https://melpa.org/packages/&#34;)
+	 (&#34;milkbox&#34;   . &#34;https://melpa.milkbox.net/packages/&#34;)
+	 (&#34;elpy&#34;      . &#34;https://jorgenschaefer.github.io/packages/&#34;)
+	 (&#34;marmalade&#34; . &#34;https://marmalade-repo.org/packages/&#34;)
+	 )
+)
+
+(setq x-local-package-archives
+&#39;(
+	 (&#34;org&#34; . &#34;http://localhost/static/elpa/org/&#34;)
+	 (&#34;gnu&#34; . &#34;http://localhost/static/elpa/gnu/&#34;)
+	 (&#34;melpa&#34; . &#34;http://localhost/static/elpa/melpa/&#34;)
+	 (&#34;stable-melpa&#34; . &#34;http://localhost/static/elpa/stable-melpa/&#34;)
+	 )
+)
+
+(defun x/refresh-packages ()
+(interactive)
+ (when (&gt;= emacs-major-version 24)
+   (require &#39;package)
+   (setq package-archives x-smart-package-archives)
+   (package-initialize)))
+
+
+;;; Spacemacs/
+
+(defun dotspacemacs/init ()
+ &#34;Instantiate Spacemacs core settings.&#34;
+ (dotspacemacs/init/coding)
+ (dotspacemacs/init/display)
+ (dotspacemacs/init/evil)
+ (dotspacemacs/init/keys)
+ (dotspacemacs/init/layouts)
+ (dotspacemacs/init/misc)
+ (dotspacemacs/init/packages)
+ (dotspacemacs/init/startup))
+
+(defun dotspacemacs/layers ()
+ &#34;Instantiate Spacemacs layers declarations and package configurations.&#34;
+ (dotspacemacs/layers/config)
+ (dotspacemacs/layers/packages))
+
+(defun dotspacemacs/user-init ()
+ &#34;Package independent settings to run before `dotspacemacs/user-config&#39;.&#34;
+
+ (setq tramp-ssh-controlmaster-options
+	&#34;-o ControlMaster=auto -o ControlPath=&#39;tramp.%%C&#39; -o ControlPersist=no&#34;)
+ (setq evil-shift-round nil)
+ (setq byte-compile-warnings &#39;(not obsolete))
+ (setq warning-minimum-level :error)
+ (setq exec-path-from-shell-check-startup-files nil)
+ (setq purpose-mode nil)
+ (setq-default git-magit-status-fullscreen t)
+ (setq custom-file (expand-file-name &#34;custom.el&#34; dotspacemacs-directory)))
+
+(defun dotspacemacs/user-config ()
+ &#34;Configuration that cannot be delegated to layers.&#34;
+ (dotspacemacs/user-config/toggles)
+ (dotspacemacs/user-config/development)
+ (dotspacemacs/user-config/experiments))
+
+;;; Spacemacs/Layers
+
+;;;; Local
+
+(defvar dotspacemacs/layers/local
+ &#39;((macros :location local)    ; All local layers inherit these macros
+
+	 (config :location local)    ; Org, Avy, Evil, Misc... config
+	 (display :location local)   ; Pretty-eshell/code/outlines... pkgs
+	 (langs :location local)     ; Language config
+	 (personal :location local)  ; Personal pkgs
+	 )
+ &#34;Local layers housed in `~/.spacemacs.d/layers&#39;.&#34;)
+
+;;;; Core
+
+(defvar dotspacemacs/layers/core
+ &#39;(better-defaults
+	 git
+	 syntax-checking
+
+	 (auto-completion :variables
+		 auto-completion-return-key-behavior &#39;complete
+		 auto-completion-tab-key-behavior &#39;complete
+		 auto-completion-enable-snippets-in-popup t)
+
+	 (ivy :variables
+		 ivy-extra-directories nil)
+
+	 (org :variables
+		 org-projectile-file &#34;TODO.org&#34;
+		 org-enable-org-journal-support t
+		 org-enable-hugo-support t
+		 org-enable-reveal-js-support t
+		 org-enable-github-support t
+		 org-want-todo-bindings t)
+
+	 (shell :variables
+		 shell-default-shell &#39;eshell)
+
+	 (version-control :variables
+		 version-control-global-margin t
+		 version-control-diff-tool &#39;git-gutter+)
+	 )
+ &#34;Layers I consider core to Spacemacs.&#34;)
+
+;;;; Langs
+
+(defvar dotspacemacs/layers/langs
+ &#39;(c-c++
+   emacs-lisp
+   (javascript :variables node-add-modules-path t)
+   (typescript :variables typescript-fmt-on-save t)
+   rust
+
+   csv
+   html
+   markdown
+
+   (clojure :variables
+            clojure-enable-fancify-symbols t)
+   ;; haskell
+   (haskell :variables
+            haskell-completion-backend &#39;intero)
+   (python :variables
+           python-sort-imports-on-save t
+           python-test-runner &#39;pytest
+           :packages
+           (not hy-mode)  ; I maintain `hy-mode&#39;, using local branch
+           )
+   )
+ &#34;Programming and markup language layers.&#34;)
+
+;;;; Extra
+
+(defvar dotspacemacs/layers/extra
+ &#39;(gnus
+	 graphviz
+	 pdf-tools
+	 ranger
+	 treemacs
+	 docker
+
+	 (ibuffer :variables
+		 ibuffer-group-buffers-by &#39;projects)
+
+	 )
+ &#34;Miscellaneous layers.&#34;)
+
+;;;; Xingwenju
+
+(defvar dotspacemacs/layers/xingwenju
+ &#39;(
+	 xingwenju
+	 )
+ &#34;Xing Wenju layers.&#34;)
+
+;;;; Layers/config
+
+(defun dotspacemacs/layers/config ()
+ (setq-default
+
+  dotspacemacs-distribution
+  &#39;spacemacs
+
+  dotspacemacs-enable-lazy-installation
+  &#39;unused
+
+  dotspacemacs-ask-for-lazy-installation
+  t
+
+  dotspacemacs-configuration-layer-path
+  (list (os-path &#34;~/.spacemacs.d/layers/&#34;))
+
+  dotspacemacs-configuration-layers
+	(
+		append
+   dotspacemacs/layers/local
+   dotspacemacs/layers/core
+   dotspacemacs/layers/langs
+   dotspacemacs/layers/extra
+   dotspacemacs/layers/xingwenju
+   )
+  ))
+
+;;;; Layers/packages
+
+(defun dotspacemacs/layers/packages ()
+ (setq-default
+
+	dotspacemacs-additional-packages
+	&#39;(
+		 solarized-theme
+		 nord-theme
+		 github-modern-theme
+		 atom-dark-theme
+		 org-journal
+		 ox-reveal
+		 ox-hugo
+		 w3m
+		 etags-select
+		 nodejs-repl
+		 )
+
+	dotspacemacs-excluded-packages
+	&#39;(
+		 fringe
+		 hy-mode
+		 )
+
+	dotspacemacs-frozen-packages
+	&#39;()
+
+	dotspacemacs-install-packages
+	&#39;used-but-keep-unused
+	))
+
+;;; Spacemacs/Init
+;;;; Coding
+
+(defun dotspacemacs/init/coding ()
+ (setq-default
+  dotspacemacs-search-tools
+  &#39;(&#34;ag&#34; &#34;rg&#34; &#34;pt&#34; &#34;ack&#34; &#34;grep&#34;)
+
+  dotspacemacs-smooth-scrolling
+  t
+
+  dotspacemacs-folding-method
+  &#39;evil
+
+  dotspacemacs-smartparens-strict-mode
+  nil
+
+  dotspacemacs-smart-closing-parenthesis
+  nil
+
+  dotspacemacs-highlight-delimiters
+  &#39;all
+
+  dotspacemacs-line-numbers
+  nil
+
+  dotspacemacs-whitespace-cleanup
+  &#39;trailing
+  ))
+
+;;;; Display
+
+(defun dotspacemacs/init/display ()
+ (setq-default
+
+	dotspacemacs-themes
+	&#39;(
+		 zenburn
+		 solarized-light
+		 solarized-dark
+		 github-modern
+		 nord  ; Minimal theme modifications for nord
+		 tango
+		 )
+
+	dotspacemacs-default-font
+	`(
+		 &#34;Fira Code&#34;
+		 :size ,(cond ((not linux?) 16)
+							(desktop? 16)
+							(t 16))
+		 :weight normal
+		 :width normal
+		 :powerline-scale 1.5
+		 )
+
+	dotspacemacs-fullscreen-at-startup
+	t
+
+	dotspacemacs-fullscreen-use-non-native
+	nil
+
+	dotspacemacs-maximized-at-startup
+	nil
+
+	dotspacemacs-active-transparency
+	70
+
+	dotspacemacs-inactive-transparency
+	50
+
+	dotspacemacs-mode-line-theme
+	&#39;all-the-icons
+
+	dotspacemacs-mode-line-unicode-symbols
+	t
+
+	dotspacemacs-zone-out-when-idle
+	nil
+
+	dotspacemacs-frame-title-format
+	&#34;%I@%S&#34;
+
+	dotspacemacs-icon-title-format
+	nil
+	))
+
+;;;; Evil
+
+(defun dotspacemacs/init/evil ()
+ (setq-default
+
+  dotspacemacs-editing-style
+  &#39;vim
+
+  dotspacemacs-colorize-cursor-according-to-state
+  t
+
+  dotspacemacs-remap-Y-to-y$
+  t
+
+  dotspacemacs-retain-visual-state-on-shift
+  t
+
+  dotspacemacs-visual-line-move-text
+  nil
+
+  dotspacemacs-ex-substitute-global
+  nil
+
+  dotspacemacs-enable-paste-transient-state
+  nil
+
+  dotspacemacs-show-transient-state-title
+  t
+
+  dotspacemacs-show-transient-state-color-guide
+  t
+  ))
+
+;;;; Keys
+
+(defun dotspacemacs/init/keys ()
+ (setq-default
+
+  dotspacemacs-leader-key
+  &#34;SPC&#34;
+
+  dotspacemacs-emacs-command-key
+  &#34;SPC&#34;
+
+  dotspacemacs-ex-command-key
+  &#34;:&#34;
+
+  dotspacemacs-emacs-leader-key
+  &#34;M-m&#34;
+
+  dotspacemacs-major-mode-leader-key
+  &#34;,&#34;
+
+  dotspacemacs-major-mode-emacs-leader-key
+  &#34;C-M-m&#34;
+
+  dotspacemacs-which-key-delay
+  0.4
+
+  dotspacemacs-which-key-position
+  &#39;bottom
+
+  dotspacemacs-distinguish-gui-tab
+  nil
+  ))
+
+;;;; Layouts
+
+(defun dotspacemacs/init/layouts ()
+ (setq-default
+
+	dotspacemacs-scratch-mode
+	&#39;org-mode
+
+	dotspacemacs-default-layout-name
+	&#34;Default&#34;
+
+	dotspacemacs-display-default-layout
+	t
+
+	dotspacemacs-auto-resume-layouts
+	t
+
+	dotspacemacs-auto-generate-layout-names
+	t
+
+	dotspacemacs-switch-to-buffer-prefers-purpose
+	nil
+	))
+
+;;;; Misc
+
+(defun dotspacemacs/init/misc ()
+ (setq-default
+
+  dotspacemacs-large-file-size
+  5
+
+  dotspacemacs-auto-save-file-location
+  &#39;cache
+
+  dotspacemacs-max-rollback-slots
+  5
+
+  dotspacemacs-persistent-server
+  nil
+
+  dotspacemacs-helm-resize
+  nil
+
+  dotspacemacs-helm-no-header
+  nil
+
+  dotspacemacs-helm-position
+  &#39;bottom
+  ))
+
+;;;; Packages
+
+(defun dotspacemacs/init/packages ()
+ (setq-default
+
+  dotspacemacs-default-package-repository
+  nil
+
+  dotspacemacs-elpa-https
+  t
+
+  dotspacemacs-elpa-timeout
+  5
+
+  dotspacemacs-check-for-update
+  nil
+
+  dotspacemacs-elpa-subdirectory
+  nil
+	)
+;; x/refresh-packages
+
+)
+
+;;;; Startup
+
+(defun dotspacemacs/init/startup ()
+ (setq-default
+
+	dotspacemacs-verbose-loading
+	nil
+
+	dotspacemacs-startup-banner
+	&#39;official
+
+	dotspacemacs-startup-lists
+	&#39;(
+		 (recents . 3)
+		 (projects . 3)
+		 (agenda . 3)
+		 (todos . 3)
+		 (bookmarks . 3)
+		 )
+
+	dotspacemacs-startup-buffer-responsive
+	t
+
+	dotspacemacs-loading-progress-bar
+	t
+	))
+
+;;; Spacemacs/User-Config
+;;;; Toggles
+
+(defun dotspacemacs/user-config/toggles ()
+ &#34;Spacemacs toggles not intended to be put into layers.&#34;
+ (spacemacs/toggle-highlight-long-lines-globally-on)
+ (spacemacs/toggle-mode-line-minor-modes-off)
+ (spacemacs/toggle-aggressive-indent-globally-on)
+ (global-highlight-parentheses-mode 1)
+(golden-ratio-mode 1)
+(global-company-mode 1)
+ (rainbow-delimiters-mode-enable)
+ (fringe-mode &#39;(0 . 8)))
+
+;;;; Development
+(defun dotspacemacs/user-config/development ()
+ &#34;Setting development Environment.&#34;
+;; Tags
+(setq tags-add-tables nil)
+(setq tags-file-name nil)
+ (setq tags-table-list
+	&#39;(&#34;~/.spacemacs.d/TAGS&#34;
+		 &#34;~/workspace/wechaty-master/TAGS&#34;
+		 &#34;~/workspace/cp-work-ts-vue/TAGS&#34;))
+;; Org
+(setq spaceline-org-clock-p t)
+(with-eval-after-load &#39;org-agenda
+(require &#39;org-projectile)
+(push (org-projectile-todo-files) org-agenda-files))
+)
+
+;;;; Experiments
+
+(defun dotspacemacs/user-config/experiments ()
+ &#34;Space for trying out configuration updates.&#34;
+ (setq nord-comment-brightness 15)
+ (setq nord-uniform-mode-lines t)
+
+ (when XING-ONLY?
+   (load-file (os-path &#34;~/.spacemacs.d/elisp/init.el&#34;))
+   (require &#39;hy-mode)
+   (require &#39;spacemacs-hy)
+   (require &#39;hy-personal)
+   ))</code></pre></div><p>To be Continued…</p></div></div></div></div></div></div></div></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button previous"><a href=/posts/nodejs/using-nodejs-in-emacs/><span class=button__icon>←</span>
+<span class=button__text>using-nodejs-in-emacs.org</span></a></span>
+<span class="button next"><a href=/posts/hugo/easy-hugo-with-emacs/><span class=button__text>Easy Hugo With Emacs</span>
+<span class=button__icon>→</span></a></span></div></div></div></div><footer class=footer><div class=footer__inner><div class="copyright copyright--user"><span>@linuxing3</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span></div></div></footer><script src=/assets/main.js></script>
+<script src=/assets/prism.js></script>
+<script src=/assets/languageSelector.js></script></div></body></html>

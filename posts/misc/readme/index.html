@@ -1,0 +1,85 @@
+<!doctype html><html lang=en><head><title>README.md :: Vim Emacser Personal Blog</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="+++ title=&amp;ldquo;README.md&amp;rdquo; date=&amp;ldquo;2018-02-16T14:05:34-04:00&amp;rdquo; +++ +++ title=&amp;ldquo;README.md&amp;rdquo; date=&amp;ldquo;2018-02-16T14:05:34-04:00&amp;rdquo; +++ +++ title=&amp;ldquo;README.md&amp;rdquo; date=&amp;ldquo;2018-02-16T14:05:34-04:00&amp;rdquo; +++ +++ title = &amp;ldquo;Quick start&amp;rdquo; author = [&amp;ldquo;linuxing3&amp;rdquo;] draft = false +++
+Configuration layers Spacemacs divides its configuration into self-contained units called configuration layers. These layers are stacked on top of each other to achieve a custom configuration.
+By default Spacemacs uses a dotfile called ~/.spacemacs to control which layers to load. Within this file you can also configure certain features."><meta name=keywords content><meta name=robots content="noodp"><link rel=canonical href=/posts/misc/readme/><link rel=stylesheet href=/assets/style.css><link rel=stylesheet href=/assets/green.css><link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png><link rel="shortcut icon" href=/img/favicon/green.png><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/linuxing3"><meta name=twitter:creator content><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="og:title" content="README.md"><meta property="og:description" content="+++ title=&amp;ldquo;README.md&amp;rdquo; date=&amp;ldquo;2018-02-16T14:05:34-04:00&amp;rdquo; +++ +++ title=&amp;ldquo;README.md&amp;rdquo; date=&amp;ldquo;2018-02-16T14:05:34-04:00&amp;rdquo; +++ +++ title=&amp;ldquo;README.md&amp;rdquo; date=&amp;ldquo;2018-02-16T14:05:34-04:00&amp;rdquo; +++ +++ title = &amp;ldquo;Quick start&amp;rdquo; author = [&amp;ldquo;linuxing3&amp;rdquo;] draft = false +++
+Configuration layers Spacemacs divides its configuration into self-contained units called configuration layers. These layers are stacked on top of each other to achieve a custom configuration.
+By default Spacemacs uses a dotfile called ~/.spacemacs to control which layers to load. Within this file you can also configure certain features."><meta property="og:url" content="/posts/misc/readme/"><meta property="og:site_name" content="Vim Emacser Personal Blog"><meta property="og:image" content="/img/favicon/green.png"><meta property="og:image:width" content="2048"><meta property="og:image:height" content="1024"><meta property="article:published_time" content="2018-02-16 14:05:34 -0400 -0400"></head><body class=green><div class="container full"><header class=header><div class=header__inner><div class=header__logo><a href=/><div class=logo>Terminal</div></a></div><div class=menu-trigger>menu</div></div><nav class=menu><ul class="menu__inner menu__inner--desktop"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><div class=spacer></div><ul class=language-selector><ul class=language-selector-current><li>English ▾</li></ul><ul class="language-selector__more hidden"><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></ul></ul><ul class="menu__inner menu__inner--mobile"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><hr><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></nav></header><div class=content><div class=post><h1 class=post-title><a href=/posts/misc/readme/>README.md</a></h1><div class=post-meta><span class=post-date>2018-02-16</span></div><div class=post-content><div><p>+++
+title=&ldquo;README.md&rdquo;
+date=&ldquo;2018-02-16T14:05:34-04:00&rdquo;
++++
++++
+title=&ldquo;README.md&rdquo;
+date=&ldquo;2018-02-16T14:05:34-04:00&rdquo;
++++
++++
+title=&ldquo;README.md&rdquo;
+date=&ldquo;2018-02-16T14:05:34-04:00&rdquo;
++++
++++
+title = &ldquo;Quick start&rdquo;
+author = [&ldquo;linuxing3&rdquo;]
+draft = false
++++</p><h2 id=configuration-layers>Configuration layers<a href=#configuration-layers class=hanchor arialabel=Anchor>&#8983;</a></h2><p>Spacemacs divides its configuration into self-contained units called
+<code>configuration layers</code>. These layers are stacked on top of each other
+to achieve a custom configuration.</p><p>By default Spacemacs uses a dotfile called <code>~/.spacemacs</code> to control which
+layers to load. Within this file you can also configure certain features.</p><p>A configuration layer is a directory containing at least a <code>packages.el</code>
+file which defines and configures packages to be downloaded from Emacs
+package repositories using the <code>package.el</code> built-in feature of Emacs.</p><p>If you already have your own <code>Emacs</code> configuration you can move it to your
+own layer.</p><p>The following command creates a layer in the <code>private</code> directory:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>SPC SPC configuration-layer/create-layer RET
+</span></span></code></pre></div><p>Any configuration layers you create must be explicitly loaded in <code>~/.spacemacs</code>.</p><p>Note: For your privacy, the contents of the <code>private</code> directory are not
+under source control. See the section on private configuration management in
+the <a href=DOCUMENTATION.org>documentation</a>.</p><h2 id=dotfile--dot-spacemacs>Dotfile (.spacemacs)<a href=#dotfile--dot-spacemacs class=hanchor arialabel=Anchor>&#8983;</a></h2><p>As mentioned <code>.spacemacs</code> controls which configuration layers to load and
+is also a means to customizing Spacemacs.</p><p>The following command will create a <code>.spacemacs</code> file in your home directory:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>SPC SPC dotspacemacs/install RET
+</span></span></code></pre></div><p>To open the installed dotfile:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>SPC f e d
+</span></span></code></pre></div><p>To load some configuration layers using the variable
+<code>dotspacemacs-configuration-layers</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-elisp data-lang=elisp><span style=display:flex><span><span style=color:#75715e>;; List of configuration layers to load.</span>
+</span></span><span style=display:flex><span>dotspacemacs-configuration-layers <span style=color:#f92672>&#39;</span>(auto-completion smex)
+</span></span></code></pre></div><p>Some configuration layers support configuration variables to expose granular
+control over layer-specific features, <a href=../layers/+source-control/git/README.org>git layer</a> being one such example.
+Variables can be directly set within <code>dotspacemacs-configuration-layers</code> like so:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-elisp data-lang=elisp><span style=display:flex><span><span style=color:#75715e>;; List of configuration layers to load.</span>
+</span></span><span style=display:flex><span>dotspacemacs-configuration-layers <span style=color:#f92672>&#39;</span>(auto-completion
+</span></span><span style=display:flex><span>                                    (git :variables
+</span></span><span style=display:flex><span>                                         git-magit-status-fullscreen <span style=color:#66d9ef>t</span>)
+</span></span><span style=display:flex><span>                                    smex)
+</span></span></code></pre></div><p>At anytime you can apply the changes made to the dotfile or layers
+without restarting Spacemacs by pressing <code>SPC f e R</code>.</p><p>The <a href=https://github.com/syl20bnr/spacemacs/blob/master/core/templates/.spacemacs.template>dotfile template</a> contains further information about how to customize
+Spacemacs. See the dotfile configuration section of the <a href=DOCUMENTATION.org>documentation</a> for
+more details.</p><h2 id=dotdirectory--dot-spacemacs-dot-d>Dotdirectory (~/.spacemacs.d)<a href=#dotdirectory--dot-spacemacs-dot-d class=hanchor arialabel=Anchor>&#8983;</a></h2><p>Like <code>Emacs</code>, Spacemacs initialization can also be contained in an <code>init.el</code> file
+in a special directory <code>~/.spacemacs.d</code>. The contents of the dotfile should be
+then copied in the <code>init.el</code> file.</p><p>The Emacs dotfile or dotdirectory is not replaced but rather
+complemented by the Spacemacs dotfile or dotdirectory. During startup,
+Emacs still uses <code>~/.emacs.d/init.el</code> (or <code>~/.emacs</code>) for its
+initialization, and variable <code>user-emacs-directory</code> will still point
+to <code>~/.emacs.d/</code>, even if <code>~/.spacemacs.d</code> or <code>~/.spacemacs</code> are
+present. Only now <code>~/.emacs.d/init.el</code> is provided by Spacemacs
+(e.g. after cloning the Spacemacs git repo into an empty
+<code>~/.emacs.d/</code>), and your own personnal configurations go into
+<code>~/.spacemacs.d/init.el</code> (or <code>~/.spacemacs</code>).</p><p>Have a look into the FAQ for an easy workaround to maintain (your
+former) vanilla Emacs and (your new) Spacemacs configurations
+side-by-side without the need to rename and backup <code>~/.emacs.d/</code>.</p><h2 id=learning-spacemacs>Learning Spacemacs<a href=#learning-spacemacs class=hanchor arialabel=Anchor>&#8983;</a></h2><h3 id=editing-styles>Editing Styles<a href=#editing-styles class=hanchor arialabel=Anchor>&#8983;</a></h3><p>Spacemacs can be used by Vim users or Emacs users by setting the
+<code>dotspacemacs-editing-style</code> variable to <code>vim</code>, <code>emacs</code> or even <code>hybrid</code>
+in the dotfile <code>~/.spacemacs</code>.</p><h3 id=the-leader-keys>The leader keys<a href=#the-leader-keys class=hanchor arialabel=Anchor>&#8983;</a></h3><p>Spacemacs key bindings use a leader key which is by default bound to
+<code>SPC</code> (space bar) in <code>vim</code> or <code>hybrid</code> editing styles and <code>M-m</code> in <code>emacs</code>
+style.</p><p>You can change it by setting the variable <code>dotspacemacs-leader-key</code> if
+you use the <code>vim</code> style or <code>dotspacemacs-emacs-leader-key</code> if you use
+the <code>emacs</code> style (these variables must be set in the file <code>~/.spacemacs</code>).</p><p>For simplicity the documentation always refers to the leader key as
+<code>SPC</code>.</p><p>There is secondary leader key called the major-mode leader key which is
+set to <code>​,​</code> by default. This key is a shortcut for <code>SPC m</code>
+where all the major-mode specific commands are bound.</p><h3 id=evil-tutor>Evil-tutor<a href=#evil-tutor class=hanchor arialabel=Anchor>&#8983;</a></h3><p>If you are willing to learn the Vim key bindings (highly recommended since
+you can benefit from them even in <code>emacs</code> style), press <code>SPC h T</code>
+to begin an Evil-adapted Vimtutor.</p><h3 id=universal-argument>Universal argument<a href=#universal-argument class=hanchor arialabel=Anchor>&#8983;</a></h3><p>In <code>vim</code> editing style the universal argument defaults to <code>SPC u</code>
+instead of <code>C-u</code> because the latter is used to scroll up as in Vim.</p><h3 id=configuration-layers-and-package-discovery>Configuration layers and Package discovery<a href=#configuration-layers-and-package-discovery class=hanchor arialabel=Anchor>&#8983;</a></h3><p>By using <code>helm-spacemacs-help</code> with <code>SPC h SPC</code> you can quickly search
+for a package and get the name of the layers using it.</p><p>You can also easily go to the <code>README.org</code> of a layer or go to the initialization
+function of a package.</p><h3 id=key-bindings-discovery>Key bindings discovery<a href=#key-bindings-discovery class=hanchor arialabel=Anchor>&#8983;</a></h3><p>Thanks to <a href=https://github.com/justbur/emacs-which-key>which-key</a>, whenever a prefix command is pressed (like <code>SPC</code>)
+a buffer appears after one second listing the possible keys for this prefix.</p><p>It is also possible to search for specific key bindings by pressing:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>SPC ?
+</span></span></code></pre></div><p>To narrow the bindings list to those prefixed with <code>SPC</code>,
+type a pattern like this regular expression:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-text data-lang=text><span style=display:flex><span>SPC\ b
+</span></span></code></pre></div><p>which would list all <code>buffer</code> related bindings. <strong>Note:</strong> You are at the
+<em>HELM-Descbind</em> prompt, the pattern consists of 6 letters: uppercase <code>SPC</code>, a
+backslash, an actual space and a lowercase <code>b</code>.</p><h3 id=describe-functions>Describe functions<a href=#describe-functions class=hanchor arialabel=Anchor>&#8983;</a></h3><p><code>Describe functions</code> are powerful Emacs introspection commands to get information
+about functions, variables, modes etc. These commands are bound thusly:</p><table><thead><tr><th>Key Binding</th><th>Description</th></tr></thead><tbody><tr><td><code>SPC h d f</code></td><td>describe-function</td></tr><tr><td><code>SPC h d k</code></td><td>describe-key</td></tr><tr><td><code>SPC h d m</code></td><td>describe-mode</td></tr><tr><td><code>SPC h d v</code></td><td>describe-variable</td></tr></tbody></table><h2 id=how-to-s>How-To&rsquo;s<a href=#how-to-s class=hanchor arialabel=Anchor>&#8983;</a></h2><p>Some quick <code>how-to's</code> are compiled in the <a href=FAQ.org>FAQ.</a></p></div></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button previous"><a href=/posts/nodejs/reactjs/><span class=button__icon>←</span>
+<span class=button__text>reactjs.md</span></a></span>
+<span class="button next"><a href=/posts/nodejs/redux-devtools/><span class=button__text>redux-devtools.md</span>
+<span class=button__icon>→</span></a></span></div></div></div></div><footer class=footer><div class=footer__inner><div class="copyright copyright--user"><span>@linuxing3</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span></div></div></footer><script src=/assets/main.js></script>
+<script src=/assets/prism.js></script>
+<script src=/assets/languageSelector.js></script></div></body></html>

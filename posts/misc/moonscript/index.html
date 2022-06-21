@@ -1,0 +1,92 @@
+<!doctype html><html lang=en><head><title>moonscript.md :: Vim Emacser Personal Blog</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="title: Moonscript Moonscript 语法特点类似python和coffescript
+类的使用 定义一个类，作为模块输入也可以 module &amp;#34;WS&amp;#34;,package.seeall require &amp;#34;lfs&amp;#34; class WS -- Constructor -- class variables: -- @dirs table holds array of files name to handle new: =&amp;gt; @dirs = {} @source = &amp;#34;&amp;#34; @target = &amp;#34;&amp;#34; -- pwd -- print current working directory pwd:()=&amp;gt; pwd = lfs.currentdir! print(pwd) -- link -- making symbolic link,s as source file,t as target file link:(s,t)=&amp;gt; lfs.link s,t,1 mkdp:(path)=&amp;gt; lfs.mkdir path -- walk -- walk through a directory -- if is directory, continue searching the subdirectories and files -- getting attributes and show them walk:(path)=&amp;gt; for file in lfs."><meta name=keywords content><meta name=robots content="noodp"><link rel=canonical href=/posts/misc/moonscript/><link rel=stylesheet href=/assets/style.css><link rel=stylesheet href=/assets/green.css><link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png><link rel="shortcut icon" href=/img/favicon/green.png><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/linuxing3"><meta name=twitter:creator content><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="og:title" content="moonscript.md"><meta property="og:description" content="title: Moonscript Moonscript 语法特点类似python和coffescript
+类的使用 定义一个类，作为模块输入也可以 module &amp;#34;WS&amp;#34;,package.seeall require &amp;#34;lfs&amp;#34; class WS -- Constructor -- class variables: -- @dirs table holds array of files name to handle new: =&amp;gt; @dirs = {} @source = &amp;#34;&amp;#34; @target = &amp;#34;&amp;#34; -- pwd -- print current working directory pwd:()=&amp;gt; pwd = lfs.currentdir! print(pwd) -- link -- making symbolic link,s as source file,t as target file link:(s,t)=&amp;gt; lfs.link s,t,1 mkdp:(path)=&amp;gt; lfs.mkdir path -- walk -- walk through a directory -- if is directory, continue searching the subdirectories and files -- getting attributes and show them walk:(path)=&amp;gt; for file in lfs."><meta property="og:url" content="/posts/misc/moonscript/"><meta property="og:site_name" content="Vim Emacser Personal Blog"><meta property="og:image" content="/img/favicon/green.png"><meta property="og:image:width" content="2048"><meta property="og:image:height" content="1024"><meta property="article:published_time" content="2018-02-16 14:05:34 -0400 -0400"></head><body class=green><div class="container full"><header class=header><div class=header__inner><div class=header__logo><a href=/><div class=logo>Terminal</div></a></div><div class=menu-trigger>menu</div></div><nav class=menu><ul class="menu__inner menu__inner--desktop"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><div class=spacer></div><ul class=language-selector><ul class=language-selector-current><li>English ▾</li></ul><ul class="language-selector__more hidden"><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></ul></ul><ul class="menu__inner menu__inner--mobile"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><hr><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></nav></header><div class=content><div class=post><h1 class=post-title><a href=/posts/misc/moonscript/>moonscript.md</a></h1><div class=post-meta><span class=post-date>2018-02-16</span></div><div class=post-content><div><h2 id=title-moonscript>title: Moonscript<a href=#title-moonscript class=hanchor arialabel=Anchor>&#8983;</a></h2><h1 id=moonscript>Moonscript<a href=#moonscript class=hanchor arialabel=Anchor>&#8983;</a></h1><p>语法特点类似python和coffescript</p><h2 id=类的使用>类的使用<a href=#类的使用 class=hanchor arialabel=Anchor>&#8983;</a></h2><h3 id=定义一个类作为模块输入也可以>定义一个类，作为模块输入也可以<a href=#定义一个类作为模块输入也可以 class=hanchor arialabel=Anchor>&#8983;</a></h3><pre tabindex=0><code class=language-moon data-lang=moon>module &#34;WS&#34;,package.seeall
+
+require &#34;lfs&#34;
+
+class WS
+	-- Constructor
+	-- class variables:
+	-- @dirs table holds array of files name to handle
+	new: =&gt;
+		@dirs = {}
+		@source = &#34;&#34;
+		@target = &#34;&#34;
+
+	-- pwd
+	-- print current working directory
+	pwd:()=&gt;
+      pwd = lfs.currentdir!
+      print(pwd)
+
+	-- link
+	-- making symbolic link,s as source file,t as target file
+	link:(s,t)=&gt;
+      lfs.link s,t,1
+
+	mkdp:(path)=&gt;
+		lfs.mkdir path
+
+	-- walk
+	-- walk through a directory
+	-- if is directory, continue searching the subdirectories and files
+	-- getting attributes and show them
+	walk:(path)=&gt;
+		for file in lfs.dir path
+			if file != &#34;.&#34; and file != &#34;..&#34;
+				filepath = path..&#34;/&#34;..file
+				attr = lfs.attributes filepath
+				if attr.mode == &#34;directory&#34;
+					@walk filepath
+				else
+					for i,v in pairs attr
+						print i,v
+
+	--checking os
+	--uname
+	--ostypes are Darwin,Linux,Windows
+	checkos:(v)=&gt;
+		switch v
+			when &#34;Linux&#34; then return &#34;Linux&#34;
+			when &#34;Darwin&#34; then return &#34;Darwin&#34;
+			when &#34;Windows&#34; then retrun &#34;Windows&#34;
+</code></pre><h3 id=使用这个类非常简单>使用这个类非常简单<a href=#使用这个类非常简单 class=hanchor arialabel=Anchor>&#8983;</a></h3><pre tabindex=0><code class=language-moon data-lang=moon>WS = require &#34;WS&#34;
+
+dirs = {
+	&#34;java101&#34;,
+	&#34;lua101&#34;,
+	&#34;python101&#34;,
+	&#34;R101&#34;,
+	&#34;tex101&#34;,
+	&#34;java101&#34;,
+	&#34;wiki101&#34;,
+}
+
+base_linux = &#34;/home/linuxing3/workspace&#34;
+newbase_linux = &#34;/workspace&#34;
+base_mac = &#34;/Volumes/mac/Tdownload/workspace&#34;
+newbase_mac = &#34;/Users/linuxing3/workspace&#34;
+
+-- class WS
+-- A object of workspace
+ws = WS!
+ws\pwd!
+
+-- initialize ws object with dirs,source,target
+ws.dirs = dirs
+ws.source = base_linux
+ws.target = newbase_linux
+
+print &#34;Your source directory is &#34;..ws.source
+print &#34;Your source directory is &#34;..ws.target
+print file for i,file in pairs ws.dirs
+
+switch ws\checkos &#34;Linux&#34;
+	when &#34;Linux&#34; then ws.source = base_linux
+</code></pre></div></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button previous"><a href=/posts/misc/moon_getting_started/><span class=button__icon>←</span>
+<span class=button__text>moon_getting_started.md</span></a></span>
+<span class="button next"><a href=/posts/linux/notion/><span class=button__text>notion.md</span>
+<span class=button__icon>→</span></a></span></div></div></div></div><footer class=footer><div class=footer__inner><div class="copyright copyright--user"><span>@linuxing3</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span></div></div></footer><script src=/assets/main.js></script>
+<script src=/assets/prism.js></script>
+<script src=/assets/languageSelector.js></script></div></body></html>

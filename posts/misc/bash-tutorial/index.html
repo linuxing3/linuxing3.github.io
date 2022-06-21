@@ -1,0 +1,887 @@
+<!doctype html><html lang=en><head><title>Bash Tutorial :: Vim Emacser Personal Blog</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Bash BASH CHEATSHEET (中文速查表) - by skywind (created on 2018/02/14) Version: 47, Last Modified: 2019/09/24 17:58 https://github.com/skywind3000/awesome-cheatsheets
+############################################################################## ############################################################################## # 常用快捷键（默认使用 Emacs 键位） ############################################################################## CTRL+A # 移动到行首，同 &amp;lt;Home&amp;gt; CTRL+B # 向后移动，同 &amp;lt;Left&amp;gt; CTRL+C # 结束当前命令 CTRL+D # 删除光标前的字符，同 &amp;lt;Delete&amp;gt; ，或者没有内容时，退出会话 CTRL+E # 移动到行末，同 &amp;lt;End&amp;gt; CTRL+F # 向前移动，同 &amp;lt;Right&amp;gt; CTRL+G # 退出当前编辑（比如正在 CTRL+R 搜索历史时） CTRL+H # 删除光标左边的字符，同 &amp;lt;Backspace&amp;gt; CTRL+K # 删除光标位置到行末的内容 CTRL+L # 清屏并重新显示 CTRL+N # 移动到命令历史的下一行，同 &amp;lt;Down&amp;gt; CTRL+O # 类似回车，但是会显示下一行历史 CTRL+P # 移动到命令历史的上一行，同 &amp;lt;Up&amp;gt; CTRL+R # 历史命令反向搜索，使用 CTRL+G 退出搜索 CTRL+S # 历史命令正向搜索，使用 CTRL+G 退出搜索 CTRL+T # 交换前后两个字符 CTRL+U # 删除字符到行首 CTRL+V # 输入字符字面量，先按 CTRL+V 再按任意键 CTRL+W # 删除光标左边的一个单词 CTRL+X # 列出可能的补全 CTRL+Y # 粘贴前面 CTRL+u/k/w 删除过的内容 CTRL+Z # 暂停前台进程返回 bash，需要时可用 fg 将其切换回前台 CTRL+_ # 撤销（undo），有的终端将 CTRL+_ 映射为 CTRL+/ 或 CTRL+7 ALT+b # 向后（左边）移动一个单词 ALT+d # 删除光标后（右边）一个单词 ALT+f # 向前（右边）移动一个单词 ALT+t # 交换字符 ALT+BACKSPACE # 删除光标前面一个单词，类似 CTRL+W，但不影响剪贴板 CTRL+X CTRL+X # 连续按两次 CTRL+X，光标在当前位置和行首来回跳转 CTRL+X CTRL+E # 用你指定的编辑器，编辑当前命令 ############################################################################## # BASH 基本操作 ############################################################################## exit # 退出当前登陆 env # 显示环境变量 echo $SHELL # 显示你在使用什么 SHELL bash # 使用 bash，用 exit 返回 which bash # 搜索 $PATH，查找哪个程序对应命令 bash whereis bash # 搜索可执行，头文件和帮助信息的位置，使用系统内建数据库 whatis bash # 查看某个命令的解释，一句话告诉你这是干什么的 clear # 清初屏幕内容 reset # 重置终端（当你不小心 cat 了一个二进制，终端状态乱掉时使用） ############################################################################## # 目录操作 ############################################################################## cd # 返回自己 $HOME 目录 cd {dirname} # 进入目录 pwd # 显示当前所在目录 mkdir {dirname} # 创建目录 mkdir -p {dirname} # 递归创建目录 pushd {dirname} # 目录压栈并进入新目录 popd # 弹出并进入栈顶的目录 dirs -v # 列出当前目录栈 cd - # 回到之前的目录 cd -{N} # 切换到目录栈中的第 N个目录，比如 cd -2 将切换到第二个 ############################################################################## # 文件操作 ############################################################################## ls # 显示当前目录内容，后面可接目录名：ls {dir} 显示指定目录 ls -l # 列表方式显示目录内容，包括文件日期，大小，权限等信息 ls -1 # 列表方式显示目录内容，只显示文件名称，减号后面是数字 1 ls -a # 显示所有文件和目录，包括隐藏文件（."><meta name=keywords content><meta name=robots content="noodp"><link rel=canonical href=/posts/misc/bash-tutorial/><link rel=stylesheet href=/assets/style.css><link rel=stylesheet href=/assets/green.css><link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png><link rel="shortcut icon" href=/img/favicon/green.png><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/linuxing3"><meta name=twitter:creator content><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="og:title" content="Bash Tutorial"><meta property="og:description" content="Bash BASH CHEATSHEET (中文速查表) - by skywind (created on 2018/02/14) Version: 47, Last Modified: 2019/09/24 17:58 https://github.com/skywind3000/awesome-cheatsheets
+############################################################################## ############################################################################## # 常用快捷键（默认使用 Emacs 键位） ############################################################################## CTRL+A # 移动到行首，同 &amp;lt;Home&amp;gt; CTRL+B # 向后移动，同 &amp;lt;Left&amp;gt; CTRL+C # 结束当前命令 CTRL+D # 删除光标前的字符，同 &amp;lt;Delete&amp;gt; ，或者没有内容时，退出会话 CTRL+E # 移动到行末，同 &amp;lt;End&amp;gt; CTRL+F # 向前移动，同 &amp;lt;Right&amp;gt; CTRL+G # 退出当前编辑（比如正在 CTRL+R 搜索历史时） CTRL+H # 删除光标左边的字符，同 &amp;lt;Backspace&amp;gt; CTRL+K # 删除光标位置到行末的内容 CTRL+L # 清屏并重新显示 CTRL+N # 移动到命令历史的下一行，同 &amp;lt;Down&amp;gt; CTRL+O # 类似回车，但是会显示下一行历史 CTRL+P # 移动到命令历史的上一行，同 &amp;lt;Up&amp;gt; CTRL+R # 历史命令反向搜索，使用 CTRL+G 退出搜索 CTRL+S # 历史命令正向搜索，使用 CTRL+G 退出搜索 CTRL+T # 交换前后两个字符 CTRL+U # 删除字符到行首 CTRL+V # 输入字符字面量，先按 CTRL+V 再按任意键 CTRL+W # 删除光标左边的一个单词 CTRL+X # 列出可能的补全 CTRL+Y # 粘贴前面 CTRL+u/k/w 删除过的内容 CTRL+Z # 暂停前台进程返回 bash，需要时可用 fg 将其切换回前台 CTRL+_ # 撤销（undo），有的终端将 CTRL+_ 映射为 CTRL+/ 或 CTRL+7 ALT+b # 向后（左边）移动一个单词 ALT+d # 删除光标后（右边）一个单词 ALT+f # 向前（右边）移动一个单词 ALT+t # 交换字符 ALT+BACKSPACE # 删除光标前面一个单词，类似 CTRL+W，但不影响剪贴板 CTRL+X CTRL+X # 连续按两次 CTRL+X，光标在当前位置和行首来回跳转 CTRL+X CTRL+E # 用你指定的编辑器，编辑当前命令 ############################################################################## # BASH 基本操作 ############################################################################## exit # 退出当前登陆 env # 显示环境变量 echo $SHELL # 显示你在使用什么 SHELL bash # 使用 bash，用 exit 返回 which bash # 搜索 $PATH，查找哪个程序对应命令 bash whereis bash # 搜索可执行，头文件和帮助信息的位置，使用系统内建数据库 whatis bash # 查看某个命令的解释，一句话告诉你这是干什么的 clear # 清初屏幕内容 reset # 重置终端（当你不小心 cat 了一个二进制，终端状态乱掉时使用） ############################################################################## # 目录操作 ############################################################################## cd # 返回自己 $HOME 目录 cd {dirname} # 进入目录 pwd # 显示当前所在目录 mkdir {dirname} # 创建目录 mkdir -p {dirname} # 递归创建目录 pushd {dirname} # 目录压栈并进入新目录 popd # 弹出并进入栈顶的目录 dirs -v # 列出当前目录栈 cd - # 回到之前的目录 cd -{N} # 切换到目录栈中的第 N个目录，比如 cd -2 将切换到第二个 ############################################################################## # 文件操作 ############################################################################## ls # 显示当前目录内容，后面可接目录名：ls {dir} 显示指定目录 ls -l # 列表方式显示目录内容，包括文件日期，大小，权限等信息 ls -1 # 列表方式显示目录内容，只显示文件名称，减号后面是数字 1 ls -a # 显示所有文件和目录，包括隐藏文件（."><meta property="og:url" content="/posts/misc/bash-tutorial/"><meta property="og:site_name" content="Vim Emacser Personal Blog"><meta property="og:image" content="/img/favicon/green.png"><meta property="og:image:width" content="2048"><meta property="og:image:height" content="1024"><meta property="article:published_time" content="2021-02-11 08:31:52 -0400 -0400"></head><body class=green><div class="container full"><header class=header><div class=header__inner><div class=header__logo><a href=/><div class=logo>Terminal</div></a></div><div class=menu-trigger>menu</div></div><nav class=menu><ul class="menu__inner menu__inner--desktop"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><div class=spacer></div><ul class=language-selector><ul class=language-selector-current><li>English ▾</li></ul><ul class="language-selector__more hidden"><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></ul></ul><ul class="menu__inner menu__inner--mobile"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><hr><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></nav></header><div class=content><div class=post><h1 class=post-title><a href=/posts/misc/bash-tutorial/>Bash Tutorial</a></h1><div class=post-meta><span class=post-date>2021-02-11</span></div><div class=post-content><div><h2 id=bash>Bash<a href=#bash class=hanchor arialabel=Anchor>&#8983;</a></h2><p>BASH CHEATSHEET (中文速查表) - by skywind (created on 2018/02/14)
+Version: 47, Last Modified: 2019/09/24 17:58
+<a href=https://github.com/skywind3000/awesome-cheatsheets>https://github.com/skywind3000/awesome-cheatsheets</a></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 常用快捷键（默认使用 Emacs 键位）</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>CTRL+A              <span style=color:#75715e># 移动到行首，同 &lt;Home&gt;</span>
+</span></span><span style=display:flex><span>CTRL+B              <span style=color:#75715e># 向后移动，同 &lt;Left&gt;</span>
+</span></span><span style=display:flex><span>CTRL+C              <span style=color:#75715e># 结束当前命令</span>
+</span></span><span style=display:flex><span>CTRL+D              <span style=color:#75715e># 删除光标前的字符，同 &lt;Delete&gt; ，或者没有内容时，退出会话</span>
+</span></span><span style=display:flex><span>CTRL+E              <span style=color:#75715e># 移动到行末，同 &lt;End&gt;</span>
+</span></span><span style=display:flex><span>CTRL+F              <span style=color:#75715e># 向前移动，同 &lt;Right&gt;</span>
+</span></span><span style=display:flex><span>CTRL+G              <span style=color:#75715e># 退出当前编辑（比如正在 CTRL+R 搜索历史时）</span>
+</span></span><span style=display:flex><span>CTRL+H              <span style=color:#75715e># 删除光标左边的字符，同 &lt;Backspace&gt;</span>
+</span></span><span style=display:flex><span>CTRL+K              <span style=color:#75715e># 删除光标位置到行末的内容</span>
+</span></span><span style=display:flex><span>CTRL+L              <span style=color:#75715e># 清屏并重新显示</span>
+</span></span><span style=display:flex><span>CTRL+N              <span style=color:#75715e># 移动到命令历史的下一行，同 &lt;Down&gt;</span>
+</span></span><span style=display:flex><span>CTRL+O              <span style=color:#75715e># 类似回车，但是会显示下一行历史</span>
+</span></span><span style=display:flex><span>CTRL+P              <span style=color:#75715e># 移动到命令历史的上一行，同 &lt;Up&gt;</span>
+</span></span><span style=display:flex><span>CTRL+R              <span style=color:#75715e># 历史命令反向搜索，使用 CTRL+G 退出搜索</span>
+</span></span><span style=display:flex><span>CTRL+S              <span style=color:#75715e># 历史命令正向搜索，使用 CTRL+G 退出搜索</span>
+</span></span><span style=display:flex><span>CTRL+T              <span style=color:#75715e># 交换前后两个字符</span>
+</span></span><span style=display:flex><span>CTRL+U              <span style=color:#75715e># 删除字符到行首</span>
+</span></span><span style=display:flex><span>CTRL+V              <span style=color:#75715e># 输入字符字面量，先按 CTRL+V 再按任意键</span>
+</span></span><span style=display:flex><span>CTRL+W              <span style=color:#75715e># 删除光标左边的一个单词</span>
+</span></span><span style=display:flex><span>CTRL+X              <span style=color:#75715e># 列出可能的补全</span>
+</span></span><span style=display:flex><span>CTRL+Y              <span style=color:#75715e># 粘贴前面 CTRL+u/k/w 删除过的内容</span>
+</span></span><span style=display:flex><span>CTRL+Z              <span style=color:#75715e># 暂停前台进程返回 bash，需要时可用 fg 将其切换回前台</span>
+</span></span><span style=display:flex><span>CTRL+_              <span style=color:#75715e># 撤销（undo），有的终端将 CTRL+_ 映射为 CTRL+/ 或 CTRL+7</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>ALT+b               <span style=color:#75715e># 向后（左边）移动一个单词</span>
+</span></span><span style=display:flex><span>ALT+d               <span style=color:#75715e># 删除光标后（右边）一个单词</span>
+</span></span><span style=display:flex><span>ALT+f               <span style=color:#75715e># 向前（右边）移动一个单词</span>
+</span></span><span style=display:flex><span>ALT+t               <span style=color:#75715e># 交换字符</span>
+</span></span><span style=display:flex><span>ALT+BACKSPACE       <span style=color:#75715e># 删除光标前面一个单词，类似 CTRL+W，但不影响剪贴板</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>CTRL+X CTRL+X       <span style=color:#75715e># 连续按两次 CTRL+X，光标在当前位置和行首来回跳转 </span>
+</span></span><span style=display:flex><span>CTRL+X CTRL+E       <span style=color:#75715e># 用你指定的编辑器，编辑当前命令</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># BASH 基本操作</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>exit                <span style=color:#75715e># 退出当前登陆</span>
+</span></span><span style=display:flex><span>env                 <span style=color:#75715e># 显示环境变量</span>
+</span></span><span style=display:flex><span>echo $SHELL         <span style=color:#75715e># 显示你在使用什么 SHELL</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>bash                <span style=color:#75715e># 使用 bash，用 exit 返回</span>
+</span></span><span style=display:flex><span>which bash          <span style=color:#75715e># 搜索 $PATH，查找哪个程序对应命令 bash</span>
+</span></span><span style=display:flex><span>whereis bash        <span style=color:#75715e># 搜索可执行，头文件和帮助信息的位置，使用系统内建数据库</span>
+</span></span><span style=display:flex><span>whatis bash         <span style=color:#75715e># 查看某个命令的解释，一句话告诉你这是干什么的</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>clear               <span style=color:#75715e># 清初屏幕内容</span>
+</span></span><span style=display:flex><span>reset               <span style=color:#75715e># 重置终端（当你不小心 cat 了一个二进制，终端状态乱掉时使用）</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 目录操作</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>cd                  <span style=color:#75715e># 返回自己 $HOME 目录</span>
+</span></span><span style=display:flex><span>cd <span style=color:#f92672>{</span>dirname<span style=color:#f92672>}</span>        <span style=color:#75715e># 进入目录</span>
+</span></span><span style=display:flex><span>pwd                 <span style=color:#75715e># 显示当前所在目录</span>
+</span></span><span style=display:flex><span>mkdir <span style=color:#f92672>{</span>dirname<span style=color:#f92672>}</span>     <span style=color:#75715e># 创建目录</span>
+</span></span><span style=display:flex><span>mkdir -p <span style=color:#f92672>{</span>dirname<span style=color:#f92672>}</span>  <span style=color:#75715e># 递归创建目录</span>
+</span></span><span style=display:flex><span>pushd <span style=color:#f92672>{</span>dirname<span style=color:#f92672>}</span>     <span style=color:#75715e># 目录压栈并进入新目录</span>
+</span></span><span style=display:flex><span>popd                <span style=color:#75715e># 弹出并进入栈顶的目录</span>
+</span></span><span style=display:flex><span>dirs -v             <span style=color:#75715e># 列出当前目录栈</span>
+</span></span><span style=display:flex><span>cd -                <span style=color:#75715e># 回到之前的目录</span>
+</span></span><span style=display:flex><span>cd -<span style=color:#f92672>{</span>N<span style=color:#f92672>}</span>             <span style=color:#75715e># 切换到目录栈中的第 N个目录，比如 cd -2 将切换到第二个</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 文件操作</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>ls                  <span style=color:#75715e># 显示当前目录内容，后面可接目录名：ls {dir} 显示指定目录</span>
+</span></span><span style=display:flex><span>ls -l               <span style=color:#75715e># 列表方式显示目录内容，包括文件日期，大小，权限等信息</span>
+</span></span><span style=display:flex><span>ls -1               <span style=color:#75715e># 列表方式显示目录内容，只显示文件名称，减号后面是数字 1</span>
+</span></span><span style=display:flex><span>ls -a               <span style=color:#75715e># 显示所有文件和目录，包括隐藏文件（.开头的文件/目录名）</span>
+</span></span><span style=display:flex><span>ln -s <span style=color:#f92672>{</span>fn<span style=color:#f92672>}</span> <span style=color:#f92672>{</span>link<span style=color:#f92672>}</span>   <span style=color:#75715e># 给指定文件创建一个软链接</span>
+</span></span><span style=display:flex><span>cp <span style=color:#f92672>{</span>src<span style=color:#f92672>}</span> <span style=color:#f92672>{</span>dest<span style=color:#f92672>}</span>     <span style=color:#75715e># 拷贝文件，cp -r dir1 dir2 可以递归拷贝（目录）</span>
+</span></span><span style=display:flex><span>rm <span style=color:#f92672>{</span>fn<span style=color:#f92672>}</span>             <span style=color:#75715e># 删除文件，rm -r 递归删除目录，rm -f 强制删除</span>
+</span></span><span style=display:flex><span>mv <span style=color:#f92672>{</span>src<span style=color:#f92672>}</span> <span style=color:#f92672>{</span>dest<span style=color:#f92672>}</span>     <span style=color:#75715e># 移动文件，如果 dest 是目录，则移动，是文件名则覆盖</span>
+</span></span><span style=display:flex><span>touch <span style=color:#f92672>{</span>fn<span style=color:#f92672>}</span>          <span style=color:#75715e># 创建或者更新一下制定文件</span>
+</span></span><span style=display:flex><span>cat <span style=color:#f92672>{</span>fn<span style=color:#f92672>}</span>            <span style=color:#75715e># 输出文件原始内容</span>
+</span></span><span style=display:flex><span>any_cmd &gt; <span style=color:#f92672>{</span>fn<span style=color:#f92672>}</span>      <span style=color:#75715e># 执行任意命令并将标准输出重定向到指定文件</span>
+</span></span><span style=display:flex><span>more <span style=color:#f92672>{</span>fn<span style=color:#f92672>}</span>           <span style=color:#75715e># 逐屏显示某文件内容，空格翻页，q 退出</span>
+</span></span><span style=display:flex><span>less <span style=color:#f92672>{</span>fn<span style=color:#f92672>}</span>           <span style=color:#75715e># 更高级点的 more，更多操作，q 退出</span>
+</span></span><span style=display:flex><span>head <span style=color:#f92672>{</span>fn<span style=color:#f92672>}</span>           <span style=color:#75715e># 显示文件头部数行，可用 head -3 abc.txt 显示头三行</span>
+</span></span><span style=display:flex><span>tail <span style=color:#f92672>{</span>fn<span style=color:#f92672>}</span>           <span style=color:#75715e># 显示文件尾部数行，可用 tail -3 abc.txt 显示尾部三行</span>
+</span></span><span style=display:flex><span>tail -f <span style=color:#f92672>{</span>fn<span style=color:#f92672>}</span>        <span style=color:#75715e># 持续显示文件尾部数据，可用于监控日志</span>
+</span></span><span style=display:flex><span>nano <span style=color:#f92672>{</span>fn<span style=color:#f92672>}</span>           <span style=color:#75715e># 使用 nano 编辑器编辑文件</span>
+</span></span><span style=display:flex><span>vim <span style=color:#f92672>{</span>fn<span style=color:#f92672>}</span>            <span style=color:#75715e># 使用 vim 编辑文件</span>
+</span></span><span style=display:flex><span>diff <span style=color:#f92672>{</span>f1<span style=color:#f92672>}</span> <span style=color:#f92672>{</span>f2<span style=color:#f92672>}</span>      <span style=color:#75715e># 比较两个文件的内容</span>
+</span></span><span style=display:flex><span>wc <span style=color:#f92672>{</span>fn<span style=color:#f92672>}</span>             <span style=color:#75715e># 统计文件有多少行，多少个单词</span>
+</span></span><span style=display:flex><span>chmod <span style=color:#ae81ff>644</span> <span style=color:#f92672>{</span>fn<span style=color:#f92672>}</span>      <span style=color:#75715e># 修改文件权限为 644，可以接 -R 对目录循环改权限</span>
+</span></span><span style=display:flex><span>chgrp group <span style=color:#f92672>{</span>fn<span style=color:#f92672>}</span>    <span style=color:#75715e># 修改文件所属的用户组</span>
+</span></span><span style=display:flex><span>chown user1 <span style=color:#f92672>{</span>fn<span style=color:#f92672>}</span>    <span style=color:#75715e># 修改文件所有人为 user1, chown user1:group1 fn 可以修改组</span>
+</span></span><span style=display:flex><span>file <span style=color:#f92672>{</span>fn<span style=color:#f92672>}</span>           <span style=color:#75715e># 检测文件的类型和编码</span>
+</span></span><span style=display:flex><span>basename <span style=color:#f92672>{</span>fn<span style=color:#f92672>}</span>       <span style=color:#75715e># 查看文件的名字（不包括路径）</span>
+</span></span><span style=display:flex><span>dirname <span style=color:#f92672>{</span>fn<span style=color:#f92672>}</span>        <span style=color:#75715e># 查看文件的路径（不包括名字）</span>
+</span></span><span style=display:flex><span>grep <span style=color:#f92672>{</span>pat<span style=color:#f92672>}</span> <span style=color:#f92672>{</span>fn<span style=color:#f92672>}</span>     <span style=color:#75715e># 在文件中查找出现过 pat 的内容</span>
+</span></span><span style=display:flex><span>grep -r <span style=color:#f92672>{</span>pat<span style=color:#f92672>}</span> .     <span style=color:#75715e># 在当前目录下递归查找所有出现过 pat 的文件内容</span>
+</span></span><span style=display:flex><span>stat <span style=color:#f92672>{</span>fn<span style=color:#f92672>}</span>           <span style=color:#75715e># 显示文件的详细信息</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 用户管理</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>whoami              <span style=color:#75715e># 显示我的用户名</span>
+</span></span><span style=display:flex><span>who                 <span style=color:#75715e># 显示已登陆用户信息，w / who / users 内容略有不同</span>
+</span></span><span style=display:flex><span>w                   <span style=color:#75715e># 显示已登陆用户信息，w / who / users 内容略有不同</span>
+</span></span><span style=display:flex><span>users               <span style=color:#75715e># 显示已登陆用户信息，w / who / users 内容略有不同</span>
+</span></span><span style=display:flex><span>passwd              <span style=color:#75715e># 修改密码，passwd {user} 可以用于 root 修改别人密码</span>
+</span></span><span style=display:flex><span>finger <span style=color:#f92672>{</span>user<span style=color:#f92672>}</span>       <span style=color:#75715e># 显示某用户信息，包括 id, 名字, 登陆状态等</span>
+</span></span><span style=display:flex><span>adduser <span style=color:#f92672>{</span>user<span style=color:#f92672>}</span>      <span style=color:#75715e># 添加用户</span>
+</span></span><span style=display:flex><span>deluser <span style=color:#f92672>{</span>user<span style=color:#f92672>}</span>      <span style=color:#75715e># 删除用户</span>
+</span></span><span style=display:flex><span>w                   <span style=color:#75715e># 查看谁在线</span>
+</span></span><span style=display:flex><span>su                  <span style=color:#75715e># 切换到 root 用户</span>
+</span></span><span style=display:flex><span>su -                <span style=color:#75715e># 切换到 root 用户并登陆（执行登陆脚本）</span>
+</span></span><span style=display:flex><span>su <span style=color:#f92672>{</span>user<span style=color:#f92672>}</span>           <span style=color:#75715e># 切换到某用户</span>
+</span></span><span style=display:flex><span>su -<span style=color:#f92672>{</span>user<span style=color:#f92672>}</span>          <span style=color:#75715e># 切换到某用户并登陆（执行登陆脚本）</span>
+</span></span><span style=display:flex><span>id <span style=color:#f92672>{</span>user<span style=color:#f92672>}</span>           <span style=color:#75715e># 查看用户的 uid，gid 以及所属其他用户组</span>
+</span></span><span style=display:flex><span>id -u <span style=color:#f92672>{</span>user<span style=color:#f92672>}</span>        <span style=color:#75715e># 打印用户 uid</span>
+</span></span><span style=display:flex><span>id -g <span style=color:#f92672>{</span>user<span style=color:#f92672>}</span>        <span style=color:#75715e># 打印用户 gid</span>
+</span></span><span style=display:flex><span>write <span style=color:#f92672>{</span>user<span style=color:#f92672>}</span>        <span style=color:#75715e># 向某用户发送一句消息</span>
+</span></span><span style=display:flex><span>last                <span style=color:#75715e># 显示最近用户登陆列表</span>
+</span></span><span style=display:flex><span>last <span style=color:#f92672>{</span>user<span style=color:#f92672>}</span>         <span style=color:#75715e># 显示登陆记录</span>
+</span></span><span style=display:flex><span>lastb               <span style=color:#75715e># 显示失败登陆记录</span>
+</span></span><span style=display:flex><span>lastlog             <span style=color:#75715e># 显示所有用户的最近登陆记录</span>
+</span></span><span style=display:flex><span>sudo <span style=color:#f92672>{</span>command<span style=color:#f92672>}</span>      <span style=color:#75715e># 以 root 权限执行某命令</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 进程管理</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>ps                        <span style=color:#75715e># 查看当前会话进程</span>
+</span></span><span style=display:flex><span>ps ax                     <span style=color:#75715e># 查看所有进程，类似 ps -e</span>
+</span></span><span style=display:flex><span>ps aux                    <span style=color:#75715e># 查看所有进程详细信息，类似 ps -ef</span>
+</span></span><span style=display:flex><span>ps auxww                  <span style=color:#75715e># 查看所有进程，并且显示进程的完整启动命令</span>
+</span></span><span style=display:flex><span>ps -u <span style=color:#f92672>{</span>user<span style=color:#f92672>}</span>              <span style=color:#75715e># 查看某用户进程</span>
+</span></span><span style=display:flex><span>ps axjf                   <span style=color:#75715e># 列出进程树</span>
+</span></span><span style=display:flex><span>ps xjf -u <span style=color:#f92672>{</span>user<span style=color:#f92672>}</span>          <span style=color:#75715e># 列出某用户的进程树</span>
+</span></span><span style=display:flex><span>ps -eo pid,user,command   <span style=color:#75715e># 按用户指定的格式查看进程</span>
+</span></span><span style=display:flex><span>ps aux | grep httpd       <span style=color:#75715e># 查看名为 httpd 的所有进程</span>
+</span></span><span style=display:flex><span>ps --ppid <span style=color:#f92672>{</span>pid<span style=color:#f92672>}</span>           <span style=color:#75715e># 查看父进程为 pid 的所有进程</span>
+</span></span><span style=display:flex><span>pstree                    <span style=color:#75715e># 树形列出所有进程，pstree 默认一般不带，需安装</span>
+</span></span><span style=display:flex><span>pstree <span style=color:#f92672>{</span>user<span style=color:#f92672>}</span>             <span style=color:#75715e># 进程树列出某用户的进程</span>
+</span></span><span style=display:flex><span>pstree -u                 <span style=color:#75715e># 树形列出所有进程以及所属用户</span>
+</span></span><span style=display:flex><span>pgrep <span style=color:#f92672>{</span>procname<span style=color:#f92672>}</span>          <span style=color:#75715e># 搜索名字匹配的进程的 pid，比如 pgrep apache2</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>kill <span style=color:#f92672>{</span>pid<span style=color:#f92672>}</span>                <span style=color:#75715e># 结束进程</span>
+</span></span><span style=display:flex><span>kill -9 <span style=color:#f92672>{</span>pid<span style=color:#f92672>}</span>             <span style=color:#75715e># 强制结束进程，9/SIGKILL 是强制不可捕获结束信号</span>
+</span></span><span style=display:flex><span>kill -KILL <span style=color:#f92672>{</span>pid<span style=color:#f92672>}</span>          <span style=color:#75715e># 强制执行进程，kill -9 的另外一种写法</span>
+</span></span><span style=display:flex><span>kill -l                   <span style=color:#75715e># 查看所有信号</span>
+</span></span><span style=display:flex><span>kill -l TERM              <span style=color:#75715e># 查看 TERM 信号的编号</span>
+</span></span><span style=display:flex><span>killall <span style=color:#f92672>{</span>procname<span style=color:#f92672>}</span>        <span style=color:#75715e># 按名称结束所有进程</span>
+</span></span><span style=display:flex><span>pkill <span style=color:#f92672>{</span>procname<span style=color:#f92672>}</span>          <span style=color:#75715e># 按名称结束进程，除名称外还可以有其他参数</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>top                       <span style=color:#75715e># 查看最活跃的进程</span>
+</span></span><span style=display:flex><span>top -u <span style=color:#f92672>{</span>user<span style=color:#f92672>}</span>             <span style=color:#75715e># 查看某用户最活跃的进程</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>any_command &amp;             <span style=color:#75715e># 在后台运行某命令，也可用 CTRL+Z 将当前进程挂到后台</span>
+</span></span><span style=display:flex><span>jobs                      <span style=color:#75715e># 查看所有后台进程（jobs）</span>
+</span></span><span style=display:flex><span>bg                        <span style=color:#75715e># 查看后台进程，并切换过去</span>
+</span></span><span style=display:flex><span>fg                        <span style=color:#75715e># 切换后台进程到前台</span>
+</span></span><span style=display:flex><span>fg <span style=color:#f92672>{</span>job<span style=color:#f92672>}</span>                  <span style=color:#75715e># 切换特定后台进程到前台</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>trap cmd sig1 sig2        <span style=color:#75715e># 在脚本中设置信号处理命令</span>
+</span></span><span style=display:flex><span>trap <span style=color:#e6db74>&#34;&#34;</span> sig1 sig2         <span style=color:#75715e># 在脚本中屏蔽某信号</span>
+</span></span><span style=display:flex><span>trap - sig1 sig2          <span style=color:#75715e># 恢复默认信号处理行为</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>nohup <span style=color:#f92672>{</span>command<span style=color:#f92672>}</span>           <span style=color:#75715e># 长期运行某程序，在你退出登陆都保持它运行</span>
+</span></span><span style=display:flex><span>nohup <span style=color:#f92672>{</span>command<span style=color:#f92672>}</span> &amp;         <span style=color:#75715e># 在后台长期运行某程序</span>
+</span></span><span style=display:flex><span>disown <span style=color:#f92672>{</span>PID|JID<span style=color:#f92672>}</span>          <span style=color:#75715e># 将进程从后台任务列表（jobs）移除</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>wait                      <span style=color:#75715e># 等待所有后台进程任务结束</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 常用命令：SSH / 系统信息 / 网络</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>ssh user@host             <span style=color:#75715e># 以用户 user 登陆到远程主机 host</span>
+</span></span><span style=display:flex><span>ssh -p <span style=color:#f92672>{</span>port<span style=color:#f92672>}</span> user@host   <span style=color:#75715e># 指定端口登陆主机</span>
+</span></span><span style=display:flex><span>ssh-copy-id user@host     <span style=color:#75715e># 拷贝你的 ssh key 到远程主机，避免重复输入密码</span>
+</span></span><span style=display:flex><span>scp <span style=color:#f92672>{</span>fn<span style=color:#f92672>}</span> user@host:path   <span style=color:#75715e># 拷贝文件到远程主机</span>
+</span></span><span style=display:flex><span>scp user@host:path dest   <span style=color:#75715e># 从远程主机拷贝文件回来</span>
+</span></span><span style=display:flex><span>scp -P <span style=color:#f92672>{</span>port<span style=color:#f92672>}</span> ...         <span style=color:#75715e># 指定端口远程拷贝文件</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>uname -a                  <span style=color:#75715e># 查看内核版本等信息</span>
+</span></span><span style=display:flex><span>man <span style=color:#f92672>{</span>help<span style=color:#f92672>}</span>                <span style=color:#75715e># 查看帮助</span>
+</span></span><span style=display:flex><span>man -k <span style=color:#f92672>{</span>keyword<span style=color:#f92672>}</span>          <span style=color:#75715e># 查看哪些帮助文档里包含了该关键字</span>
+</span></span><span style=display:flex><span>info <span style=color:#f92672>{</span>help<span style=color:#f92672>}</span>               <span style=color:#75715e># 查看 info pages，比 man 更强的帮助系统</span>
+</span></span><span style=display:flex><span>uptime                    <span style=color:#75715e># 查看系统启动时间</span>
+</span></span><span style=display:flex><span>date                      <span style=color:#75715e># 显示日期</span>
+</span></span><span style=display:flex><span>cal                       <span style=color:#75715e># 显示日历</span>
+</span></span><span style=display:flex><span>vmstat                    <span style=color:#75715e># 显示内存和 CPU 使用情况</span>
+</span></span><span style=display:flex><span>vmstat <span style=color:#ae81ff>10</span>                 <span style=color:#75715e># 每 10 秒打印一行内存和 CPU情况，CTRL+C 退出</span>
+</span></span><span style=display:flex><span>free                      <span style=color:#75715e># 显示内存和交换区使用情况</span>
+</span></span><span style=display:flex><span>df                        <span style=color:#75715e># 显示磁盘使用情况</span>
+</span></span><span style=display:flex><span>du                        <span style=color:#75715e># 显示当前目录占用，du . --max-depth=2 可以指定深度</span>
+</span></span><span style=display:flex><span>uname                     <span style=color:#75715e># 显示系统版本号</span>
+</span></span><span style=display:flex><span>hostname                  <span style=color:#75715e># 显示主机名称</span>
+</span></span><span style=display:flex><span>showkey -a                <span style=color:#75715e># 查看终端发送的按键编码</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>ping <span style=color:#f92672>{</span>host<span style=color:#f92672>}</span>               <span style=color:#75715e># ping 远程主机并显示结果，CTRL+C 退出</span>
+</span></span><span style=display:flex><span>ping -c N <span style=color:#f92672>{</span>host<span style=color:#f92672>}</span>          <span style=color:#75715e># ping 远程主机 N 次</span>
+</span></span><span style=display:flex><span>traceroute <span style=color:#f92672>{</span>host<span style=color:#f92672>}</span>         <span style=color:#75715e># 侦测路由连通情况</span>
+</span></span><span style=display:flex><span>mtr <span style=color:#f92672>{</span>host<span style=color:#f92672>}</span>                <span style=color:#75715e># 高级版本 traceroute</span>
+</span></span><span style=display:flex><span>host <span style=color:#f92672>{</span>domain<span style=color:#f92672>}</span>             <span style=color:#75715e># DNS 查询，{domain} 前面可加 -a 查看详细信息</span>
+</span></span><span style=display:flex><span>whois <span style=color:#f92672>{</span>domain<span style=color:#f92672>}</span>            <span style=color:#75715e># 取得域名 whois 信息</span>
+</span></span><span style=display:flex><span>dig <span style=color:#f92672>{</span>domain<span style=color:#f92672>}</span>              <span style=color:#75715e># 取得域名 dns 信息</span>
+</span></span><span style=display:flex><span>route -n                  <span style=color:#75715e># 查看路由表</span>
+</span></span><span style=display:flex><span>netstat -a                <span style=color:#75715e># 列出所有端口</span>
+</span></span><span style=display:flex><span>netstat -an               <span style=color:#75715e># 查看所有连接信息，不解析域名</span>
+</span></span><span style=display:flex><span>netstat -anp              <span style=color:#75715e># 查看所有连接信息，包含进程信息（需要 sudo）</span>
+</span></span><span style=display:flex><span>netstat -l                <span style=color:#75715e># 查看所有监听的端口</span>
+</span></span><span style=display:flex><span>netstat -t                <span style=color:#75715e># 查看所有 TCP 链接</span>
+</span></span><span style=display:flex><span>netstat -lntu             <span style=color:#75715e># 显示所有正在监听的 TCP 和 UDP 信息</span>
+</span></span><span style=display:flex><span>netstat -lntup            <span style=color:#75715e># 显示所有正在监听的 socket 及进程信息</span>
+</span></span><span style=display:flex><span>netstat -i                <span style=color:#75715e># 显示网卡信息</span>
+</span></span><span style=display:flex><span>netstat -rn               <span style=color:#75715e># 显示当前系统路由表，同 route -n</span>
+</span></span><span style=display:flex><span>ss -an                    <span style=color:#75715e># 比 netstat -an 更快速更详细</span>
+</span></span><span style=display:flex><span>ss -s                     <span style=color:#75715e># 统计 TCP 的 established, wait 等</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>wget <span style=color:#f92672>{</span>url<span style=color:#f92672>}</span>                <span style=color:#75715e># 下载文件，可加 --no-check-certificate 忽略 ssl 验证</span>
+</span></span><span style=display:flex><span>wget -qO- <span style=color:#f92672>{</span>url<span style=color:#f92672>}</span>           <span style=color:#75715e># 下载文件并输出到标准输出（不保存）</span>
+</span></span><span style=display:flex><span>curl -sL <span style=color:#f92672>{</span>url<span style=color:#f92672>}</span>            <span style=color:#75715e># 同 wget -qO- {url} 没有 wget 的时候使用</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>sz <span style=color:#f92672>{</span>file<span style=color:#f92672>}</span>                 <span style=color:#75715e># 发送文件到终端，zmodem 协议</span>
+</span></span><span style=display:flex><span>rz                        <span style=color:#75715e># 接收终端发送过来的文件</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 变量操作</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>varname<span style=color:#f92672>=</span>value             <span style=color:#75715e># 定义变量</span>
+</span></span><span style=display:flex><span>varname<span style=color:#f92672>=</span>value command     <span style=color:#75715e># 定义子进程变量并执行子进程</span>
+</span></span><span style=display:flex><span>echo $varname             <span style=color:#75715e># 查看变量内容</span>
+</span></span><span style=display:flex><span>echo $$                   <span style=color:#75715e># 查看当前 shell 的进程号</span>
+</span></span><span style=display:flex><span>echo $!                   <span style=color:#75715e># 查看最近调用的后台任务进程号</span>
+</span></span><span style=display:flex><span>echo $?                   <span style=color:#75715e># 查看最近一条命令的返回码</span>
+</span></span><span style=display:flex><span>export VARNAME<span style=color:#f92672>=</span>value      <span style=color:#75715e># 设置环境变量（将会影响到子进程）</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>array<span style=color:#f92672>[</span>0<span style=color:#f92672>]=</span>valA             <span style=color:#75715e># 定义数组</span>
+</span></span><span style=display:flex><span>array<span style=color:#f92672>[</span>1<span style=color:#f92672>]=</span>valB
+</span></span><span style=display:flex><span>array<span style=color:#f92672>[</span>2<span style=color:#f92672>]=</span>valC
+</span></span><span style=display:flex><span>array<span style=color:#f92672>=([</span>0<span style=color:#f92672>]=</span>valA <span style=color:#f92672>[</span>1<span style=color:#f92672>]=</span>valB <span style=color:#f92672>[</span>2<span style=color:#f92672>]=</span>valC<span style=color:#f92672>)</span>   <span style=color:#75715e># 另一种方式</span>
+</span></span><span style=display:flex><span>array<span style=color:#f92672>=(</span>valA valB valC<span style=color:#f92672>)</span>               <span style=color:#75715e># 另一种方式</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>${</span>array[i]<span style=color:#e6db74>}</span>               <span style=color:#75715e># 取得数组中的元素</span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>${#</span>array[@]<span style=color:#e6db74>}</span>              <span style=color:#75715e># 取得数组的长度</span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>${#</span>array[i]<span style=color:#e6db74>}</span>              <span style=color:#75715e># 取得数组中某个变量的长度</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>declare -a                <span style=color:#75715e># 查看所有数组</span>
+</span></span><span style=display:flex><span>declare -f                <span style=color:#75715e># 查看所有函数</span>
+</span></span><span style=display:flex><span>declare -F                <span style=color:#75715e># 查看所有函数，仅显示函数名</span>
+</span></span><span style=display:flex><span>declare -i                <span style=color:#75715e># 查看所有整数</span>
+</span></span><span style=display:flex><span>declare -r                <span style=color:#75715e># 查看所有只读变量</span>
+</span></span><span style=display:flex><span>declare -x                <span style=color:#75715e># 查看所有被导出成环境变量的东西</span>
+</span></span><span style=display:flex><span>declare -p varname        <span style=color:#75715e># 输出变量是怎么定义的（类型+值）</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>${</span>varname<span style=color:#66d9ef>:-</span>word<span style=color:#e6db74>}</span>          <span style=color:#75715e># 如果变量不为空则返回变量，否则返回 word</span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>${</span>varname:=word<span style=color:#e6db74>}</span>          <span style=color:#75715e># 如果变量不为空则返回变量，否则赋值成 word 并返回</span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>${</span>varname:?message<span style=color:#e6db74>}</span>       <span style=color:#75715e># 如果变量不为空则返回变量，否则打印错误信息并退出</span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>${</span>varname:+word<span style=color:#e6db74>}</span>          <span style=color:#75715e># 如果变量不为空则返回 word，否则返回 null</span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>${</span>varname:offset:len<span style=color:#e6db74>}</span>     <span style=color:#75715e># 取得字符串的子字符串</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>${</span>variable#pattern<span style=color:#e6db74>}</span>       <span style=color:#75715e># 如果变量头部匹配 pattern，则删除最小匹配部分返回剩下的</span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>${</span>variable##pattern<span style=color:#e6db74>}</span>      <span style=color:#75715e># 如果变量头部匹配 pattern，则删除最大匹配部分返回剩下的</span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>${</span>variable%pattern<span style=color:#e6db74>}</span>       <span style=color:#75715e># 如果变量尾部匹配 pattern，则删除最小匹配部分返回剩下的</span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>${</span>variable%%pattern<span style=color:#e6db74>}</span>      <span style=color:#75715e># 如果变量尾部匹配 pattern，则删除最大匹配部分返回剩下的</span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>${</span>variable/pattern/str<span style=color:#e6db74>}</span>   <span style=color:#75715e># 将变量中第一个匹配 pattern 的替换成 str，并返回</span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>${</span>variable//pattern/str<span style=color:#e6db74>}</span>  <span style=color:#75715e># 将变量中所有匹配 pattern 的地方替换成 str 并返回</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>${#</span>varname<span style=color:#e6db74>}</span>               <span style=color:#75715e># 返回字符串长度</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>*<span style=color:#f92672>(</span>patternlist<span style=color:#f92672>)</span>            <span style=color:#75715e># 零次或者多次匹配</span>
+</span></span><span style=display:flex><span>+<span style=color:#f92672>(</span>patternlist<span style=color:#f92672>)</span>            <span style=color:#75715e># 一次或者多次匹配</span>
+</span></span><span style=display:flex><span>?<span style=color:#f92672>(</span>patternlist<span style=color:#f92672>)</span>            <span style=color:#75715e># 零次或者一次匹配</span>
+</span></span><span style=display:flex><span>@<span style=color:#f92672>(</span>patternlist<span style=color:#f92672>)</span>            <span style=color:#75715e># 单词匹配</span>
+</span></span><span style=display:flex><span>!<span style=color:#f92672>(</span>patternlist<span style=color:#f92672>)</span>            <span style=color:#75715e># 不匹配</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>array<span style=color:#f92672>=(</span>$text<span style=color:#f92672>)</span>             <span style=color:#75715e># 按空格分隔 text 成数组，并赋值给变量</span>
+</span></span><span style=display:flex><span>IFS<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;/&#34;</span> array<span style=color:#f92672>=(</span>$text<span style=color:#f92672>)</span>     <span style=color:#75715e># 按斜杆分隔字符串 text 成数组，并赋值给变量</span>
+</span></span><span style=display:flex><span>text<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>array[*]<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>        <span style=color:#75715e># 用空格链接数组并赋值给变量</span>
+</span></span><span style=display:flex><span>text<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>IFS<span style=color:#f92672>=</span>/; echo <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>array[*]<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span><span style=color:#66d9ef>)</span>  <span style=color:#75715e># 用斜杠链接数组并赋值给变量</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>A<span style=color:#f92672>=(</span> foo bar <span style=color:#e6db74>&#34;a  b c&#34;</span> <span style=color:#ae81ff>42</span> <span style=color:#f92672>)</span> <span style=color:#75715e># 数组定义</span>
+</span></span><span style=display:flex><span>B<span style=color:#f92672>=(</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>A[@]:1:2<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span><span style=color:#f92672>)</span>         <span style=color:#75715e># 数组切片：B=( bar &#34;a  b c&#34; )</span>
+</span></span><span style=display:flex><span>C<span style=color:#f92672>=(</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>A[@]:1<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span><span style=color:#f92672>)</span>           <span style=color:#75715e># 数组切片：C=( bar &#34;a  b c&#34; 42 )</span>
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>B[@]<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>            <span style=color:#75715e># bar a  b c</span>
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>B[1]<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>            <span style=color:#75715e># a  b c</span>
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>C[@]<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>            <span style=color:#75715e># bar a  b c 42</span>
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>C[@]: -2:2<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>      <span style=color:#75715e># a  b c 42  减号前的空格是必须的</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>$(</span>UNIX command<span style=color:#66d9ef>)</span>           <span style=color:#75715e># 运行命令，并将标准输出内容捕获并返回</span>
+</span></span><span style=display:flex><span>varname<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>id -u user<span style=color:#66d9ef>)</span>     <span style=color:#75715e># 将用户名为 user 的 uid 赋值给 varname 变量</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>num<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>expr <span style=color:#ae81ff>1</span> + 2<span style=color:#66d9ef>)</span>         <span style=color:#75715e># 兼容 posix sh 的计算，使用 expr 命令计算结果</span>
+</span></span><span style=display:flex><span>num<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>expr $num + 1<span style=color:#66d9ef>)</span>      <span style=color:#75715e># 数字自增</span>
+</span></span><span style=display:flex><span>expr <span style=color:#ae81ff>2</span> <span style=color:#ae81ff>\*</span> <span style=color:#ae81ff>\(</span> <span style=color:#ae81ff>2</span> + <span style=color:#ae81ff>3</span> <span style=color:#ae81ff>\)</span>     <span style=color:#75715e># 兼容 posix sh 的复杂计算，输出 10</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>num<span style=color:#f92672>=</span><span style=color:#66d9ef>$((</span><span style=color:#ae81ff>1</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>2</span><span style=color:#66d9ef>))</span>            <span style=color:#75715e># 计算 1+2 赋值给 num，使用 bash 独有的 $((..)) 计算</span>
+</span></span><span style=display:flex><span>num<span style=color:#f92672>=</span><span style=color:#66d9ef>$((</span>$num <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span><span style=color:#66d9ef>))</span>         <span style=color:#75715e># 变量递增</span>
+</span></span><span style=display:flex><span>num<span style=color:#f92672>=</span><span style=color:#66d9ef>$((</span>num <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span><span style=color:#66d9ef>))</span>          <span style=color:#75715e># 变量递增，双括号内的 $ 可以省略</span>
+</span></span><span style=display:flex><span>num<span style=color:#f92672>=</span><span style=color:#66d9ef>$((</span><span style=color:#ae81ff>1</span> <span style=color:#f92672>+</span> <span style=color:#f92672>(</span><span style=color:#ae81ff>2</span> <span style=color:#f92672>+</span> <span style=color:#ae81ff>3</span><span style=color:#f92672>)</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>2</span><span style=color:#66d9ef>))</span>  <span style=color:#75715e># 复杂计算</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 事件指示符</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>!!                  <span style=color:#75715e># 上一条命令</span>
+</span></span><span style=display:flex><span>!^                  <span style=color:#75715e># 上一条命令的第一个单词</span>
+</span></span><span style=display:flex><span>!:n                 <span style=color:#75715e># 上一条命令的第n个单词</span>
+</span></span><span style=display:flex><span>!:n-$               <span style=color:#75715e># 上一条命令的第n个单词到最后一个单词</span>
+</span></span><span style=display:flex><span>!$                  <span style=color:#75715e># 上一条命令的最后一个单词</span>
+</span></span><span style=display:flex><span>!-n:$               <span style=color:#75715e># 上n条命令的最后一个单词</span>
+</span></span><span style=display:flex><span>!string             <span style=color:#75715e># 最近一条包含string的命令</span>
+</span></span><span style=display:flex><span>!^string1^string2   <span style=color:#75715e># 最近一条包含string1的命令, 快速替换string1为string2</span>
+</span></span><span style=display:flex><span>!#                  <span style=color:#75715e># 本条命令之前所有的输入内容</span>
+</span></span><span style=display:flex><span>!#:n                <span style=color:#75715e># 本条命令之前的第n个单词, 快速备份cp /etc/passwd !#:1.bak</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 函数</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 定义一个新函数</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> myfunc<span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># $1 代表第一个参数，$N 代表第 N 个参数</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># $# 代表参数个数</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># $0 代表被调用者自身的名字</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># $@ 代表所有参数，类型是个数组，想传递所有参数给其他命令用 cmd &#34;$@&#34; </span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e># $* 空格链接起来的所有参数，类型是字符串</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>{</span>shell commands ...<span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>myfunc                    <span style=color:#75715e># 调用函数 myfunc </span>
+</span></span><span style=display:flex><span>myfunc arg1 arg2 arg3     <span style=color:#75715e># 带参数的函数调用</span>
+</span></span><span style=display:flex><span>myfunc <span style=color:#e6db74>&#34;</span>$@<span style=color:#e6db74>&#34;</span>               <span style=color:#75715e># 将所有参数传递给函数</span>
+</span></span><span style=display:flex><span>myfunc <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>${</span>array[@]<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>      <span style=color:#75715e># 将一个数组当作多个参数传递给函数</span>
+</span></span><span style=display:flex><span>shift                     <span style=color:#75715e># 参数左移</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>unset -f myfunc           <span style=color:#75715e># 删除函数</span>
+</span></span><span style=display:flex><span>declare -f                <span style=color:#75715e># 列出函数定义</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 条件判断（兼容 posix sh 的条件判断）：man test</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>statement1 <span style=color:#f92672>&amp;&amp;</span> statement2  <span style=color:#75715e># and 操作符</span>
+</span></span><span style=display:flex><span>statement1 <span style=color:#f92672>||</span> statement2  <span style=color:#75715e># or 操作符</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>exp1 -a exp2              <span style=color:#75715e># exp1 和 exp2 同时为真时返回真（POSIX XSI扩展）</span>
+</span></span><span style=display:flex><span>exp1 -o exp2              <span style=color:#75715e># exp1 和 exp2 有一个为真就返回真（POSIX XSI扩展）</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>(</span> expression <span style=color:#f92672>)</span>            <span style=color:#75715e># 如果 expression 为真时返回真，输入注意括号前反斜杆</span>
+</span></span><span style=display:flex><span>! expression              <span style=color:#75715e># 如果 expression 为假那返回真</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>str1 <span style=color:#f92672>=</span> str2               <span style=color:#75715e># 判断字符串相等，如 [ &#34;$x&#34; = &#34;$y&#34; ] &amp;&amp; echo yes</span>
+</span></span><span style=display:flex><span>str1 !<span style=color:#f92672>=</span> str2              <span style=color:#75715e># 判断字符串不等，如 [ &#34;$x&#34; != &#34;$y&#34; ] &amp;&amp; echo yes</span>
+</span></span><span style=display:flex><span>str1 &lt; str2               <span style=color:#75715e># 字符串小于，如 [ &#34;$x&#34; \&lt; &#34;$y&#34; ] &amp;&amp; echo yes</span>
+</span></span><span style=display:flex><span>str2 &gt; str2               <span style=color:#75715e># 字符串大于，注意 &lt; 或 &gt; 是字面量，输入时要加反斜杆</span>
+</span></span><span style=display:flex><span>-n str1                   <span style=color:#75715e># 判断字符串不为空（长度大于零）</span>
+</span></span><span style=display:flex><span>-z str1                   <span style=color:#75715e># 判断字符串为空（长度等于零）</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>-a file                   <span style=color:#75715e># 判断文件存在，如 [ -a /tmp/abc ] &amp;&amp; echo &#34;exists&#34;</span>
+</span></span><span style=display:flex><span>-d file                   <span style=color:#75715e># 判断文件存在，且该文件是一个目录</span>
+</span></span><span style=display:flex><span>-e file                   <span style=color:#75715e># 判断文件存在，和 -a 等价</span>
+</span></span><span style=display:flex><span>-f file                   <span style=color:#75715e># 判断文件存在，且该文件是一个普通文件（非目录等）</span>
+</span></span><span style=display:flex><span>-r file                   <span style=color:#75715e># 判断文件存在，且可读</span>
+</span></span><span style=display:flex><span>-s file                   <span style=color:#75715e># 判断文件存在，且尺寸大于0</span>
+</span></span><span style=display:flex><span>-w file                   <span style=color:#75715e># 判断文件存在，且可写</span>
+</span></span><span style=display:flex><span>-x file                   <span style=color:#75715e># 判断文件存在，且执行</span>
+</span></span><span style=display:flex><span>-N file                   <span style=color:#75715e># 文件上次修改过后还没有读取过</span>
+</span></span><span style=display:flex><span>-O file                   <span style=color:#75715e># 文件存在且属于当前用户</span>
+</span></span><span style=display:flex><span>-G file                   <span style=color:#75715e># 文件存在且匹配你的用户组</span>
+</span></span><span style=display:flex><span>file1 -nt file2           <span style=color:#75715e># 文件1 比 文件2 新</span>
+</span></span><span style=display:flex><span>file1 -ot file2           <span style=color:#75715e># 文件1 比 文件2 旧</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>num1 -eq num2             <span style=color:#75715e># 数字判断：num1 == num2</span>
+</span></span><span style=display:flex><span>num1 -ne num2             <span style=color:#75715e># 数字判断：num1 != num2</span>
+</span></span><span style=display:flex><span>num1 -lt num2             <span style=color:#75715e># 数字判断：num1 &lt; num2</span>
+</span></span><span style=display:flex><span>num1 -le num2             <span style=color:#75715e># 数字判断：num1 &lt;= num2</span>
+</span></span><span style=display:flex><span>num1 -gt num2             <span style=color:#75715e># 数字判断：num1 &gt; num2</span>
+</span></span><span style=display:flex><span>num1 -ge num2             <span style=color:#75715e># 数字判断：num1 &gt;= num2</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 分支控制：if 和经典 test，兼容 posix sh 的条件判断语句</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>test <span style=color:#f92672>{</span>expression<span style=color:#f92672>}</span>         <span style=color:#75715e># 判断条件为真的话 test 程序返回0 否则非零</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span> expression <span style=color:#f92672>]</span>            <span style=color:#75715e># 判断条件为真的话返回0 否则非零</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>test <span style=color:#e6db74>&#34;abc&#34;</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;def&#34;</span>        <span style=color:#75715e># 查看返回值 echo $? 显示 1，因为条件为假</span>
+</span></span><span style=display:flex><span>test <span style=color:#e6db74>&#34;abc&#34;</span> !<span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;def&#34;</span>       <span style=color:#75715e># 查看返回值 echo $? 显示 0，因为条件为真</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>test -a /tmp; echo $?     <span style=color:#75715e># 调用 test 判断 /tmp 是否存在，并打印 test 的返回值</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span> -a /tmp <span style=color:#f92672>]</span>; echo $?      <span style=color:#75715e># 和上面完全等价，/tmp 肯定是存在的，所以输出是 0</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>test cond <span style=color:#f92672>&amp;&amp;</span> cmd1         <span style=color:#75715e># 判断条件为真时执行 cmd1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span> cond <span style=color:#f92672>]</span> <span style=color:#f92672>&amp;&amp;</span> cmd1          <span style=color:#75715e># 和上面完全等价</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span> cond <span style=color:#f92672>]</span> <span style=color:#f92672>&amp;&amp;</span> cmd1 <span style=color:#f92672>||</span> cmd2  <span style=color:#75715e># 条件为真执行 cmd1 否则执行 cmd2</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 判断 /etc/passwd 文件是否存在</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 经典的 if 语句就是判断后面的命令返回值为0的话，认为条件为真，否则为假</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> test -e /etc/passwd; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>    echo <span style=color:#e6db74>&#34;alright it exists ... &#34;</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>else</span>
+</span></span><span style=display:flex><span>    echo <span style=color:#e6db74>&#34;it doesn&#39;t exist ... &#34;</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fi</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 和上面完全等价，[ 是个和 test 一样的可执行程序，但最后一个参数必须为 ]</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 这个名字为 &#34;[&#34; 的可执行程序一般就在 /bin 或 /usr/bin 下面，比 test 优雅些</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> -e /etc/passwd <span style=color:#f92672>]</span>; <span style=color:#66d9ef>then</span>   
+</span></span><span style=display:flex><span>    echo <span style=color:#e6db74>&#34;alright it exists ... &#34;</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>else</span>
+</span></span><span style=display:flex><span>    echo <span style=color:#e6db74>&#34;it doesn&#39;t exist ... &#34;</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fi</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 和上面两个完全等价，其实到 bash 时代 [ 已经是内部命令了，用 enable 可以看到</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span> -e /etc/passwd <span style=color:#f92672>]</span> <span style=color:#f92672>&amp;&amp;</span> echo <span style=color:#e6db74>&#34;alright it exists&#34;</span> <span style=color:#f92672>||</span> echo <span style=color:#e6db74>&#34;it doesn&#39;t exist&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 判断变量的值</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> <span style=color:#e6db74>&#34;</span>$varname<span style=color:#e6db74>&#34;</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;foo&#34;</span> <span style=color:#f92672>]</span>; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>    echo <span style=color:#e6db74>&#34;this is foo&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>elif</span> <span style=color:#f92672>[</span> <span style=color:#e6db74>&#34;</span>$varname<span style=color:#e6db74>&#34;</span> <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;bar&#34;</span> <span style=color:#f92672>]</span>; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>    echo <span style=color:#e6db74>&#34;this is bar&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>else</span>
+</span></span><span style=display:flex><span>    echo <span style=color:#e6db74>&#34;neither&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fi</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 复杂条件判断，注意 || 和 &amp;&amp; 是完全兼容 POSIX 的推荐写法</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> $x -gt <span style=color:#ae81ff>10</span> <span style=color:#f92672>]</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#f92672>[</span> $x -lt <span style=color:#ae81ff>20</span> <span style=color:#f92672>]</span>; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>    echo <span style=color:#e6db74>&#34;yes, between 10 and 20&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fi</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 可以用 &amp;&amp; 命令连接符来做和上面完全等价的事情</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span> $x -gt <span style=color:#ae81ff>10</span> <span style=color:#f92672>]</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#f92672>[</span> $x -lt <span style=color:#ae81ff>20</span> <span style=color:#f92672>]</span> <span style=color:#f92672>&amp;&amp;</span> echo <span style=color:#e6db74>&#34;yes, between 10 and 20&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 小括号和 -a -o 是 POSIX XSI 扩展写法，小括号是字面量，输入时前面要加反斜杆</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> <span style=color:#ae81ff>\(</span> $x -gt <span style=color:#ae81ff>10</span> <span style=color:#ae81ff>\)</span> -a <span style=color:#ae81ff>\(</span> $x -lt <span style=color:#ae81ff>20</span> <span style=color:#ae81ff>\)</span> <span style=color:#f92672>]</span>; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>    echo <span style=color:#e6db74>&#34;yes, between 10 and 20&#34;</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>fi</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 同样可以用 &amp;&amp; 命令连接符来做和上面完全等价的事情</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span> <span style=color:#ae81ff>\(</span> $x -gt <span style=color:#ae81ff>10</span> <span style=color:#ae81ff>\)</span> -a <span style=color:#ae81ff>\(</span> $x -lt <span style=color:#ae81ff>20</span> <span style=color:#ae81ff>\)</span> <span style=color:#f92672>]</span> <span style=color:#f92672>&amp;&amp;</span> echo <span style=color:#e6db74>&#34;yes, between 10 and 20&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 判断程序存在的话就执行</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>[</span> -x /bin/ls <span style=color:#f92672>]</span> <span style=color:#f92672>&amp;&amp;</span> /bin/ls -l
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 如果不考虑兼容 posix sh 和 dash 这些的话，可用 bash 独有的 ((..)) 和 [[..]]:</span>
+</span></span><span style=display:flex><span>https://www.ibm.com/developerworks/library/l-bash-test/index.html
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 流程控制：while / for / case / until </span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># while 循环</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>while</span> condition; <span style=color:#66d9ef>do</span>
+</span></span><span style=display:flex><span>    statements
+</span></span><span style=display:flex><span><span style=color:#66d9ef>done</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>i<span style=color:#f92672>=</span><span style=color:#ae81ff>1</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>while</span> <span style=color:#f92672>[</span> $i -le <span style=color:#ae81ff>10</span> <span style=color:#f92672>]</span>; <span style=color:#66d9ef>do</span>
+</span></span><span style=display:flex><span>    echo $i; 
+</span></span><span style=display:flex><span>    i<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>expr $i + 1<span style=color:#66d9ef>)</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>done</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># for 循环：上面的 while 语句等价</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> i in <span style=color:#f92672>{</span>1..10<span style=color:#f92672>}</span>; <span style=color:#66d9ef>do</span>
+</span></span><span style=display:flex><span>    echo $i
+</span></span><span style=display:flex><span><span style=color:#66d9ef>done</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> name <span style=color:#f92672>[</span>in list<span style=color:#f92672>]</span>; <span style=color:#66d9ef>do</span>
+</span></span><span style=display:flex><span>    statements
+</span></span><span style=display:flex><span><span style=color:#66d9ef>done</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># for 列举某目录下面的所有文件</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> f in /home/*; <span style=color:#66d9ef>do</span> 
+</span></span><span style=display:flex><span>    echo $f
+</span></span><span style=display:flex><span><span style=color:#66d9ef>done</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># bash 独有的 (( .. )) 语句，更接近 C 语言，但是不兼容 posix sh</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> <span style=color:#f92672>((</span> initialisation ; ending condition ; update <span style=color:#f92672>))</span>; <span style=color:#66d9ef>do</span>
+</span></span><span style=display:flex><span>    statements
+</span></span><span style=display:flex><span><span style=color:#66d9ef>done</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 和上面的写法等价</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> <span style=color:#f92672>((</span>i <span style=color:#f92672>=</span> 0; i &lt; 10; i++<span style=color:#f92672>))</span>; <span style=color:#66d9ef>do</span> echo $i; <span style=color:#66d9ef>done</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># case 判断</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>case</span> expression in 
+</span></span><span style=display:flex><span>    pattern1 <span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>        statements ;;
+</span></span><span style=display:flex><span>    pattern2 <span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>        statements ;;
+</span></span><span style=display:flex><span>    * <span style=color:#f92672>)</span>
+</span></span><span style=display:flex><span>        otherwise ;;
+</span></span><span style=display:flex><span><span style=color:#66d9ef>esac</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># until 语句</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>until</span> condition; <span style=color:#66d9ef>do</span>
+</span></span><span style=display:flex><span>    statements
+</span></span><span style=display:flex><span><span style=color:#66d9ef>done</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># select 语句</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>select</span> name <span style=color:#f92672>[</span>in list<span style=color:#f92672>]</span>; <span style=color:#66d9ef>do</span>
+</span></span><span style=display:flex><span>  statements that can use $name
+</span></span><span style=display:flex><span><span style=color:#66d9ef>done</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 命令处理</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>command ls                         <span style=color:#75715e># 忽略 alias 直接执行程序或者内建命令 ls</span>
+</span></span><span style=display:flex><span>builtin cd                         <span style=color:#75715e># 忽略 alias 直接运行内建的 cd 命令</span>
+</span></span><span style=display:flex><span>enable                             <span style=color:#75715e># 列出所有 bash 内置命令，或禁止某命令</span>
+</span></span><span style=display:flex><span>help <span style=color:#f92672>{</span>builtin_command<span style=color:#f92672>}</span>             <span style=color:#75715e># 查看内置命令的帮助（仅限 bash 内置命令）</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>eval $script                       <span style=color:#75715e># 对 script 变量中的字符串求值（执行）</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 输出/输入 重定向</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>cmd1 | cmd2                        <span style=color:#75715e># 管道，cmd1 的标准输出接到 cmd2 的标准输入</span>
+</span></span><span style=display:flex><span>&lt; file                             <span style=color:#75715e># 将文件内容重定向为命令的标准输入</span>
+</span></span><span style=display:flex><span>&gt; file                             <span style=color:#75715e># 将命令的标准输出重定向到文件，会覆盖文件</span>
+</span></span><span style=display:flex><span>&gt;&gt; file                            <span style=color:#75715e># 将命令的标准输出重定向到文件，追加不覆盖</span>
+</span></span><span style=display:flex><span>&gt;| file                            <span style=color:#75715e># 强制输出到文件，即便设置过：set -o noclobber</span>
+</span></span><span style=display:flex><span>n&gt;| file                           <span style=color:#75715e># 强制将文件描述符 n的输出重定向到文件</span>
+</span></span><span style=display:flex><span>&lt;&gt; file                            <span style=color:#75715e># 同时使用该文件作为标准输入和标准输出</span>
+</span></span><span style=display:flex><span>n&lt;&gt; file                           <span style=color:#75715e># 同时使用文件作为文件描述符 n 的输出和输入</span>
+</span></span><span style=display:flex><span>n&gt; file                            <span style=color:#75715e># 重定向文件描述符 n 的输出到文件</span>
+</span></span><span style=display:flex><span>n&lt; file                            <span style=color:#75715e># 重定向文件描述符 n 的输入为文件内容</span>
+</span></span><span style=display:flex><span>n&gt;&amp;                                <span style=color:#75715e># 将标准输出 dup/合并 到文件描述符 n</span>
+</span></span><span style=display:flex><span>n&lt;&amp;                                <span style=color:#75715e># 将标准输入 dump/合并 定向为描述符 n</span>
+</span></span><span style=display:flex><span>n&gt;&amp;m                               <span style=color:#75715e># 文件描述符 n 被作为描述符 m 的副本，输出用</span>
+</span></span><span style=display:flex><span>n&lt;&amp;m                               <span style=color:#75715e># 文件描述符 n 被作为描述符 m 的副本，输入用</span>
+</span></span><span style=display:flex><span>&amp;&gt;file                             <span style=color:#75715e># 将标准输出和标准错误重定向到文件</span>
+</span></span><span style=display:flex><span>&lt;&amp;-                                <span style=color:#75715e># 关闭标准输入</span>
+</span></span><span style=display:flex><span>&gt;&amp;-                                <span style=color:#75715e># 关闭标准输出</span>
+</span></span><span style=display:flex><span>n&gt;&amp;-                               <span style=color:#75715e># 关闭作为输出的文件描述符 n</span>
+</span></span><span style=display:flex><span>n&lt;&amp;-                               <span style=color:#75715e># 关闭作为输入的文件描述符 n</span>
+</span></span><span style=display:flex><span>diff &lt;<span style=color:#f92672>(</span>cmd1<span style=color:#f92672>)</span> &lt;<span style=color:#f92672>(</span>cmd2<span style=color:#f92672>)</span>               <span style=color:#75715e># 比较两个命令的输出</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 文本处理 - cut</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>cut -c 1-16                        <span style=color:#75715e># 截取每行头16个字符</span>
+</span></span><span style=display:flex><span>cut -c 1-16 file                   <span style=color:#75715e># 截取指定文件中每行头 16个字符</span>
+</span></span><span style=display:flex><span>cut -c3-                           <span style=color:#75715e># 截取每行从第三个字符开始到行末的内容</span>
+</span></span><span style=display:flex><span>cut -d<span style=color:#e6db74>&#39;:&#39;</span> -f5                      <span style=color:#75715e># 截取用冒号分隔的第五列内容</span>
+</span></span><span style=display:flex><span>cut -d<span style=color:#e6db74>&#39;;&#39;</span> -f2,10                   <span style=color:#75715e># 截取用分号分隔的第二和第十列内容</span>
+</span></span><span style=display:flex><span>cut -d<span style=color:#e6db74>&#39; &#39;</span> -f3-7                    <span style=color:#75715e># 截取空格分隔的三到七列</span>
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;hello&#34;</span> | cut -c1-3           <span style=color:#75715e># 显示 hel</span>
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;hello sir&#34;</span> | cut -d<span style=color:#e6db74>&#39; &#39;</span> -f2   <span style=color:#75715e># 显示 sir</span>
+</span></span><span style=display:flex><span>ps | tr -s <span style=color:#e6db74>&#34; &#34;</span> | cut -d <span style=color:#e6db74>&#34; &#34;</span> -f 2,3,4  <span style=color:#75715e># cut 搭配 tr 压缩字符</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 文本处理 - awk / sed </span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>awk <span style=color:#e6db74>&#39;{print $5}&#39;</span> file              <span style=color:#75715e># 打印文件中以空格分隔的第五列</span>
+</span></span><span style=display:flex><span>awk -F <span style=color:#e6db74>&#39;,&#39;</span> <span style=color:#e6db74>&#39;{print $5}&#39;</span> file       <span style=color:#75715e># 打印文件中以逗号分隔的第五列</span>
+</span></span><span style=display:flex><span>awk <span style=color:#e6db74>&#39;/str/ {print $2}&#39;</span> file        <span style=color:#75715e># 打印文件中包含 str 的所有行的第二列</span>
+</span></span><span style=display:flex><span>awk -F <span style=color:#e6db74>&#39;,&#39;</span> <span style=color:#e6db74>&#39;{print $NF}&#39;</span> file      <span style=color:#75715e># 打印逗号分隔的文件中的每行最后一列 </span>
+</span></span><span style=display:flex><span>awk <span style=color:#e6db74>&#39;{s+=$1} END {print s}&#39;</span> file   <span style=color:#75715e># 计算所有第一列的合</span>
+</span></span><span style=display:flex><span>awk <span style=color:#e6db74>&#39;NR%3==1&#39;</span> file                 <span style=color:#75715e># 从第一行开始，每隔三行打印一行</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>sed <span style=color:#e6db74>&#39;s/find/replace/&#39;</span> file         <span style=color:#75715e># 替换文件中首次出现的字符串并输出结果 </span>
+</span></span><span style=display:flex><span>sed <span style=color:#e6db74>&#39;10s/find/replace/&#39;</span> file       <span style=color:#75715e># 替换文件第 10 行内容</span>
+</span></span><span style=display:flex><span>sed <span style=color:#e6db74>&#39;10,20s/find/replace/&#39;</span> file    <span style=color:#75715e># 替换文件中 10-20 行内容</span>
+</span></span><span style=display:flex><span>sed -r <span style=color:#e6db74>&#39;s/regex/replace/g&#39;</span> file    <span style=color:#75715e># 替换文件中所有出现的字符串</span>
+</span></span><span style=display:flex><span>sed -i <span style=color:#e6db74>&#39;s/find/replace/g&#39;</span> file     <span style=color:#75715e># 替换文件中所有出现的字符并且覆盖文件</span>
+</span></span><span style=display:flex><span>sed -i <span style=color:#e6db74>&#39;/find/i\newline&#39;</span> file      <span style=color:#75715e># 在文件的匹配文本前插入行</span>
+</span></span><span style=display:flex><span>sed -i <span style=color:#e6db74>&#39;/find/a\newline&#39;</span> file      <span style=color:#75715e># 在文件的匹配文本后插入行</span>
+</span></span><span style=display:flex><span>sed <span style=color:#e6db74>&#39;/line/s/find/replace/&#39;</span> file   <span style=color:#75715e># 先搜索行特征再执行替换</span>
+</span></span><span style=display:flex><span>sed -e <span style=color:#e6db74>&#39;s/f/r/&#39;</span> -e <span style=color:#e6db74>&#39;s/f/r&#39;</span> file    <span style=color:#75715e># 执行多次替换</span>
+</span></span><span style=display:flex><span>sed <span style=color:#e6db74>&#39;s#find#replace#&#39;</span> file         <span style=color:#75715e># 使用 # 替换 / 来避免 pattern 中有斜杆</span>
+</span></span><span style=display:flex><span>sed -i -r <span style=color:#e6db74>&#39;s/^\s+//g&#39;</span> file         <span style=color:#75715e># 删除文件每行头部空格</span>
+</span></span><span style=display:flex><span>sed <span style=color:#e6db74>&#39;/^$/d&#39;</span> file                   <span style=color:#75715e># 删除文件空行并打印</span>
+</span></span><span style=display:flex><span>sed -i <span style=color:#e6db74>&#39;s/\s\+$//&#39;</span> file            <span style=color:#75715e># 删除文件每行末尾多余空格</span>
+</span></span><span style=display:flex><span>sed -n <span style=color:#e6db74>&#39;2p&#39;</span> file                   <span style=color:#75715e># 打印文件第二行</span>
+</span></span><span style=display:flex><span>sed -n <span style=color:#e6db74>&#39;2,5p&#39;</span> file                 <span style=color:#75715e># 打印文件第二到第五行</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 排序 - sort</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>sort file                          <span style=color:#75715e># 排序文件</span>
+</span></span><span style=display:flex><span>sort -r file                       <span style=color:#75715e># 反向排序（降序）</span>
+</span></span><span style=display:flex><span>sort -n file                       <span style=color:#75715e># 使用数字而不是字符串进行比较</span>
+</span></span><span style=display:flex><span>sort -t: -k 3n /etc/passwd         <span style=color:#75715e># 按 passwd 文件的第三列进行排序</span>
+</span></span><span style=display:flex><span>sort -u file                       <span style=color:#75715e># 去重排序</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 快速跳转 - https://github.com/rupa/z</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>source /path/to/z.sh               <span style=color:#75715e># .bashrc 中初始化 z.sh</span>
+</span></span><span style=display:flex><span>z                                  <span style=color:#75715e># 列出所有历史路径以及他们的权重</span>
+</span></span><span style=display:flex><span>z foo                              <span style=color:#75715e># 跳到历史路径中匹配 foo 的权重最大的目录</span>
+</span></span><span style=display:flex><span>z foo bar                          <span style=color:#75715e># 跳到历史路径中匹配 foo 和 bar 权重最大的目录</span>
+</span></span><span style=display:flex><span>z -l foo                           <span style=color:#75715e># 列出所有历史路径中匹配 foo 的目录及权重</span>
+</span></span><span style=display:flex><span>z -r foo                           <span style=color:#75715e># 按照最高访问次数优先进行匹配跳转</span>
+</span></span><span style=display:flex><span>z -t foo                           <span style=color:#75715e># 按照最近访问优先进行匹配跳转</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 键盘绑定</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>bind <span style=color:#e6db74>&#39;&#34;\eh&#34;:&#34;\C-b&#34;&#39;</span>                <span style=color:#75715e># 绑定 ALT+h 为光标左移，同 CTRL+b / &lt;Left&gt;</span>
+</span></span><span style=display:flex><span>bind <span style=color:#e6db74>&#39;&#34;\el&#34;:&#34;\C-f&#34;&#39;</span>                <span style=color:#75715e># 绑定 ALT+l 为光标右移，同 CTRL+f / &lt;Right&gt;</span>
+</span></span><span style=display:flex><span>bind <span style=color:#e6db74>&#39;&#34;\ej&#34;:&#34;\C-n&#34;&#39;</span>                <span style=color:#75715e># 绑定 ALT+j 为下条历史，同 CTRL+n / &lt;Down&gt;</span>
+</span></span><span style=display:flex><span>bind <span style=color:#e6db74>&#39;&#34;\ek&#34;:&#34;\C-p&#34;&#39;</span>                <span style=color:#75715e># 绑定 ALT+k 为上条历史，同 CTRL+p / &lt;Up&gt;</span>
+</span></span><span style=display:flex><span>bind <span style=color:#e6db74>&#39;&#34;\eH&#34;:&#34;\eb&#34;&#39;</span>                 <span style=color:#75715e># 绑定 ALT+H 为光标左移一个单词，同 ALT-b </span>
+</span></span><span style=display:flex><span>bind <span style=color:#e6db74>&#39;&#34;\eL&#34;:&#34;\ef&#34;&#39;</span>                 <span style=color:#75715e># 绑定 ALT+L 为光标右移一个单词，同 ALT-f </span>
+</span></span><span style=display:flex><span>bind <span style=color:#e6db74>&#39;&#34;\eJ&#34;:&#34;\C-a&#34;&#39;</span>                <span style=color:#75715e># 绑定 ALT+J 为移动到行首，同 CTRL+a / &lt;Home&gt;</span>
+</span></span><span style=display:flex><span>bind <span style=color:#e6db74>&#39;&#34;\eK&#34;:&#34;\C-e&#34;&#39;</span>                <span style=color:#75715e># 绑定 ALT+K 为移动到行末，同 CTRL+e / &lt;End&gt;</span>
+</span></span><span style=display:flex><span>bind <span style=color:#e6db74>&#39;&#34;\e;&#34;:&#34;ls -l\n&#34;&#39;</span>             <span style=color:#75715e># 绑定 ALT+; 为执行 ls -l 命令</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 网络管理：ip / ifconfig / nmap ...</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>ip a                               <span style=color:#75715e># 显示所有网络地址，同 ip address</span>
+</span></span><span style=display:flex><span>ip a show eth1                     <span style=color:#75715e># 显示网卡 IP 地址</span>
+</span></span><span style=display:flex><span>ip a add 172.16.1.23/24 dev eth1   <span style=color:#75715e># 添加网卡 IP 地址</span>
+</span></span><span style=display:flex><span>ip a del 172.16.1.23/24 dev eth1   <span style=color:#75715e># 删除网卡 IP 地址</span>
+</span></span><span style=display:flex><span>ip link show dev eth0              <span style=color:#75715e># 显示网卡设备属性</span>
+</span></span><span style=display:flex><span>ip link set eth1 up                <span style=color:#75715e># 激活网卡</span>
+</span></span><span style=display:flex><span>ip link set eth1 down              <span style=color:#75715e># 关闭网卡</span>
+</span></span><span style=display:flex><span>ip link set eth1 address <span style=color:#f92672>{</span>mac<span style=color:#f92672>}</span>     <span style=color:#75715e># 修改 MAC 地址</span>
+</span></span><span style=display:flex><span>ip neighbour                       <span style=color:#75715e># 查看 ARP 缓存</span>
+</span></span><span style=display:flex><span>ip route                           <span style=color:#75715e># 查看路由表</span>
+</span></span><span style=display:flex><span>ip route add 10.1.0.0/24 via 10.0.0.253 dev eth0    <span style=color:#75715e># 添加静态路由</span>
+</span></span><span style=display:flex><span>ip route del 10.1.0.0/24           <span style=color:#75715e># 删除静态路由</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>ifconfig                           <span style=color:#75715e># 显示所有网卡和接口信息</span>
+</span></span><span style=display:flex><span>ifconfig -a                        <span style=color:#75715e># 显示所有网卡（包括开机没启动的）信息</span>
+</span></span><span style=display:flex><span>ifconfig eth0                      <span style=color:#75715e># 指定设备显示信息</span>
+</span></span><span style=display:flex><span>ifconfig eth0 up                   <span style=color:#75715e># 激活网卡</span>
+</span></span><span style=display:flex><span>ifconfig eth0 down                 <span style=color:#75715e># 关闭网卡</span>
+</span></span><span style=display:flex><span>ifconfig eth0 192.168.120.56       <span style=color:#75715e># 给网卡配置 IP 地址</span>
+</span></span><span style=display:flex><span>ifconfig eth0 10.0.0.8 netmask 255.255.255.0 up     <span style=color:#75715e># 配置 IP 并启动</span>
+</span></span><span style=display:flex><span>ifconfig eth0 hw ether 00:aa:bb:cc:dd:ee            <span style=color:#75715e># 修改 MAC 地址</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>nmap 10.0.0.12                     <span style=color:#75715e># 扫描主机 1-1000 端口</span>
+</span></span><span style=display:flex><span>nmap -p 1024-65535 10.0.0.12       <span style=color:#75715e># 扫描给定端口</span>
+</span></span><span style=display:flex><span>nmap 10.0.0.0/24                   <span style=color:#75715e># 给定网段扫描局域网内所有主机</span>
+</span></span><span style=display:flex><span>nmap -O -sV 10.0.0.12              <span style=color:#75715e># 探测主机服务和操作系统版本</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 有趣的命令</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>man hier                           <span style=color:#75715e># 查看文件系统的结构和含义</span>
+</span></span><span style=display:flex><span>man test                           <span style=color:#75715e># 查看 posix sh 的条件判断帮助</span>
+</span></span><span style=display:flex><span>man ascii                          <span style=color:#75715e># 显示 ascii 表</span>
+</span></span><span style=display:flex><span>getconf LONG_BIT                   <span style=color:#75715e># 查看系统是 32 位还是 64 位</span>
+</span></span><span style=display:flex><span>bind -P                            <span style=color:#75715e># 列出所有 bash 的快捷键</span>
+</span></span><span style=display:flex><span>mount | column -t                  <span style=color:#75715e># 漂亮的列出当前加载的文件系统</span>
+</span></span><span style=display:flex><span>curl ip.cn                         <span style=color:#75715e># 取得外网 ip 地址和服务商信息</span>
+</span></span><span style=display:flex><span>disown -a <span style=color:#f92672>&amp;&amp;</span> exit                  <span style=color:#75715e># 关闭所有后台任务并退出</span>
+</span></span><span style=display:flex><span>cat /etc/issue                     <span style=color:#75715e># 查看 Linux 发行版信息</span>
+</span></span><span style=display:flex><span>lsof -i port:80                    <span style=color:#75715e># 哪个程序在使用 80 端口？</span>
+</span></span><span style=display:flex><span>showkey -a                         <span style=color:#75715e># 取得按键的 ASCII 码</span>
+</span></span><span style=display:flex><span>svn diff | view -                  <span style=color:#75715e># 使用 Vim 来显示带色彩的 diff 输出</span>
+</span></span><span style=display:flex><span>mv filename.<span style=color:#f92672>{</span>old,new<span style=color:#f92672>}</span>              <span style=color:#75715e># 快速文件改名</span>
+</span></span><span style=display:flex><span>time read                          <span style=color:#75715e># 使用 CTRL-D 停止，最简单的计时功能</span>
+</span></span><span style=display:flex><span>cp file.txt<span style=color:#f92672>{</span>,.bak<span style=color:#f92672>}</span>                 <span style=color:#75715e># 快速备份文件</span>
+</span></span><span style=display:flex><span>sudo touch /forcefsck              <span style=color:#75715e># 强制在下次重启时扫描磁盘</span>
+</span></span><span style=display:flex><span>find ~ -mmin <span style=color:#ae81ff>60</span> -type f            <span style=color:#75715e># 查找 $HOME 目录中，60 分钟内修改过的文件</span>
+</span></span><span style=display:flex><span>curl wttr.in/~beijing              <span style=color:#75715e># 查看北京的天气预报</span>
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>${</span>SSH_CLIENT%% *<span style=color:#e6db74>}</span>             <span style=color:#75715e># 取得你是从什么 IP 链接到当前主机上的</span>
+</span></span><span style=display:flex><span>echo $<span style=color:#f92672>[</span>RANDOM%X+1<span style=color:#f92672>]</span>                 <span style=color:#75715e># 取得 1 到 X 之间的随机数</span>
+</span></span><span style=display:flex><span>bind -x <span style=color:#e6db74>&#39;&#34;\C-l&#34;:ls -l&#39;</span>             <span style=color:#75715e># 设置 CTRL+l 为执行 ls -l 命令</span>
+</span></span><span style=display:flex><span>find / -type f -size +5M           <span style=color:#75715e># 查找大于 5M 的文件</span>
+</span></span><span style=display:flex><span>chmod --reference f1 f2            <span style=color:#75715e># 将 f2 的权限设置成 f1 一模一样的</span>
+</span></span><span style=display:flex><span>curl -L cheat.sh                   <span style=color:#75715e># 速查表大全</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 常用技巧</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 列出最常使用的命令</span>
+</span></span><span style=display:flex><span>history | awk <span style=color:#e6db74>&#39;{a[$2]++}END{for(i in a){print a[i] &#34; &#34; i}}&#39;</span> | sort -rn | head
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 列出所有网络状态：ESTABLISHED / TIME_WAIT / FIN_WAIT1 / FIN_WAIT2 </span>
+</span></span><span style=display:flex><span>netstat -n | awk <span style=color:#e6db74>&#39;/^tcp/ {++tt[$NF]} END {for (a in tt) print a, tt[a]}&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 通过 SSH 来 mount 文件系统</span>
+</span></span><span style=display:flex><span>sshfs name@server:/path/to/folder /path/to/mount/point
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 显示前十个运行的进程并按内存使用量排序</span>
+</span></span><span style=display:flex><span>ps aux | sort -nk +4 | tail
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 在右上角显示时钟</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>while</span> sleep 1;<span style=color:#66d9ef>do</span> tput sc;tput cup <span style=color:#ae81ff>0</span> <span style=color:#66d9ef>$(($(</span>tput cols<span style=color:#66d9ef>)</span><span style=color:#f92672>-</span><span style=color:#ae81ff>29</span><span style=color:#66d9ef>))</span>;date;tput rc;<span style=color:#66d9ef>done</span>&amp;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 从网络上的压缩文件中解出一个文件来，并避免保存中间文件</span>
+</span></span><span style=display:flex><span>wget -qO - <span style=color:#e6db74>&#34;http://www.tarball.com/tarball.gz&#34;</span> | tar zxvf -
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 性能测试：测试处理器性能</span>
+</span></span><span style=display:flex><span>python -c <span style=color:#e6db74>&#34;import test.pystone;print(test.pystone.pystones())&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 性能测试：测试内存带宽</span>
+</span></span><span style=display:flex><span>dd <span style=color:#66d9ef>if</span><span style=color:#f92672>=</span>/dev/zero of<span style=color:#f92672>=</span>/dev/null bs<span style=color:#f92672>=</span>1M count<span style=color:#f92672>=</span><span style=color:#ae81ff>32768</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Linux 下挂载一个 iso 文件</span>
+</span></span><span style=display:flex><span>mount /path/to/file.iso /mnt/cdrom -oloop
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 通过主机 A 直接 ssh 到主机 B</span>
+</span></span><span style=display:flex><span>ssh -t hostA ssh hostB
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 下载一个网站的所有图片</span>
+</span></span><span style=display:flex><span>wget -r -l1 --no-parent -nH -nd -P/tmp -A<span style=color:#e6db74>&#34;.gif,.jpg&#34;</span> http://example.com/images
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 快速创建项目目录</span>
+</span></span><span style=display:flex><span>mkdir -p work/<span style=color:#f92672>{</span>project1,project2<span style=color:#f92672>}</span>/<span style=color:#f92672>{</span>src,bin,bak<span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 按日期范围查找文件</span>
+</span></span><span style=display:flex><span>find . -type f -newermt <span style=color:#e6db74>&#34;2010-01-01&#34;</span> ! -newermt <span style=color:#e6db74>&#34;2010-06-01&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 显示当前正在使用网络的进程</span>
+</span></span><span style=display:flex><span>lsof -P -i -n | cut -f <span style=color:#ae81ff>1</span> -d <span style=color:#e6db74>&#34; &#34;</span>| uniq | tail -n +2
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># Vim 中保存一个没有权限的文件</span>
+</span></span><span style=display:flex><span>:w !sudo tee &gt; /dev/null %
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 在 .bashrc / .bash_profile 中加载另外一个文件（比如你保存在 github 上的配置）</span>
+</span></span><span style=display:flex><span>source ~/github/profiles/my_bash_init.sh
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 反向代理：将外网主机（202.115.8.1）端口（8443）转发到内网主机 192.168.1.2:443</span>
+</span></span><span style=display:flex><span>ssh -CqTnN -R 0.0.0.0:8443:192.168.1.2:443  user@202.115.8.1
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 正向代理：将本地主机的 8443 端口，通过 192.168.1.3 转发到 192.168.1.2:443 </span>
+</span></span><span style=display:flex><span>ssh -CqTnN -L 0.0.0.0:8443:192.168.1.2:443  user@192.168.1.3
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># socks5 代理：把本地 1080 端口的 socks5 的代理请求通过远程主机转发出去</span>
+</span></span><span style=display:flex><span>ssh -CqTnN -D localhost:1080  user@202.115.8.1
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 终端下正确设置 ALT 键和 BackSpace 键</span>
+</span></span><span style=display:flex><span>http://www.skywind.me/blog/archives/2021
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 有用的函数</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 自动解压：判断文件后缀名并调用相应解压命令</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> q-extract<span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> -f $1 <span style=color:#f92672>]</span> ; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>case</span> $1 in
+</span></span><span style=display:flex><span>        *.tar.bz2<span style=color:#f92672>)</span>   tar -xvjf $1    ;;
+</span></span><span style=display:flex><span>        *.tar.gz<span style=color:#f92672>)</span>    tar -xvzf $1    ;;
+</span></span><span style=display:flex><span>        *.tar.xz<span style=color:#f92672>)</span>    tar -xvJf $1    ;;
+</span></span><span style=display:flex><span>        *.bz2<span style=color:#f92672>)</span>       bunzip2 $1     ;;
+</span></span><span style=display:flex><span>        *.rar<span style=color:#f92672>)</span>       rar x $1       ;;
+</span></span><span style=display:flex><span>        *.gz<span style=color:#f92672>)</span>        gunzip $1      ;;
+</span></span><span style=display:flex><span>        *.tar<span style=color:#f92672>)</span>       tar -xvf $1     ;;
+</span></span><span style=display:flex><span>        *.tbz2<span style=color:#f92672>)</span>      tar -xvjf $1    ;;
+</span></span><span style=display:flex><span>        *.tgz<span style=color:#f92672>)</span>       tar -xvzf $1    ;;
+</span></span><span style=display:flex><span>        *.zip<span style=color:#f92672>)</span>       unzip $1       ;;
+</span></span><span style=display:flex><span>        *.Z<span style=color:#f92672>)</span>         uncompress $1  ;;
+</span></span><span style=display:flex><span>        *.7z<span style=color:#f92672>)</span>        7z x $1        ;;
+</span></span><span style=display:flex><span>        *<span style=color:#f92672>)</span>           echo <span style=color:#e6db74>&#34;don&#39;t know how to extract &#39;</span>$1<span style=color:#e6db74>&#39;...&#34;</span> ;;
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>esac</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>else</span>
+</span></span><span style=display:flex><span>        echo <span style=color:#e6db74>&#34;&#39;</span>$1<span style=color:#e6db74>&#39; is not a valid file!&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>fi</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 自动压缩：判断后缀名并调用相应压缩程序</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> q-compress<span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> -n <span style=color:#e6db74>&#34;</span>$1<span style=color:#e6db74>&#34;</span> <span style=color:#f92672>]</span> ; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>        FILE<span style=color:#f92672>=</span>$1
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>case</span> $FILE in
+</span></span><span style=display:flex><span>        *.tar<span style=color:#f92672>)</span> shift <span style=color:#f92672>&amp;&amp;</span> tar -cf $FILE $* ;;
+</span></span><span style=display:flex><span>        *.tar.bz2<span style=color:#f92672>)</span> shift <span style=color:#f92672>&amp;&amp;</span> tar -cjf $FILE $* ;;
+</span></span><span style=display:flex><span>        *.tar.xz<span style=color:#f92672>)</span> shift <span style=color:#f92672>&amp;&amp;</span> tar -cJf $FILE $* ;;
+</span></span><span style=display:flex><span>        *.tar.gz<span style=color:#f92672>)</span> shift <span style=color:#f92672>&amp;&amp;</span> tar -czf $FILE $* ;;
+</span></span><span style=display:flex><span>        *.tgz<span style=color:#f92672>)</span> shift <span style=color:#f92672>&amp;&amp;</span> tar -czf $FILE $* ;;
+</span></span><span style=display:flex><span>        *.zip<span style=color:#f92672>)</span> shift <span style=color:#f92672>&amp;&amp;</span> zip $FILE $* ;;
+</span></span><span style=display:flex><span>        *.rar<span style=color:#f92672>)</span> shift <span style=color:#f92672>&amp;&amp;</span> rar $FILE $* ;;
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>esac</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>else</span>
+</span></span><span style=display:flex><span>        echo <span style=color:#e6db74>&#34;usage: q-compress &lt;foo.tar.gz&gt; ./foo ./bar&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>fi</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 漂亮的带语法高亮的 color cat ，需要先 pip install pygments</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>function</span> ccat<span style=color:#f92672>()</span> <span style=color:#f92672>{</span>
+</span></span><span style=display:flex><span>    local style<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;monokai&#34;</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> <span style=color:#f92672>[</span> $# -eq <span style=color:#ae81ff>0</span> <span style=color:#f92672>]</span>; <span style=color:#66d9ef>then</span>
+</span></span><span style=display:flex><span>        pygmentize -P style<span style=color:#f92672>=</span>$style -P tabsize<span style=color:#f92672>=</span><span style=color:#ae81ff>4</span> -f terminal256 -g
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>else</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>for</span> NAME in $@; <span style=color:#66d9ef>do</span>
+</span></span><span style=display:flex><span>            pygmentize -P style<span style=color:#f92672>=</span>$style -P tabsize<span style=color:#f92672>=</span><span style=color:#ae81ff>4</span> -f terminal256 -g <span style=color:#e6db74>&#34;</span>$NAME<span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>done</span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>fi</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>}</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 好玩的配置</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 放到你的 ~/.bashrc 配置文件中，给 man 增加漂亮的色彩高亮</span>
+</span></span><span style=display:flex><span>export LESS_TERMCAP_mb<span style=color:#f92672>=</span><span style=color:#e6db74>$&#39;\E[1m\E[32m&#39;</span>
+</span></span><span style=display:flex><span>export LESS_TERMCAP_mh<span style=color:#f92672>=</span><span style=color:#e6db74>$&#39;\E[2m&#39;</span>
+</span></span><span style=display:flex><span>export LESS_TERMCAP_mr<span style=color:#f92672>=</span><span style=color:#e6db74>$&#39;\E[7m&#39;</span>
+</span></span><span style=display:flex><span>export LESS_TERMCAP_md<span style=color:#f92672>=</span><span style=color:#e6db74>$&#39;\E[1m\E[36m&#39;</span>
+</span></span><span style=display:flex><span>export LESS_TERMCAP_ZW<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;&#34;</span>
+</span></span><span style=display:flex><span>export LESS_TERMCAP_us<span style=color:#f92672>=</span><span style=color:#e6db74>$&#39;\E[4m\E[1m\E[37m&#39;</span>
+</span></span><span style=display:flex><span>export LESS_TERMCAP_me<span style=color:#f92672>=</span><span style=color:#e6db74>$&#39;\E(B\E[m&#39;</span>
+</span></span><span style=display:flex><span>export LESS_TERMCAP_ue<span style=color:#f92672>=</span><span style=color:#e6db74>$&#39;\E[24m\E(B\E[m&#39;</span>
+</span></span><span style=display:flex><span>export LESS_TERMCAP_ZO<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;&#34;</span>
+</span></span><span style=display:flex><span>export LESS_TERMCAP_ZN<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;&#34;</span>
+</span></span><span style=display:flex><span>export LESS_TERMCAP_se<span style=color:#f92672>=</span><span style=color:#e6db74>$&#39;\E[27m\E(B\E[m&#39;</span>
+</span></span><span style=display:flex><span>export LESS_TERMCAP_ZV<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;&#34;</span>
+</span></span><span style=display:flex><span>export LESS_TERMCAP_so<span style=color:#f92672>=</span><span style=color:#e6db74>$&#39;\E[1m\E[33m\E[44m&#39;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># ALT+hjkl/HJKL 快速移动光标，将下面内容添加到 ~/.inputrc 中可作用所有工具，</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 包括 bash/zsh/python/lua 等使用 readline 的工具，帮助见：info rluserman</span>
+</span></span><span style=display:flex><span><span style=color:#e6db74>&#34;\eh&#34;</span>: backward-char
+</span></span><span style=display:flex><span><span style=color:#e6db74>&#34;\el&#34;</span>: forward-char
+</span></span><span style=display:flex><span><span style=color:#e6db74>&#34;\ej&#34;</span>: next-history
+</span></span><span style=display:flex><span><span style=color:#e6db74>&#34;\ek&#34;</span>: previous-history
+</span></span><span style=display:flex><span><span style=color:#e6db74>&#34;\eH&#34;</span>: backward-word
+</span></span><span style=display:flex><span><span style=color:#e6db74>&#34;\eL&#34;</span>: forward-word
+</span></span><span style=display:flex><span><span style=color:#e6db74>&#34;\eJ&#34;</span>: beginning-of-line
+</span></span><span style=display:flex><span><span style=color:#e6db74>&#34;\eK&#34;</span>: end-of-line
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># References</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>##############################################################################</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>https://github.com/Idnan/bash-guide
+</span></span><span style=display:flex><span>http://www.linuxstall.com/linux-command-line-tips-that-every-linux-user-should-know/
+</span></span><span style=display:flex><span>https://ss64.com/bash/syntax-keyboard.html
+</span></span><span style=display:flex><span>http://wiki.bash-hackers.org/commands/classictest
+</span></span><span style=display:flex><span>https://www.ibm.com/developerworks/library/l-bash-test/index.html
+</span></span><span style=display:flex><span>https://www.cyberciti.biz/faq/bash-loop-over-file/
+</span></span><span style=display:flex><span>https://linuxconfig.org/bash-scripting-tutorial
+</span></span><span style=display:flex><span>https://github.com/LeCoupa/awesome-cheatsheets/blob/master/languages/bash.sh
+</span></span><span style=display:flex><span>https://devhints.io/bash
+</span></span><span style=display:flex><span>https://github.com/jlevy/the-art-of-command-line
+</span></span><span style=display:flex><span>https://yq.aliyun.com/articles/68541
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># vim: set ts=4 sw=4 tw=0 et :</span>
+</span></span></code></pre></div></div></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button previous"><a href=/posts/vim/micro/><span class=button__icon>←</span>
+<span class=button__text>Micro but awesome editor</span></a></span>
+<span class="button next"><a href=/posts/go/go-admin-tutorial/><span class=button__text>Goadmin Tutorial</span>
+<span class=button__icon>→</span></a></span></div></div></div></div><footer class=footer><div class=footer__inner><div class="copyright copyright--user"><span>@linuxing3</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span></div></div></footer><script src=/assets/main.js></script>
+<script src=/assets/prism.js></script>
+<script src=/assets/languageSelector.js></script></div></body></html>

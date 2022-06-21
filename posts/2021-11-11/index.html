@@ -1,0 +1,620 @@
+<!doctype html><html lang=en><head><title>进入Linux下新的Emacs桌面系统 :: Vim Emacser Personal Blog</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Window Management EXWM Configuration We use the excellent EXWM module as the basis for our Emacs Desktop Environment. The EXWM Wiki is a great place to find tips about how to configure everything!
+NOTE: Make sure you&amp;rsquo;ve installed nm-applet, pasystray and blueman for the system tray apps to work!
+(require &amp;#39;exwm) (require &amp;#39;exwm-config) (defun efs/run-in-background (command) (let ((command-parts (split-string command &amp;#34;[ ]+&amp;#34;))) (apply #&amp;#39;call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts))))) (defun efs/set-wallpaper () (interactive) ;; NOTE: You will need to update this to a valid background path!"><meta name=keywords content><meta name=robots content="noodp"><link rel=canonical href=/posts/2021-11-11/><link rel=stylesheet href=/assets/style.css><link rel=stylesheet href=/assets/green.css><link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png><link rel="shortcut icon" href=/img/favicon/green.png><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/linuxing3"><meta name=twitter:creator content="[Xing Wenju]"><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="og:title" content="进入Linux下新的Emacs桌面系统"><meta property="og:description" content="Window Management EXWM Configuration We use the excellent EXWM module as the basis for our Emacs Desktop Environment. The EXWM Wiki is a great place to find tips about how to configure everything!
+NOTE: Make sure you&amp;rsquo;ve installed nm-applet, pasystray and blueman for the system tray apps to work!
+(require &amp;#39;exwm) (require &amp;#39;exwm-config) (defun efs/run-in-background (command) (let ((command-parts (split-string command &amp;#34;[ ]+&amp;#34;))) (apply #&amp;#39;call-process `(,(car command-parts) nil 0 nil ,@(cdr command-parts))))) (defun efs/set-wallpaper () (interactive) ;; NOTE: You will need to update this to a valid background path!"><meta property="og:url" content="/posts/2021-11-11/"><meta property="og:site_name" content="Vim Emacser Personal Blog"><meta property="og:image" content="/img/favicon/green.png"><meta property="og:image:width" content="2048"><meta property="og:image:height" content="1024"><meta property="article:published_time" content="2021-11-11 00:00:00 +0000 UTC"></head><body class=green><div class="container full"><header class=header><div class=header__inner><div class=header__logo><a href=/><div class=logo>Terminal</div></a></div><div class=menu-trigger>menu</div></div><nav class=menu><ul class="menu__inner menu__inner--desktop"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><div class=spacer></div><ul class=language-selector><ul class=language-selector-current><li>English ▾</li></ul><ul class="language-selector__more hidden"><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></ul></ul><ul class="menu__inner menu__inner--mobile"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><hr><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></nav></header><div class=content><div class=post><h1 class=post-title><a href=/posts/2021-11-11/>进入Linux下新的Emacs桌面系统</a></h1><div class=post-meta><span class=post-date>2021-11-11</span>
+<span class=post-author>:: [Xing Wenju]</span></div><div class=post-content><div><h2 id=window-management>Window Management<a href=#window-management class=hanchor arialabel=Anchor>&#8983;</a></h2><h3 id=exwm-configuration>EXWM Configuration<a href=#exwm-configuration class=hanchor arialabel=Anchor>&#8983;</a></h3><p>We use the excellent <a href=https://github.com/ch11ng/exwm>EXWM</a> module as the basis for our Emacs Desktop Environment. The <a href=https://github.com/ch11ng/exwm/wiki>EXWM Wiki</a> is a great place to find tips about how to configure everything!</p><p><strong>NOTE:</strong> Make sure you&rsquo;ve installed <code>nm-applet</code>, <code>pasystray</code> and <code>blueman</code> for the system tray apps to work!</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-emacs-lisp data-lang=emacs-lisp><span style=display:flex><span>
+</span></span><span style=display:flex><span>  (require <span style=color:#e6db74>&#39;exwm</span>)
+</span></span><span style=display:flex><span>  (require <span style=color:#e6db74>&#39;exwm-config</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  (defun efs/run-in-background (command)
+</span></span><span style=display:flex><span>    (let ((command-parts (split-string command <span style=color:#e6db74>&#34;[ ]+&#34;</span>)))
+</span></span><span style=display:flex><span>      (<span style=color:#a6e22e>apply</span> <span style=color:#a6e22e>#&#39;call-process</span> <span style=color:#f92672>`</span>(<span style=color:#f92672>,</span>(<span style=color:#a6e22e>car</span> command-parts) <span style=color:#66d9ef>nil</span> <span style=color:#ae81ff>0</span> <span style=color:#66d9ef>nil</span> <span style=color:#f92672>,@</span>(<span style=color:#a6e22e>cdr</span> command-parts)))))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  (defun efs/set-wallpaper ()
+</span></span><span style=display:flex><span>    (interactive)
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; NOTE: You will need to update this to a valid background path!</span>
+</span></span><span style=display:flex><span>    (start-process-shell-command
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>&#34;feh&#34;</span> <span style=color:#66d9ef>nil</span>  <span style=color:#e6db74>&#34;feh --bg-scale /mnt/sdb6/share/images/001c9104dcc396b76c6c7857e5f8547f.jpg&#34;</span>))
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; &#34;/mnt/sdb6/share/images/001c9104dcc396b76c6c7857e5f8547f.jpg&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  (defun efs/exwm-init-hook ()
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; Make workspace 1 be the one where we land at startup</span>
+</span></span><span style=display:flex><span>    (exwm-workspace-switch-create <span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; Open eshell by default</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;;(eshell)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; NOTE: The next two are disabled because we now use Polybar!</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; Show battery status in the mode line</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; (display-battery-mode 1)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; Show the time and date in modeline</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; (setq display-time-day-and-date t)</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; (display-time-mode 1)</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; Also take a look at display-time-format and format-time-string</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; Start the Polybar panel</span>
+</span></span><span style=display:flex><span>     (efs/start-panel)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; Launch apps that will run in the background</span>
+</span></span><span style=display:flex><span>    (efs/run-in-background <span style=color:#e6db74>&#34;dunst&#34;</span>)
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; (efs/run-in-background &#34;nm-applet&#34;)</span>
+</span></span><span style=display:flex><span>    (efs/run-in-background <span style=color:#e6db74>&#34;pasystray&#34;</span>)
+</span></span><span style=display:flex><span>    (efs/run-in-background <span style=color:#e6db74>&#34;blueman-applet&#34;</span>))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  (defun efs/exwm-update-class ()
+</span></span><span style=display:flex><span>    (exwm-workspace-rename-buffer exwm-class-name))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  (defun efs/exwm-update-title ()
+</span></span><span style=display:flex><span>    (pcase exwm-class-name
+</span></span><span style=display:flex><span>      (<span style=color:#e6db74>&#34;Firefox&#34;</span> (exwm-workspace-rename-buffer (<span style=color:#a6e22e>format</span> <span style=color:#e6db74>&#34;Firefox: %s&#34;</span> exwm-title)))))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>;; This function isn&#39;t currently used, only serves as an example how to</span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>;; position a window</span>
+</span></span><span style=display:flex><span>  (defun efs/position-window ()
+</span></span><span style=display:flex><span>    (let* ((pos (frame-position))
+</span></span><span style=display:flex><span>           (pos-x (<span style=color:#a6e22e>car</span> pos))
+</span></span><span style=display:flex><span>            (pos-y (<span style=color:#a6e22e>cdr</span> pos)))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>      (exwm-floating-move (<span style=color:#a6e22e>-</span> pos-x) (<span style=color:#a6e22e>-</span> pos-y))))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  (defun efs/configure-window-by-class ()
+</span></span><span style=display:flex><span>    (interactive)
+</span></span><span style=display:flex><span>    (pcase exwm-class-name
+</span></span><span style=display:flex><span>      (<span style=color:#e6db74>&#34;Firefox&#34;</span> (exwm-workspace-move-window <span style=color:#ae81ff>2</span>))
+</span></span><span style=display:flex><span>      (<span style=color:#e6db74>&#34;Sol&#34;</span> (exwm-workspace-move-window <span style=color:#ae81ff>3</span>))
+</span></span><span style=display:flex><span>      (<span style=color:#e6db74>&#34;mpv&#34;</span> (exwm-floating-toggle-floating)
+</span></span><span style=display:flex><span>             (exwm-layout-toggle-mode-line))))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>;; This function should be used only after configuring autorandr!</span>
+</span></span><span style=display:flex><span>  (defun efs/update-displays ()
+</span></span><span style=display:flex><span>    (efs/run-in-background <span style=color:#e6db74>&#34;autorandr --change --force&#34;</span>)
+</span></span><span style=display:flex><span>    (efs/set-wallpaper)
+</span></span><span style=display:flex><span>    (<span style=color:#a6e22e>message</span> <span style=color:#e6db74>&#34;Display config: %s&#34;</span>
+</span></span><span style=display:flex><span>             (string-trim (shell-command-to-string <span style=color:#e6db74>&#34;autorandr --current&#34;</span>))))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  (use-package exwm
+</span></span><span style=display:flex><span>    :config
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; Set the default number of workspaces</span>
+</span></span><span style=display:flex><span>    (setq exwm-workspace-number <span style=color:#ae81ff>5</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; When window &#34;class&#34; updates, use it to set the buffer name</span>
+</span></span><span style=display:flex><span>    (add-hook <span style=color:#e6db74>&#39;exwm-update-class-hook</span> <span style=color:#a6e22e>#&#39;</span>efs/exwm-update-class)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; When window title updates, use it to set the buffer name</span>
+</span></span><span style=display:flex><span>    (add-hook <span style=color:#e6db74>&#39;exwm-update-title-hook</span> <span style=color:#a6e22e>#&#39;</span>efs/exwm-update-title)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; Configure windows as they&#39;re created</span>
+</span></span><span style=display:flex><span>    (add-hook <span style=color:#e6db74>&#39;exwm-manage-finish-hook</span> <span style=color:#a6e22e>#&#39;</span>efs/configure-window-by-class)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; When EXWM starts up, do some extra confifuration</span>
+</span></span><span style=display:flex><span>    (add-hook <span style=color:#e6db74>&#39;exwm-init-hook</span> <span style=color:#a6e22e>#&#39;</span>efs/exwm-init-hook)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; Rebind CapsLock to Ctrl</span>
+</span></span><span style=display:flex><span>    (start-process-shell-command <span style=color:#e6db74>&#34;xmodmap&#34;</span> <span style=color:#66d9ef>nil</span> <span style=color:#e6db74>&#34;xmodmap ~/.emacs.d/exwm/Xmodmap&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; NOTE: Uncomment the following two options if you want window buffers</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;;       to be available on all workspaces!</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; Automatically move EXWM buffer to current workspace when selected</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; (setq exwm-layout-show-all-buffers t)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; Display all EXWM buffers in every workspace buffer list</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; (setq exwm-workspace-show-all-buffers t)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; NOTE: Uncomment this option if you want to detach the minibuffer!</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; Detach the minibuffer (show it with exwm-workspace-toggle-minibuffer)</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;;(setq exwm-workspace-minibuffer-position &#39;top)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; Set the screen resolution (update this to be the correct resolution for your screen!)</span>
+</span></span><span style=display:flex><span>    (require <span style=color:#e6db74>&#39;exwm-randr</span>)
+</span></span><span style=display:flex><span>    (exwm-randr-enable)
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;;  (start-process-shell-command &#34;xrandr&#34; nil &#34;xrandr --output Virtual-1 --primary --mode 2048x1152 --pos 0x0 --rotate normal&#34;)</span>
+</span></span><span style=display:flex><span>     (start-process-shell-command <span style=color:#e6db74>&#34;xrandr&#34;</span> <span style=color:#66d9ef>nil</span> <span style=color:#e6db74>&#34;xrandr --output HDMI-1 --auto&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; This will need to be updated to the name of a display!  You can find</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; the names of your displays by looking at arandr or the output of xrandr</span>
+</span></span><span style=display:flex><span>    (setq exwm-randr-workspace-monitor-plist <span style=color:#f92672>&#39;</span>(<span style=color:#ae81ff>1</span> <span style=color:#e6db74>&#34;HDMI-1&#34;</span> <span style=color:#ae81ff>3</span> <span style=color:#e6db74>&#34;HDMI-1&#34;</span>))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; NOTE: Uncomment these lines after setting up autorandr!</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; React to display connectivity changes, do initial display update</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; (add-hook &#39;exwm-randr-screen-change-hook #&#39;efs/update-displays)</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; (efs/update-displays)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; Set the wallpaper after changing the resolution</span>
+</span></span><span style=display:flex><span>    (efs/set-wallpaper)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; NOTE: This is disabled because we now use Polybar!</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; Load the system tray before exwm-init</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; (require &#39;exwm-systemtray)</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; (setq exwm-systemtray-height 32)</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; (exwm-systemtray-enable)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; Automatically send the mouse cursor to the selected workspace&#39;s display</span>
+</span></span><span style=display:flex><span>    (setq exwm-workspace-warp-cursor <span style=color:#66d9ef>t</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; Window focus should follow the mouse pointer</span>
+</span></span><span style=display:flex><span>    (setq mouse-autoselect-window <span style=color:#66d9ef>t</span>
+</span></span><span style=display:flex><span>          focus-follows-mouse <span style=color:#66d9ef>t</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; These keys should always pass through to Emacs</span>
+</span></span><span style=display:flex><span>    (setq exwm-input-prefix-keys
+</span></span><span style=display:flex><span>      <span style=color:#f92672>&#39;</span>(<span style=color:#e6db74>?\C</span>-x
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>?\C</span>-u
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>?\C</span>-h
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>?\M</span>-x
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>?\M</span><span style=color:#a6e22e>-</span><span style=color:#f92672>`</span>
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>?\M</span>-&amp;
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>?\M</span>-:
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>?\C</span>-\M-j  <span style=color:#75715e>;; Buffer list</span>
+</span></span><span style=display:flex><span>        <span style=color:#e6db74>?\C</span>-\ ))  <span style=color:#75715e>;; Ctrl+Space</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; Ctrl+Q will enable the next key to be sent directly</span>
+</span></span><span style=display:flex><span>    (<span style=color:#a6e22e>define-key</span> exwm-mode-map [<span style=color:#e6db74>?\C</span>-q] <span style=color:#e6db74>&#39;exwm-input-send-next-key</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; Set up global key bindings.  These always work, no matter the input state!</span>
+</span></span><span style=display:flex><span>    <span style=color:#75715e>;; Keep in mind that changing this list after EXWM initializes has no effect.</span>
+</span></span><span style=display:flex><span>    (setq exwm-input-global-keys
+</span></span><span style=display:flex><span>          <span style=color:#f92672>`</span>(
+</span></span><span style=display:flex><span>            <span style=color:#75715e>;; Reset to line-mode (C-c C-k switches to char-mode via exwm-input-release-keyboard)</span>
+</span></span><span style=display:flex><span>            ([<span style=color:#e6db74>?\s</span>-r] <span style=color:#f92672>.</span> exwm-reset)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#75715e>;; Move between windows</span>
+</span></span><span style=display:flex><span>            ([s-left] <span style=color:#f92672>.</span> windmove-left)
+</span></span><span style=display:flex><span>            ([s-right] <span style=color:#f92672>.</span> windmove-right)
+</span></span><span style=display:flex><span>            ([s-up] <span style=color:#f92672>.</span> windmove-up)
+</span></span><span style=display:flex><span>            ([s-down] <span style=color:#f92672>.</span> windmove-down)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#75715e>;; Launch applications via shell command</span>
+</span></span><span style=display:flex><span>            ([<span style=color:#e6db74>?\s</span>-&amp;] <span style=color:#f92672>.</span> (lambda (command)
+</span></span><span style=display:flex><span>                         (interactive (<span style=color:#a6e22e>list</span> (read-shell-command <span style=color:#e6db74>&#34;$ &#34;</span>)))
+</span></span><span style=display:flex><span>                         (start-process-shell-command command <span style=color:#66d9ef>nil</span> command)))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#75715e>;; Switch workspace</span>
+</span></span><span style=display:flex><span>            ([<span style=color:#e6db74>?\s</span>-w] <span style=color:#f92672>.</span> exwm-workspace-switch)
+</span></span><span style=display:flex><span>            ([<span style=color:#e6db74>?\s</span><span style=color:#a6e22e>-</span><span style=color:#f92672>`</span>] <span style=color:#f92672>.</span> (lambda () (interactive) (exwm-workspace-switch-create <span style=color:#ae81ff>0</span>)))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>            <span style=color:#75715e>;; &#39;s-N&#39;: Switch to certain workspace with Super (Win) plus a number key (0 - 9)</span>
+</span></span><span style=display:flex><span>            <span style=color:#f92672>,@</span>(<span style=color:#a6e22e>mapcar</span> (lambda (i)
+</span></span><span style=display:flex><span>                        <span style=color:#f92672>`</span>(<span style=color:#f92672>,</span>(kbd (<span style=color:#a6e22e>format</span> <span style=color:#e6db74>&#34;s-%d&#34;</span> i)) <span style=color:#f92672>.</span>
+</span></span><span style=display:flex><span>                          (lambda ()
+</span></span><span style=display:flex><span>                            (interactive)
+</span></span><span style=display:flex><span>                            (exwm-workspace-switch-create <span style=color:#f92672>,</span>i))))
+</span></span><span style=display:flex><span>                      (number-sequence <span style=color:#ae81ff>0</span> <span style=color:#ae81ff>9</span>))))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    (exwm-input-set-key (kbd <span style=color:#e6db74>&#34;s-SPC&#34;</span>) <span style=color:#e6db74>&#39;counsel-linux-app</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    (exwm-enable))
+</span></span></code></pre></div><h2 id=desktop-environment>Desktop Environment<a href=#desktop-environment class=hanchor arialabel=Anchor>&#8983;</a></h2><h3 id=desktop-key-bindings>Desktop Key Bindings<a href=#desktop-key-bindings class=hanchor arialabel=Anchor>&#8983;</a></h3><p>We use the <a href=https://github.com/DamienCassou/desktop-environment>desktop-environment</a> package to automatically bind to well-known programs for controlling the volume, screen brightness, media playback, and doing other things like locking the screen and taking screenshots. Make sure that you install the necessary programs to make this functionality work! Check the <a href=https://github.com/DamienCassou/desktop-environment#default-configuration>default programs</a> list to know what you need to install.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-emacs-lisp data-lang=emacs-lisp><span style=display:flex><span>
+</span></span><span style=display:flex><span>  (use-package desktop-environment
+</span></span><span style=display:flex><span>    :after exwm
+</span></span><span style=display:flex><span>    :config (desktop-environment-mode)
+</span></span><span style=display:flex><span>    :custom
+</span></span><span style=display:flex><span>    (desktop-environment-brightness-small-increment <span style=color:#e6db74>&#34;2%+&#34;</span>)
+</span></span><span style=display:flex><span>    (desktop-environment-brightness-small-decrement <span style=color:#e6db74>&#34;2%-&#34;</span>)
+</span></span><span style=display:flex><span>    (desktop-environment-brightness-normal-increment <span style=color:#e6db74>&#34;5%+&#34;</span>)
+</span></span><span style=display:flex><span>    (desktop-environment-brightness-normal-decrement <span style=color:#e6db74>&#34;5%-&#34;</span>))
+</span></span></code></pre></div><h3 id=desktop-file>Desktop File<a href=#desktop-file class=hanchor arialabel=Anchor>&#8983;</a></h3><p>This file is used by your &ldquo;login manager&rdquo; (GDM, LightDM, etc) to display EXWM as a desktop environment option when you log in.</p><p><strong>IMPORTANT</strong>: Make sure you create a symbolic link for this file into <code>/usr/share/xsessions</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>
+</span></span><span style=display:flex><span>sudo ln -f ~/.emacs.d/exwm/EXWM.desktop /usr/share/xsessions/EXWM.desktop
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>[</span>Desktop Entry<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>  Name<span style=color:#f92672>=</span>EXWM
+</span></span><span style=display:flex><span>  Comment<span style=color:#f92672>=</span>Emacs Window Manager
+</span></span><span style=display:flex><span>  Exec<span style=color:#f92672>=</span>sh /home/daviwil/.emacs.d/exwm/start-exwm.sh
+</span></span><span style=display:flex><span>  TryExec<span style=color:#f92672>=</span>sh
+</span></span><span style=display:flex><span>  Type<span style=color:#f92672>=</span>Application
+</span></span><span style=display:flex><span>  X-LightDM-DesktopName<span style=color:#f92672>=</span>exwm
+</span></span><span style=display:flex><span>  DesktopNames<span style=color:#f92672>=</span>exwm
+</span></span></code></pre></div><h3 id=launcher-script>Launcher Script<a href=#launcher-script class=hanchor arialabel=Anchor>&#8983;</a></h3><p>This launcher script is invoked by <code>EXWM.desktop</code> to start Emacs and load our desktop environment configuration. We also start up some other helpful applications to configure the desktop experience.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e># Set the screen DPI (uncomment this if needed!)</span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e># xrdb ~/.emacs.d/exwm/Xresources</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e># Run the screen compositor</span>
+</span></span><span style=display:flex><span>  compton &amp;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e># Enable screen locking on suspend</span>
+</span></span><span style=display:flex><span>  xss-lock -- slock &amp;
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e># Fire it up</span>
+</span></span><span style=display:flex><span>  exec dbus-launch --exit-with-session emacs -mm --debug-init -l ~/.emacs.d/desktop.el
+</span></span></code></pre></div><h3 id=keyboard-configuration>Keyboard Configuration<a href=#keyboard-configuration class=hanchor arialabel=Anchor>&#8983;</a></h3><p>The <code>Xmodmap</code> file will be used with the <code>xmodmap</code> program to remap CapsLock to Ctrl inside of our desktop environment:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh><span style=display:flex><span>
+</span></span><span style=display:flex><span>  clear lock
+</span></span><span style=display:flex><span>  clear control
+</span></span><span style=display:flex><span>  keycode 66 <span style=color:#f92672>=</span> Control_L
+</span></span><span style=display:flex><span>  add control <span style=color:#f92672>=</span> Control_L
+</span></span><span style=display:flex><span>  add Lock <span style=color:#f92672>=</span> Control_R
+</span></span></code></pre></div><h3 id=dpi-configuration>DPI configuration<a href=#dpi-configuration class=hanchor arialabel=Anchor>&#8983;</a></h3><p>The <code>Xresources</code> file will be used with <code>xrdb</code> in <code>start-exwm.sh</code> to set our screen DPI:</p><pre tabindex=0><code class=language-conf data-lang=conf>
+  Xft.dpi:   100   # Set this to your desired DPI!  Larger number means bigger text and UI
+</code></pre><h3 id=panel-with-polybar>Panel with Polybar<a href=#panel-with-polybar class=hanchor arialabel=Anchor>&#8983;</a></h3><p>Polybar provides a great, minimalistic panel for your EXWM desktop configuration. The following config integrates <code>emacsclient</code> and Polybar with <code>polybar-msg</code> to enable you to gather <strong>any</strong> information from Emacs and display it in the panel!</p><p>Check out the Polybar wiki for more details on how to configure it: <a href=https://github.com/polybar/polybar/wiki>https://github.com/polybar/polybar/wiki</a></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-emacs-lisp data-lang=emacs-lisp><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>;; Make sure the server is started (better to do this in your main Emacs config!)</span>
+</span></span><span style=display:flex><span>  (server-start)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  (defvar efs/polybar-process <span style=color:#66d9ef>nil</span>
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;Holds the process of the running Polybar instance, if any&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  (defun efs/kill-panel ()
+</span></span><span style=display:flex><span>    (interactive)
+</span></span><span style=display:flex><span>    (when efs/polybar-process
+</span></span><span style=display:flex><span>      (ignore-errors
+</span></span><span style=display:flex><span>        (<span style=color:#a6e22e>kill-process</span> efs/polybar-process)))
+</span></span><span style=display:flex><span>    (setq efs/polybar-process <span style=color:#66d9ef>nil</span>))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  (defun efs/start-panel ()
+</span></span><span style=display:flex><span>    (interactive)
+</span></span><span style=display:flex><span>    (efs/kill-panel)
+</span></span><span style=display:flex><span>    (setq efs/polybar-process (start-process-shell-command <span style=color:#e6db74>&#34;polybar&#34;</span> <span style=color:#66d9ef>nil</span> <span style=color:#e6db74>&#34;polybar panel&#34;</span>)))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  (defun efs/send-polybar-hook (module-name hook-index)
+</span></span><span style=display:flex><span>    (start-process-shell-command <span style=color:#e6db74>&#34;polybar-msg&#34;</span> <span style=color:#66d9ef>nil</span> (<span style=color:#a6e22e>format</span> <span style=color:#e6db74>&#34;polybar-msg hook %s %s&#34;</span> module-name hook-index)))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  (defun efs/send-polybar-exwm-workspace ()
+</span></span><span style=display:flex><span>    (efs/send-polybar-hook <span style=color:#e6db74>&#34;exwm-workspace&#34;</span> <span style=color:#ae81ff>1</span>))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#75715e>;; Update panel indicator when workspace changes</span>
+</span></span><span style=display:flex><span>  (add-hook <span style=color:#e6db74>&#39;exwm-workspace-switch-hook</span> <span style=color:#a6e22e>#&#39;</span>efs/send-polybar-exwm-workspace)
+</span></span></code></pre></div><p>The configuration for our ingeniously named panel, &ldquo;panel&rdquo;. Invoke it with <code>polybar panel</code> on the command line!</p><pre tabindex=0><code class=language-conf data-lang=conf>
+; Docs: https://github.com/polybar/polybar
+;==========================================================
+
+[settings]
+screenchange-reload = true
+
+[global/wm]
+margin-top = 0
+margin-bottom = 0
+
+[colors]
+background = #f0232635
+background-alt = #576075
+foreground = #A6Accd
+foreground-alt = #555
+primary = #ffb52a
+secondary = #e60053
+alert = #bd2c40
+underline-1 = #c792ea
+
+[bar/panel]
+width = 100%
+height = 35
+offset-x = 0
+offset-y = 0
+fixed-center = true
+enable-ipc = true
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+line-size = 2
+line-color = #f00
+
+border-size = 0
+border-color = #00000000
+
+padding-top = 5
+padding-left = 1
+padding-right = 1
+
+module-margin = 1
+
+font-0 = &#34;Cantarell:size=18:weight=bold;2&#34;
+font-1 = &#34;Font Awesome:size=14;2&#34;
+font-2 = &#34;Material Icons:size=20;5&#34;
+font-3 = &#34;Fira Mono:size=13;-3&#34;
+
+modules-left = exwm-workspace
+modules-right = cpu temperature battery
+
+tray-position = right
+tray-padding = 2
+tray-maxsize = 28
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+[module/exwm-workspace]
+type = custom/ipc
+hook-0 = emacsclient -e &#34;exwm-workspace-current-index&#34; | sed -e &#39;s/^&#34;//&#39; -e &#39;s/&#34;$//&#39;
+initial = 1
+format-underline = ${colors.underline-1}
+format-padding = 1
+
+[module/cpu]
+type = internal/cpu
+interval = 2
+format = &lt;label&gt; &lt;ramp-coreload&gt;
+format-underline = ${colors.underline-1}
+click-left = emacsclient -e &#34;(proced)&#34;
+label = %percentage:2%%
+ramp-coreload-spacing = 0
+ramp-coreload-0 = ▁
+ramp-coreload-0-foreground = ${colors.foreground-alt}
+ramp-coreload-1 = ▂
+ramp-coreload-2 = ▃
+ramp-coreload-3 = ▄
+ramp-coreload-4 = ▅
+ramp-coreload-5 = ▆
+ramp-coreload-6 = ▇
+
+[module/date]
+type = internal/date
+interval = 5
+
+date = &#34;%a %b %e&#34;
+date-alt = &#34;%A %B %d %Y&#34;
+
+time = %l:%M %p
+time-alt = %H:%M:%S
+
+format-prefix-foreground = ${colors.foreground-alt}
+format-underline = ${colors.underline-1}
+
+label = %date% %time%
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = ADP1
+full-at = 98
+time-format = %-l:%M
+
+label-charging = %percentage%% / %time%
+format-charging = &lt;animation-charging&gt; &lt;label-charging&gt;
+format-charging-underline = ${colors.underline-1}
+
+label-discharging = %percentage%% / %time%
+format-discharging = &lt;ramp-capacity&gt; &lt;label-discharging&gt;
+format-discharging-underline = ${self.format-charging-underline}
+
+format-full = &lt;ramp-capacity&gt; &lt;label-full&gt;
+format-full-underline = ${self.format-charging-underline}
+
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-3 = 
+ramp-capacity-4 = 
+
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-3 = 
+animation-charging-4 = 
+animation-charging-framerate = 750
+
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+warn-temperature = 60
+
+format = &lt;label&gt;
+format-underline = ${colors.underline-1}
+format-warn = &lt;label-warn&gt;
+format-warn-underline = ${self.format-underline}
+
+label = %temperature-c%
+label-warn = %temperature-c%!
+label-warn-foreground = ${colors.secondary}
+</code></pre><h3 id=desktop-notifications-with-dunst>Desktop Notifications with Dunst<a href=#desktop-notifications-with-dunst class=hanchor arialabel=Anchor>&#8983;</a></h3><p>We use an application called <a href=https://dunst-project.org/>Dunst</a> to enable the display of desktop notifications from Emacs and other applications running within EXWM. Consult the <a href=https://dunst-project.org/documentation/>documentation</a> for more details on how to configure this to your liking!</p><p>Here are some things you might want to consider changing:</p><ul><li><code>format</code> - Customize how notification text contents are displayed</li><li><code>geometry</code> - Where the notification appears and how large it should be by default</li><li><code>urgency_normal</code>, etc - configures the background and frame color for notifications of different types</li><li><code>max_icon_size</code> - Constrain icon display since some icons will be larger than others</li><li><code>icon_path</code> - Important if your icons are not in a common location (like when using GNU Guix)</li><li><code>idle_threshold</code> - Wait for user to become active for this long before hiding notifications</li><li><code>mouse_left/right/middle_click</code> - Action to take when clicking a notification</li><li>Any of the key bindings in the <code>shortcuts</code> section (though these are deprecated in 1.5.0, use <code>dunstctl</code>)</li></ul><pre tabindex=0><code class=language-conf data-lang=conf>
+[global]
+    ### Display ###
+    monitor = 0
+
+    # The geometry of the window:
+    #   [{width}]x{height}[+/-{x}+/-{y}]
+    geometry = &#34;500x10-10+50&#34;
+
+    # Show how many messages are currently hidden (because of geometry).
+    indicate_hidden = yes
+
+    # Shrink window if it&#39;s smaller than the width.  Will be ignored if
+    # width is 0.
+    shrink = no
+
+    # The transparency of the window.  Range: [0; 100].
+    transparency = 10
+
+    # The height of the entire notification.  If the height is smaller
+    # than the font height and padding combined, it will be raised
+    # to the font height and padding.
+    notification_height = 0
+
+    # Draw a line of &#34;separator_height&#34; pixel height between two
+    # notifications.
+    # Set to 0 to disable.
+    separator_height = 1
+    separator_color = frame
+
+    # Padding between text and separator.
+    padding = 8
+
+    # Horizontal padding.
+    horizontal_padding = 8
+
+    # Defines width in pixels of frame around the notification window.
+    # Set to 0 to disable.
+    frame_width = 2
+
+    # Defines color of the frame around the notification window.
+    frame_color = &#34;#89AAEB&#34;
+
+    # Sort messages by urgency.
+    sort = yes
+
+    # Don&#39;t remove messages, if the user is idle (no mouse or keyboard input)
+    # for longer than idle_threshold seconds.
+    idle_threshold = 120
+
+    ### Text ###
+
+    font = Cantarell 20
+
+    # The spacing between lines.  If the height is smaller than the
+    # font height, it will get raised to the font height.
+    line_height = 0
+    markup = full
+
+    # The format of the message.  Possible variables are:
+    #   %a  appname
+    #   %s  summary
+    #   %b  body
+    #   %i  iconname (including its path)
+    #   %I  iconname (without its path)
+    #   %p  progress value if set ([  0%] to [100%]) or nothing
+    #   %n  progress value if set without any extra characters
+    #   %%  Literal %
+    # Markup is allowed
+    format = &#34;&lt;b&gt;%s&lt;/b&gt;\n%b&#34;
+
+    # Alignment of message text.
+    # Possible values are &#34;left&#34;, &#34;center&#34; and &#34;right&#34;.
+    alignment = left
+
+    # Show age of message if message is older than show_age_threshold
+    # seconds.
+    # Set to -1 to disable.
+    show_age_threshold = 60
+
+    # Split notifications into multiple lines if they don&#39;t fit into
+    # geometry.
+    word_wrap = yes
+
+    # When word_wrap is set to no, specify where to make an ellipsis in long lines.
+    # Possible values are &#34;start&#34;, &#34;middle&#34; and &#34;end&#34;.
+    ellipsize = middle
+
+    # Ignore newlines &#39;\n&#39; in notifications.
+    ignore_newline = no
+
+    # Stack together notifications with the same content
+    stack_duplicates = true
+
+    # Hide the count of stacked notifications with the same content
+    hide_duplicate_count = false
+
+    # Display indicators for URLs (U) and actions (A).
+    show_indicators = yes
+
+    ### Icons ###
+
+    # Align icons left/right/off
+    icon_position = left
+
+    # Scale larger icons down to this size, set to 0 to disable
+    max_icon_size = 88
+
+    # Paths to default icons.
+    icon_path = /usr/share/icons/Adwaita/96x96/status:/usr/share/icons/Adwaita/96x96/emblems
+
+    ### History ###
+
+    # Should a notification popped up from history be sticky or timeout
+    # as if it would normally do.
+    sticky_history = no
+
+    # Maximum amount of notifications kept in history
+    history_length = 20
+
+    ### Misc/Advanced ###
+
+    # Browser for opening urls in context menu.
+    browser = qutebrowser
+
+    # Always run rule-defined scripts, even if the notification is suppressed
+    always_run_script = true
+
+    # Define the title of the windows spawned by dunst
+    title = Dunst
+
+    # Define the class of the windows spawned by dunst
+    class = Dunst
+
+    startup_notification = false
+    verbosity = mesg
+
+    # Define the corner radius of the notification window
+    # in pixel size. If the radius is 0, you have no rounded
+    # corners.
+    # The radius will be automatically lowered if it exceeds half of the
+    # notification height to avoid clipping text and/or icons.
+    corner_radius = 4
+
+    mouse_left_click = close_current
+    mouse_middle_click = do_action
+    mouse_right_click = close_all
+
+# Experimental features that may or may not work correctly. Do not expect them
+# to have a consistent behaviour across releases.
+[experimental]
+    # Calculate the dpi to use on a per-monitor basis.
+    # If this setting is enabled the Xft.dpi value will be ignored and instead
+    # dunst will attempt to calculate an appropriate dpi value for each monitor
+    # using the resolution and physical size. This might be useful in setups
+    # where there are multiple screens with very different dpi values.
+    per_monitor_dpi = false
+
+[shortcuts]
+
+    # Shortcuts are specified as [modifier+][modifier+]...key
+    # Available modifiers are &#34;ctrl&#34;, &#34;mod1&#34; (the alt-key), &#34;mod2&#34;,
+    # &#34;mod3&#34; and &#34;mod4&#34; (windows-key).
+    # Xev might be helpful to find names for keys.
+
+    # Close notification.
+    #close = ctrl+space
+
+    # Close all notifications.
+    #close_all = ctrl+shift+space
+
+    # Redisplay last message(s).
+    # On the US keyboard layout &#34;grave&#34; is normally above TAB and left
+    # of &#34;1&#34;. Make sure this key actually exists on your keyboard layout,
+    # e.g. check output of &#39;xmodmap -pke&#39;
+    history = ctrl+grave
+
+    # Context menu.
+    context = ctrl+shift+period
+
+[urgency_low]
+    # IMPORTANT: colors have to be defined in quotation marks.
+    # Otherwise the &#34;#&#34; and following would be interpreted as a comment.
+    background = &#34;#222222&#34;
+    foreground = &#34;#888888&#34;
+    timeout = 10
+    # Icon for notifications with low urgency, uncomment to enable
+    #icon = /path/to/icon
+
+[urgency_normal]
+    background = &#34;#1c1f26&#34;
+    foreground = &#34;#ffffff&#34;
+    timeout = 10
+    # Icon for notifications with normal urgency, uncomment to enable
+    #icon = /path/to/icon
+
+[urgency_critical]
+    background = &#34;#900000&#34;
+    foreground = &#34;#ffffff&#34;
+    frame_color = &#34;#ff0000&#34;
+    timeout = 0
+    # Icon for notifications with critical urgency, uncomment to enable
+    #icon = /path/to/icon
+</code></pre><p>We can also set up some functions for enabling and disabling notifications at any time:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-emacs-lisp data-lang=emacs-lisp><span style=display:flex><span>
+</span></span><span style=display:flex><span>  (defun efs/disable-desktop-notifications ()
+</span></span><span style=display:flex><span>    (interactive)
+</span></span><span style=display:flex><span>    (start-process-shell-command <span style=color:#e6db74>&#34;notify-send&#34;</span> <span style=color:#66d9ef>nil</span> <span style=color:#e6db74>&#34;notify-send \&#34;DUNST_COMMAND_PAUSE\&#34;&#34;</span>))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  (defun efs/enable-desktop-notifications ()
+</span></span><span style=display:flex><span>    (interactive)
+</span></span><span style=display:flex><span>    (start-process-shell-command <span style=color:#e6db74>&#34;notify-send&#34;</span> <span style=color:#66d9ef>nil</span> <span style=color:#e6db74>&#34;notify-send \&#34;DUNST_COMMAND_RESUME\&#34;&#34;</span>))
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  (defun efs/toggle-desktop-notifications ()
+</span></span><span style=display:flex><span>    (interactive)
+</span></span><span style=display:flex><span>    (start-process-shell-command <span style=color:#e6db74>&#34;notify-send&#34;</span> <span style=color:#66d9ef>nil</span> <span style=color:#e6db74>&#34;notify-send \&#34;DUNST_COMMAND_TOGGLE\&#34;&#34;</span>))
+</span></span></code></pre></div></div></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button previous"><a href=/posts/emacs/creating_timestamps_the_org_manual/><span class=button__icon>←</span>
+<span class=button__text>Creating Timestamps (The Org Manual)</span></a></span>
+<span class="button next"><a href=/posts/go/go-spider-framework/><span class=button__text>Go spider framework</span>
+<span class=button__icon>→</span></a></span></div></div></div></div><footer class=footer><div class=footer__inner><div class="copyright copyright--user"><span>@linuxing3</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span></div></div></footer><script src=/assets/main.js></script>
+<script src=/assets/prism.js></script>
+<script src=/assets/languageSelector.js></script></div></body></html>

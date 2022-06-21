@@ -1,0 +1,135 @@
+<!doctype html><html lang=en><head><title>lua_getting_started.md :: Vim Emacser Personal Blog</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="title: Creating a Lapis Application with Lua Creating a Lapis Application with Lua Generating a New Project If you haven&amp;rsquo;t already, read through the generic getting started guide for information on creating a new project skeleton along with details on OpenResty, Nginx configurations, and the lapis command.
+You can start a new Lua project in the current directory by running the following command:
+$ lapis new --lua The default nginx.conf reads a file called app."><meta name=keywords content><meta name=robots content="noodp"><link rel=canonical href=/posts/misc/lua_getting_started/><link rel=stylesheet href=/assets/style.css><link rel=stylesheet href=/assets/green.css><link rel=apple-touch-icon href=/img/apple-touch-icon-192x192.png><link rel="shortcut icon" href=/img/favicon/green.png><meta name=twitter:card content="summary"><meta name=twitter:site content="https://twitter.com/linuxing3"><meta name=twitter:creator content><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="og:title" content="lua_getting_started.md"><meta property="og:description" content="title: Creating a Lapis Application with Lua Creating a Lapis Application with Lua Generating a New Project If you haven&amp;rsquo;t already, read through the generic getting started guide for information on creating a new project skeleton along with details on OpenResty, Nginx configurations, and the lapis command.
+You can start a new Lua project in the current directory by running the following command:
+$ lapis new --lua The default nginx.conf reads a file called app."><meta property="og:url" content="/posts/misc/lua_getting_started/"><meta property="og:site_name" content="Vim Emacser Personal Blog"><meta property="og:image" content="/img/favicon/green.png"><meta property="og:image:width" content="2048"><meta property="og:image:height" content="1024"><meta property="article:published_time" content="2018-02-16 14:05:34 -0400 -0400"></head><body class=green><div class="container full"><header class=header><div class=header__inner><div class=header__logo><a href=/><div class=logo>Terminal</div></a></div><div class=menu-trigger>menu</div></div><nav class=menu><ul class="menu__inner menu__inner--desktop"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><div class=spacer></div><ul class=language-selector><ul class=language-selector-current><li>English ▾</li></ul><ul class="language-selector__more hidden"><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></ul></ul><ul class="menu__inner menu__inner--mobile"><li><a href=/journal>Journal</a></li><li><a href=/showcase>Showcase</a></li><hr><li><a href=/>English</a></li><li><a href=/zh/>中文</a></li></ul></nav></header><div class=content><div class=post><h1 class=post-title><a href=/posts/misc/lua_getting_started/>lua_getting_started.md</a></h1><div class=post-meta><span class=post-date>2018-02-16</span></div><div class=post-content><div><h2 id=title-creating-a-lapis-application-with-lua>title: Creating a Lapis Application with Lua<a href=#title-creating-a-lapis-application-with-lua class=hanchor arialabel=Anchor>&#8983;</a></h2><h1 id=creating-a-lapis-application-with-lua>Creating a Lapis Application with Lua<a href=#creating-a-lapis-application-with-lua class=hanchor arialabel=Anchor>&#8983;</a></h1><h2 id=generating-a-new-project>Generating a New Project<a href=#generating-a-new-project class=hanchor arialabel=Anchor>&#8983;</a></h2><p>If you haven&rsquo;t already, read through the <a href=getting_started.html>generic getting started guide</a> for
+information on creating a new project skeleton along with details on OpenResty,
+Nginx configurations, and the <code>lapis</code> command.</p><p>You can start a new Lua project in the current directory by running the
+following command:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>$ lapis new --lua
+</span></span></code></pre></div><p>The default <code>nginx.conf</code> reads a file called <code>app.lua</code> for your application. A
+basic one is provided with the <code>lapis new</code> command.</p><p><code>app.lua</code> is a regular Lua module that contains the application. You can even
+require the module like any other in the regular Lua interpreter. It looks like
+this:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#75715e>-- app.lua</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> lapis <span style=color:#f92672>=</span> require(<span style=color:#e6db74>&#34;lapis&#34;</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> app <span style=color:#f92672>=</span> lapis.Application()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>app:get(<span style=color:#e6db74>&#34;/&#34;</span>, <span style=color:#66d9ef>function</span>()
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> <span style=color:#e6db74>&#34;Welcome to Lapis &#34;</span> <span style=color:#f92672>..</span> require(<span style=color:#e6db74>&#34;lapis.version&#34;</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>return</span> app
+</span></span></code></pre></div><p>Try it out by starting the server:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>lapis server
+</span></span></code></pre></div><p>Visit <a href=http://localhost:8080>http://localhost:8080</a> to see the page.</p><p>To change the port we can create a configuration. Create <code>config.lua</code>.</p><p>In this example we change the port in the <code>development</code> environment to 9090:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#75715e>-- config.lua</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> config <span style=color:#f92672>=</span> require(<span style=color:#e6db74>&#34;lapis.config&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>config(<span style=color:#e6db74>&#34;development&#34;</span>, {
+</span></span><span style=display:flex><span>  port <span style=color:#f92672>=</span> <span style=color:#ae81ff>9090</span>
+</span></span><span style=display:flex><span>})
+</span></span></code></pre></div><blockquote><p>You can read more about configurations on the <a href=configuration.html>Configurations and
+Environments guide</a>.</p></blockquote><p>The <code>development</code> environment is used and loaded automatically when <code>lapis server</code> is run with no additional arguments. (And the file
+<code>lapis_environment.lua</code> doesn&rsquo;t exist)</p><p>Lapis uses a handful of fields in the configuration (such as <code>port</code>), other
+fields can be used to store anything you want. For example:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#75715e>-- config.lua</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> config <span style=color:#f92672>=</span> require(<span style=color:#e6db74>&#34;lapis.config&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>config(<span style=color:#e6db74>&#34;development&#34;</span>, {
+</span></span><span style=display:flex><span>  greeting <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;Hello world&#34;</span>
+</span></span><span style=display:flex><span>})
+</span></span></code></pre></div><p>You can get the current configuration by calling <code>get</code>. It returns a plain Lua
+table:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#75715e>-- app.lua</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> lapis <span style=color:#f92672>=</span> require(<span style=color:#e6db74>&#34;lapis&#34;</span>)
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> config <span style=color:#f92672>=</span> require(<span style=color:#e6db74>&#34;lapis.config&#34;</span>).get()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> app <span style=color:#f92672>=</span> lapis.Application()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>app:get(<span style=color:#e6db74>&#34;/&#34;</span>, <span style=color:#66d9ef>function</span>(self)
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> config.greeting <span style=color:#f92672>..</span> <span style=color:#e6db74>&#34; from port &#34;</span> <span style=color:#f92672>..</span> config.port
+</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>return</span> app
+</span></span></code></pre></div><h2 id=creating-a-view>Creating a View<a href=#creating-a-view class=hanchor arialabel=Anchor>&#8983;</a></h2><p>Now that we can create basic pages we&rsquo;ll likely want to render something a bit
+more complex. Lapis comes with support for <a href=https://github.com/leafo/etlua>etlua</a>, an Lua templating
+language that lets you insert Lua mixed in with text and HTML.</p><p>A view is a file that is responsible for generating the HTML. Typically your
+action will prepare all the data for your view and then tell it to render.</p><p>By default Lapis searches for views in <code>views/</code> directory. Lets create a new
+view there, <code>index.etlua</code>. We won&rsquo;t use any of etlua&rsquo;s special markup just yet,
+so it will look like a normal HTML file.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html><span style=display:flex><span><span style=color:#75715e>&lt;!-- views/index.etlua --&gt;</span>
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>h1</span>&gt;Hello world&lt;/<span style=color:#f92672>h1</span>&gt;
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>p</span>&gt;Welcome to my page&lt;/<span style=color:#f92672>p</span>&gt;
+</span></span></code></pre></div><p>You&rsquo;ll notice that <code>&lt;html></code>, <code>&lt;head></code>, and <code>&lt;body></code> tags aren&rsquo;t there. The view
+typically renders the inside of the page, and the layout is responsible for
+what goes around it. We&rsquo;ll look at layouts further down.</p><p>Now lets create the application which renders our view:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#75715e>-- app.lua</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> lapis <span style=color:#f92672>=</span> require(<span style=color:#e6db74>&#34;lapis&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> app <span style=color:#f92672>=</span> lapis.Application()
+</span></span><span style=display:flex><span>app:enable(<span style=color:#e6db74>&#34;etlua&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>app:get(<span style=color:#e6db74>&#34;/&#34;</span>, <span style=color:#66d9ef>function</span>(self)
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> { render <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;index&#34;</span> }
+</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>return</span> app
+</span></span></code></pre></div><p><code>etlua</code> is not enabled by default, you must enable it by calling the <code>enable</code>
+method on your application instance.</p><p>We use the <code>render</code> parameter of our action&rsquo;s return value to instruct what
+template to use when rendering the page. In this case <code>"index"</code> refers to the
+module with the name <code>views.index</code>. <code>etalua</code> injects itself into Lua&rsquo;s
+<code>require</code> method and so when the module <code>views.index</code> is loaded, an attempt to
+read and parse the file <code>views/index.etlua</code> is made.</p><p>Running the server and navigating to it in the browser should show our rendered
+template.</p><h3 id=working-with-etlua>Working with <code>etlua</code><a href=#working-with-etlua class=hanchor arialabel=Anchor>&#8983;</a></h3><p><code>etlua</code> comes with the following tags for injecting Lua into your templates:</p><ul><li><code>&lt;% lua_code %></code> runs Lua code verbatim</li><li><code>&lt;%= lua_expression %></code> writes result of expression to output, HTML escaped</li><li><code>&lt;%- lua_expression %></code> same as above but with no HTML escaping</li></ul><blockquote><p>Learn more about the etlua integration in the <a href=etlua_templates.html>etlua guide</a>.</p></blockquote><p>In the following example we assign some data in the action, then print it out
+in our view:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#75715e>-- app.lua</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> lapis <span style=color:#f92672>=</span> require(<span style=color:#e6db74>&#34;lapis&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>local</span> app <span style=color:#f92672>=</span> lapis.Application()
+</span></span><span style=display:flex><span>app:enable(<span style=color:#e6db74>&#34;etlua&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>app:get(<span style=color:#e6db74>&#34;/&#34;</span>, <span style=color:#66d9ef>function</span>(self)
+</span></span><span style=display:flex><span>  self.my_favorite_things <span style=color:#f92672>=</span> {
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;Cats&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;Horses&#34;</span>,
+</span></span><span style=display:flex><span>    <span style=color:#e6db74>&#34;Skateboards&#34;</span>
+</span></span><span style=display:flex><span>  }
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#66d9ef>return</span> { render <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;list&#34;</span> }
+</span></span><span style=display:flex><span><span style=color:#66d9ef>end</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>return</span> app
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html><span style=display:flex><span><span style=color:#75715e>&lt;!-- views/list.etlua --&gt;</span>
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>h1</span>&gt;Here are my favorite things&lt;/<span style=color:#f92672>h1</span>&gt;
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>ol</span>&gt;
+</span></span><span style=display:flex><span>  <span style=color:#960050;background-color:#1e0010>&lt;</span>% for i, thing in pairs(my_favorite_things) do %&gt;
+</span></span><span style=display:flex><span>    &lt;<span style=color:#f92672>li</span>&gt;<span style=color:#960050;background-color:#1e0010>&lt;</span>%= thing %&gt;&lt;/<span style=color:#f92672>li</span>&gt;
+</span></span><span style=display:flex><span>  <span style=color:#960050;background-color:#1e0010>&lt;</span>% end %&gt;
+</span></span><span style=display:flex><span>&lt;/<span style=color:#f92672>ol</span>&gt;
+</span></span></code></pre></div><h3 id=creating-a-layout>Creating a Layout<a href=#creating-a-layout class=hanchor arialabel=Anchor>&#8983;</a></h3><p>A layout is a separate shared template that wraps the content of every page.
+Lapis comes with a basic layout to get you started but you&rsquo;ll most likely want
+to replace it with something custom.</p><p>We&rsquo;ll write the layout in etlua just like our views. Create <code>views/layout.etlua</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-html data-lang=html><span style=display:flex><span><span style=color:#75715e>&lt;!-- views/layout.etlua --&gt;</span>
+</span></span><span style=display:flex><span><span style=color:#75715e>&lt;!DOCTYPE HTML&gt;</span>
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>html</span> <span style=color:#a6e22e>lang</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;en&#34;</span>&gt;
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>head</span>&gt;
+</span></span><span style=display:flex><span>  &lt;<span style=color:#f92672>meta</span> <span style=color:#a6e22e>charset</span><span style=color:#f92672>=</span><span style=color:#e6db74>&#34;UTF-8&#34;</span>&gt;
+</span></span><span style=display:flex><span>  &lt;<span style=color:#f92672>title</span>&gt;<span style=color:#960050;background-color:#1e0010>&lt;</span>%= page_title or &#34;My Page&#34; %&gt;&lt;/<span style=color:#f92672>title</span>&gt;
+</span></span><span style=display:flex><span>&lt;/<span style=color:#f92672>head</span>&gt;
+</span></span><span style=display:flex><span>&lt;<span style=color:#f92672>body</span>&gt;
+</span></span><span style=display:flex><span>  &lt;<span style=color:#f92672>h1</span>&gt;Greetings&lt;/<span style=color:#f92672>h1</span>&gt;
+</span></span><span style=display:flex><span>  <span style=color:#960050;background-color:#1e0010>&lt;</span>% content_for(&#34;inner&#34;) %&gt;
+</span></span><span style=display:flex><span>&lt;/<span style=color:#f92672>body</span>&gt;
+</span></span><span style=display:flex><span>&lt;/<span style=color:#f92672>html</span>&gt;
+</span></span></code></pre></div><p>The <code>content_for</code> function is a special function built into templates that
+allows you to send data from a view to a layout. Lapis puts the rendered result
+of the view into the content variable named <code>inner</code>. You&rsquo;ll note that we don&rsquo;t
+need to use any of the etlua tags that write into the page. This is because
+<code>content_for</code> efficiently puts its result directly into the output buffer.</p><p>Any other variables and helper functions that would normally be available in a
+view are also available in the layout.</p><p>Now that the layout is written it can be assigned to the application:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-lua data-lang=lua><span style=display:flex><span><span style=color:#66d9ef>local</span> app <span style=color:#f92672>=</span> lapis.Application()
+</span></span><span style=display:flex><span>app:enable(<span style=color:#e6db74>&#34;etlua&#34;</span>)
+</span></span><span style=display:flex><span>app.layout <span style=color:#f92672>=</span> require <span style=color:#e6db74>&#34;views.layout&#34;</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e>-- the rest of the application...</span>
+</span></span></code></pre></div><p>The syntax is slightly different than rendering a view. Instead of assigning a
+template name to the <code>layout</code> field, we assign the actual template object. This
+can be obtained by just requiring it by the module name: <code>"views.layout"</code>. As
+described above, etlua takes care of converting the <code>.etlua</code> file into something
+usable by Lua.</p></div></div><div class=pagination><div class=pagination__title><span class=pagination__title-h>Read other posts</span><hr></div><div class=pagination__buttons><span class="button previous"><a href=/posts/misc/lua_creating_configurations/><span class=button__icon>←</span>
+<span class=button__text>lua_creating_configurations.md</span></a></span>
+<span class="button next"><a href=/posts/misc/misc/><span class=button__text>misc.md</span>
+<span class=button__icon>→</span></a></span></div></div></div></div><footer class=footer><div class=footer__inner><div class="copyright copyright--user"><span>@linuxing3</span>
+<span>:: Theme made by <a href=https://twitter.com/panr>panr</a></span></div></div></footer><script src=/assets/main.js></script>
+<script src=/assets/prism.js></script>
+<script src=/assets/languageSelector.js></script></div></body></html>
